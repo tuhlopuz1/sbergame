@@ -227,11 +227,12 @@ svg{display:block;overflow:visible}
 .awning{position:relative;z-index:4;height:calc(var(--safe-t) + 70px);flex:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.08))}
 .awning>svg{position:absolute;left:0;bottom:0;width:100%;height:70px}
 .awning .top{position:absolute;left:0;right:0;top:0;height:var(--safe-t)}
-.neon{position:absolute;left:50%;bottom:-30px;transform:translateX(-50%) scale(0);width:150px;height:46px;z-index:5;transition:transform .6s var(--spring)}
-.neon.on{transform:translateX(-50%) scale(1)}
-.neon svg{width:100%;height:100%}
-.neon.on .nt{animation:neon 2.2s infinite}
-@keyframes neon{0%,18%,22%,60%,100%{opacity:1}20%,61%{opacity:.3}}
+.bulbs{position:absolute;left:0;right:0;bottom:-8px;height:20px;display:flex;justify-content:space-around;align-items:flex-end;pointer-events:none;z-index:5}
+.lit .bulbs::before{content:"";position:absolute;left:0;right:0;top:3px;height:2.5px;background:#111216;opacity:.6}
+.bulbs i{position:relative;width:17px;height:17px;border-radius:50%;background:#FFF6CC;border:2.5px solid #111216;opacity:0;transform:scale(.3);transition:opacity .3s,transform .5s var(--spring)}
+.lit .bulbs i{opacity:1;transform:none;animation:bulb 1s steps(1) infinite}
+.lit .bulbs i:nth-child(even){animation-delay:-.5s}
+@keyframes bulb{0%{background:#FFE14D;box-shadow:0 0 0 4px rgba(255,225,77,.45)}50%{background:#FF9CEF;box-shadow:0 0 0 4px rgba(255,92,230,.35)}}
 .hud{position:absolute;left:0;right:0;top:calc(var(--safe-t) + 8px);z-index:8;display:flex;align-items:center;gap:8px;padding:0 12px}
 .meters{flex:1;display:flex;gap:6px;justify-content:center;min-width:0}
 .meter{display:flex;align-items:center;gap:5px;background:#fff;border-radius:15px;padding:0 9px;height:44px;box-shadow:var(--shadow);min-width:0}
@@ -738,11 +739,6 @@ function tillSVG() {
     <g fill="#fff" opacity=".9"><rect x="16" y="36" width="12" height="7" rx="2"/><rect x="32" y="36" width="12" height="7" rx="2"/><rect x="48" y="36" width="12" height="7" rx="2"/><rect x="16" y="47" width="12" height="7" rx="2"/><rect x="32" y="47" width="12" height="7" rx="2"/><rect x="48" y="47" width="12" height="7" rx="2"/></g>
     <rect x="66" y="36" width="20" height="18" rx="4" fill="#FF5CE6"/><rect x="6" y="58" width="88" height="10" rx="5" fill="#111216" opacity=".15"/></svg>`;
 }
-function neonSVG(prod) {
-  return `<svg viewBox="0 0 150 46"><rect x="3" y="3" width="144" height="40" rx="14" fill="#111216" stroke="#FF5CE6" stroke-width="3"/>
-    <g class="nt"><text x="75" y="31" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="22" fill="#C6F432" style="filter:drop-shadow(0 0 4px #C6F432)">ВКУСНО!</text></g>
-    <g class="nt" style="animation-delay:.6s"><path d="M14 23l4-8 4 8-4 8z" fill="#2EC5FF"/><path d="M128 23l4-8 4 8-4 8z" fill="#2EC5FF"/></g></svg>`;
-}
 function medalSVG(T, big = true) {
   const sc = Array.from({ length: 16 }, (_, i) => { const a = i / 16 * Math.PI * 2, r = i % 2 ? 50 : 56; return `${(75 + Math.cos(a) * r).toFixed(1)},${(78 + Math.sin(a) * r).toFixed(1)}`; }).join(' ');
   return `<svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
@@ -844,7 +840,7 @@ function critter(k, md = 'idle', acc = []) {
     ${A('tear') ? `<path d="M${ex[0] - 6} ${ey + 14}q-5 10 0 15 5-5 0-15z" fill="#2E9BFF"/>` : ''}
   </svg>`;
 }
-const mascotCust = () => `<svg viewBox="0 0 160 196" aria-hidden="true"><svg x="14" y="40" width="132" height="132" viewBox="0 0 132 132">${klyaksik().replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')}</svg></svg>`;
+const mascotCust = () => `<svg viewBox="0 0 160 196" aria-hidden="true">${klyaksik({ attrs: 'x="14" y="44" width="132" height="132"' })}</svg>`;
 function eventArt(kind) {
   if (kind === 'rain') return `<svg viewBox="0 0 160 196"><g class="wiggle"><path d="${blobPath(80, 80, 50, 12, .12, 7)}" fill="#7F8BA6"/><circle cx="62" cy="78" r="8" fill="#fff"/><circle cx="98" cy="78" r="8" fill="#fff"/><circle cx="63" cy="80" r="4" fill="#111216"/><circle cx="99" cy="80" r="4" fill="#111216"/><path d="M70 98q10-6 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/></g>
     ${[40, 64, 88, 112, 128].map((x, i) => `<path d="M${x} 136l-6 16" stroke="#2E9BFF" stroke-width="5" stroke-linecap="round"><animate attributeName="opacity" values="1;.2;1" dur="${.6 + i * .1}s" repeatCount="indefinite"/></path>`).join('')}</svg>`;
@@ -1036,7 +1032,7 @@ const ST = {
       { i: 'zip', t: 'Промолчать', needStock: 1, fx: { st: -1, m: 50, r: -2 }, exit: 'happy', res: `${mc('frog', 'sad')} Его мама ищет 45 ${C()}…` }] },
   detFail: { bad: 1, fx: D => ({ st: -Math.min(6, D.stock), s: -2, scam: 1 }), exit: 'run', res: f => `${mc('raccoon', 'sly')} Унёс ${-f.st} ${U()}!`, tip: 'Деньги проверяют в кассе, а не на картинке.', mom: f => ({ t: `${mc('raccoon')} −${-f.st} ${U()}`, c: 'r' }) },
   detOk: { fx: { s: 3 }, exit: 'run', res: `${mc('raccoon', 'sad')} Попался!`, mom: () => ({ t: `${mc('raccoon')} Пойман!`, c: 'g' }) },
-  sign: { art: () => mascotCust(), say: () => `Купим вывеску? ${ic('spark')} Будет больше покупателей!`,
+  sign: { art: () => mascotCust(), say: () => `Купим светящуюся вывеску? ${ic('spark')} Будет больше покупателей!`,
     opts: [
       { i: 'spark', t: 'Купить', cost: SIGN_COST, pay: 1, fx: { pay: SIGN_COST, sign: 1, r: 1 }, exit: 'happy', res: `${ic('spark')} Вывеска горит!`, mom: () => ({ t: `${ic('spark')} Вывеска`, c: 'g' }) },
       { i: 'pig', t: 'Копить', fx: {}, exit: 'happy', res: `${ic('pig')} Копим дальше` }] },
@@ -1087,7 +1083,7 @@ function startHero() {
     ${DOODLE.sparkle('#FFDD2E', 30, 78, 1.1, 0)}${DOODLE.sparkle('#A77BFF', 334, 76, .9, .6)}
     <rect x="38" y="96" width="10" height="200" rx="5" fill="#111216"/><rect x="312" y="96" width="10" height="200" rx="5" fill="#111216"/>
     <g style="filter:drop-shadow(0 6px 6px rgba(0,0,0,.1))">${aw}</g>
-    <g transform="translate(118 120) scale(.95)">${inner(klyaksik())}</g>
+    <g transform="translate(118 120) scale(.95)" class="klx">${inner(klyaksik())}</g>
     <g transform="translate(258 132) scale(.5)"><g class="wiggle">${inner(critter('fox', 'sly', ['glasses']))}</g></g>
     <rect x="22" y="232" width="316" height="84" rx="20" fill="#fff" stroke="#111216" stroke-width="3"/>
     <rect x="22" y="232" width="316" height="14" rx="7" fill="#C6F432"/>
@@ -1128,7 +1124,7 @@ function piggyArt(pg) {
   const k = pg / 10;
   return `<svg viewBox="0 0 160 120"><g transform="translate(22 46) scale(1.45)">${inner(pigSVG())}</g>
     ${Array.from({ length: k }, (_, i) => coinG(108 + (i % 2) * 6, 70 - i * 9, .9)).join('')}
-    <g transform="translate(4 0) scale(.55)">${inner(neonSVG())}</g></svg>`;
+    <g transform="translate(6 6)">${Array.from({ length: 5 }, (_, i) => `<rect x="${i * 16}" y="0" width="16" height="12" fill="${i % 2 ? '#fff' : '#FF9CEF'}"/><circle cx="${i * 16 + 8}" cy="12" r="8" fill="${i % 2 ? '#fff' : '#FF9CEF'}"/>`).join('')}${Array.from({ length: 5 }, (_, i) => `<circle cx="${i * 16 + 8}" cy="22" r="4" fill="#FFE14D" stroke="#111216" stroke-width="1.6"/>`).join('')}</g></svg>`;
 }
 function renderMorning(prod) {
   const M = { cr: 4, pg: 20 };
@@ -1251,7 +1247,7 @@ function startDay(prod, cr, pg) {
   const P = PRODS[prod];
   app.innerHTML = `<section class="screen stage" id="stage" style="--aw1:${P.aw[0]};--aw2:${P.aw[1] === '#FFFFFF' ? '#F2F3F7' : P.aw[1]}">
     <div class="sky" id="sky">${skySVG()}<div class="sunw" id="sun"><svg viewBox="-40 -40 80 80"><g class="sunr"><circle r="34" fill="#FFDD2E" opacity=".35"/>${Array.from({ length: 8 }, (_, i) => `<path d="M0 -30v-10" transform="rotate(${i * 45})" stroke="#FFC400" stroke-width="5" stroke-linecap="round"/>`).join('')}</g><circle r="22" fill="#FFDD2E"/><circle cx="-7" cy="-3" r="2.5" fill="#111216"/><circle cx="7" cy="-3" r="2.5" fill="#111216"/><path d="M-6 6q6 5 12 0" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg></div></div>
-    <div class="awning"><div class="top" style="background:${P.aw[0]}"></div>${awningSVG(P)}<div class="neon" id="neon">${neonSVG()}</div></div>
+    <div class="awning"><div class="top" style="background:${P.aw[0]}"></div>${awningSVG(P)}<div class="bulbs" id="bulbs">${'<i></i>'.repeat(10)}</div></div>
     <header class="hud">
       <button class="ibtn" data-pause aria-label="Пауза">${ICON.pause}</button>
       <div class="meters"><div class="meter rep" id="mRep">${ic('heart', 'mi')}<span class="mb"><i></i></span></div><div class="meter sh" id="mSh">${ic('shield', 'mi')}<span class="mb"><i></i></span></div></div>
@@ -1580,7 +1576,7 @@ async function applyFx(f, c) {
   if (f.later) D.later.push(f.later);
   if (f.skip) { let k = f.skip; for (let j = D.i + 1; j < D.q.length && k; j++) if (D.q[j].t !== 's') { D.q.splice(j, 1); j--; k--; D.missed++; } }
   if (f.sign) {
-    D.sign = true; $('#neon').classList.add('on'); Sound.win(); confetti();
+    D.sign = true; $('#stage').classList.add('lit'); Sound.win();
     for (let k = 0; k < 3; k++) { const j = D.i + 2 + Math.floor(Math.random() * (D.q.length - D.i - 1)); const kk = pick(BUYERS); D.q.splice(j, 0, { t: pick(['b', 'mix']), k: kk, n: 2 + (Math.random() * 2 | 0), acc: [] }); }
   }
   await pwait(450);
