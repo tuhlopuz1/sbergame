@@ -342,9 +342,9 @@ svg{display:block;overflow:visible}
 .spin .sphead{margin:14px 0 6px}
 .spin .lead{min-height:24px}
 .wheelw{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:26px 0 14px}
-.wheel{position:relative;width:min(84vw,46vh,340px);aspect-ratio:1;cursor:pointer;filter:drop-shadow(0 14px 22px rgba(17,18,22,.18))}
-.wheel>svg{width:100%;height:100%;display:block}
-.wheel.won{animation:wWon .6s var(--spring)}
+.fwheel{position:relative;width:min(84vw,46vh,340px);aspect-ratio:1;cursor:pointer;filter:drop-shadow(0 14px 22px rgba(17,18,22,.18))}
+.fwheel>svg{width:100%;height:100%;display:block}
+.fwheel.won{animation:wWon .6s var(--spring)}
 @keyframes wWon{40%{transform:scale(1.06)}}
 .wpin{position:absolute;left:50%;top:-22px;width:44px;height:50px;margin-left:-22px;z-index:2;transform-origin:50% 30%;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
 .wpin>svg{width:100%;height:100%;display:block}
@@ -1203,26 +1203,35 @@ function randomStall() {
   app.innerHTML = `<section class="screen start spin">${blobsBg()}
     <div class="row"><button class="ibtn" data-home aria-label="Назад">${ICON.x}</button>${soundBtn()}</div>
     <div class="sphead"><h1 class="ttl" id="spT">Что продаём сегодня?</h1><p class="lead" id="spL">Крути колесо — где остановится стрелка, то и продаёшь</p></div>
-    <div class="wheelw"><div class="wheel" id="wheel">${wheelSVG(ks)}
+    <div class="wheelw"><div class="fwheel" id="wheel">${wheelSVG(ks)}
       <div class="wpin" id="wpin"><svg viewBox="0 0 40 46"><path d="M20 44L4 10a16 16 0 1 1 32 0z" fill="#FF3D6E" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="20" cy="15" r="6" fill="#fff"/></svg></div></div></div>
     <button class="btn big" id="spin">Крутить колесо! ${ic('repeat')}</button>
   </section>`;
   const btn = $('#spin'), rot = $('#wheelRot'), pin = $('#wpin'), wheel = $('#wheel');
   const win = pick(ks.filter(k => k !== prev)), wi = ks.indexOf(win);
   if (firstTime('spin')) setTimeout(() => coachTap(btn, null, app.querySelector('.spin')), 500);
-  let busy = false;
+  let busy = false, ang = 0, idle = true, last = performance.now();
+  // пока не нажали — диск медленно вращается сам; стрелка всегда стоит на месте
+  const idleStep = now => {
+    if (!idle || !app.contains(wheel)) return;
+    if (!RM) { ang = (ang + (now - last) * .012) % 360; rot.setAttribute('transform', `rotate(${ang.toFixed(2)})`); }
+    last = now; requestAnimationFrame(idleStep);
+  };
+  requestAnimationFrame(idleStep);
   const go = async () => {
     if (btn.dataset.done) { Sound.tap(); vibrate(); SESSION.lastProd = win; startDay(win); return; }
     if (busy) return;
     busy = true; btn.disabled = true; coachOff(); Sound.tap();
     $('#spL').textContent = 'Крутится…';
     // сектор wi должен встать под стрелку: поворот −wi·120° плюс несколько полных оборотов и небольшой сдвиг внутри сектора
-    const end = 360 * 4 - wi * 120 + (Math.random() * 60 - 30), T = RM ? 1 : 3600, t0 = performance.now();
+    idle = false;
+    const a0 = ang, target = -wi * 120 + (Math.random() * 60 - 30);
+    const end = a0 + 360 * 4 + (((target - a0) % 360) + 360) % 360, T = RM ? 1 : 3600, t0 = performance.now();
     let lastPeg = 0;
     await new Promise(res => {
       const step = now => {
         if (!app.contains(wheel)) return res();
-        const t = Math.min(1, (now - t0) / T), a = end * (1 - Math.pow(1 - t, 4));
+        const t = Math.min(1, (now - t0) / T), a = a0 + (end - a0) * (1 - Math.pow(1 - t, 4));
         rot.setAttribute('transform', `rotate(${a.toFixed(2)})`);
         const peg = Math.floor((a + 20) / 40);   // штырьки каждые 40°
         if (peg !== lastPeg) { lastPeg = peg; Sound.tone(700, .03, 'triangle', .05); pin.classList.remove('tick'); void pin.offsetWidth; pin.classList.add('tick'); }
