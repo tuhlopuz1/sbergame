@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лавка на один день — питч</title>
+<style>
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:block;src:url('fonts/caveat-700-cyrillic.woff2') format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:block;src:url('fonts/caveat-700-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:600;font-display:block;src:url('fonts/onest-600-cyrillic.woff2') format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:600;font-display:block;src:url('fonts/onest-600-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:800;font-display:block;src:url('fonts/onest-800-cyrillic.woff2') format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:800;font-display:block;src:url('fonts/onest-800-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:900;font-display:block;src:url('fonts/onest-900-cyrillic.woff2') format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:900;font-display:block;src:url('fonts/onest-900-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+:root{--bg:#F2F3F7;--ink:#111216;--ink2:#2B2D35;--muted:#6B6F80;--lime:#C6F432;--pink:#FF5CE6;--pink2:#FF9CEF;--cyan:#2EC5FF;--cyan2:#9BE3FF;--yellow:#FFDD2E;--fox:#FF7A1A;--purple:#5A3FD6;--red:#FF3D6E;--green:#1FD16C;--m:#C6F432}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#DDF0FB;overflow:hidden;font-family:'Onest',system-ui,sans-serif;color:var(--ink);-webkit-tap-highlight-color:transparent}
+svg{display:block}
+
+/* сцена 1920×1080, масштабируется под окно */
+#fit{position:fixed;inset:0}
+#deck{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%;overflow:hidden;background:var(--bg);box-shadow:0 30px 80px rgba(17,18,22,.18)}
+.sky{position:absolute;inset:0;background:linear-gradient(#BFE8FF 0%,#E8F7FF 45%,#F2F3F7 80%)}
+.hills{position:absolute;left:0;right:0;bottom:0;height:240px}
+.hills svg{width:100%;height:100%}
+.garland{position:absolute;left:0;right:0;top:-6px;height:110px;animation:sway 3.5s ease-in-out infinite alternate;transform-origin:50% 0}
+.garland svg{width:100%;height:100%}
+@keyframes sway{from{transform:rotate(-.5deg)}to{transform:rotate(.5deg)}}
+.brand{position:absolute;left:64px;bottom:34px;z-index:5;display:flex;align-items:center;gap:12px;font-weight:900;font-size:26px}
+.brand .bk{width:46px;height:46px}
+.pager{position:absolute;right:64px;bottom:40px;z-index:5;font-weight:800;font-size:24px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{position:absolute;left:0;bottom:0;height:8px;background:var(--lime);z-index:6;transition:width .4s cubic-bezier(.2,.8,.2,1)}
+
+/* слайды */
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s,visibility .35s}
+.slide.on{opacity:1;visibility:visible;pointer-events:auto}
+.slide [data-a]{opacity:0;transform:translateY(40px)}
+.slide.on [data-a]{animation:rise .6s cubic-bezier(.2,.9,.25,1.15) both;animation-delay:calc(var(--d,0) * 1s)}
+.slide.on [data-a=pop]{animation-name:pop}
+.slide.on [data-a=left]{animation-name:fromLeft}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.4) rotate(-8deg)}to{opacity:1;transform:none}}
+@keyframes fromLeft{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:none}}
+
+.col{position:absolute;left:140px;top:150px;bottom:130px;width:900px;display:flex;flex-direction:column;justify-content:center;gap:30px}
+.col.wide{width:1640px}
+.kick{font-family:'Caveat',cursive;font-weight:700;font-size:56px;color:var(--purple);line-height:1}
+.h{font-weight:900;font-size:78px;line-height:1.02;letter-spacing:-.03em}
+.h .hl{background:linear-gradient(transparent 12%,var(--lime) 12%,var(--lime) 94%,transparent 94%);padding:0 6px;border-radius:10px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.lead{font-weight:700;font-size:42px;line-height:1.25;color:var(--ink2)}
+.pts{display:flex;flex-direction:column;gap:20px}
+.pt{display:flex;align-items:center;gap:20px;font-weight:700;font-size:40px;line-height:1.2}
+.pt .ico{width:68px;height:68px;flex:none;border-radius:22px;background:#fff;display:grid;place-items:center;box-shadow:0 8px 20px rgba(24,26,40,.1)}
+.pt .ico svg{width:46px;height:46px}
+.pt b{font-weight:900}
+.chip{display:inline-flex;align-items:center;gap:12px;padding:12px 26px 12px 16px;border-radius:40px;font-weight:900;font-size:36px;box-shadow:0 10px 24px rgba(24,26,40,.12);align-self:flex-start}
+.chip svg{width:44px;height:44px}
+.chip.lime{background:var(--lime)}.chip.pink{background:var(--pink2)}.chip.cyan{background:var(--cyan2)}.chip.white{background:#fff}
+
+/* телефон */
+.phone{position:absolute;width:444px;height:952px;border-radius:64px;background:var(--ink);box-shadow:0 40px 80px rgba(17,18,22,.28)}
+.phone .scr{position:absolute;left:16px;top:16px;right:16px;bottom:16px;border-radius:50px;overflow:hidden;background:#EAF6FF}
+.phone .scr video,.phone .scr img,.phone .scr iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+.phone .notch{position:absolute;left:50%;top:22px;width:120px;height:26px;margin-left:-60px;border-radius:14px;background:var(--ink);z-index:3;pointer-events:none}
+.phone.r{left:1300px;top:64px}
+.phone.sm{width:360px;height:772px;border-radius:52px}
+.phone.sm .scr{border-radius:40px;left:13px;top:13px;right:13px;bottom:13px}
+.phone.sm .notch{width:96px;height:22px;margin-left:-48px;top:18px}
+.glow{position:absolute;width:760px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(198,244,50,.6),rgba(198,244,50,0));animation:breathe 3s ease-in-out infinite alternate}
+@keyframes breathe{from{transform:scale(.94);opacity:.7}to{transform:scale(1.05);opacity:1}}
+
+/* карточки */
+.card{background:#fff;border-radius:34px;box-shadow:0 16px 40px rgba(24,26,40,.12)}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.dom{padding:40px 34px 38px;display:flex;flex-direction:column;gap:18px}
+.dom .di{width:96px;height:96px;border-radius:30px;display:grid;place-items:center}
+.dom .di svg{width:62px;height:62px}
+.dom h3{font-weight:900;font-size:46px;line-height:1.05}
+.dom p{font-weight:700;font-size:34px;line-height:1.25;color:var(--ink2)}
+.tags{display:flex;flex-wrap:wrap;gap:16px}
+.tag{display:inline-flex;align-items:center;gap:10px;background:#fff;border-radius:22px;padding:12px 22px;font-weight:800;font-size:34px;box-shadow:0 8px 20px rgba(24,26,40,.1)}
+.tag svg{width:40px;height:40px}
+
+/* таймлайн дня */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;align-items:stretch}
+.step{position:relative;padding:34px 30px;display:flex;flex-direction:column;gap:16px}
+.step .n{width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-weight:900;font-size:34px}
+.step h3{font-weight:900;font-size:42px;line-height:1.05}
+.step p{font-weight:700;font-size:32px;line-height:1.25;color:var(--ink2)}
+.step .art{height:150px;display:flex;align-items:flex-end;gap:8px}
+.step .art svg{height:100%;width:auto}
+.step:not(:last-child)::after{content:"";position:absolute;right:-26px;top:50%;width:24px;height:24px;margin-top:-12px;border-top:6px solid var(--ink);border-right:6px solid var(--ink);transform:rotate(45deg);opacity:.35}
+
+/* скриншоты */
+.shot{position:absolute;border-radius:40px;overflow:hidden;box-shadow:0 30px 60px rgba(17,18,22,.22);border:10px solid var(--ink);background:#fff}
+.shot img{display:block;width:100%;height:100%;object-fit:cover}
+.cap{position:absolute;background:var(--ink);color:#fff;font-weight:900;font-size:30px;padding:12px 22px;border-radius:20px;white-space:nowrap;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.cap.lime{background:var(--lime);color:var(--ink)}
+
+/* код события */
+.code{font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:31px;line-height:1.45;background:var(--ink);color:#E8EAF2;border-radius:34px;padding:38px 44px;box-shadow:0 20px 50px rgba(17,18,22,.25)}
+.code .k{color:var(--lime)}.code .c{color:#8B8FA0}.code .v{color:var(--cyan2)}
+
+/* наклейки */
+.stk{display:flex;gap:24px}
+.stk .s{width:220px;padding:20px 12px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.stk .s .sv{width:116px;height:116px}
+.stk .s b{font-weight:900;font-size:36px}
+.stk .s small{font-weight:700;font-size:28px;color:var(--muted)}
+
+.medals{display:flex;gap:18px;align-items:flex-end}
+.medals div{width:150px;height:172px}
+.medals svg{width:100%;height:100%}
+.prods{display:flex;gap:30px}
+.prods div{width:150px;height:150px}
+.prods svg{width:100%;height:100%}
+.crit{position:absolute}
+.crit svg{width:100%;height:100%}
+
+/* интро-ролик */
+#intro{position:fixed;inset:0;z-index:50;background:#0E0F13;display:grid;place-items:center;transition:opacity .5s}
+#intro.gone{opacity:0;pointer-events:none}
+#intro video{width:100%;height:100%;object-fit:contain;background:#0E0F13}
+#play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(14,15,19,.35);border:0;cursor:pointer}
+#play span{display:flex;align-items:center;gap:18px;background:var(--lime);color:var(--ink);font:900 34px 'Onest',sans-serif;padding:24px 40px 24px 30px;border-radius:60px;box-shadow:0 20px 50px rgba(0,0,0,.35);transition:transform .15s}
+#play:hover span{transform:scale(1.04)}
+#play svg{width:44px;height:44px}
+#skip{position:absolute;right:28px;bottom:28px;z-index:2;background:rgba(255,255,255,.92);color:var(--ink);border:0;border-radius:40px;padding:16px 28px;font:900 22px 'Onest',sans-serif;cursor:pointer}
+#intro.playing #play{display:none}
+
+/* заметки докладчика */
+#notes{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);width:min(980px,calc(100% - 32px));z-index:40;background:rgba(17,18,22,.92);color:#fff;border-radius:22px;padding:18px 24px;font:600 18px/1.45 'Onest',sans-serif;display:none}
+#notes.show{display:block}
+#notes b{color:var(--lime);font-weight:900;margin-right:8px}
+.hint{position:fixed;right:16px;top:14px;z-index:40;font:700 13px 'Onest',sans-serif;color:var(--muted);background:rgba(255,255,255,.75);border-radius:12px;padding:6px 10px;transition:opacity .4s}
+.hint.hide{opacity:0}
+.nav{position:fixed;top:50%;z-index:30;width:56px;height:56px;margin-top:-28px;border-radius:50%;border:0;background:rgba(255,255,255,.85);box-shadow:0 6px 16px rgba(17,18,22,.15);display:grid;place-items:center;cursor:pointer;opacity:.0;transition:opacity .2s}
+body:hover .nav{opacity:.9}
+.nav svg{width:26px;height:26px}
+#prev{left:14px}#next{right:14px}
+@media (prefers-reduced-motion:reduce){.slide.on [data-a]{animation:none;opacity:1;transform:none}.garland,.glow{animation:none}}
+</style>
+</head>
+<body>
+
+<div id="intro">
+  <video id="promo" src="media/promo.mp4" poster="media/promo.jpg" playsinline preload="auto"></video>
+  <button id="play" aria-label="Смотреть ролик"><span><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z" fill="#111216"/></svg>Смотреть ролик</span></button>
+  <button id="skip">К слайдам →</button>
+</div>
+
+<div id="fit"><div id="deck">
+  <div class="sky"></div>
+  <div class="hills"><svg viewBox="0 0 1920 240" preserveAspectRatio="none"><path d="M0 140Q300 50 640 120T1300 100T1920 120V240H0z" fill="#D9F59A"/><path d="M0 190Q420 120 860 180T1920 165V240H0z" fill="#C6F432" opacity=".55"/></svg></div>
+  <div class="garland"><svg viewBox="0 0 1920 110" preserveAspectRatio="none"><path d="M0 24Q960 110 1920 24" stroke="#111216" stroke-width="3" fill="none" opacity=".4"/><path d="M40 28l40 0-20 50z" fill="#C6F432"/><path d="M136 33l40 0-20 50z" fill="#FF5CE6"/><path d="M232 38l40 0-20 50z" fill="#2EC5FF"/><path d="M328 42l40 0-20 50z" fill="#FFDD2E"/><path d="M424 45l40 0-20 50z" fill="#A77BFF"/><path d="M520 48l40 0-20 50z" fill="#C6F432"/><path d="M616 50l40 0-20 50z" fill="#FF5CE6"/><path d="M712 52l40 0-20 50z" fill="#2EC5FF"/><path d="M808 53l40 0-20 50z" fill="#FFDD2E"/><path d="M904 54l40 0-20 50z" fill="#A77BFF"/><path d="M1000 54l40 0-20 50z" fill="#C6F432"/><path d="M1096 53l40 0-20 50z" fill="#FF5CE6"/><path d="M1192 52l40 0-20 50z" fill="#2EC5FF"/><path d="M1288 50l40 0-20 50z" fill="#FFDD2E"/><path d="M1384 48l40 0-20 50z" fill="#A77BFF"/><path d="M1480 45l40 0-20 50z" fill="#C6F432"/><path d="M1576 42l40 0-20 50z" fill="#FF5CE6"/><path d="M1672 38l40 0-20 50z" fill="#2EC5FF"/><path d="M1768 33l40 0-20 50z" fill="#FFDD2E"/><path d="M1864 28l40 0-20 50z" fill="#A77BFF"/></svg></div>
+
+  <!-- 1 -->
+  <section class="slide" data-notes="Добрый день! Мы — команда «Лавки на один день». Вы только что видели ролик: ребёнку пишет «поддержка», а он уже знает, что делать. Это HTML5-игра для СберKids: один день на ярмарке, за который ребёнок тренирует деньги, безопасность и дружбу.">
+    <div class="glow" style="left:1080px;top:110px"></div>
+    <div class="col">
+      <div class="kick" data-a style="--d:.05">Хакатон СберKids · HTML5-игра</div>
+      <div class="h" data-a style="--d:.15;font-size:120px">Лавка на <span class="hl">один день</span></div>
+      <div class="lead" data-a style="--d:.3">Один день на ярмарке: ребёнок продаёт, считает сдачу, закрашивает мошенников и поддерживает друзей.</div>
+    </div>
+    <div class="crit" data-a="pop" style="--d:.35;left:1260px;top:250px;width:420px;height:420px"><svg class="klx" viewBox="0 0 132 132"  aria-hidden="true">
+    <ellipse cx="60" cy="124" rx="34" ry="5" fill="#111216" opacity=".08"/>
+    <g class="k-body">
+      <path style="fill:var(--m)" d="M60.0 20.7C69.0 20.7 79.5 27.8 86.8 34.1C94.1 40.3 102.0 49.5 103.6 58.3C105.1 67.1 100.9 79.1 95.9 86.7C91.0 94.4 82.6 100.7 74.0 104.4C65.4 108.2 52.7 112.1 44.3 109.2C35.8 106.3 28.0 95.7 23.3 87.2C18.6 78.7 14.7 67.2 16.3 58.3C17.9 49.4 25.6 40.0 32.9 33.7C40.2 27.4 51.0 20.6 60.0 20.7Z"><animate attributeName="d" dur="3.4s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1" values="M60.0 20.7C69.0 20.7 79.5 27.8 86.8 34.1C94.1 40.3 102.0 49.5 103.6 58.3C105.1 67.1 100.9 79.1 95.9 86.7C91.0 94.4 82.6 100.7 74.0 104.4C65.4 108.2 52.7 112.1 44.3 109.2C35.8 106.3 28.0 95.7 23.3 87.2C18.6 78.7 14.7 67.2 16.3 58.3C17.9 49.4 25.6 40.0 32.9 33.7C40.2 27.4 51.0 20.6 60.0 20.7Z;M60.0 21.2C69.5 20.6 83.1 24.2 89.8 30.4C96.6 36.7 99.3 49.3 100.5 58.9C101.7 68.4 101.7 79.9 97.3 87.5C92.9 95.2 83.0 101.2 74.1 104.8C65.3 108.4 52.9 112.1 44.3 109.2C35.6 106.4 27.1 96.3 22.2 87.8C17.3 79.3 13.0 67.0 14.8 58.0C16.6 49.1 25.6 40.1 33.1 34.0C40.7 27.8 50.5 21.8 60.0 21.2Z;M60.0 24.6C69.4 25.4 79.1 29.1 86.2 34.7C93.3 40.4 101.2 49.9 102.7 58.5C104.2 67.1 100.1 78.6 95.4 86.5C90.7 94.3 82.8 102.5 74.4 105.7C66.1 108.9 54.2 108.8 45.5 105.8C36.8 102.8 26.7 95.7 22.1 87.9C17.5 80.0 16.7 68.3 18.0 58.6C19.3 48.9 22.7 35.5 29.7 29.9C36.7 24.2 50.6 23.8 60.0 24.6Z;M60.0 20.7C69.0 20.7 79.5 27.8 86.8 34.1C94.1 40.3 102.0 49.5 103.6 58.3C105.1 67.1 100.9 79.1 95.9 86.7C91.0 94.4 82.6 100.7 74.0 104.4C65.4 108.2 52.7 112.1 44.3 109.2C35.8 106.3 28.0 95.7 23.3 87.2C18.6 78.7 14.7 67.2 16.3 58.3C17.9 49.4 25.6 40.0 32.9 33.7C40.2 27.4 51.0 20.6 60.0 20.7Z"/></path>
+      <path class="k-drip" style="fill:var(--m)" d="M76 104q4 0 4 6v8a4 4 0 0 1-8 0v-8q0-6 4-6z"/>
+      <ellipse cx="38" cy="40" rx="11" ry="6" fill="#fff" opacity=".4" transform="rotate(-30 38 40)"/>
+      <g class="k-eyes">
+        <circle cx="44" cy="60" r="15" fill="#fff"/><circle cx="78" cy="60" r="15" fill="#fff"/>
+        <g class="k-pupils" style="transition:transform .3s">
+          <g><animateTransform attributeName="transform" type="translate" dur="5.5s" repeatCount="indefinite" values="0 0;-4 1;-4 1;4 -1;4 -1;0 2;0 0" keyTimes="0;.12;.35;.47;.7;.85;1"/>
+            <circle cx="47" cy="62" r="7" fill="#111216"/><circle cx="81" cy="62" r="7" fill="#111216"/>
+            <circle cx="49" cy="59.5" r="2" fill="#fff"/><circle cx="83" cy="59.5" r="2" fill="#fff"/></g>
+        </g>
+      </g>
+      <circle cx="31" cy="80" r="5" fill="#FF5CE6" opacity=".35"/><circle cx="91" cy="80" r="5" fill="#FF5CE6" opacity=".35"/>
+      <path class="mo mo-smile" d="M51 84q10 9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g class="mo mo-happy"><path d="M47 81q14 18 28 0z" fill="#111216"/><path d="M54 89q7 5 14 0q-7-3-14 0z" fill="#FF5C8A"/></g>
+      <ellipse class="mo mo-oops" cx="61" cy="86" rx="5.5" ry="7" fill="#111216"/>
+      <path class="mo mo-sad" d="M51 90q10-9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(100 64)"><g class="spray-can">
+      <rect x="0" y="10" width="20" height="36" rx="6" fill="#2B2D35"/><rect x="0" y="22" width="20" height="10" style="fill:var(--m)"/>
+      <rect x="5" y="2" width="10" height="10" rx="3" fill="#8B8FA0"/><rect x="8" y="-3" width="8" height="6" rx="2" fill="#111216"/>
+      <circle r="2" style="fill:var(--m)"><animate attributeName="cx" values="16;30" dur="0.70s" begin="0s" repeatCount="indefinite"/><animate attributeName="cy" values="-2;-14" dur="0.70s" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="0.70s" begin="0s" repeatCount="indefinite"/></circle><circle r="3" style="fill:var(--m)"><animate attributeName="cx" values="16;36" dur="0.78s" begin="0.12s" repeatCount="indefinite"/><animate attributeName="cy" values="-2;-24" dur="0.78s" begin="0.12s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="0.78s" begin="0.12s" repeatCount="indefinite"/></circle><circle r="4" style="fill:var(--m)"><animate attributeName="cx" values="16;42" dur="0.86s" begin="0.24s" repeatCount="indefinite"/><animate attributeName="cy" values="-2;-34" dur="0.86s" begin="0.24s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="0.86s" begin="0.24s" repeatCount="indefinite"/></circle><circle r="2" style="fill:var(--m)"><animate attributeName="cx" values="16;48" dur="0.94s" begin="0.36s" repeatCount="indefinite"/><animate attributeName="cy" values="-2;-14" dur="0.94s" begin="0.36s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="0.94s" begin="0.36s" repeatCount="indefinite"/></circle><circle r="3" style="fill:var(--m)"><animate attributeName="cx" values="16;54" dur="1.02s" begin="0.48s" repeatCount="indefinite"/><animate attributeName="cy" values="-2;-24" dur="1.02s" begin="0.48s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.02s" begin="0.48s" repeatCount="indefinite"/></circle><circle r="4" style="fill:var(--m)"><animate attributeName="cx" values="16;60" dur="1.10s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="cy" values="-2;-34" dur="1.10s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.10s" begin="0.6s" repeatCount="indefinite"/></circle>
+    </g></g>
+  </svg></div>
+    <div class="prods" style="position:absolute;left:1150px;top:720px">
+      <div data-a="pop" style="--d:.5"><svg viewBox="0 0 64 64"><path d="M16 18h32l-4 40a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4z" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><path d="M18.6 30h26.8l-2.6 27.3a3 3 0 0 1-3 2.7H24.2a3 3 0 0 1-3-2.7z" fill="#FFE14D"/><rect x="24" y="36" width="8" height="8" rx="2" fill="#fff" opacity=".85"/><rect x="34" y="43" width="7" height="7" rx="2" fill="#fff" opacity=".7"/><path d="M36 22L44 4" stroke="#FF5CE6" stroke-width="4" stroke-linecap="round"/><circle cx="47" cy="19" r="9" fill="#C6F432" stroke="#111216" stroke-width="2.2"/><path d="M47 12v14M40 19h14M42 14l10 10M52 14l-10 10" stroke="#8DC11A" stroke-width="1.5"/></svg></div><div data-a="pop" style="--d:.6"><svg viewBox="0 0 64 64"><circle cx="32" cy="34" r="24" fill="#F4C27A" stroke="#111216" stroke-width="2.5"/><path d="M11 31q3-15 21-17t23 13q1 9-7 10t-13 7-14-3-10-10z" fill="#FF8AD8"/><circle cx="32" cy="33" r="8" fill="#F2F3F7" stroke="#111216" stroke-width="2.5"/><g stroke-width="3" stroke-linecap="round"><path d="M18 26l3-2" stroke="#2EC5FF"/><path d="M42 20l3 1" stroke="#C6F432"/><path d="M47 33l1 3" stroke="#FFDD2E"/><path d="M24 43l-3 2" stroke="#A77BFF"/><path d="M28 19l3 -1" stroke="#fff"/><path d="M40 44l3 1" stroke="#2EC5FF"/></g></svg></div><div data-a="pop" style="--d:.7"><svg viewBox="0 0 64 64"><rect x="14" y="18" width="36" height="40" rx="11" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><rect x="12" y="10" width="40" height="11" rx="4" fill="#A77BFF" stroke="#111216" stroke-width="2.5"/><path d="M16.5 38q8-9 16-3t15-2v14a9 9 0 0 1-9 9H25a8.5 8.5 0 0 1-8.5-8.5z" fill="#7CE85A"/><circle cx="27" cy="46" r="3.6" fill="#fff"/><circle cx="37" cy="46" r="3.6" fill="#fff"/><circle cx="27.6" cy="46.6" r="1.8" fill="#111216"/><circle cx="37.6" cy="46.6" r="1.8" fill="#111216"/><path d="M29 52q3 2 6 0" stroke="#111216" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" data-notes="Задача трека: в приложении уже есть игры, но нужна игра, которая учит. Три приоритетных домена — финансовая грамотность, безопасность и мягкие навыки. Формат — HTML5-страница внутри приложения, сессия 3–5 минут, звук только по кнопке.">
+    <div class="col wide" style="gap:44px">
+      <div class="kick" data-a>Что просили</div>
+      <div class="h" data-a style="--d:.1">Детям нужна игра, которая <span class="hl">учит</span>, а не только развлекает</div>
+      <div class="cards3">
+        <div class="card dom" data-a style="--d:.25"><div class="di" style="background:var(--lime)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="6.4" fill="none" stroke="#E6A800" stroke-width="1.8"/><path d="M12 8.6l1 2.1 2.3.2-1.7 1.5.5 2.3-2.1-1.2-2.1 1.2.5-2.3-1.7-1.5 2.3-.2z" fill="#E6A800"/></svg></div><h3>Финансовая грамотность</h3><p>Цена и ценность, копить или потратить, хватит ли денег, кредит</p></div>
+        <div class="card dom" data-a style="--d:.35"><div class="di" style="background:var(--pink2)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8 3v5.8c0 5-3.4 8.8-8 10.4-4.6-1.6-8-5.4-8-10.4V5.5z" fill="#2EC5FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.3 12l2.6 2.6 4.8-5.2" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Безопасность</h3><p>«Не говори код», подозрительная ссылка, незнакомец, давление срочностью</p></div>
+        <div class="card dom" data-a style="--d:.45"><div class="di" style="background:var(--cyan2)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-5-8-10.6A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.9c0 5.6-8 10.6-8 10.6z" fill="#FF3D6E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="8.4" cy="9.8" rx="1.7" ry="1" fill="#fff" opacity=".7" transform="rotate(-30 8.4 9.8)"/></svg></div><h3>Мягкие навыки</h3><p>Распознать эмоцию, дружба, урегулирование конфликтов</p></div>
+      </div>
+      <div class="tags" data-a style="--d:.55"><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 3.2l3.2.6 1.2 4-2 1.6c1 2.3 2.8 4.1 5.1 5.1l1.6-2 4 1.2.6 3.2-2.4 2.6C10.6 19.6 4.4 13.4 3.6 5.6z" fill="#1FD16C" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/></svg>HTML5 в WebView</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5l3-2.5M20 5.5l-3-2.5" stroke="#111216" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="13" r="8" fill="#FF7A9A" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13" r="5.6" fill="#fff"/><path d="M12 9.6V13l2.4 1.6" stroke="#111216" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>Сессия 3–5 минут</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a7 7 0 0 1 12-5l2 2M20 13a7 7 0 0 1-12 5l-2-2" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M18 3.5V8h-4.5M6 20.5V16h4.5" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Можно переиграть</span></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" data-notes="Задача обучения одной фразой, как просит ТЗ. После игры ребёнок различает уловки мошенников, считает деньги и сдачу и умеет поддержать друга. Дальше покажу, как каждое из этих умений становится действием в игре.">
+    <div class="col wide" style="gap:46px">
+      <div class="kick" data-a>Задача обучения одной фразой</div>
+      <div class="h" data-a style="--d:.1;font-size:84px">После игры ребёнок <span class="hl">различает уловки мошенников</span>, считает деньги и сдачу и <span class="hl">умеет поддержать друга</span></div>
+      <div class="tags" data-a style="--d:.3"><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="4" fill="#111216"/><g fill="#C6F432"><circle cx="8.5" cy="7.2" r="1.25"/><circle cx="12" cy="7.2" r="1.25"/><circle cx="15.5" cy="7.2" r="1.25"/><circle cx="8.5" cy="10.8" r="1.25"/><circle cx="12" cy="10.8" r="1.25"/><circle cx="15.5" cy="10.8" r="1.25"/><circle cx="8.5" cy="14.4" r="1.25"/><circle cx="12" cy="14.4" r="1.25"/><circle cx="15.5" cy="14.4" r="1.25"/></g><rect x="9.5" y="17.6" width="5" height="1.6" rx=".8" fill="#fff"/></svg>«Скажи код из СМС»</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fff" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><g fill="#111216"><rect x="5.5" y="5.5" width="5" height="5" rx="1"/><rect x="13.5" y="5.5" width="5" height="5" rx="1"/><rect x="5.5" y="13.5" width="5" height="5" rx="1"/><rect x="13.5" y="13.5" width="2" height="2"/><rect x="16.5" y="16.5" width="2" height="2"/><rect x="13.5" y="17" width="2" height="1.5"/></g><g fill="#fff"><rect x="7" y="7" width="2" height="2"/><rect x="15" y="7" width="2" height="2"/><rect x="7" y="15" width="2" height="2"/></g></svg>Чужой QR</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="13" r="8" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="11" cy="13" r="4.6" fill="none" stroke="#E6A800" stroke-width="1.6"/><path d="M15 3.5a8 8 0 0 1 6 7" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M18.6 9.6l2.4 1.4 1-2.6" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Сдача 50 − 15</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.5-7-9.5A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.5c0 5-7 9.5-7 9.5z" fill="#FF5CE6" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 9q-1 6 5 9M21 9q1 6-5 9" stroke="#FFC58A" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M3 9q-1 6 5 9M21 9q1 6-5 9" stroke="#111216" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".5"/></svg>«Обнимаю»</span></div>
+    </div>
+    <div class="crit" data-a="pop" style="--d:.45;left:1500px;top:640px;width:260px;height:318px"><svg viewBox="0 0 160 196" aria-hidden="true">
+    <ellipse cx="80" cy="190" rx="50" ry="6" fill="#111216" opacity=".1"/>
+    
+    <ellipse cx="80" cy="168" rx="46" ry="26" fill="#FF7A1A"/><ellipse cx="80" cy="172" rx="26" ry="16" fill="#fff"/>
+    <ellipse cx="36" cy="160" rx="10" ry="17" fill="#FF7A1A" transform="rotate(28 36 160)"/><ellipse cx="124" cy="160" rx="10" ry="17" fill="#FF7A1A" transform="rotate(-28 124 160)"/>
+    
+    
+    
+    
+    <path d="M40 78L30 14l50 36z" fill="#FF7A1A"/><path d="M120 78l10-64-50 36z" fill="#FF7A1A"/><path d="M44 62l-6-36 24 20z" fill="#111216"/><path d="M116 62l6-36-24 20z" fill="#111216"/>
+    <path d="M80.0 42.6C90.2 42.9 101.8 48.8 109.7 55.1C117.7 61.4 124.3 70.9 127.8 80.5C131.3 90.0 133.5 102.8 130.6 112.5C127.8 122.1 119.3 132.6 110.9 138.5C102.5 144.4 90.3 148.0 80.0 148.0C69.7 147.9 57.5 144.2 49.4 138.2C41.2 132.1 34.2 121.6 31.0 111.9C27.8 102.2 27.2 89.6 30.1 79.8C33.1 70.0 40.5 59.3 48.8 53.1C57.1 46.9 69.8 42.3 80.0 42.6Z" fill="#FF7A1A"/>
+    <ellipse cx="80" cy="114" rx="28" ry="21" fill="#fff"/>
+    
+    
+    <circle cx="62" cy="90" r="11" fill="#fff"/><circle cx="63" cy="91" r="5.5" fill="#111216"/><circle cx="65" cy="88" r="2" fill="#fff"/><path d="M50 90a12 12 0 0 1 24 0z" fill="#FF7A1A"/><circle cx="98" cy="90" r="11" fill="#fff"/><circle cx="99" cy="91" r="5.5" fill="#111216"/><circle cx="101" cy="88" r="2" fill="#fff"/><path d="M86 90a12 12 0 0 1 24 0z" fill="#FF7A1A"/>
+    <ellipse cx="80" cy="106" rx="7" ry="5" fill="#111216"/>
+    <path d="M68 120q14 8 26-6" stroke="#111216" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+    <circle cx="46" cy="110" r="7" fill="#FF5CE6" opacity=".3"/><circle cx="114" cy="110" r="7" fill="#FF5CE6" opacity=".3"/>
+    
+    <g><rect x="42" y="80" width="34" height="21" rx="10" fill="#111216"/><rect x="84" y="80" width="34" height="21" rx="10" fill="#111216"/><path d="M76 88h8" stroke="#111216" stroke-width="4"/><path d="M48 85h9M90 85h9" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/></g>
+    
+    
+    
+    
+    
+  </svg></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" data-notes="Главная идея: финансы, безопасность и мягкие навыки — не три режима, а три стороны одного покупателя. Ребёнок не проходит «урок про мошенников», он думает: «этот енот какой-то странный». Обучение спрятано в торговлю.">
+    <div class="col" style="width:1000px">
+      <div class="kick" data-a>Главная идея</div>
+      <div class="h" data-a style="--d:.1">Три навыка — не три урока, а <span class="hl">три стороны одного покупателя</span></div>
+      <div class="lead" data-a style="--d:.25">Ребёнок не проходит «урок про мошенников». Он думает: «этот енот какой-то странный».</div>
+    </div>
+    <div class="crit" data-a="pop" style="--d:.3;left:1190px;top:250px;width:300px;height:368px"><svg viewBox="0 0 160 196" aria-hidden="true">
+    <ellipse cx="80" cy="190" rx="50" ry="6" fill="#111216" opacity=".1"/>
+    
+    <ellipse cx="80" cy="168" rx="46" ry="26" fill="#A3A9B8"/><ellipse cx="80" cy="172" rx="26" ry="16" fill="#EEF0F5"/>
+    <ellipse cx="36" cy="160" rx="10" ry="17" fill="#A3A9B8" transform="rotate(28 36 160)"/><ellipse cx="124" cy="160" rx="10" ry="17" fill="#A3A9B8" transform="rotate(-28 124 160)"/>
+    
+    
+    
+    
+    <circle cx="42" cy="58" r="20" fill="#A3A9B8"/><circle cx="118" cy="58" r="20" fill="#A3A9B8"/><circle cx="40" cy="56" r="10" fill="#5B6070"/><circle cx="120" cy="56" r="10" fill="#5B6070"/>
+    <path d="M80.0 45.8C90.0 46.0 101.5 49.6 109.6 55.3C117.7 61.0 125.1 70.7 128.6 80.2C132.1 89.7 133.6 102.7 130.7 112.5C127.9 122.3 119.8 133.0 111.3 139.1C102.8 145.2 90.3 149.2 80.0 149.1C69.7 149.0 57.6 144.4 49.3 138.3C40.9 132.1 32.7 121.9 29.8 112.3C27.0 102.7 28.9 90.1 32.2 80.5C35.5 70.8 41.8 60.2 49.8 54.4C57.7 48.6 70.0 45.7 80.0 45.8Z" fill="#A3A9B8"/>
+    <ellipse cx="80" cy="114" rx="28" ry="21" fill="#EEF0F5"/>
+    
+    <path d="M30 92q6-20 50-14 44-6 50 14-6 14-26 12-14-2-24-4-10 2-24 4-20 2-26-12z" fill="#3A3D4A"/>
+    <circle cx="62" cy="90" r="11" fill="#fff"/><circle cx="63" cy="91" r="5.5" fill="#111216"/><circle cx="65" cy="88" r="2" fill="#fff"/><path d="M50 90a12 12 0 0 1 24 0z" fill="#3A3D4A"/><circle cx="98" cy="90" r="11" fill="#fff"/><circle cx="99" cy="91" r="5.5" fill="#111216"/><circle cx="101" cy="88" r="2" fill="#fff"/><path d="M86 90a12 12 0 0 1 24 0z" fill="#3A3D4A"/>
+    <ellipse cx="80" cy="106" rx="7" ry="5" fill="#111216"/>
+    <path d="M68 120q14 8 26-6" stroke="#111216" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+    <circle cx="46" cy="110" r="7" fill="#FF5CE6" opacity=".3"/><circle cx="114" cy="110" r="7" fill="#FF5CE6" opacity=".3"/>
+    
+    
+    
+    
+    
+    
+    
+  </svg></div>
+    <div class="crit" data-a="pop" style="--d:.42;left:1520px;top:330px;width:270px;height:330px"><svg viewBox="0 0 160 196" aria-hidden="true">
+    <ellipse cx="80" cy="190" rx="50" ry="6" fill="#111216" opacity=".1"/>
+    
+    <ellipse cx="80" cy="168" rx="46" ry="26" fill="#7EDC6A"/><ellipse cx="80" cy="172" rx="26" ry="16" fill="#C9F5B8"/>
+    <ellipse cx="36" cy="160" rx="10" ry="17" fill="#7EDC6A" transform="rotate(28 36 160)"/><ellipse cx="124" cy="160" rx="10" ry="17" fill="#7EDC6A" transform="rotate(-28 124 160)"/>
+    
+    
+    
+    
+    <circle cx="54" cy="56" r="23" fill="#7EDC6A"/><circle cx="106" cy="56" r="23" fill="#7EDC6A"/>
+    <path d="M80.0 43.0C90.0 43.2 101.8 48.7 109.8 54.9C117.8 61.2 124.7 70.8 128.0 80.4C131.4 89.9 132.9 102.6 130.0 112.2C127.0 121.8 118.8 131.9 110.5 138.0C102.2 144.0 90.1 148.6 80.0 148.4C69.9 148.3 58.3 143.2 50.1 137.2C41.8 131.1 33.7 121.6 30.5 112.1C27.2 102.5 27.4 89.6 30.6 79.9C33.7 70.3 41.3 60.3 49.6 54.1C57.8 48.0 70.0 42.9 80.0 43.0Z" fill="#7EDC6A"/>
+    
+    
+    
+    <path d="M44 59q10-13 20 0" stroke="#111216" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M96 59q10-13 20 0" stroke="#111216" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="106" rx="7" ry="5" fill="#111216"/>
+    <path d="M65 116q15 20 30 0z" fill="#111216"/><path d="M73 126q7 4 14 0q-7-3-14 0z" fill="#FF5C8A"/>
+    
+    <circle cx="46" cy="110" r="7" fill="#FF5CE6" opacity=".3"/><circle cx="114" cy="110" r="7" fill="#FF5CE6" opacity=".3"/>
+    
+    
+    
+    <path d="M32 70C30 30 130 30 128 70q-48-12-96 0z" fill="#2EC5FF" stroke="#111216" stroke-width="2.5" stroke-linejoin="round"/><path d="M118 66q22-4 30 6-18 8-34 2z" fill="#1A9BFF" stroke="#111216" stroke-width="2.5" stroke-linejoin="round"/><path d="M80 40v28" stroke="#111216" stroke-width="2" opacity=".35"/><circle cx="80" cy="40" r="5" fill="#C6F432" stroke="#111216" stroke-width="2"/>
+    
+    
+    
+  </svg></div>
+    <div class="crit" data-a="pop" style="--d:.54;left:1330px;top:600px;width:280px;height:343px"><svg viewBox="0 0 160 196" aria-hidden="true">
+    <ellipse cx="80" cy="190" rx="50" ry="6" fill="#111216" opacity=".1"/>
+    
+    <ellipse cx="80" cy="168" rx="46" ry="26" fill="#EDE7FF"/><ellipse cx="80" cy="172" rx="26" ry="16" fill="#fff"/>
+    <ellipse cx="36" cy="160" rx="10" ry="17" fill="#EDE7FF" transform="rotate(28 36 160)"/><ellipse cx="124" cy="160" rx="10" ry="17" fill="#EDE7FF" transform="rotate(-28 124 160)"/>
+    
+    
+    
+    
+    <ellipse cx="58" cy="24" rx="13" ry="38" fill="#EDE7FF" transform="rotate(-12 58 24)"/><ellipse cx="102" cy="24" rx="13" ry="38" fill="#EDE7FF" transform="rotate(12 102 24)"/><ellipse cx="58" cy="26" rx="6" ry="27" fill="#FFB3D9" transform="rotate(-12 58 26)"/><ellipse cx="102" cy="26" rx="6" ry="27" fill="#FFB3D9" transform="rotate(12 102 26)"/>
+    <path d="M80.0 42.9C90.3 43.3 101.9 48.5 110.0 54.7C118.1 60.9 125.5 70.6 128.7 80.2C132.0 89.7 132.2 102.1 129.4 112.1C126.6 122.0 120.0 133.5 111.7 139.7C103.5 145.9 90.2 150.0 80.0 149.5C69.8 148.9 58.9 142.7 50.5 136.6C42.2 130.4 33.2 121.8 29.7 112.3C26.3 102.9 27.0 89.8 30.1 79.8C33.2 69.8 40.0 58.5 48.3 52.3C56.6 46.2 69.7 42.5 80.0 42.9Z" fill="#EDE7FF"/>
+    
+    
+    
+    <path d="M52 93q10-13 20 0" stroke="#111216" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M88 93q10-13 20 0" stroke="#111216" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="106" rx="7" ry="5" fill="#111216"/>
+    <path d="M65 116q15 20 30 0z" fill="#111216"/><path d="M73 126q7 4 14 0q-7-3-14 0z" fill="#FF5C8A"/>
+    
+    <circle cx="46" cy="110" r="7" fill="#FF5CE6" opacity=".3"/><circle cx="114" cy="110" r="7" fill="#FF5CE6" opacity=".3"/>
+    <path d="M40 110l-16-3M40 116l-16 3M120 110l16-3M120 116l16 3" stroke="#111216" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+    
+    
+    
+    
+    
+    
+  </svg></div>
+    <div class="cap" data-a style="--d:.7;left:1170px;top:200px">Енот: «Отдохни! Я покараулю кассу»</div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-notes="Один заход — один день на ярмарке, около четырёх минут. Лавка открывается сразу, без экранов настройки: случайно лимонад, пончики или слаймы. Дальше около двадцати гостей: покупатели, заказы, сдача и ситуации. Дважды звонит телефон с мини-играми. Вечером — итоги и титул дня.">
+    <div class="col wide" style="gap:46px">
+      <div class="kick" data-a>Как устроен заход</div>
+      <div class="h" data-a style="--d:.1">Один заход — <span class="hl">один день на ярмарке</span>, около 4 минут</div>
+      <div class="flow">
+        <div class="card step" data-a style="--d:.25"><div class="n">1</div><div class="art"><svg viewBox="0 0 64 64"><path d="M16 18h32l-4 40a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4z" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><path d="M18.6 30h26.8l-2.6 27.3a3 3 0 0 1-3 2.7H24.2a3 3 0 0 1-3-2.7z" fill="#FFE14D"/><rect x="24" y="36" width="8" height="8" rx="2" fill="#fff" opacity=".85"/><rect x="34" y="43" width="7" height="7" rx="2" fill="#fff" opacity=".7"/><path d="M36 22L44 4" stroke="#FF5CE6" stroke-width="4" stroke-linecap="round"/><circle cx="47" cy="19" r="9" fill="#C6F432" stroke="#111216" stroke-width="2.2"/><path d="M47 12v14M40 19h14M42 14l10 10M52 14l-10 10" stroke="#8DC11A" stroke-width="1.5"/></svg><svg viewBox="0 0 64 64"><circle cx="32" cy="34" r="24" fill="#F4C27A" stroke="#111216" stroke-width="2.5"/><path d="M11 31q3-15 21-17t23 13q1 9-7 10t-13 7-14-3-10-10z" fill="#FF8AD8"/><circle cx="32" cy="33" r="8" fill="#F2F3F7" stroke="#111216" stroke-width="2.5"/><g stroke-width="3" stroke-linecap="round"><path d="M18 26l3-2" stroke="#2EC5FF"/><path d="M42 20l3 1" stroke="#C6F432"/><path d="M47 33l1 3" stroke="#FFDD2E"/><path d="M24 43l-3 2" stroke="#A77BFF"/><path d="M28 19l3 -1" stroke="#fff"/><path d="M40 44l3 1" stroke="#2EC5FF"/></g></svg></div><h3>Лавка открыта</h3><p>Сразу в игру: товар выпадает случайно</p></div>
+        <div class="card step" data-a style="--d:.35"><div class="n">2</div><div class="art"><svg viewBox="0 0 160 196" aria-hidden="true">
+    <ellipse cx="80" cy="190" rx="50" ry="6" fill="#111216" opacity=".1"/>
+    
+    <ellipse cx="80" cy="168" rx="46" ry="26" fill="#7EDC6A"/><ellipse cx="80" cy="172" rx="26" ry="16" fill="#C9F5B8"/>
+    <ellipse cx="36" cy="160" rx="10" ry="17" fill="#7EDC6A" transform="rotate(28 36 160)"/><ellipse cx="124" cy="160" rx="10" ry="17" fill="#7EDC6A" transform="rotate(-28 124 160)"/>
+    
+    
+    
+    
+    <circle cx="54" cy="56" r="23" fill="#7EDC6A"/><circle cx="106" cy="56" r="23" fill="#7EDC6A"/>
+    <path d="M80.0 43.0C90.0 43.2 101.8 48.7 109.8 54.9C117.8 61.2 124.7 70.8 128.0 80.4C131.4 89.9 132.9 102.6 130.0 112.2C127.0 121.8 118.8 131.9 110.5 138.0C102.2 144.0 90.1 148.6 80.0 148.4C69.9 148.3 58.3 143.2 50.1 137.2C41.8 131.1 33.7 121.6 30.5 112.1C27.2 102.5 27.4 89.6 30.6 79.9C33.7 70.3 41.3 60.3 49.6 54.1C57.8 48.0 70.0 42.9 80.0 43.0Z" fill="#7EDC6A"/>
+    
+    
+    
+    <path d="M44 59q10-13 20 0" stroke="#111216" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M96 59q10-13 20 0" stroke="#111216" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="80" cy="106" rx="7" ry="5" fill="#111216"/>
+    <path d="M65 116q15 20 30 0z" fill="#111216"/><path d="M73 126q7 4 14 0q-7-3-14 0z" fill="#FF5C8A"/>
+    
+    <circle cx="46" cy="110" r="7" fill="#FF5CE6" opacity=".3"/><circle cx="114" cy="110" r="7" fill="#FF5CE6" opacity=".3"/>
+    
+    
+    
+    <path d="M32 70C30 30 130 30 128 70q-48-12-96 0z" fill="#2EC5FF" stroke="#111216" stroke-width="2.5" stroke-linejoin="round"/><path d="M118 66q22-4 30 6-18 8-34 2z" fill="#1A9BFF" stroke="#111216" stroke-width="2.5" stroke-linejoin="round"/><path d="M80 40v28" stroke="#111216" stroke-width="2" opacity=".35"/><circle cx="80" cy="40" r="5" fill="#C6F432" stroke="#111216" stroke-width="2"/>
+    
+    
+    
+  </svg><svg viewBox="0 0 160 196" aria-hidden="true">
+    <ellipse cx="80" cy="190" rx="50" ry="6" fill="#111216" opacity=".1"/>
+    
+    <ellipse cx="80" cy="168" rx="46" ry="26" fill="#A3A9B8"/><ellipse cx="80" cy="172" rx="26" ry="16" fill="#EEF0F5"/>
+    <ellipse cx="36" cy="160" rx="10" ry="17" fill="#A3A9B8" transform="rotate(28 36 160)"/><ellipse cx="124" cy="160" rx="10" ry="17" fill="#A3A9B8" transform="rotate(-28 124 160)"/>
+    
+    
+    
+    
+    <circle cx="42" cy="58" r="20" fill="#A3A9B8"/><circle cx="118" cy="58" r="20" fill="#A3A9B8"/><circle cx="40" cy="56" r="10" fill="#5B6070"/><circle cx="120" cy="56" r="10" fill="#5B6070"/>
+    <path d="M80.0 45.8C90.0 46.0 101.5 49.6 109.6 55.3C117.7 61.0 125.1 70.7 128.6 80.2C132.1 89.7 133.6 102.7 130.7 112.5C127.9 122.3 119.8 133.0 111.3 139.1C102.8 145.2 90.3 149.2 80.0 149.1C69.7 149.0 57.6 144.4 49.3 138.3C40.9 132.1 32.7 121.9 29.8 112.3C27.0 102.7 28.9 90.1 32.2 80.5C35.5 70.8 41.8 60.2 49.8 54.4C57.7 48.6 70.0 45.7 80.0 45.8Z" fill="#A3A9B8"/>
+    <ellipse cx="80" cy="114" rx="28" ry="21" fill="#EEF0F5"/>
+    
+    <path d="M30 92q6-20 50-14 44-6 50 14-6 14-26 12-14-2-24-4-10 2-24 4-20 2-26-12z" fill="#3A3D4A"/>
+    <circle cx="62" cy="90" r="11" fill="#fff"/><circle cx="63" cy="91" r="5.5" fill="#111216"/><circle cx="65" cy="88" r="2" fill="#fff"/><path d="M50 90a12 12 0 0 1 24 0z" fill="#3A3D4A"/><circle cx="98" cy="90" r="11" fill="#fff"/><circle cx="99" cy="91" r="5.5" fill="#111216"/><circle cx="101" cy="88" r="2" fill="#fff"/><path d="M86 90a12 12 0 0 1 24 0z" fill="#3A3D4A"/>
+    <ellipse cx="80" cy="106" rx="7" ry="5" fill="#111216"/>
+    <path d="M68 120q14 8 26-6" stroke="#111216" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+    <circle cx="46" cy="110" r="7" fill="#FF5CE6" opacity=".3"/><circle cx="114" cy="110" r="7" fill="#FF5CE6" opacity=".3"/>
+    
+    
+    
+    
+    
+    
+    
+  </svg></div><h3>~20 гостей</h3><p>Покупатели, заказы, сдача, ситуации</p></div>
+        <div class="card step" data-a style="--d:.45"><div class="n">3</div><div class="art"><svg viewBox="0 0 120 170"><rect x="14" y="6" width="92" height="158" rx="20" fill="#111216"/><rect x="21" y="20" width="78" height="128" rx="10" fill="#7FD4FF"/><rect x="46" y="11" width="28" height="5" rx="2.5" fill="#3A3D4A"/>
+  <g transform="translate(31 34)"><rect width="58" height="22" rx="8" fill="#fff"/><circle cx="11" cy="11" r="6" fill="#FF7A1A"/><rect x="21" y="8" width="30" height="6" rx="3" fill="#D9DCE6"/></g>
+  <g transform="translate(31 62)"><rect width="58" height="22" rx="8" fill="#fff"/><circle cx="11" cy="11" r="6" fill="#1FD16C"/><rect x="21" y="8" width="24" height="6" rx="3" fill="#D9DCE6"/></g>
+  <circle cx="92" cy="22" r="13" fill="#FF3D6E" stroke="#111216" stroke-width="3"/><text x="92" y="27.5" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="15" fill="#fff">!</text>
+  <g stroke="#111216" stroke-width="4" stroke-linecap="round" fill="none" class="rings"><path d="M4 50q-6 14 0 28"/><path d="M116 50q6 14 0 28"/></g></svg></div><h3>Звонит телефон</h3><p>Мини-игры: Лис и друзья в чате</p></div>
+        <div class="card step" data-a style="--d:.55"><div class="n">4</div><div class="art"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#FFDD2E" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M3 8l4.5 4L12 4l4.5 8L21 8l-2 11H5z" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="1.8" fill="#FF5CE6"/><circle cx="7.5" cy="15.5" r="1.2" fill="#2EC5FF"/><circle cx="16.5" cy="15.5" r="1.2" fill="#2EC5FF"/></g></svg></div><h3>Вечер</h3><p>Последствия, итоги и титул дня</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" data-notes="Финансы — это действия руками. Покупатель платит купюрой — ребёнок сам набирает сдачу монетками: 50 минус 15. Заказ собирается по рецепту из ингредиентов. Кончился товар — приходит поставщик: десять за двадцать монет или в долг, который вечером обойдётся в пятнадцать. Вывеска за сорок — трата на цель.">
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r"><div class="scr"><video src="media/clip-change.mp4" poster="media/clip-change.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="col">
+      <div class="chip lime" data-a="left"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="6.4" fill="none" stroke="#E6A800" stroke-width="1.8"/><path d="M12 8.6l1 2.1 2.3.2-1.7 1.5.5 2.3-2.1-1.2-2.1 1.2.5-2.3-1.7-1.5 2.3-.2z" fill="#E6A800"/></svg>Финансы</div>
+      <div class="h" data-a style="--d:.1">Деньги здесь — <span class="hl">действия руками</span></div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="13" r="8" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="11" cy="13" r="4.6" fill="none" stroke="#E6A800" stroke-width="1.6"/><path d="M15 3.5a8 8 0 0 1 6 7" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M18.6 9.6l2.4 1.4 1-2.6" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Дай сдачу:</b> 50 − 15 = ? монетками</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#FFE14D" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="6.4" fill="#FFF3A6"/><path d="M12 5.6v12.8M5.6 12h12.8M7.5 7.5l9 9M16.5 7.5l-9 9" stroke="#F2C200" stroke-width="1.2"/></svg></span><span><b>Собери заказ</b> по рецепту</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2.5" fill="#F2B866" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 11h18M3 15.5h18" stroke="#C98A3A" stroke-width="1.6"/><path d="M8 6v14M16 6v14" stroke="#C98A3A" stroke-width="1.4" opacity=".7"/></svg></span><span><b>Поставщик:</b> +10 за 20 или в долг</span></div>
+        <div class="pt" data-a style="--d:.55"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c.9 5.1 2.9 7.1 8 8-5.1.9-7.1 2.9-8 8-.9-5.1-2.9-7.1-8-8 5.1-.9 7.1-2.9 8-8z" fill="#C6F432" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="19" cy="18.5" r="1.6" fill="#FF5CE6"/><circle cx="5" cy="4.5" r="1.2" fill="#2EC5FF"/></svg></span><span><b>Вывеска за 40</b> — трата на цель</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" data-notes="Безопасность. Мошенник приходит как обычный гость, и ребёнок сам решает, что делать: волк просит отсканировать чужой QR, «друг» пишет с нового номера, бобёр обещает «×3 за день». А в мини-детективе на скриншоте «перевода» нужно найти два подвоха: «Сбирбанк», 32 мая, 25:70.">
+    <div class="col" style="width:900px">
+      <div class="chip pink" data-a="left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8 3v5.8c0 5-3.4 8.8-8 10.4-4.6-1.6-8-5.4-8-10.4V5.5z" fill="#2EC5FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.3 12l2.6 2.6 4.8-5.2" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Безопасность</div>
+      <div class="h" data-a style="--d:.1">Мошенник приходит <span class="hl">как обычный покупатель</span></div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="#fff" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><g fill="#111216"><rect x="5.5" y="5.5" width="5" height="5" rx="1"/><rect x="13.5" y="5.5" width="5" height="5" rx="1"/><rect x="5.5" y="13.5" width="5" height="5" rx="1"/><rect x="13.5" y="13.5" width="2" height="2"/><rect x="16.5" y="16.5" width="2" height="2"/><rect x="13.5" y="17" width="2" height="1.5"/></g><g fill="#fff"><rect x="7" y="7" width="2" height="2"/><rect x="15" y="7" width="2" height="2"/><rect x="7" y="15" width="2" height="2"/></g></svg></span><span>Чужой QR «выиграешь самокат»</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4.5" fill="#FFC58A" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 21a8 8 0 0 1 16 0z" fill="#A77BFF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span>«Друг» с нового номера</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="14" height="10" rx="2" fill="#7EE8A8" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="10" cy="12" r="2.6" fill="#1FD16C" stroke="#111216" stroke-width="1.2"/><path d="M19 8h3M19.5 12h2.5M19 16h3" stroke="#111216" stroke-width="1.6" stroke-linecap="round"/></svg></span><span>«×3 за день» и лотерея</span></div>
+        <div class="pt" data-a style="--d:.55"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="#B5E9FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.4 8a3 3 0 0 1 3-2" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M15 15l5.5 5.5" stroke="#111216" stroke-width="3.2" stroke-linecap="round"/></svg></span><span>Найди 2 подвоха на скриншоте</span></div>
+      </div>
+    </div>
+    <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/story4.png" alt="Волк предлагает чужой QR"></div>
+    <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/detective.png" alt="Детектив: найди подвохи"></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide" data-notes="Первая мини-игра в телефоне — «Лис в чате». Сообщения падают сверху: мошеннические надо закрасить, своих — не трогать. Приёмы реальные: просит код, халява, странная ссылка, торопит, «маме не говори». Долетел мошенник вниз — Лис уносит пять монет из кассы. Итог меняет шкалу защищённости.">
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r"><div class="scr"><video src="media/clip-fox.mp4" poster="media/clip-fox.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="col">
+      <div class="chip pink" data-a="left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 3.2l3.2.6 1.2 4-2 1.6c1 2.3 2.8 4.1 5.1 5.1l1.6-2 4 1.2.6 3.2-2.4 2.6C10.6 19.6 4.4 13.4 3.6 5.6z" fill="#1FD16C" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/></svg>Мини-игра «Лис в чате»</div>
+      <div class="h" data-a style="--d:.1"><span class="hl">Закрась мошенника</span>, своих не трогай</div>
+      <div class="tags" data-a style="--d:.25"><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="4" fill="#111216"/><g fill="#C6F432"><circle cx="8.5" cy="7.2" r="1.25"/><circle cx="12" cy="7.2" r="1.25"/><circle cx="15.5" cy="7.2" r="1.25"/><circle cx="8.5" cy="10.8" r="1.25"/><circle cx="12" cy="10.8" r="1.25"/><circle cx="15.5" cy="10.8" r="1.25"/><circle cx="8.5" cy="14.4" r="1.25"/><circle cx="12" cy="14.4" r="1.25"/><circle cx="15.5" cy="14.4" r="1.25"/></g><rect x="9.5" y="17.6" width="5" height="1.6" rx=".8" fill="#fff"/></svg>Просит код</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="17" height="11.5" rx="2" fill="#FF5CE6" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><rect x="2.5" y="6.5" width="19" height="4" rx="1.5" fill="#FF9CEF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5v14" stroke="#C6F432" stroke-width="3"/><path d="M12 6.5c-1-3-5-3.6-5-1.4 0 1.4 3 1.4 5 1.4zm0 0c1-3 5-3.6 5-1.4 0 1.4-3 1.4-5 1.4z" fill="#C6F432" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/></svg>Халява</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2" stroke="#2EC5FF" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round"/></svg>Странная ссылка</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5l3-2.5M20 5.5l-3-2.5" stroke="#111216" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="13" r="8" fill="#FF7A9A" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13" r="5.6" fill="#fff"/><path d="M12 9.6V13l2.4 1.6" stroke="#111216" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>Торопит</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="10" r="1.3" fill="#111216"/><circle cx="15" cy="10" r="1.3" fill="#111216"/><path d="M7.5 15.5h9" stroke="#111216" stroke-width="2.2" stroke-linecap="round"/><path d="M9 14.2v2.6M11 14.2v2.6M13 14.2v2.6M15 14.2v2.6" stroke="#111216" stroke-width="1"/></svg>Секрет от мамы</span></div>
+      <div class="lead" data-a style="--d:.4">Долетел вниз — Лис уносит <b>5 монет</b> из кассы.</div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide" data-notes="Вторая мини-игра — «Друзья в чате», это эмоции. По лицу и словам друга ребёнок понимает настроение и даёт подходящую наклейку: радуется — «Ура!», грустит — «Обнимаю», злится — «Я с тобой». Не ответил — друг остаётся грустным, итог меняет репутацию.">
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r"><div class="scr"><video src="media/clip-friends.mp4" poster="media/clip-friends.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="col">
+      <div class="chip cyan" data-a="left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-5-8-10.6A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.9c0 5.6-8 10.6-8 10.6z" fill="#FF3D6E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="8.4" cy="9.8" rx="1.7" ry="1" fill="#fff" opacity=".7" transform="rotate(-30 8.4 9.8)"/></svg>Мини-игра «Друзья в чате»</div>
+      <div class="h" data-a style="--d:.1">Пойми настроение по лицу — <span class="hl">и поддержи</span></div>
+      <div class="stk">
+        <div class="card s" data-a="pop" style="--d:.3"><div class="sv"><svg viewBox="0 0 64 64"><path d="M32.0 3.9C37.6 3.9 44.3 5.6 48.8 8.8C53.4 12.0 57.5 17.8 59.3 23.1C61.0 28.5 61.2 35.6 59.4 40.9C57.6 46.2 53.0 51.2 48.5 54.7C43.9 58.1 37.7 61.2 32.0 61.6C26.3 61.9 18.5 60.2 14.1 56.7C9.6 53.2 6.4 46.3 5.1 40.8C3.7 35.2 4.2 28.8 5.9 23.5C7.5 18.2 10.8 12.1 15.2 8.9C19.6 5.6 26.4 3.9 32.0 3.9Z" fill="#FFE45C" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)"><path d="M3 21l5-14 9 9z" fill="#FF5CE6" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M5.5 14l4.5 4.5M7 10l7 7" stroke="#FFDD2E" stroke-width="1.8"/><g stroke="#111216" stroke-width="1.6" stroke-linecap="round"><path d="M14 3v3M19 5l-2 2M21 10h-3"/></g><circle cx="11" cy="4" r="1.5" fill="#2EC5FF"/><circle cx="20" cy="15" r="1.5" fill="#C6F432"/><circle cx="17" cy="2.5" r="1.2" fill="#FF3D6E"/></g></svg></div><b>Ура!</b><small>радуется</small></div>
+        <div class="card s" data-a="pop" style="--d:.42"><div class="sv"><svg viewBox="0 0 64 64"><path d="M32.0 3.9C37.6 3.9 44.3 5.6 48.8 8.8C53.4 12.0 57.5 17.8 59.3 23.1C61.0 28.5 61.2 35.6 59.4 40.9C57.6 46.2 53.0 51.2 48.5 54.7C43.9 58.1 37.7 61.2 32.0 61.6C26.3 61.9 18.5 60.2 14.1 56.7C9.6 53.2 6.4 46.3 5.1 40.8C3.7 35.2 4.2 28.8 5.9 23.5C7.5 18.2 10.8 12.1 15.2 8.9C19.6 5.6 26.4 3.9 32.0 3.9Z" fill="#FFC2E2" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)"><path d="M12 20s-7-4.5-7-9.5A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.5c0 5-7 9.5-7 9.5z" fill="#FF5CE6" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 9q-1 6 5 9M21 9q1 6-5 9" stroke="#FFC58A" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M3 9q-1 6 5 9M21 9q1 6-5 9" stroke="#111216" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".5"/></g></svg></div><b>Обнимаю</b><small>грустит</small></div>
+        <div class="card s" data-a="pop" style="--d:.54"><div class="sv"><svg viewBox="0 0 64 64"><path d="M32.0 2.7C37.7 2.4 45.1 4.2 49.7 7.6C54.4 11.0 58.1 17.4 59.8 23.0C61.6 28.6 62.3 35.9 60.4 41.2C58.5 46.5 53.3 51.8 48.6 54.8C43.9 57.9 37.6 59.6 32.0 59.6C26.4 59.7 19.7 58.4 15.1 55.3C10.5 52.1 6.3 46.3 4.6 40.9C2.9 35.6 3.1 28.5 5.0 23.2C6.8 17.9 11.0 12.7 15.5 9.2C20.0 5.8 26.3 2.9 32.0 2.7Z" fill="#B5E9FF" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)"><path d="M2.5 9l4-3 4 1.6L13 6l4.5 1 4 3.4-6.4 6.6a1.6 1.6 0 0 1-2.3 0l-.6-.5-.8.8a1.6 1.6 0 0 1-2.3 0l-.4-.4-.6.5a1.6 1.6 0 0 1-2.2-.2z" fill="#FFC58A" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M10.5 7.6l-2.3 2.6a1.4 1.4 0 0 0 2 2l2.3-2" stroke="#111216" stroke-width="1.4" fill="none" stroke-linecap="round"/></g></svg></div><b>Я с тобой</b><small>злится</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide" data-notes="Мягкие навыки есть и в самих ситуациях. Конкурент: «кто дешевле — тот победил» — можно сбить цену, подружиться лавками или прогнать. Лягушка дала 50 за один товар — дать сдачу или промолчать. Ещё есть потерявшийся малыш и обронённый кошелёк. У каждого выбора есть последствие.">
+    <div class="col" style="width:900px">
+      <div class="chip cyan" data-a="left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9l4-3 4 1.6L13 6l4.5 1 4 3.4-6.4 6.6a1.6 1.6 0 0 1-2.3 0l-.6-.5-.8.8a1.6 1.6 0 0 1-2.3 0l-.4-.4-.6.5a1.6 1.6 0 0 1-2.2-.2z" fill="#FFC58A" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M10.5 7.6l-2.3 2.6a1.4 1.4 0 0 0 2 2l2.3-2" stroke="#111216" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>Мягкие навыки</div>
+      <div class="h" data-a style="--d:.1">Конфликт и честность — <span class="hl">тоже выбор</span> с последствием</div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9l4-3 4 1.6L13 6l4.5 1 4 3.4-6.4 6.6a1.6 1.6 0 0 1-2.3 0l-.6-.5-.8.8a1.6 1.6 0 0 1-2.3 0l-.4-.4-.6.5a1.6 1.6 0 0 1-2.2-.2z" fill="#FFC58A" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M10.5 7.6l-2.3 2.6a1.4 1.4 0 0 0 2 2l2.3-2" stroke="#111216" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg></span><span>Конкурент: сбить цену или дружить</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="13" r="8" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="11" cy="13" r="4.6" fill="none" stroke="#E6A800" stroke-width="1.6"/><path d="M15 3.5a8 8 0 0 1 6 7" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M18.6 9.6l2.4 1.4 1-2.6" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Переплатили 50 — вернуть сдачу?</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3" fill="#A77BFF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 6l9-3 2 3" fill="#C9B0FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><rect x="14" y="10.5" width="7" height="5" rx="2" fill="#C9B0FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="17" cy="13" r="1.2" fill="#111216"/></svg></span><span>Обронённый кошелёк, потерянный малыш</span></div>
+      </div>
+    </div>
+    <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/story6.png" alt="Конкурент"></div>
+    <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/story2.png" alt="Лягушка переплатила"></div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide" data-notes="Правила мы не даём читать — мы их показываем. При первом звонке сообщение останавливается, подпись в три слова, и рука показывает действие: «тапни» или «перетащи наклейку». Ребёнок повторяет сам, и только потом игра стартует. Ошибки в обучении ничего не стоят. Рука-подсказка появляется только при первом знакомстве.">
+    <div class="col" style="width:900px">
+      <div class="kick" data-a>Обучение</div>
+      <div class="h" data-a style="--d:.1">Правила не читают — <span class="hl">их показывают рукой</span></div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.8l-12-7.5A1 1 0 0 0 7 4.5z" fill="#111216"/></svg></span><span>Пример останавливается, рука показывает</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a7 7 0 0 1 12-5l2 2M20 13a7 7 0 0 1-12 5l-2-2" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M18 3.5V8h-4.5M6 20.5V16h4.5" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Ребёнок повторяет сам — игра стартует</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-5-8-10.6A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.9c0 5.6-8 10.6-8 10.6z" fill="#FF3D6E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="8.4" cy="9.8" rx="1.7" ry="1" fill="#fff" opacity=".7" transform="rotate(-30 8.4 9.8)"/></svg></span><span>Ошибка в обучении ничего не стоит</span></div>
+      </div>
+    </div>
+    <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/tut-fox.png" alt="Обучение: Лис"></div>
+    <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/tut-friends.png" alt="Обучение: друзья"></div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide" data-notes="Ошибка — это понятное последствие, а не ругань. Пропустил Лиса — он выпрыгивает и уносит монеты, касса «худеет». Тапнул по своему сообщению — перечёркнутый баллончик и «Не трогай — это свои!». После ошибки — одна строка подсказки: «Код из СМС — секрет. Банк его не спрашивает». Ребёнок понимает почему и пробует снова.">
+    <div class="col" style="width:900px">
+      <div class="kick" data-a>Обратная связь</div>
+      <div class="h" data-a style="--d:.1">Ошибка показывает <span class="hl">последствие</span>, а не ругает</div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="6.4" fill="none" stroke="#E6A800" stroke-width="1.8"/><path d="M12 8.6l1 2.1 2.3.2-1.7 1.5.5 2.3-2.1-1.2-2.1 1.2.5-2.3-1.7-1.5 2.3-.2z" fill="#E6A800"/></svg></span><span>Лис уносит монеты из кассы</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FF3D6E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.3 8.3l7.4 7.4M15.7 8.3l-7.4 7.4" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg></span><span>«Не трогай — это свои!»</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c.9 5.1 2.9 7.1 8 8-5.1.9-7.1 2.9-8 8-.9-5.1-2.9-7.1-8-8 5.1-.9 7.1-2.9 8-8z" fill="#C6F432" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="19" cy="18.5" r="1.6" fill="#FF5CE6"/><circle cx="5" cy="4.5" r="1.2" fill="#2EC5FF"/></svg></span><span>«Код из СМС — секрет. Банк его не спрашивает.»</span></div>
+      </div>
+    </div>
+    <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/thief.png" alt="Лис уносит монеты"></div>
+    <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/oops.png" alt="Тап по своему сообщению"></div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide" data-notes="Каждый заход — законченный день, как требует ТЗ: ничего не сохраняется, и потеря прогресса не расстраивает. Проиграть день полностью нельзя. Зато хочется переиграть: лавка выпадает случайно, гости и события каждый раз новые, а титулов семь — от «Хозяина ярмарки» до «Лёгкой добычи для жуликов».">
+    <div class="col wide" style="gap:44px">
+      <div class="kick" data-a>Реиграбельность</div>
+      <div class="h" data-a style="--d:.1">Каждый заход — <span class="hl">законченный день</span>, и его хочется переиграть</div>
+      <div class="medals"><div data-a="pop" style="--d:0.20" title="Хозяин ярмарки"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#FFDD2E" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M3 8l4.5 4L12 4l4.5 8L21 8l-2 11H5z" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="1.8" fill="#FF5CE6"/><circle cx="7.5" cy="15.5" r="1.2" fill="#2EC5FF"/><circle cx="16.5" cy="15.5" r="1.2" fill="#2EC5FF"/></g></svg></div><div data-a="pop" style="--d:0.28" title="Лёгкая добыча для жуликов"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#FF9A4D" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M2 9h9M4 13h8M3 17h6" stroke="#111216" stroke-width="2" stroke-linecap="round"/><path d="M17.0 6.4C18.1 6.4 19.3 8.3 20.2 9.4C21.2 10.6 23.0 12.2 22.8 13.3C22.6 14.5 20.4 15.6 19.0 16.2C17.7 16.8 15.6 17.6 14.6 17.1C13.5 16.5 12.9 14.2 12.8 13.0C12.7 11.7 13.1 10.5 13.8 9.4C14.5 8.3 15.9 6.4 17.0 6.4Z" fill="#E3E5EC" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/></g></svg></div><div data-a="pop" style="--d:0.36" title="Друг всего района"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#FF9CEF" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M12 20.5s-8-5-8-10.6A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.9c0 5.6-8 10.6-8 10.6z" fill="#FF3D6E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="8.4" cy="9.8" rx="1.7" ry="1" fill="#fff" opacity=".7" transform="rotate(-30 8.4 9.8)"/></g></svg></div><div data-a="pop" style="--d:0.44" title="Акула бизнеса"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#7FD4FF" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M2 14q6-7 13-6l2-5 1 6q3 1 5 4-2 3-6 3-8 1-15-2z" fill="#7FD4FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 15q6 2 12 0" fill="#fff"/><circle cx="17.5" cy="12" r="1" fill="#111216"/><path d="M14 15.4l.8 1 .8-1 .8 1 .8-1" stroke="#111216" stroke-width="1" fill="none"/><path d="M8 17l-3 4 5-2" fill="#7FD4FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/></g></svg></div><div data-a="pop" style="--d:0.52" title="Самая яркая лавка"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#FFC2E2" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M12 2c.9 5.1 2.9 7.1 8 8-5.1.9-7.1 2.9-8 8-.9-5.1-2.9-7.1-8-8 5.1-.9 7.1-2.9 8-8z" fill="#C6F432" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="19" cy="18.5" r="1.6" fill="#FF5CE6"/><circle cx="5" cy="4.5" r="1.2" fill="#2EC5FF"/></g></svg></div><div data-a="pop" style="--d:0.60" title="Честный торговец"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#C6F432" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M2.5 9l4-3 4 1.6L13 6l4.5 1 4 3.4-6.4 6.6a1.6 1.6 0 0 1-2.3 0l-.6-.5-.8.8a1.6 1.6 0 0 1-2.3 0l-.4-.4-.6.5a1.6 1.6 0 0 1-2.2-.2z" fill="#FFC58A" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M10.5 7.6l-2.3 2.6a1.4 1.4 0 0 0 2 2l2.3-2" stroke="#111216" stroke-width="1.4" fill="none" stroke-linecap="round"/></g></svg></div><div data-a="pop" style="--d:0.68" title="Начинающий торговец"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#9BF0BE" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M12 21v-9" stroke="#1FD16C" stroke-width="2.2" stroke-linecap="round"/><path d="M12 13C12 7 7 4 3 5c0 5 4 8 9 8z" fill="#7EE8A8" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 11c0-5 4-8 9-7 0 5-4 7-9 7z" fill="#C6F432" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M7 21h10" stroke="#B97A45" stroke-width="2.4" stroke-linecap="round"/></g></svg></div></div>
+      <div class="tags" data-a style="--d:.6"><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a7 7 0 0 1 12-5l2 2M20 13a7 7 0 0 1-12 5l-2-2" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M18 3.5V8h-4.5M6 20.5V16h4.5" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Случайная лавка и гости</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l4.5 4L12 4l4.5 8L21 8l-2 11H5z" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="1.8" fill="#FF5CE6"/><circle cx="7.5" cy="15.5" r="1.2" fill="#2EC5FF"/><circle cx="16.5" cy="15.5" r="1.2" fill="#2EC5FF"/></svg>7 титулов дня</span><span class="tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8 3v5.8c0 5-3.4 8.8-8 10.4-4.6-1.6-8-5.4-8-10.4V5.5z" fill="#2EC5FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.3 12l2.6 2.6 4.8-5.2" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Проиграть день нельзя</span></div>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide" data-notes="Как понять, что научился: по наблюдаемым действиям. В конце игра отправляет в приложение событие complete: сколько мошенников закрашено и сколько пропущено, верная ли сдача, собраны ли заказы, сколько раз ребёнка обманули, репутация и защищённость. Это можно показывать родителю или использовать в прогрессе курса.">
+    <div class="col" style="width:820px">
+      <div class="kick" data-a>Как понять, что научился</div>
+      <div class="h" data-a style="--d:.1">Навык виден <span class="hl">по действиям</span> — они уходят в приложение</div>
+      <div class="lead" data-a style="--d:.25">Событие моста <b>complete</b> в конце дня: что ребёнок сделал руками, а не что ответил в тесте.</div>
+    </div>
+    <pre class="code" data-a="pop" style="--d:.3;position:absolute;left:1040px;top:150px;width:760px">{
+  <span class="k">"title"</span>: <span class="v">"king"</span>,
+  <span class="k">"foxZapped"</span>: <span class="v">5</span>, <span class="k">"foxMissed"</span>: <span class="v">0</span>,
+  <span class="k">"changeRight"</span>: <span class="v">3</span>, <span class="k">"changeWrong"</span>: <span class="v">0</span>,
+  <span class="k">"ordersRight"</span>: <span class="v">4</span>, <span class="k">"ordersWrong"</span>: <span class="v">0</span>,
+  <span class="k">"reputation"</span>: <span class="v">10</span>, <span class="k">"safety"</span>: <span class="v">10</span>,
+  <span class="k">"profit"</span>: <span class="v">137</span>, <span class="k">"sold"</span>: <span class="v">26</span>,
+  <span class="k">"titlesCollected"</span>: [<span class="v">"king"</span>]
+}
+<span class="c">// пример из прогона ботом</span></pre>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide" data-notes="И главное — это готово к встраиванию: один HTML-файл без сборки, вся графика — свои SVG, звук синтезируется и по умолчанию выключен, все пять событий моста подключены, вёрстка проверена на экранах от 320 до 430 пикселей. Игра живая — она прямо здесь, в телефоне. Спасибо! Сыграйте сами по ссылке.">
+    <div class="col" style="width:1000px;gap:26px">
+      <div class="kick" data-a>Готово к встраиванию</div>
+      <div class="h" data-a style="--d:.1">Один HTML-файл — <span class="hl">и игра уже в WebView</span></div>
+      <div class="pts" style="gap:16px">
+        <div class="pt" data-a style="--d:.2"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#1FD16C" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 12.3l3 3 6-6.3" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Без сборки и библиотек, графика — свои SVG</span></div>
+        <div class="pt" data-a style="--d:.28"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#1FD16C" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 12.3l3 3 6-6.3" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Звук выключен, переключатель на экране</span></div>
+        <div class="pt" data-a style="--d:.36"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#1FD16C" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 12.3l3 3 6-6.3" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Мост: close, finish, vibrate, share, complete</span></div>
+        <div class="pt" data-a style="--d:.44"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#1FD16C" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 12.3l3 3 6-6.3" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Экраны 320–430 px, safe-area, автопауза</span></div>
+      </div>
+      <div class="chip lime" data-a style="--d:.55"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.8l-12-7.5A1 1 0 0 0 7 4.5z" fill="#111216"/></svg>tuhlopuz1.github.io/sbergame</div>
+    </div>
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r" data-a="pop" style="--d:.2"><div class="scr"><iframe data-src="../index.html" title="Игра «Лавка на один день»" loading="lazy"></iframe></div><div class="notch"></div></div>
+  </section>
+
+  <div class="brand"><span class="bk"><svg class="klx" viewBox="0 0 132 132"  aria-hidden="true">
+    <ellipse cx="60" cy="124" rx="34" ry="5" fill="#111216" opacity=".08"/>
+    <g class="k-body">
+      <path style="fill:var(--m)" d="M60.0 20.7C69.0 20.7 79.5 27.8 86.8 34.1C94.1 40.3 102.0 49.5 103.6 58.3C105.1 67.1 100.9 79.1 95.9 86.7C91.0 94.4 82.6 100.7 74.0 104.4C65.4 108.2 52.7 112.1 44.3 109.2C35.8 106.3 28.0 95.7 23.3 87.2C18.6 78.7 14.7 67.2 16.3 58.3C17.9 49.4 25.6 40.0 32.9 33.7C40.2 27.4 51.0 20.6 60.0 20.7Z"><animate attributeName="d" dur="3.4s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1" values="M60.0 20.7C69.0 20.7 79.5 27.8 86.8 34.1C94.1 40.3 102.0 49.5 103.6 58.3C105.1 67.1 100.9 79.1 95.9 86.7C91.0 94.4 82.6 100.7 74.0 104.4C65.4 108.2 52.7 112.1 44.3 109.2C35.8 106.3 28.0 95.7 23.3 87.2C18.6 78.7 14.7 67.2 16.3 58.3C17.9 49.4 25.6 40.0 32.9 33.7C40.2 27.4 51.0 20.6 60.0 20.7Z;M60.0 21.2C69.5 20.6 83.1 24.2 89.8 30.4C96.6 36.7 99.3 49.3 100.5 58.9C101.7 68.4 101.7 79.9 97.3 87.5C92.9 95.2 83.0 101.2 74.1 104.8C65.3 108.4 52.9 112.1 44.3 109.2C35.6 106.4 27.1 96.3 22.2 87.8C17.3 79.3 13.0 67.0 14.8 58.0C16.6 49.1 25.6 40.1 33.1 34.0C40.7 27.8 50.5 21.8 60.0 21.2Z;M60.0 24.6C69.4 25.4 79.1 29.1 86.2 34.7C93.3 40.4 101.2 49.9 102.7 58.5C104.2 67.1 100.1 78.6 95.4 86.5C90.7 94.3 82.8 102.5 74.4 105.7C66.1 108.9 54.2 108.8 45.5 105.8C36.8 102.8 26.7 95.7 22.1 87.9C17.5 80.0 16.7 68.3 18.0 58.6C19.3 48.9 22.7 35.5 29.7 29.9C36.7 24.2 50.6 23.8 60.0 24.6Z;M60.0 20.7C69.0 20.7 79.5 27.8 86.8 34.1C94.1 40.3 102.0 49.5 103.6 58.3C105.1 67.1 100.9 79.1 95.9 86.7C91.0 94.4 82.6 100.7 74.0 104.4C65.4 108.2 52.7 112.1 44.3 109.2C35.8 106.3 28.0 95.7 23.3 87.2C18.6 78.7 14.7 67.2 16.3 58.3C17.9 49.4 25.6 40.0 32.9 33.7C40.2 27.4 51.0 20.6 60.0 20.7Z"/></path>
+      <path class="k-drip" style="fill:var(--m)" d="M76 104q4 0 4 6v8a4 4 0 0 1-8 0v-8q0-6 4-6z"/>
+      <ellipse cx="38" cy="40" rx="11" ry="6" fill="#fff" opacity=".4" transform="rotate(-30 38 40)"/>
+      <g class="k-eyes">
+        <circle cx="44" cy="60" r="15" fill="#fff"/><circle cx="78" cy="60" r="15" fill="#fff"/>
+        <g class="k-pupils" style="transition:transform .3s">
+          <g><animateTransform attributeName="transform" type="translate" dur="5.5s" repeatCount="indefinite" values="0 0;-4 1;-4 1;4 -1;4 -1;0 2;0 0" keyTimes="0;.12;.35;.47;.7;.85;1"/>
+            <circle cx="47" cy="62" r="7" fill="#111216"/><circle cx="81" cy="62" r="7" fill="#111216"/>
+            <circle cx="49" cy="59.5" r="2" fill="#fff"/><circle cx="83" cy="59.5" r="2" fill="#fff"/></g>
+        </g>
+      </g>
+      <circle cx="31" cy="80" r="5" fill="#FF5CE6" opacity=".35"/><circle cx="91" cy="80" r="5" fill="#FF5CE6" opacity=".35"/>
+      <path class="mo mo-smile" d="M51 84q10 9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g class="mo mo-happy"><path d="M47 81q14 18 28 0z" fill="#111216"/><path d="M54 89q7 5 14 0q-7-3-14 0z" fill="#FF5C8A"/></g>
+      <ellipse class="mo mo-oops" cx="61" cy="86" rx="5.5" ry="7" fill="#111216"/>
+      <path class="mo mo-sad" d="M51 90q10-9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+    
+  </svg></span>Лавка на один день</div>
+  <div class="pager" id="pager"></div>
+  <div class="bar" id="bar"></div>
+</div></div>
+
+<button class="nav" id="prev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="nav" id="next" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<div id="notes"></div>
+<div class="hint" id="hint">← → слайды · N заметки · F полный экран · V ролик</div>
+
+<script>
+(() => {
+  const deck = document.getElementById('deck'), slides = [...document.querySelectorAll('.slide')];
+  const intro = document.getElementById('intro'), promo = document.getElementById('promo');
+  const notes = document.getElementById('notes'), pager = document.getElementById('pager'), bar = document.getElementById('bar');
+  let i = -1, inIntro = true;
+
+  const fit = () => { const s = Math.min(innerWidth / 1920, innerHeight / 1080); deck.style.transform = `translate(-50%,-50%) scale(${s})`; };
+  addEventListener('resize', fit); fit();
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === i) return;
+    slides.forEach((s, k) => {
+      const on = k === n;
+      s.classList.toggle('on', on);
+      s.querySelectorAll('video').forEach(v => { if (on) { v.currentTime = 0; v.play().catch(() => {}); } else v.pause(); });
+      // живая игра грузится только на последнем слайде
+      s.querySelectorAll('iframe[data-src]').forEach(f => { if (on && !f.src) f.src = f.dataset.src; });
+    });
+    i = n;
+    pager.textContent = `${n + 1} / ${slides.length}`;
+    bar.style.width = `${(n + 1) / slides.length * 100}%`;
+    notes.innerHTML = `<b>${n + 1}</b>${slides[n].dataset.notes || ''}`;
+    if (location.hash !== '#' + (n + 1)) history.replaceState(null, '', '#' + (n + 1));
+  }
+  function toSlides(n) {
+    inIntro = false; promo.pause(); intro.classList.add('gone');
+    show(n == null ? (i < 0 ? 0 : i) : n);
+  }
+  function toIntro() {
+    inIntro = true; intro.classList.remove('gone', 'playing'); promo.currentTime = 0;
+  }
+  const next = () => inIntro ? toSlides(0) : show(i + 1);
+  const prev = () => inIntro ? null : (i === 0 ? toIntro() : show(i - 1));
+
+  document.getElementById('play').onclick = () => { intro.classList.add('playing'); promo.muted = false; promo.play().catch(() => { promo.muted = true; promo.play(); }); };
+  document.getElementById('skip').onclick = () => toSlides(0);
+  promo.addEventListener('ended', () => toSlides(0));
+  promo.addEventListener('click', () => { if (promo.paused) promo.play(); else promo.pause(); });
+  document.getElementById('next').onclick = e => { e.stopPropagation(); next(); };
+  document.getElementById('prev').onclick = e => { e.stopPropagation(); prev(); };
+
+  addEventListener('keydown', e => {
+    if (e.target.closest && e.target.closest('iframe')) return;
+    const k = e.key;
+    if (['ArrowRight', 'PageDown', 'Enter'].includes(k) || (k === ' ' && !inIntro)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); }
+    else if (k === ' ' && inIntro) { e.preventDefault(); intro.classList.contains('playing') ? (promo.paused ? promo.play() : promo.pause()) : document.getElementById('play').click(); }
+    else if (k === 'Home') show(0);
+    else if (k === 'End') toSlides(slides.length - 1);
+    else if (k === 'n' || k === 'N' || k === 'т' || k === 'Т') notes.classList.toggle('show');
+    else if (k === 'f' || k === 'F' || k === 'а' || k === 'А') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); }
+    else if (k === 'v' || k === 'V' || k === 'м' || k === 'М') toIntro();
+  });
+  // клик по слайду — вперёд (кроме живой игры), свайп — листать
+  deck.addEventListener('click', e => { if (!e.target.closest('iframe, .phone .scr')) next(); });
+  let sx = null;
+  addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', e => { if (sx == null || inIntro) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) dx < 0 ? next() : prev(); sx = null; });
+  setTimeout(() => document.getElementById('hint').classList.add('hide'), 6000);
+
+  const h = parseInt(location.hash.slice(1), 10);
+  if (h >= 1 && h <= slides.length) toSlides(h - 1);
+})();
+</script>
+</body>
+</html>

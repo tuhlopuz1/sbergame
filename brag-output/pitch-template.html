@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лавка на один день — питч</title>
+<style>
+{{FONTS}}
+:root{--bg:#F2F3F7;--ink:#111216;--ink2:#2B2D35;--muted:#6B6F80;--lime:#C6F432;--pink:#FF5CE6;--pink2:#FF9CEF;--cyan:#2EC5FF;--cyan2:#9BE3FF;--yellow:#FFDD2E;--fox:#FF7A1A;--purple:#5A3FD6;--red:#FF3D6E;--green:#1FD16C;--m:#C6F432}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#DDF0FB;overflow:hidden;font-family:'Onest',system-ui,sans-serif;color:var(--ink);-webkit-tap-highlight-color:transparent}
+svg{display:block}
+
+/* сцена 1920×1080, масштабируется под окно */
+#fit{position:fixed;inset:0}
+#deck{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%;overflow:hidden;background:var(--bg);box-shadow:0 30px 80px rgba(17,18,22,.18)}
+.sky{position:absolute;inset:0;background:linear-gradient(#BFE8FF 0%,#E8F7FF 45%,#F2F3F7 80%)}
+.hills{position:absolute;left:0;right:0;bottom:0;height:240px}
+.hills svg{width:100%;height:100%}
+.garland{position:absolute;left:0;right:0;top:-6px;height:110px;animation:sway 3.5s ease-in-out infinite alternate;transform-origin:50% 0}
+.garland svg{width:100%;height:100%}
+@keyframes sway{from{transform:rotate(-.5deg)}to{transform:rotate(.5deg)}}
+.brand{position:absolute;left:64px;bottom:34px;z-index:5;display:flex;align-items:center;gap:12px;font-weight:900;font-size:26px}
+.brand .bk{width:46px;height:46px}
+.pager{position:absolute;right:64px;bottom:40px;z-index:5;font-weight:800;font-size:24px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{position:absolute;left:0;bottom:0;height:8px;background:var(--lime);z-index:6;transition:width .4s cubic-bezier(.2,.8,.2,1)}
+
+/* слайды */
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s,visibility .35s}
+.slide.on{opacity:1;visibility:visible;pointer-events:auto}
+.slide [data-a]{opacity:0;transform:translateY(40px)}
+.slide.on [data-a]{animation:rise .6s cubic-bezier(.2,.9,.25,1.15) both;animation-delay:calc(var(--d,0) * 1s)}
+.slide.on [data-a=pop]{animation-name:pop}
+.slide.on [data-a=left]{animation-name:fromLeft}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.4) rotate(-8deg)}to{opacity:1;transform:none}}
+@keyframes fromLeft{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:none}}
+
+.col{position:absolute;left:140px;top:150px;bottom:130px;width:900px;display:flex;flex-direction:column;justify-content:center;gap:30px}
+.col.wide{width:1640px}
+.kick{font-family:'Caveat',cursive;font-weight:700;font-size:56px;color:var(--purple);line-height:1}
+.h{font-weight:900;font-size:78px;line-height:1.02;letter-spacing:-.03em}
+.h .hl{background:linear-gradient(transparent 12%,var(--lime) 12%,var(--lime) 94%,transparent 94%);padding:0 6px;border-radius:10px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.lead{font-weight:700;font-size:42px;line-height:1.25;color:var(--ink2)}
+.pts{display:flex;flex-direction:column;gap:20px}
+.pt{display:flex;align-items:center;gap:20px;font-weight:700;font-size:40px;line-height:1.2}
+.pt .ico{width:68px;height:68px;flex:none;border-radius:22px;background:#fff;display:grid;place-items:center;box-shadow:0 8px 20px rgba(24,26,40,.1)}
+.pt .ico svg{width:46px;height:46px}
+.pt b{font-weight:900}
+.chip{display:inline-flex;align-items:center;gap:12px;padding:12px 26px 12px 16px;border-radius:40px;font-weight:900;font-size:36px;box-shadow:0 10px 24px rgba(24,26,40,.12);align-self:flex-start}
+.chip svg{width:44px;height:44px}
+.chip.lime{background:var(--lime)}.chip.pink{background:var(--pink2)}.chip.cyan{background:var(--cyan2)}.chip.white{background:#fff}
+
+/* телефон */
+.phone{position:absolute;width:444px;height:952px;border-radius:64px;background:var(--ink);box-shadow:0 40px 80px rgba(17,18,22,.28)}
+.phone .scr{position:absolute;left:16px;top:16px;right:16px;bottom:16px;border-radius:50px;overflow:hidden;background:#EAF6FF}
+.phone .scr video,.phone .scr img,.phone .scr iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+.phone .notch{position:absolute;left:50%;top:22px;width:120px;height:26px;margin-left:-60px;border-radius:14px;background:var(--ink);z-index:3;pointer-events:none}
+.phone.r{left:1300px;top:64px}
+.phone.sm{width:360px;height:772px;border-radius:52px}
+.phone.sm .scr{border-radius:40px;left:13px;top:13px;right:13px;bottom:13px}
+.phone.sm .notch{width:96px;height:22px;margin-left:-48px;top:18px}
+.glow{position:absolute;width:760px;height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(198,244,50,.6),rgba(198,244,50,0));animation:breathe 3s ease-in-out infinite alternate}
+@keyframes breathe{from{transform:scale(.94);opacity:.7}to{transform:scale(1.05);opacity:1}}
+
+/* карточки */
+.card{background:#fff;border-radius:34px;box-shadow:0 16px 40px rgba(24,26,40,.12)}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.dom{padding:40px 34px 38px;display:flex;flex-direction:column;gap:18px}
+.dom .di{width:96px;height:96px;border-radius:30px;display:grid;place-items:center}
+.dom .di svg{width:62px;height:62px}
+.dom h3{font-weight:900;font-size:46px;line-height:1.05}
+.dom p{font-weight:700;font-size:34px;line-height:1.25;color:var(--ink2)}
+.tags{display:flex;flex-wrap:wrap;gap:16px}
+.tag{display:inline-flex;align-items:center;gap:10px;background:#fff;border-radius:22px;padding:12px 22px;font-weight:800;font-size:34px;box-shadow:0 8px 20px rgba(24,26,40,.1)}
+.tag svg{width:40px;height:40px}
+
+/* таймлайн дня */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;align-items:stretch}
+.step{position:relative;padding:34px 30px;display:flex;flex-direction:column;gap:16px}
+.step .n{width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-weight:900;font-size:34px}
+.step h3{font-weight:900;font-size:42px;line-height:1.05}
+.step p{font-weight:700;font-size:32px;line-height:1.25;color:var(--ink2)}
+.step .art{height:150px;display:flex;align-items:flex-end;gap:8px}
+.step .art svg{height:100%;width:auto}
+.step:not(:last-child)::after{content:"";position:absolute;right:-26px;top:50%;width:24px;height:24px;margin-top:-12px;border-top:6px solid var(--ink);border-right:6px solid var(--ink);transform:rotate(45deg);opacity:.35}
+
+/* скриншоты */
+.shot{position:absolute;border-radius:40px;overflow:hidden;box-shadow:0 30px 60px rgba(17,18,22,.22);border:10px solid var(--ink);background:#fff}
+.shot img{display:block;width:100%;height:100%;object-fit:cover}
+.cap{position:absolute;background:var(--ink);color:#fff;font-weight:900;font-size:30px;padding:12px 22px;border-radius:20px;white-space:nowrap;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.cap.lime{background:var(--lime);color:var(--ink)}
+
+/* код события */
+.code{font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:31px;line-height:1.45;background:var(--ink);color:#E8EAF2;border-radius:34px;padding:38px 44px;box-shadow:0 20px 50px rgba(17,18,22,.25)}
+.code .k{color:var(--lime)}.code .c{color:#8B8FA0}.code .v{color:var(--cyan2)}
+
+/* наклейки */
+.stk{display:flex;gap:24px}
+.stk .s{width:220px;padding:20px 12px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.stk .s .sv{width:116px;height:116px}
+.stk .s b{font-weight:900;font-size:36px}
+.stk .s small{font-weight:700;font-size:28px;color:var(--muted)}
+
+.medals{display:flex;gap:18px;align-items:flex-end}
+.medals div{width:150px;height:172px}
+.medals svg{width:100%;height:100%}
+.prods{display:flex;gap:30px}
+.prods div{width:150px;height:150px}
+.prods svg{width:100%;height:100%}
+.crit{position:absolute}
+.crit svg{width:100%;height:100%}
+
+/* интро-ролик */
+#intro{position:fixed;inset:0;z-index:50;background:#0E0F13;display:grid;place-items:center;transition:opacity .5s}
+#intro.gone{opacity:0;pointer-events:none}
+#intro video{width:100%;height:100%;object-fit:contain;background:#0E0F13}
+#play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(14,15,19,.35);border:0;cursor:pointer}
+#play span{display:flex;align-items:center;gap:18px;background:var(--lime);color:var(--ink);font:900 34px 'Onest',sans-serif;padding:24px 40px 24px 30px;border-radius:60px;box-shadow:0 20px 50px rgba(0,0,0,.35);transition:transform .15s}
+#play:hover span{transform:scale(1.04)}
+#play svg{width:44px;height:44px}
+#skip{position:absolute;right:28px;bottom:28px;z-index:2;background:rgba(255,255,255,.92);color:var(--ink);border:0;border-radius:40px;padding:16px 28px;font:900 22px 'Onest',sans-serif;cursor:pointer}
+#intro.playing #play{display:none}
+
+/* заметки докладчика */
+#notes{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);width:min(980px,calc(100% - 32px));z-index:40;background:rgba(17,18,22,.92);color:#fff;border-radius:22px;padding:18px 24px;font:600 18px/1.45 'Onest',sans-serif;display:none}
+#notes.show{display:block}
+#notes b{color:var(--lime);font-weight:900;margin-right:8px}
+.hint{position:fixed;right:16px;top:14px;z-index:40;font:700 13px 'Onest',sans-serif;color:var(--muted);background:rgba(255,255,255,.75);border-radius:12px;padding:6px 10px;transition:opacity .4s}
+.hint.hide{opacity:0}
+.nav{position:fixed;top:50%;z-index:30;width:56px;height:56px;margin-top:-28px;border-radius:50%;border:0;background:rgba(255,255,255,.85);box-shadow:0 6px 16px rgba(17,18,22,.15);display:grid;place-items:center;cursor:pointer;opacity:.0;transition:opacity .2s}
+body:hover .nav{opacity:.9}
+.nav svg{width:26px;height:26px}
+#prev{left:14px}#next{right:14px}
+@media (prefers-reduced-motion:reduce){.slide.on [data-a]{animation:none;opacity:1;transform:none}.garland,.glow{animation:none}}
+</style>
+</head>
+<body>
+
+<div id="intro">
+  <video id="promo" src="media/promo.mp4" poster="media/promo.jpg" playsinline preload="auto"></video>
+  <button id="play" aria-label="Смотреть ролик"><span><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z" fill="#111216"/></svg>Смотреть ролик</span></button>
+  <button id="skip">К слайдам →</button>
+</div>
+
+<div id="fit"><div id="deck">
+  <div class="sky"></div>
+  <div class="hills"><svg viewBox="0 0 1920 240" preserveAspectRatio="none"><path d="M0 140Q300 50 640 120T1300 100T1920 120V240H0z" fill="#D9F59A"/><path d="M0 190Q420 120 860 180T1920 165V240H0z" fill="#C6F432" opacity=".55"/></svg></div>
+  <div class="garland"><svg viewBox="0 0 1920 110" preserveAspectRatio="none"><path d="M0 24Q960 110 1920 24" stroke="#111216" stroke-width="3" fill="none" opacity=".4"/>{{FLAGS}}</svg></div>
+
+  <!-- 1 -->
+  <section class="slide" data-notes="Добрый день! Мы — команда «Лавки на один день». Вы только что видели ролик: ребёнку пишет «поддержка», а он уже знает, что делать. Это HTML5-игра для СберKids: один день на ярмарке, за который ребёнок тренирует деньги, безопасность и дружбу.">
+    <div class="glow" style="left:1080px;top:110px"></div>
+    <div class="col">
+      <div class="kick" data-a style="--d:.05">Хакатон СберKids · HTML5-игра</div>
+      <div class="h" data-a style="--d:.15;font-size:120px">Лавка на <span class="hl">один день</span></div>
+      <div class="lead" data-a style="--d:.3">Один день на ярмарке: ребёнок продаёт, считает сдачу, закрашивает мошенников и поддерживает друзей.</div>
+    </div>
+    <div class="crit" data-a="pop" style="--d:.35;left:1260px;top:250px;width:420px;height:420px">{{KLX_CAN}}</div>
+    <div class="prods" style="position:absolute;left:1150px;top:720px">
+      <div data-a="pop" style="--d:.5">{{LEMON}}</div><div data-a="pop" style="--d:.6">{{DONUT}}</div><div data-a="pop" style="--d:.7">{{SLIME}}</div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide" data-notes="Задача трека: в приложении уже есть игры, но нужна игра, которая учит. Три приоритетных домена — финансовая грамотность, безопасность и мягкие навыки. Формат — HTML5-страница внутри приложения, сессия 3–5 минут, звук только по кнопке.">
+    <div class="col wide" style="gap:44px">
+      <div class="kick" data-a>Что просили</div>
+      <div class="h" data-a style="--d:.1">Детям нужна игра, которая <span class="hl">учит</span>, а не только развлекает</div>
+      <div class="cards3">
+        <div class="card dom" data-a style="--d:.25"><div class="di" style="background:var(--lime)">{{IC_COIN}}</div><h3>Финансовая грамотность</h3><p>Цена и ценность, копить или потратить, хватит ли денег, кредит</p></div>
+        <div class="card dom" data-a style="--d:.35"><div class="di" style="background:var(--pink2)">{{IC_SHIELD}}</div><h3>Безопасность</h3><p>«Не говори код», подозрительная ссылка, незнакомец, давление срочностью</p></div>
+        <div class="card dom" data-a style="--d:.45"><div class="di" style="background:var(--cyan2)">{{IC_HEART}}</div><h3>Мягкие навыки</h3><p>Распознать эмоцию, дружба, урегулирование конфликтов</p></div>
+      </div>
+      <div class="tags" data-a style="--d:.55"><span class="tag">{{IC_PHONE}}HTML5 в WebView</span><span class="tag">{{IC_CLOCK}}Сессия 3–5 минут</span><span class="tag">{{IC_REPEAT}}Можно переиграть</span></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide" data-notes="Задача обучения одной фразой, как просит ТЗ. После игры ребёнок различает уловки мошенников, считает деньги и сдачу и умеет поддержать друга. Дальше покажу, как каждое из этих умений становится действием в игре.">
+    <div class="col wide" style="gap:46px">
+      <div class="kick" data-a>Задача обучения одной фразой</div>
+      <div class="h" data-a style="--d:.1;font-size:84px">После игры ребёнок <span class="hl">различает уловки мошенников</span>, считает деньги и сдачу и <span class="hl">умеет поддержать друга</span></div>
+      <div class="tags" data-a style="--d:.3"><span class="tag">{{IC_KEYPAD}}«Скажи код из СМС»</span><span class="tag">{{IC_QR}}Чужой QR</span><span class="tag">{{IC_COINSBACK}}Сдача 50 − 15</span><span class="tag">{{IC_HUG}}«Обнимаю»</span></div>
+    </div>
+    <div class="crit" data-a="pop" style="--d:.45;left:1500px;top:640px;width:260px;height:318px">{{FOX}}</div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" data-notes="Главная идея: финансы, безопасность и мягкие навыки — не три режима, а три стороны одного покупателя. Ребёнок не проходит «урок про мошенников», он думает: «этот енот какой-то странный». Обучение спрятано в торговлю.">
+    <div class="col" style="width:1000px">
+      <div class="kick" data-a>Главная идея</div>
+      <div class="h" data-a style="--d:.1">Три навыка — не три урока, а <span class="hl">три стороны одного покупателя</span></div>
+      <div class="lead" data-a style="--d:.25">Ребёнок не проходит «урок про мошенников». Он думает: «этот енот какой-то странный».</div>
+    </div>
+    <div class="crit" data-a="pop" style="--d:.3;left:1190px;top:250px;width:300px;height:368px">{{RACCOON}}</div>
+    <div class="crit" data-a="pop" style="--d:.42;left:1520px;top:330px;width:270px;height:330px">{{FROG}}</div>
+    <div class="crit" data-a="pop" style="--d:.54;left:1330px;top:600px;width:280px;height:343px">{{BUNNY}}</div>
+    <div class="cap" data-a style="--d:.7;left:1170px;top:200px">Енот: «Отдохни! Я покараулю кассу»</div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide" data-notes="Один заход — один день на ярмарке, около четырёх минут. Лавка открывается сразу, без экранов настройки: случайно лимонад, пончики или слаймы. Дальше около двадцати гостей: покупатели, заказы, сдача и ситуации. Дважды звонит телефон с мини-играми. Вечером — итоги и титул дня.">
+    <div class="col wide" style="gap:46px">
+      <div class="kick" data-a>Как устроен заход</div>
+      <div class="h" data-a style="--d:.1">Один заход — <span class="hl">один день на ярмарке</span>, около 4 минут</div>
+      <div class="flow">
+        <div class="card step" data-a style="--d:.25"><div class="n">1</div><div class="art">{{LEMON}}{{DONUT}}</div><h3>Лавка открыта</h3><p>Сразу в игру: товар выпадает случайно</p></div>
+        <div class="card step" data-a style="--d:.35"><div class="n">2</div><div class="art">{{FROG}}{{RACCOON}}</div><h3>~20 гостей</h3><p>Покупатели, заказы, сдача, ситуации</p></div>
+        <div class="card step" data-a style="--d:.45"><div class="n">3</div><div class="art">{{PHONE_ART}}</div><h3>Звонит телефон</h3><p>Мини-игры: Лис и друзья в чате</p></div>
+        <div class="card step" data-a style="--d:.55"><div class="n">4</div><div class="art">{{MEDAL_SM}}</div><h3>Вечер</h3><p>Последствия, итоги и титул дня</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide" data-notes="Финансы — это действия руками. Покупатель платит купюрой — ребёнок сам набирает сдачу монетками: 50 минус 15. Заказ собирается по рецепту из ингредиентов. Кончился товар — приходит поставщик: десять за двадцать монет или в долг, который вечером обойдётся в пятнадцать. Вывеска за сорок — трата на цель.">
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r"><div class="scr"><video src="media/clip-change.mp4" poster="media/clip-change.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="col">
+      <div class="chip lime" data-a="left">{{IC_COIN}}Финансы</div>
+      <div class="h" data-a style="--d:.1">Деньги здесь — <span class="hl">действия руками</span></div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico">{{IC_COINSBACK}}</span><span><b>Дай сдачу:</b> 50 − 15 = ? монетками</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_LEMONI}}</span><span><b>Собери заказ</b> по рецепту</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_BOX}}</span><span><b>Поставщик:</b> +10 за 20 или в долг</span></div>
+        <div class="pt" data-a style="--d:.55"><span class="ico">{{IC_SPARK}}</span><span><b>Вывеска за 40</b> — трата на цель</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide" data-notes="Безопасность. Мошенник приходит как обычный гость, и ребёнок сам решает, что делать: волк просит отсканировать чужой QR, «друг» пишет с нового номера, бобёр обещает «×3 за день». А в мини-детективе на скриншоте «перевода» нужно найти два подвоха: «Сбирбанк», 32 мая, 25:70.">
+    <div class="col" style="width:900px">
+      <div class="chip pink" data-a="left">{{IC_SHIELD}}Безопасность</div>
+      <div class="h" data-a style="--d:.1">Мошенник приходит <span class="hl">как обычный покупатель</span></div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico">{{IC_QR}}</span><span>Чужой QR «выиграешь самокат»</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_USER}}</span><span>«Друг» с нового номера</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_CASHFLY}}</span><span>«×3 за день» и лотерея</span></div>
+        <div class="pt" data-a style="--d:.55"><span class="ico">{{IC_MAGNIFIER}}</span><span>Найди 2 подвоха на скриншоте</span></div>
+      </div>
+    </div>
+    <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/story4.png" alt="Волк предлагает чужой QR"></div>
+    <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/detective.png" alt="Детектив: найди подвохи"></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide" data-notes="Первая мини-игра в телефоне — «Лис в чате». Сообщения падают сверху: мошеннические надо закрасить, своих — не трогать. Приёмы реальные: просит код, халява, странная ссылка, торопит, «маме не говори». Долетел мошенник вниз — Лис уносит пять монет из кассы. Итог меняет шкалу защищённости.">
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r"><div class="scr"><video src="media/clip-fox.mp4" poster="media/clip-fox.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="col">
+      <div class="chip pink" data-a="left">{{IC_PHONE}}Мини-игра «Лис в чате»</div>
+      <div class="h" data-a style="--d:.1"><span class="hl">Закрась мошенника</span>, своих не трогай</div>
+      <div class="tags" data-a style="--d:.25"><span class="tag">{{IC_KEYPAD}}Просит код</span><span class="tag">{{IC_GIFT}}Халява</span><span class="tag">{{IC_LINK}}Странная ссылка</span><span class="tag">{{IC_CLOCK}}Торопит</span><span class="tag">{{IC_ZIP}}Секрет от мамы</span></div>
+      <div class="lead" data-a style="--d:.4">Долетел вниз — Лис уносит <b>5 монет</b> из кассы.</div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide" data-notes="Вторая мини-игра — «Друзья в чате», это эмоции. По лицу и словам друга ребёнок понимает настроение и даёт подходящую наклейку: радуется — «Ура!», грустит — «Обнимаю», злится — «Я с тобой». Не ответил — друг остаётся грустным, итог меняет репутацию.">
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r"><div class="scr"><video src="media/clip-friends.mp4" poster="media/clip-friends.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="col">
+      <div class="chip cyan" data-a="left">{{IC_HEART}}Мини-игра «Друзья в чате»</div>
+      <div class="h" data-a style="--d:.1">Пойми настроение по лицу — <span class="hl">и поддержи</span></div>
+      <div class="stk">
+        <div class="card s" data-a="pop" style="--d:.3"><div class="sv">{{ST_JOY}}</div><b>Ура!</b><small>радуется</small></div>
+        <div class="card s" data-a="pop" style="--d:.42"><div class="sv">{{ST_SAD}}</div><b>Обнимаю</b><small>грустит</small></div>
+        <div class="card s" data-a="pop" style="--d:.54"><div class="sv">{{ST_ANGRY}}</div><b>Я с тобой</b><small>злится</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide" data-notes="Мягкие навыки есть и в самих ситуациях. Конкурент: «кто дешевле — тот победил» — можно сбить цену, подружиться лавками или прогнать. Лягушка дала 50 за один товар — дать сдачу или промолчать. Ещё есть потерявшийся малыш и обронённый кошелёк. У каждого выбора есть последствие.">
+    <div class="col" style="width:900px">
+      <div class="chip cyan" data-a="left">{{IC_HANDSHAKE}}Мягкие навыки</div>
+      <div class="h" data-a style="--d:.1">Конфликт и честность — <span class="hl">тоже выбор</span> с последствием</div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico">{{IC_HANDSHAKE}}</span><span>Конкурент: сбить цену или дружить</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_COINSBACK}}</span><span>Переплатили 50 — вернуть сдачу?</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_WALLET}}</span><span>Обронённый кошелёк, потерянный малыш</span></div>
+      </div>
+    </div>
+    <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/story6.png" alt="Конкурент"></div>
+    <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/story2.png" alt="Лягушка переплатила"></div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide" data-notes="Правила мы не даём читать — мы их показываем. При первом звонке сообщение останавливается, подпись в три слова, и рука показывает действие: «тапни» или «перетащи наклейку». Ребёнок повторяет сам, и только потом игра стартует. Ошибки в обучении ничего не стоят. Рука-подсказка появляется только при первом знакомстве.">
+    <div class="col" style="width:900px">
+      <div class="kick" data-a>Обучение</div>
+      <div class="h" data-a style="--d:.1">Правила не читают — <span class="hl">их показывают рукой</span></div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico">{{IC_PLAY}}</span><span>Пример останавливается, рука показывает</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_REPEAT}}</span><span>Ребёнок повторяет сам — игра стартует</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_HEART}}</span><span>Ошибка в обучении ничего не стоит</span></div>
+      </div>
+    </div>
+    <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/tut-fox.png" alt="Обучение: Лис"></div>
+    <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/tut-friends.png" alt="Обучение: друзья"></div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide" data-notes="Ошибка — это понятное последствие, а не ругань. Пропустил Лиса — он выпрыгивает и уносит монеты, касса «худеет». Тапнул по своему сообщению — перечёркнутый баллончик и «Не трогай — это свои!». После ошибки — одна строка подсказки: «Код из СМС — секрет. Банк его не спрашивает». Ребёнок понимает почему и пробует снова.">
+    <div class="col" style="width:900px">
+      <div class="kick" data-a>Обратная связь</div>
+      <div class="h" data-a style="--d:.1">Ошибка показывает <span class="hl">последствие</span>, а не ругает</div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico">{{IC_COIN}}</span><span>Лис уносит монеты из кассы</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_STOP}}</span><span>«Не трогай — это свои!»</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_SPARK}}</span><span>«Код из СМС — секрет. Банк его не спрашивает.»</span></div>
+      </div>
+    </div>
+    <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/thief.png" alt="Лис уносит монеты"></div>
+    <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/oops.png" alt="Тап по своему сообщению"></div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide" data-notes="Каждый заход — законченный день, как требует ТЗ: ничего не сохраняется, и потеря прогресса не расстраивает. Проиграть день полностью нельзя. Зато хочется переиграть: лавка выпадает случайно, гости и события каждый раз новые, а титулов семь — от «Хозяина ярмарки» до «Лёгкой добычи для жуликов».">
+    <div class="col wide" style="gap:44px">
+      <div class="kick" data-a>Реиграбельность</div>
+      <div class="h" data-a style="--d:.1">Каждый заход — <span class="hl">законченный день</span>, и его хочется переиграть</div>
+      <div class="medals">{{MEDALS}}</div>
+      <div class="tags" data-a style="--d:.6"><span class="tag">{{IC_REPEAT}}Случайная лавка и гости</span><span class="tag">{{IC_CROWN}}7 титулов дня</span><span class="tag">{{IC_SHIELD}}Проиграть день нельзя</span></div>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide" data-notes="Как понять, что научился: по наблюдаемым действиям. В конце игра отправляет в приложение событие complete: сколько мошенников закрашено и сколько пропущено, верная ли сдача, собраны ли заказы, сколько раз ребёнка обманули, репутация и защищённость. Это можно показывать родителю или использовать в прогрессе курса.">
+    <div class="col" style="width:820px">
+      <div class="kick" data-a>Как понять, что научился</div>
+      <div class="h" data-a style="--d:.1">Навык виден <span class="hl">по действиям</span> — они уходят в приложение</div>
+      <div class="lead" data-a style="--d:.25">Событие моста <b>complete</b> в конце дня: что ребёнок сделал руками, а не что ответил в тесте.</div>
+    </div>
+    <pre class="code" data-a="pop" style="--d:.3;position:absolute;left:1040px;top:150px;width:760px">{
+  <span class="k">"title"</span>: <span class="v">"king"</span>,
+  <span class="k">"foxZapped"</span>: <span class="v">5</span>, <span class="k">"foxMissed"</span>: <span class="v">0</span>,
+  <span class="k">"changeRight"</span>: <span class="v">3</span>, <span class="k">"changeWrong"</span>: <span class="v">0</span>,
+  <span class="k">"ordersRight"</span>: <span class="v">4</span>, <span class="k">"ordersWrong"</span>: <span class="v">0</span>,
+  <span class="k">"reputation"</span>: <span class="v">10</span>, <span class="k">"safety"</span>: <span class="v">10</span>,
+  <span class="k">"profit"</span>: <span class="v">137</span>, <span class="k">"sold"</span>: <span class="v">26</span>,
+  <span class="k">"titlesCollected"</span>: [<span class="v">"king"</span>]
+}
+<span class="c">// пример из прогона ботом</span></pre>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide" data-notes="И главное — это готово к встраиванию: один HTML-файл без сборки, вся графика — свои SVG, звук синтезируется и по умолчанию выключен, все пять событий моста подключены, вёрстка проверена на экранах от 320 до 430 пикселей. Игра живая — она прямо здесь, в телефоне. Спасибо! Сыграйте сами по ссылке.">
+    <div class="col" style="width:1000px;gap:26px">
+      <div class="kick" data-a>Готово к встраиванию</div>
+      <div class="h" data-a style="--d:.1">Один HTML-файл — <span class="hl">и игра уже в WebView</span></div>
+      <div class="pts" style="gap:16px">
+        <div class="pt" data-a style="--d:.2"><span class="ico">{{IC_CHECK}}</span><span>Без сборки и библиотек, графика — свои SVG</span></div>
+        <div class="pt" data-a style="--d:.28"><span class="ico">{{IC_CHECK}}</span><span>Звук выключен, переключатель на экране</span></div>
+        <div class="pt" data-a style="--d:.36"><span class="ico">{{IC_CHECK}}</span><span>Мост: close, finish, vibrate, share, complete</span></div>
+        <div class="pt" data-a style="--d:.44"><span class="ico">{{IC_CHECK}}</span><span>Экраны 320–430 px, safe-area, автопауза</span></div>
+      </div>
+      <div class="chip lime" data-a style="--d:.55">{{IC_PLAY}}tuhlopuz1.github.io/sbergame</div>
+    </div>
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r" data-a="pop" style="--d:.2"><div class="scr"><iframe data-src="../index.html" title="Игра «Лавка на один день»" loading="lazy"></iframe></div><div class="notch"></div></div>
+  </section>
+
+  <div class="brand"><span class="bk">{{KLX}}</span>Лавка на один день</div>
+  <div class="pager" id="pager"></div>
+  <div class="bar" id="bar"></div>
+</div></div>
+
+<button class="nav" id="prev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="nav" id="next" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<div id="notes"></div>
+<div class="hint" id="hint">← → слайды · N заметки · F полный экран · V ролик</div>
+
+<script>
+(() => {
+  const deck = document.getElementById('deck'), slides = [...document.querySelectorAll('.slide')];
+  const intro = document.getElementById('intro'), promo = document.getElementById('promo');
+  const notes = document.getElementById('notes'), pager = document.getElementById('pager'), bar = document.getElementById('bar');
+  let i = -1, inIntro = true;
+
+  const fit = () => { const s = Math.min(innerWidth / 1920, innerHeight / 1080); deck.style.transform = `translate(-50%,-50%) scale(${s})`; };
+  addEventListener('resize', fit); fit();
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === i) return;
+    slides.forEach((s, k) => {
+      const on = k === n;
+      s.classList.toggle('on', on);
+      s.querySelectorAll('video').forEach(v => { if (on) { v.currentTime = 0; v.play().catch(() => {}); } else v.pause(); });
+      // живая игра грузится только на последнем слайде
+      s.querySelectorAll('iframe[data-src]').forEach(f => { if (on && !f.src) f.src = f.dataset.src; });
+    });
+    i = n;
+    pager.textContent = `${n + 1} / ${slides.length}`;
+    bar.style.width = `${(n + 1) / slides.length * 100}%`;
+    notes.innerHTML = `<b>${n + 1}</b>${slides[n].dataset.notes || ''}`;
+    if (location.hash !== '#' + (n + 1)) history.replaceState(null, '', '#' + (n + 1));
+  }
+  function toSlides(n) {
+    inIntro = false; promo.pause(); intro.classList.add('gone');
+    show(n == null ? (i < 0 ? 0 : i) : n);
+  }
+  function toIntro() {
+    inIntro = true; intro.classList.remove('gone', 'playing'); promo.currentTime = 0;
+  }
+  const next = () => inIntro ? toSlides(0) : show(i + 1);
+  const prev = () => inIntro ? null : (i === 0 ? toIntro() : show(i - 1));
+
+  document.getElementById('play').onclick = () => { intro.classList.add('playing'); promo.muted = false; promo.play().catch(() => { promo.muted = true; promo.play(); }); };
+  document.getElementById('skip').onclick = () => toSlides(0);
+  promo.addEventListener('ended', () => toSlides(0));
+  promo.addEventListener('click', () => { if (promo.paused) promo.play(); else promo.pause(); });
+  document.getElementById('next').onclick = e => { e.stopPropagation(); next(); };
+  document.getElementById('prev').onclick = e => { e.stopPropagation(); prev(); };
+
+  addEventListener('keydown', e => {
+    if (e.target.closest && e.target.closest('iframe')) return;
+    const k = e.key;
+    if (['ArrowRight', 'PageDown', 'Enter'].includes(k) || (k === ' ' && !inIntro)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); }
+    else if (k === ' ' && inIntro) { e.preventDefault(); intro.classList.contains('playing') ? (promo.paused ? promo.play() : promo.pause()) : document.getElementById('play').click(); }
+    else if (k === 'Home') show(0);
+    else if (k === 'End') toSlides(slides.length - 1);
+    else if (k === 'n' || k === 'N' || k === 'т' || k === 'Т') notes.classList.toggle('show');
+    else if (k === 'f' || k === 'F' || k === 'а' || k === 'А') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); }
+    else if (k === 'v' || k === 'V' || k === 'м' || k === 'М') toIntro();
+  });
+  // клик по слайду — вперёд (кроме живой игры), свайп — листать
+  deck.addEventListener('click', e => { if (!e.target.closest('iframe, .phone .scr')) next(); });
+  let sx = null;
+  addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', e => { if (sx == null || inIntro) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) dx < 0 ? next() : prev(); sx = null; });
+  setTimeout(() => document.getElementById('hint').classList.add('hide'), 6000);
+
+  const h = parseInt(location.hash.slice(1), 10);
+  if (h >= 1 && h <= slides.length) toSlides(h - 1);
+})();
+</script>
+</body>
+</html>

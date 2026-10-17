@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ru" data-resolution="landscape">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Лавка на один день — промо</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<style>
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:block;src:url('assets/fonts/caveat-700-cyrillic.woff2') format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;font-display:block;src:url('assets/fonts/caveat-700-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:600;font-display:block;src:url('assets/fonts/onest-600-cyrillic.woff2') format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:600;font-display:block;src:url('assets/fonts/onest-600-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:800;font-display:block;src:url('assets/fonts/onest-800-cyrillic.woff2') format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:800;font-display:block;src:url('assets/fonts/onest-800-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:900;font-display:block;src:url('assets/fonts/onest-900-cyrillic.woff2') format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;}
+@font-face{font-family:'Onest';font-style:normal;font-weight:900;font-display:block;src:url('assets/fonts/onest-900-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F2F3F7; }
+#root {
+  position: relative; width: 100%; height: 100%; overflow: hidden;
+  font-family: 'Onest', sans-serif; color: #111216;
+  --m: #C6F432; --ink: #111216; --lime: #C6F432; --pink: #FF5CE6; --cyan: #2EC5FF; --yellow: #FFDD2E; --fox: #FF7A1A;
+}
+svg { display: block; }
+
+/* ---------- фон ярмарки ---------- */
+.sky { position: absolute; inset: 0; background: linear-gradient(#BFE8FF 0%, #E8F7FF 45%, #F2F3F7 78%); }
+.hills { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; }
+.hills svg { width: 100%; height: 100%; }
+.sunw { position: absolute; left: 70px; top: 120px; width: 170px; height: 170px; }
+.sun { width: 100%; height: 100%; }
+.garland { position: absolute; left: 0; right: 0; top: -6px; height: 120px; }
+.garland svg { width: 100%; height: 100%; }
+.cloud { position: absolute; width: 260px; height: 90px; border-radius: 60px; background: #fff; opacity: .9; }
+.cloud::before { content: ""; position: absolute; left: 50px; top: -40px; width: 120px; height: 110px; border-radius: 50%; background: #fff; }
+
+/* ---------- телефон ---------- */
+.glow { position: absolute; left: 1080px; top: 140px; width: 640px; height: 800px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(198,244,50,.75), rgba(198,244,50,0)); }
+.phone { position: absolute; left: 1180px; top: 64px; width: 444px; height: 952px; border-radius: 64px; background: #111216;
+  box-shadow: 0 40px 80px rgba(17,18,22,.28); }
+.screen { position: absolute; left: 16px; top: 16px; right: 16px; bottom: 16px; border-radius: 50px; overflow: hidden; background: #EAF6FF; }
+.notch { position: absolute; left: 50%; top: 22px; width: 120px; height: 26px; margin-left: -60px; border-radius: 14px; background: #111216; z-index: 5; }
+.flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 4; }
+
+/* сцена-хук: чат внутри телефона, собранный из стилей игры */
+.chat { position: absolute; inset: 0; background: linear-gradient(#EAF6FF, #F2F3F7); }
+.chead { position: absolute; left: 14px; right: 14px; top: 60px; height: 74px; border-radius: 26px 26px 10px 10px; background: #fff;
+  display: flex; align-items: center; gap: 12px; padding: 0 18px; font-weight: 900; font-size: 24px; }
+.chead .dot { width: 44px; height: 44px; }
+.msg { position: absolute; left: 22px; right: 22px; top: 330px; background: #fff; border-radius: 26px; padding: 18px 20px 22px;
+  box-shadow: 0 14px 30px rgba(24,26,40,.14); }
+.mt { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-weight: 800; font-size: 21px; color: #8B8FA0; }
+.mt .av { width: 42px; height: 42px; position: relative; }
+.mt .av svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mt .who { position: relative; }
+.mt .fx { color: #FF7A1A; font-weight: 900; }
+.strike { position: absolute; left: -4px; right: -4px; top: 50%; height: 4px; margin-top: -2px; border-radius: 2px; background: #FF3D6E; }
+.mtx { font-weight: 800; font-size: 29px; line-height: 1.25; position: relative; }
+.ch { opacity: 0; }
+.msplat { position: absolute; left: 50%; top: 50%; width: 330px; height: 330px; margin: -165px 0 0 -165px; mix-blend-mode: multiply; pointer-events: none; }
+.msplat svg { width: 100%; height: 100%; }
+
+/* ---------- левая колонка ---------- */
+.scene { position: absolute; inset: 0; }
+.col { position: absolute; left: 140px; top: 0; bottom: 0; width: 960px; display: flex; flex-direction: column; justify-content: center; gap: 34px; }
+.pill { align-self: flex-start; display: flex; align-items: center; gap: 14px; padding: 14px 28px 14px 18px; border-radius: 40px;
+  font-weight: 900; font-size: 36px; box-shadow: 0 10px 24px rgba(24,26,40,.12); }
+.pill svg { width: 46px; height: 46px; }
+.pill.lime { background: #C6F432; } .pill.pink { background: #FF9CEF; } .pill.cyan { background: #9BE3FF; }
+.h { font-weight: 900; font-size: 104px; line-height: .98; letter-spacing: -.035em; }
+.h .hl { position: relative; z-index: 1; padding: 0 8px; isolation: isolate; display: inline-block; }
+.hlbg { position: absolute; left: 0; right: 0; top: 14%; bottom: 4%; border-radius: 14px; background: #C6F432; z-index: -1; }
+.hook1 { position: absolute; left: 140px; top: 330px; width: 980px; }
+.hook2 { position: absolute; left: 140px; top: 400px; width: 980px; }
+.hook1 .h, .hook2 .h { font-size: 96px; }
+.kick { font-family: 'Caveat', cursive; font-weight: 700; font-size: 64px; color: #5A3FD6; }
+.klxw { position: absolute; left: 900px; top: 680px; width: 280px; height: 280px; }
+.klxw svg { width: 100%; height: 100%; }
+
+/* сцена «финансы» */
+.eq { display: flex; align-items: center; gap: 22px; font-weight: 900; font-size: 64px; }
+.eq .note { width: 170px; height: 98px; }
+.eq .pr { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 24px; padding: 8px 22px; box-shadow: 0 10px 24px rgba(24,26,40,.1); }
+.eq .pr svg { width: 58px; height: 58px; }
+.eq .q { min-width: 120px; height: 98px; border-radius: 26px; background: #111216; color: #C6F432; display: flex; align-items: center; justify-content: center; position: relative; }
+.eq .q span { position: absolute; }
+.coins { display: flex; gap: 22px; }
+.coins div { width: 112px; height: 112px; }
+.coins svg { width: 100%; height: 100%; }
+
+/* сцена «безопасность» */
+.tricks { display: flex; gap: 18px; flex-wrap: wrap; }
+.trick { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 22px; padding: 12px 22px 12px 14px; font-weight: 800; font-size: 32px;
+  box-shadow: 0 10px 24px rgba(24,26,40,.1); }
+.trick svg { width: 44px; height: 44px; }
+.foxw { position: absolute; left: 900px; top: 740px; width: 230px; height: 282px; }
+.foxw svg { width: 100%; height: 100%; }
+.foxsplat { position: absolute; left: -40px; top: -20px; width: 330px; height: 330px; mix-blend-mode: multiply; }
+.foxsplat svg { width: 100%; height: 100%; }
+
+/* сцена «друзья» */
+.stickers { display: flex; gap: 26px; }
+.stk { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 210px; background: #fff; border-radius: 30px; padding: 18px 10px 16px;
+  box-shadow: 0 12px 26px rgba(24,26,40,.12); font-weight: 900; font-size: 32px; }
+.stk div { width: 120px; height: 120px; }
+.stk svg { width: 100%; height: 100%; }
+
+/* сцена «название» */
+.awn { position: absolute; left: 0; right: 0; top: 0; height: 1080px;
+  background: repeating-linear-gradient(90deg, #FF9CEF 0 120px, #fff 120px 240px); }
+.awn::after { content: ""; position: absolute; left: 0; right: 0; bottom: -60px; height: 60px;
+  background: radial-gradient(60px 60px at 60px 0, #FF9CEF 59px, transparent 61px) 0 0 / 240px 60px repeat-x,
+              radial-gradient(60px 60px at 180px 0, #fff 59px, transparent 61px) 0 0 / 240px 60px repeat-x; }
+.title { position: absolute; left: 0; right: 0; top: 270px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.title .t1 { font-weight: 900; font-size: 150px; line-height: .95; letter-spacing: -.04em; text-align: center; }
+.title .ul { width: 760px; height: 34px; }
+.title .ul svg { width: 100%; height: 100%; }
+.prods { position: absolute; left: 0; right: 0; top: 650px; display: flex; justify-content: center; align-items: flex-end; gap: 70px; }
+.prods > div { width: 230px; height: 230px; }
+.prods svg { width: 100%; height: 100%; }
+.prods .kx { width: 260px; height: 260px; }
+
+/* финал */
+.medal { position: absolute; left: 140px; top: 120px; width: 300px; height: 344px; }
+.medal svg { width: 100%; height: 100%; }
+.medcap { position: absolute; left: 470px; top: 210px; font-weight: 900; font-size: 54px; line-height: 1.05; width: 560px; }
+.medcap small { display: block; font-family: 'Caveat', cursive; font-weight: 700; font-size: 52px; color: #5A3FD6; }
+.fin { position: absolute; left: 140px; top: 520px; width: 980px; display: flex; flex-direction: column; gap: 24px; }
+.fin .t1 { font-weight: 900; font-size: 124px; line-height: .95; letter-spacing: -.04em; }
+.fin .t2 { font-weight: 800; font-size: 48px; color: #2B2D35; }
+.eveh { position: absolute; left: 140px; top: 380px; width: 960px; }
+.cf { position: absolute; top: -40px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="21">
+
+  <!-- фон ярмарки: живёт весь ролик -->
+  <div class="sky"></div>
+  <div class="cloud" id="cl1" style="left:380px;top:250px"></div>
+  <div class="cloud" id="cl2" style="left:1560px;top:330px"></div>
+  <div class="sunw" id="sunw"><div class="sun" id="sun"><svg viewBox="-60 -60 120 120"><circle r="52" fill="#FFDD2E" opacity=".35"/><circle r="34" fill="#FFDD2E"/><circle cx="-11" cy="-5" r="4" fill="#111216"/><circle cx="11" cy="-5" r="4" fill="#111216"/><path d="M-10 9q10 8 20 0" stroke="#111216" stroke-width="3.6" fill="none" stroke-linecap="round"/></svg></div></div>
+  <div class="hills"><svg viewBox="0 0 1920 300" preserveAspectRatio="none"><path d="M0 170Q300 60 640 150T1300 120T1920 150V300H0z" fill="#D9F59A"/><path d="M0 230Q420 150 860 220T1920 200V300H0z" fill="#C6F432" opacity=".55"/></svg></div>
+  <div class="garland" id="garland"><svg viewBox="0 0 1920 120" preserveAspectRatio="none"><path d="M0 26Q960 120 1920 26" stroke="#111216" stroke-width="3" fill="none" opacity=".45"/><path d="M40 30l40 0-20 52z" fill="#C6F432"/><path d="M136 36l40 0-20 52z" fill="#FF5CE6"/><path d="M232 41l40 0-20 52z" fill="#2EC5FF"/><path d="M328 45l40 0-20 52z" fill="#FFDD2E"/><path d="M424 49l40 0-20 52z" fill="#A77BFF"/><path d="M520 52l40 0-20 52z" fill="#C6F432"/><path d="M616 54l40 0-20 52z" fill="#FF5CE6"/><path d="M712 56l40 0-20 52z" fill="#2EC5FF"/><path d="M808 57l40 0-20 52z" fill="#FFDD2E"/><path d="M904 58l40 0-20 52z" fill="#A77BFF"/><path d="M1000 58l40 0-20 52z" fill="#C6F432"/><path d="M1096 57l40 0-20 52z" fill="#FF5CE6"/><path d="M1192 56l40 0-20 52z" fill="#2EC5FF"/><path d="M1288 54l40 0-20 52z" fill="#FFDD2E"/><path d="M1384 52l40 0-20 52z" fill="#A77BFF"/><path d="M1480 49l40 0-20 52z" fill="#C6F432"/><path d="M1576 45l40 0-20 52z" fill="#FF5CE6"/><path d="M1672 41l40 0-20 52z" fill="#2EC5FF"/><path d="M1768 36l40 0-20 52z" fill="#FFDD2E"/><path d="M1864 30l40 0-20 52z" fill="#A77BFF"/></svg></div>
+
+  <!-- телефон: не таймированная обёртка, видео внутри со своими data-start -->
+  <div class="glow" id="glow"></div>
+  <div class="phone" id="phone">
+    <div class="screen">
+      <div class="chat" id="chat">
+        <div class="chead"><span class="dot"><svg viewBox="0 0 100 100"><rect x="10" y="18" width="80" height="72" rx="24" fill="#2EC5FF"/><path d="M50 18V8" stroke="#111216" stroke-width="4"/><circle cx="50" cy="7" r="6" fill="#FF3D6E"></circle><circle cx="36" cy="50" r="10" fill="#fff"/><circle cx="64" cy="50" r="10" fill="#fff"/><circle cx="36" cy="51" r="4.5" fill="#111216"/><circle cx="64" cy="51" r="4.5" fill="#111216"/><rect x="36" y="70" width="28" height="6" rx="3" fill="#111216"/></svg></span>Сообщения</div>
+        <div class="msg" id="msg">
+          <div class="mt"><span class="av"><span id="avR"><svg viewBox="0 0 100 100"><rect x="10" y="18" width="80" height="72" rx="24" fill="#2EC5FF"/><path d="M50 18V8" stroke="#111216" stroke-width="4"/><circle cx="50" cy="7" r="6" fill="#FF3D6E"></circle><circle cx="36" cy="50" r="10" fill="#fff"/><circle cx="64" cy="50" r="10" fill="#fff"/><circle cx="36" cy="51" r="4.5" fill="#111216"/><circle cx="64" cy="51" r="4.5" fill="#111216"/><rect x="36" y="70" width="28" height="6" rx="3" fill="#111216"/></svg></span><span id="avF" style="opacity:0"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#FFE2CC"/><g transform="translate(50 54) scale(.56) translate(-80 -64)"><path d="M46 52L38 10l34 24z" fill="#FF7A1A"/><path d="M50 44l-4-22 17 13z" fill="#111216"/>
+    <path d="M114 52l8-42-34 24z" fill="#FF7A1A"/><path d="M110 44l4-22-17 13z" fill="#111216"/>
+    <path d="M36 64Q80 10 124 64q2 32-44 48Q34 96 36 64z" fill="#FF7A1A"/>
+    <path d="M38 70q18 10 42 42-36-10-42-42zM122 70q-18 10-42 42 36-10 42-42z" fill="#fff"/>
+    <circle cx="64" cy="62" r="11" fill="#fff"/><circle cx="96" cy="62" r="11" fill="#fff"/>
+    <circle cx="66" cy="64" r="5.5" fill="#111216"/><circle cx="98" cy="64" r="5.5" fill="#111216"/>
+    <g class="f-lids"><path d="M52 62a12 12 0 0 1 24 0z" fill="#E0600A"/><path d="M84 62a12 12 0 0 1 24 0z" fill="#E0600A"/></g>
+    <ellipse cx="80" cy="86" rx="7" ry="5" fill="#111216"/><path d="M70 95q10 7 21-2" stroke="#111216" stroke-width="3.4" fill="none" stroke-linecap="round"/></g></svg></span></span><span class="who"><span id="whoN">Поддержка игры</span><span class="strike" id="strike"></span></span><span class="fx" id="whoF" style="opacity:0">Лис</span></div>
+          <div class="mtx"><span class="ch k">С</span><span class="ch k">к</span><span class="ch k">а</span><span class="ch k">ж</span><span class="ch k">и</span><span class="ch k"> </span><span class="ch k">к</span><span class="ch k">о</span><span class="ch k">д</span><span class="ch k"> </span><span class="ch k">и</span><span class="ch k">з</span><span class="ch k"> </span><span class="ch k">С</span><span class="ch k">М</span><span class="ch k">С</span><span class="ch"> </span><span class="ch">—</span><span class="ch"> </span><span class="ch">д</span><span class="ch">а</span><span class="ch">д</span><span class="ch">и</span><span class="ch">м</span><span class="ch"> </span><span class="ch">1</span><span class="ch">0</span><span class="ch">0</span><span class="ch">0</span><span class="ch"> </span><span class="ch">а</span><span class="ch">л</span><span class="ch">м</span><span class="ch">а</span><span class="ch">з</span><span class="ch">о</span><span class="ch">в</span></div>
+          <div class="msplat" id="msplat"><svg class="splat" viewBox="0 0 150 150"><g class="sp" style="fill:var(--m)" filter="url(#spray)"><path d="M75.0 43.7C80.0 43.4 86.6 43.2 90.6 45.8C94.5 48.3 95.0 54.2 98.8 59.1C102.6 64.1 113.8 70.7 113.3 75.5C112.8 80.3 100.4 82.5 95.9 88.1C91.5 93.8 91.5 107.2 86.5 109.3C81.6 111.4 71.4 104.1 66.0 100.5C60.7 96.9 60.1 91.9 54.4 87.8C48.7 83.8 33.7 81.7 31.8 76.2C29.8 70.8 37.7 59.9 42.5 55.2C47.4 50.4 55.3 49.6 60.7 47.7C66.1 45.8 70.0 44.0 75.0 43.7Z"/><circle cx="119.9" cy="74.2" r="1.0"/><circle cx="45.6" cy="43.9" r="3.5"/><circle cx="63.7" cy="103.6" r="4.0"/><circle cx="32.6" cy="73.3" r="2.1"/><circle cx="113.1" cy="94.7" r="2.0"/><circle cx="64.0" cy="117.1" r="2.6"/><circle cx="14.6" cy="81.9" r="3.4"/><circle cx="77.3" cy="107.9" r="3.0"/><circle cx="127.6" cy="70.2" r="2.0"/><circle cx="95.9" cy="103.3" r="2.5"/><circle cx="36.1" cy="107.2" r="2.3"/><circle cx="82.6" cy="30.6" r="2.6"/><circle cx="30.3" cy="80.2" r="1.1"/><circle cx="135.6" cy="78.8" r="2.1"/><circle cx="56.7" cy="39.6" r="3.7"/><circle cx="39.1" cy="42.4" r="1.8"/></g><path class="drip" pathLength="1" d="M65.6 96v45.0" stroke-width="7.2" stroke-linecap="round" style="stroke:var(--m)"/><path class="drip" pathLength="1" d="M71.7 96v32.7" stroke-width="5.7" stroke-linecap="round" style="stroke:var(--m)"/><path class="drip" pathLength="1" d="M70.2 96v26.8" stroke-width="6.6" stroke-linecap="round" style="stroke:var(--m)"/></svg></div>
+        </div>
+      </div>
+      <video id="v-change" class="clip" src="assets/video/clip-change.mp4" muted playsinline style="position:absolute; left:0px; top:0px; width:412px; height:920px; object-fit:cover; background:#F2F3F7;" data-start="6.3" data-duration="2.66" data-track-index="1"></video>
+      <video id="v-fox" class="clip" src="assets/video/clip-fox.mp4" muted playsinline style="position:absolute; left:0px; top:0px; width:412px; height:920px; object-fit:cover; background:#F2F3F7;" data-start="8.96" data-duration="3.69" data-media-start="0.3" data-track-index="1"></video>
+      <video id="v-friends" class="clip" src="assets/video/clip-friends.mp4" muted playsinline style="position:absolute; left:0px; top:0px; width:412px; height:920px; object-fit:cover; background:#F2F3F7;" data-start="12.65" data-duration="3.75" data-track-index="1"></video>
+      <video id="v-eve" class="clip" src="assets/video/clip-eve.mp4" muted playsinline style="position:absolute; left:0px; top:0px; width:412px; height:920px; object-fit:cover; background:#F2F3F7;" data-start="16.4" data-duration="4.6" data-track-index="1"></video>
+      <div class="flash" id="flash"></div>
+    </div>
+    <div class="notch"></div>
+  </div>
+
+  <!-- 1. Хук -->
+  <section class="scene clip" id="s1" data-start="0" data-duration="3.75" data-track-index="2">
+    <div class="hook1" id="hook1"><div class="h">Ребёнку пишет «поддержка»…</div></div>
+    <div class="hook2" id="hook2"><div class="kick">Он уже знает, что делать:</div><div class="h"><span class="hl"><span class="hlbg" id="hlbg"></span>Закрашивай Лиса!</span></div></div>
+    <div class="klxw" id="klx"><svg class="klx" viewBox="0 0 132 132"  aria-hidden="true">
+    <ellipse cx="60" cy="124" rx="34" ry="5" fill="#111216" opacity=".08"/>
+    <g class="k-body">
+      <path style="fill:var(--m)" d="M60.0 20.7C69.0 20.7 79.5 27.8 86.8 34.1C94.1 40.3 102.0 49.5 103.6 58.3C105.1 67.1 100.9 79.1 95.9 86.7C91.0 94.4 82.6 100.7 74.0 104.4C65.4 108.2 52.7 112.1 44.3 109.2C35.8 106.3 28.0 95.7 23.3 87.2C18.6 78.7 14.7 67.2 16.3 58.3C17.9 49.4 25.6 40.0 32.9 33.7C40.2 27.4 51.0 20.6 60.0 20.7Z"></path>
+      <path class="k-drip" style="fill:var(--m)" d="M76 104q4 0 4 6v8a4 4 0 0 1-8 0v-8q0-6 4-6z"/>
+      <ellipse cx="38" cy="40" rx="11" ry="6" fill="#fff" opacity=".4" transform="rotate(-30 38 40)"/>
+      <g class="k-eyes">
+        <circle cx="44" cy="60" r="15" fill="#fff"/><circle cx="78" cy="60" r="15" fill="#fff"/>
+        <g class="k-pupils" style="">
+          <g>
+            <circle cx="47" cy="62" r="7" fill="#111216"/><circle cx="81" cy="62" r="7" fill="#111216"/>
+            <circle cx="49" cy="59.5" r="2" fill="#fff"/><circle cx="83" cy="59.5" r="2" fill="#fff"/></g>
+        </g>
+      </g>
+      <circle cx="31" cy="80" r="5" fill="#FF5CE6" opacity=".35"/><circle cx="91" cy="80" r="5" fill="#FF5CE6" opacity=".35"/>
+      <path class="mo mo-smile" d="M51 84q10 9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g class="mo mo-happy"><path d="M47 81q14 18 28 0z" fill="#111216"/><path d="M54 89q7 5 14 0q-7-3-14 0z" fill="#FF5C8A"/></g>
+      <ellipse class="mo mo-oops" cx="61" cy="86" rx="5.5" ry="7" fill="#111216"/>
+      <path class="mo mo-sad" d="M51 90q10-9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(100 64)"><g class="spray-can">
+      <rect x="0" y="10" width="20" height="36" rx="6" fill="#2B2D35"/><rect x="0" y="22" width="20" height="10" style="fill:var(--m)"/>
+      <rect x="5" y="2" width="10" height="10" rx="3" fill="#8B8FA0"/><rect x="8" y="-3" width="8" height="6" rx="2" fill="#111216"/>
+      <circle r="2" style="fill:var(--m)"></circle><circle r="3" style="fill:var(--m)"></circle><circle r="4" style="fill:var(--m)"></circle><circle r="2" style="fill:var(--m)"></circle><circle r="3" style="fill:var(--m)"></circle><circle r="4" style="fill:var(--m)"></circle>
+    </g></g>
+  </svg></div>
+  </section>
+
+  <!-- 2. Название -->
+  <section class="scene clip" id="s2" data-start="3.55" data-duration="2.85" data-track-index="3">
+    <div class="awn" id="awn"></div>
+    <div class="title" id="title"><div class="t1">Лавка на один день</div>
+      <div class="ul" id="ul"><svg viewBox="0 0 760 34" preserveAspectRatio="none"><path d="M8 22C160 6 420 4 752 16" stroke="#C6F432" stroke-width="14" fill="none" stroke-linecap="round"/></svg></div>
+      <div class="kick" id="sub">Игра для СберKids</div></div>
+    <div class="prods"><div id="p1"><svg viewBox="0 0 64 64"><path d="M16 18h32l-4 40a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4z" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><path d="M18.6 30h26.8l-2.6 27.3a3 3 0 0 1-3 2.7H24.2a3 3 0 0 1-3-2.7z" fill="#FFE14D"/><rect x="24" y="36" width="8" height="8" rx="2" fill="#fff" opacity=".85"/><rect x="34" y="43" width="7" height="7" rx="2" fill="#fff" opacity=".7"/><path d="M36 22L44 4" stroke="#FF5CE6" stroke-width="4" stroke-linecap="round"/><circle cx="47" cy="19" r="9" fill="#C6F432" stroke="#111216" stroke-width="2.2"/><path d="M47 12v14M40 19h14M42 14l10 10M52 14l-10 10" stroke="#8DC11A" stroke-width="1.5"/></svg></div><div class="kx" id="p0"><svg class="klx" viewBox="0 0 132 132"  aria-hidden="true">
+    <ellipse cx="60" cy="124" rx="34" ry="5" fill="#111216" opacity=".08"/>
+    <g class="k-body">
+      <path style="fill:var(--m)" d="M60.0 20.7C69.0 20.7 79.5 27.8 86.8 34.1C94.1 40.3 102.0 49.5 103.6 58.3C105.1 67.1 100.9 79.1 95.9 86.7C91.0 94.4 82.6 100.7 74.0 104.4C65.4 108.2 52.7 112.1 44.3 109.2C35.8 106.3 28.0 95.7 23.3 87.2C18.6 78.7 14.7 67.2 16.3 58.3C17.9 49.4 25.6 40.0 32.9 33.7C40.2 27.4 51.0 20.6 60.0 20.7Z"></path>
+      <path class="k-drip" style="fill:var(--m)" d="M76 104q4 0 4 6v8a4 4 0 0 1-8 0v-8q0-6 4-6z"/>
+      <ellipse cx="38" cy="40" rx="11" ry="6" fill="#fff" opacity=".4" transform="rotate(-30 38 40)"/>
+      <g class="k-eyes">
+        <circle cx="44" cy="60" r="15" fill="#fff"/><circle cx="78" cy="60" r="15" fill="#fff"/>
+        <g class="k-pupils" style="">
+          <g>
+            <circle cx="47" cy="62" r="7" fill="#111216"/><circle cx="81" cy="62" r="7" fill="#111216"/>
+            <circle cx="49" cy="59.5" r="2" fill="#fff"/><circle cx="83" cy="59.5" r="2" fill="#fff"/></g>
+        </g>
+      </g>
+      <circle cx="31" cy="80" r="5" fill="#FF5CE6" opacity=".35"/><circle cx="91" cy="80" r="5" fill="#FF5CE6" opacity=".35"/>
+      <path class="mo mo-smile" d="M51 84q10 9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g class="mo mo-happy"><path d="M47 81q14 18 28 0z" fill="#111216"/><path d="M54 89q7 5 14 0q-7-3-14 0z" fill="#FF5C8A"/></g>
+      <ellipse class="mo mo-oops" cx="61" cy="86" rx="5.5" ry="7" fill="#111216"/>
+      <path class="mo mo-sad" d="M51 90q10-9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+    
+  </svg></div><div id="p2"><svg viewBox="0 0 64 64"><circle cx="32" cy="34" r="24" fill="#F4C27A" stroke="#111216" stroke-width="2.5"/><path d="M11 31q3-15 21-17t23 13q1 9-7 10t-13 7-14-3-10-10z" fill="#FF8AD8"/><circle cx="32" cy="33" r="8" fill="#F2F3F7" stroke="#111216" stroke-width="2.5"/><g stroke-width="3" stroke-linecap="round"><path d="M18 26l3-2" stroke="#2EC5FF"/><path d="M42 20l3 1" stroke="#C6F432"/><path d="M47 33l1 3" stroke="#FFDD2E"/><path d="M24 43l-3 2" stroke="#A77BFF"/><path d="M28 19l3 -1" stroke="#fff"/><path d="M40 44l3 1" stroke="#2EC5FF"/></g></svg></div><div id="p3"><svg viewBox="0 0 64 64"><rect x="14" y="18" width="36" height="40" rx="11" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><rect x="12" y="10" width="40" height="11" rx="4" fill="#A77BFF" stroke="#111216" stroke-width="2.5"/><path d="M16.5 38q8-9 16-3t15-2v14a9 9 0 0 1-9 9H25a8.5 8.5 0 0 1-8.5-8.5z" fill="#7CE85A"/><circle cx="27" cy="46" r="3.6" fill="#fff"/><circle cx="37" cy="46" r="3.6" fill="#fff"/><circle cx="27.6" cy="46.6" r="1.8" fill="#111216"/><circle cx="37.6" cy="46.6" r="1.8" fill="#111216"/><path d="M29 52q3 2 6 0" stroke="#111216" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></div></div>
+  </section>
+
+  <!-- 3. Финансы -->
+  <section class="scene clip" id="s3" data-start="6.3" data-duration="2.7" data-track-index="2">
+    <div class="col" id="c3">
+      <div class="pill lime" id="pl3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="6.4" fill="none" stroke="#E6A800" stroke-width="1.8"/><path d="M12 8.6l1 2.1 2.3.2-1.7 1.5.5 2.3-2.1-1.2-2.1 1.2.5-2.3-1.7-1.5 2.3-.2z" fill="#E6A800"/></svg>Финансы</div>
+      <div class="h" id="h3">Продавай и давай сдачу</div>
+      <div class="eq" id="eq"><div class="note"><svg viewBox="0 0 84 48" class="note"><rect x="2" y="2" width="80" height="44" rx="8" fill="#7EE8A8" stroke="#111216" stroke-width="2.5"/><rect x="8" y="8" width="68" height="32" rx="5" fill="none" stroke="#1FD16C" stroke-width="2"/><text x="42" y="33" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="22" fill="#111216">20</text></svg></div><span>−</span><div class="pr">10<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="6.4" fill="none" stroke="#E6A800" stroke-width="1.8"/><path d="M12 8.6l1 2.1 2.3.2-1.7 1.5.5 2.3-2.1-1.2-2.1 1.2.5-2.3-1.7-1.5 2.3-.2z" fill="#E6A800"/></svg></div><span>=</span><div class="q"><span id="q1">?</span><span id="q2" style="opacity:0">10</span></div></div>
+      <div class="coins"><div id="co1"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="#FFDD2E" stroke="#111216" stroke-width="2.5"/><circle cx="24" cy="24" r="12" fill="none" stroke="#E6A800" stroke-width="2.4"/><text x="24" y="30.5" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="17" fill="#111216">5</text></svg></div><div id="co2"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="#FFDD2E" stroke="#111216" stroke-width="2.5"/><circle cx="24" cy="24" r="13.5" fill="none" stroke="#E6A800" stroke-width="2.4"/><text x="24" y="30.5" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="17" fill="#111216">10</text></svg></div><div id="co3"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="#C6F432" stroke="#111216" stroke-width="2.5"/><circle cx="24" cy="24" r="15" fill="none" stroke="#8DC11A" stroke-width="2.4"/><text x="24" y="30.5" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="17" fill="#111216">20</text></svg></div></div>
+    </div>
+  </section>
+
+  <!-- 4. Безопасность -->
+  <section class="scene clip" id="s4" data-start="8.92" data-duration="3.77" data-track-index="3">
+    <div class="col" id="c4">
+      <div class="pill pink" id="pl4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l8 3v5.8c0 5-3.4 8.8-8 10.4-4.6-1.6-8-5.4-8-10.4V5.5z" fill="#2EC5FF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.3 12l2.6 2.6 4.8-5.2" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Безопасность</div>
+      <div class="h" id="h4">Закрашивай мошенников</div>
+      <div class="tricks"><div class="trick" id="t1"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="4" fill="#111216"/><g fill="#C6F432"><circle cx="8.5" cy="7.2" r="1.25"/><circle cx="12" cy="7.2" r="1.25"/><circle cx="15.5" cy="7.2" r="1.25"/><circle cx="8.5" cy="10.8" r="1.25"/><circle cx="12" cy="10.8" r="1.25"/><circle cx="15.5" cy="10.8" r="1.25"/><circle cx="8.5" cy="14.4" r="1.25"/><circle cx="12" cy="14.4" r="1.25"/><circle cx="15.5" cy="14.4" r="1.25"/></g><rect x="9.5" y="17.6" width="5" height="1.6" rx=".8" fill="#fff"/></svg>Просит код</div><div class="trick" id="t2"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="17" height="11.5" rx="2" fill="#FF5CE6" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><rect x="2.5" y="6.5" width="19" height="4" rx="1.5" fill="#FF9CEF" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5v14" stroke="#C6F432" stroke-width="3"/><path d="M12 6.5c-1-3-5-3.6-5-1.4 0 1.4 3 1.4 5 1.4zm0 0c1-3 5-3.6 5-1.4 0 1.4-3 1.4-5 1.4z" fill="#C6F432" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/></svg>Халява</div><div class="trick" id="t3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2" stroke="#2EC5FF" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round"/></svg>Странная ссылка</div></div>
+    </div>
+    <div class="foxw" id="foxw"><svg viewBox="0 0 160 196" aria-hidden="true">
+    <ellipse cx="80" cy="190" rx="50" ry="6" fill="#111216" opacity=".1"/>
+    
+    <ellipse cx="80" cy="168" rx="46" ry="26" fill="#FF7A1A"/><ellipse cx="80" cy="172" rx="26" ry="16" fill="#fff"/>
+    <ellipse cx="36" cy="160" rx="10" ry="17" fill="#FF7A1A" transform="rotate(28 36 160)"/><ellipse cx="124" cy="160" rx="10" ry="17" fill="#FF7A1A" transform="rotate(-28 124 160)"/>
+    
+    
+    
+    
+    <path d="M40 78L30 14l50 36z" fill="#FF7A1A"/><path d="M120 78l10-64-50 36z" fill="#FF7A1A"/><path d="M44 62l-6-36 24 20z" fill="#111216"/><path d="M116 62l6-36-24 20z" fill="#111216"/>
+    <path d="M80.0 42.6C90.2 42.9 101.8 48.8 109.7 55.1C117.7 61.4 124.3 70.9 127.8 80.5C131.3 90.0 133.5 102.8 130.6 112.5C127.8 122.1 119.3 132.6 110.9 138.5C102.5 144.4 90.3 148.0 80.0 148.0C69.7 147.9 57.5 144.2 49.4 138.2C41.2 132.1 34.2 121.6 31.0 111.9C27.8 102.2 27.2 89.6 30.1 79.8C33.1 70.0 40.5 59.3 48.8 53.1C57.1 46.9 69.8 42.3 80.0 42.6Z" fill="#FF7A1A"/>
+    <ellipse cx="80" cy="114" rx="28" ry="21" fill="#fff"/>
+    
+    
+    <circle cx="62" cy="90" r="11" fill="#fff"/><circle cx="63" cy="91" r="5.5" fill="#111216"/><circle cx="65" cy="88" r="2" fill="#fff"/><path d="M50 90a12 12 0 0 1 24 0z" fill="#FF7A1A"/><circle cx="98" cy="90" r="11" fill="#fff"/><circle cx="99" cy="91" r="5.5" fill="#111216"/><circle cx="101" cy="88" r="2" fill="#fff"/><path d="M86 90a12 12 0 0 1 24 0z" fill="#FF7A1A"/>
+    <ellipse cx="80" cy="106" rx="7" ry="5" fill="#111216"/>
+    <path d="M68 120q14 8 26-6" stroke="#111216" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    
+    <circle cx="46" cy="110" r="7" fill="#FF5CE6" opacity=".3"/><circle cx="114" cy="110" r="7" fill="#FF5CE6" opacity=".3"/>
+    
+    <g><rect x="42" y="80" width="34" height="21" rx="10" fill="#111216"/><rect x="84" y="80" width="34" height="21" rx="10" fill="#111216"/><path d="M76 88h8" stroke="#111216" stroke-width="4"/><path d="M48 85h9M90 85h9" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/></g>
+    
+    
+    
+    
+    
+  </svg><div class="foxsplat" id="foxsplat"><svg class="splat" viewBox="0 0 150 150"><g class="sp" style="fill:var(--m)" filter="url(#spray)"><path d="M75.0 43.7C80.0 43.4 86.6 43.2 90.6 45.8C94.5 48.3 95.0 54.2 98.8 59.1C102.6 64.1 113.8 70.7 113.3 75.5C112.8 80.3 100.4 82.5 95.9 88.1C91.5 93.8 91.5 107.2 86.5 109.3C81.6 111.4 71.4 104.1 66.0 100.5C60.7 96.9 60.1 91.9 54.4 87.8C48.7 83.8 33.7 81.7 31.8 76.2C29.8 70.8 37.7 59.9 42.5 55.2C47.4 50.4 55.3 49.6 60.7 47.7C66.1 45.8 70.0 44.0 75.0 43.7Z"/><circle cx="119.9" cy="74.2" r="1.0"/><circle cx="45.6" cy="43.9" r="3.5"/><circle cx="63.7" cy="103.6" r="4.0"/><circle cx="32.6" cy="73.3" r="2.1"/><circle cx="113.1" cy="94.7" r="2.0"/><circle cx="64.0" cy="117.1" r="2.6"/><circle cx="14.6" cy="81.9" r="3.4"/><circle cx="77.3" cy="107.9" r="3.0"/><circle cx="127.6" cy="70.2" r="2.0"/><circle cx="95.9" cy="103.3" r="2.5"/><circle cx="36.1" cy="107.2" r="2.3"/><circle cx="82.6" cy="30.6" r="2.6"/><circle cx="30.3" cy="80.2" r="1.1"/><circle cx="135.6" cy="78.8" r="2.1"/><circle cx="56.7" cy="39.6" r="3.7"/><circle cx="39.1" cy="42.4" r="1.8"/></g><path class="drip" pathLength="1" d="M65.6 96v45.0" stroke-width="7.2" stroke-linecap="round" style="stroke:var(--m)"/><path class="drip" pathLength="1" d="M71.7 96v32.7" stroke-width="5.7" stroke-linecap="round" style="stroke:var(--m)"/><path class="drip" pathLength="1" d="M70.2 96v26.8" stroke-width="6.6" stroke-linecap="round" style="stroke:var(--m)"/></svg></div></div>
+  </section>
+
+  <!-- 5. Мягкие навыки -->
+  <section class="scene clip" id="s5" data-start="12.6" data-duration="3.85" data-track-index="2">
+    <div class="col" id="c5">
+      <div class="pill cyan" id="pl5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-5-8-10.6A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.9c0 5.6-8 10.6-8 10.6z" fill="#FF3D6E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="8.4" cy="9.8" rx="1.7" ry="1" fill="#fff" opacity=".7" transform="rotate(-30 8.4 9.8)"/></svg>Мягкие навыки</div>
+      <div class="h" id="h5">Поддерживай друзей</div>
+      <div class="stickers"><div class="stk" id="k1"><div><svg viewBox="0 0 64 64"><path d="M32.0 3.9C37.6 3.9 44.3 5.6 48.8 8.8C53.4 12.0 57.5 17.8 59.3 23.1C61.0 28.5 61.2 35.6 59.4 40.9C57.6 46.2 53.0 51.2 48.5 54.7C43.9 58.1 37.7 61.2 32.0 61.6C26.3 61.9 18.5 60.2 14.1 56.7C9.6 53.2 6.4 46.3 5.1 40.8C3.7 35.2 4.2 28.8 5.9 23.5C7.5 18.2 10.8 12.1 15.2 8.9C19.6 5.6 26.4 3.9 32.0 3.9Z" fill="#FFE45C" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)"><path d="M3 21l5-14 9 9z" fill="#FF5CE6" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M5.5 14l4.5 4.5M7 10l7 7" stroke="#FFDD2E" stroke-width="1.8"/><g stroke="#111216" stroke-width="1.6" stroke-linecap="round"><path d="M14 3v3M19 5l-2 2M21 10h-3"/></g><circle cx="11" cy="4" r="1.5" fill="#2EC5FF"/><circle cx="20" cy="15" r="1.5" fill="#C6F432"/><circle cx="17" cy="2.5" r="1.2" fill="#FF3D6E"/></g></svg></div>Ура!</div><div class="stk" id="k2"><div><svg viewBox="0 0 64 64"><path d="M32.0 3.9C37.6 3.9 44.3 5.6 48.8 8.8C53.4 12.0 57.5 17.8 59.3 23.1C61.0 28.5 61.2 35.6 59.4 40.9C57.6 46.2 53.0 51.2 48.5 54.7C43.9 58.1 37.7 61.2 32.0 61.6C26.3 61.9 18.5 60.2 14.1 56.7C9.6 53.2 6.4 46.3 5.1 40.8C3.7 35.2 4.2 28.8 5.9 23.5C7.5 18.2 10.8 12.1 15.2 8.9C19.6 5.6 26.4 3.9 32.0 3.9Z" fill="#FFC2E2" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)"><path d="M12 20s-7-4.5-7-9.5A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.5c0 5-7 9.5-7 9.5z" fill="#FF5CE6" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 9q-1 6 5 9M21 9q1 6-5 9" stroke="#FFC58A" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M3 9q-1 6 5 9M21 9q1 6-5 9" stroke="#111216" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".5"/></g></svg></div>Обнимаю</div><div class="stk" id="k3"><div><svg viewBox="0 0 64 64"><path d="M32.0 2.7C37.7 2.4 45.1 4.2 49.7 7.6C54.4 11.0 58.1 17.4 59.8 23.0C61.6 28.6 62.3 35.9 60.4 41.2C58.5 46.5 53.3 51.8 48.6 54.8C43.9 57.9 37.6 59.6 32.0 59.6C26.4 59.7 19.7 58.4 15.1 55.3C10.5 52.1 6.3 46.3 4.6 40.9C2.9 35.6 3.1 28.5 5.0 23.2C6.8 17.9 11.0 12.7 15.5 9.2C20.0 5.8 26.3 2.9 32.0 2.7Z" fill="#B5E9FF" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)"><path d="M2.5 9l4-3 4 1.6L13 6l4.5 1 4 3.4-6.4 6.6a1.6 1.6 0 0 1-2.3 0l-.6-.5-.8.8a1.6 1.6 0 0 1-2.3 0l-.4-.4-.6.5a1.6 1.6 0 0 1-2.2-.2z" fill="#FFC58A" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><path d="M10.5 7.6l-2.3 2.6a1.4 1.4 0 0 0 2 2l2.3-2" stroke="#111216" stroke-width="1.4" fill="none" stroke-linecap="round"/></g></svg></div>Я с тобой</div></div>
+    </div>
+  </section>
+
+  <!-- 6. Финал -->
+  <section class="scene clip" id="s6" data-start="16.35" data-duration="4.65" data-track-index="3">
+    <div class="eveh" id="eveh"><div class="kick">А вечером —</div><div class="h">итоги и титул дня</div></div>
+    <div class="medal" id="medal"><svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="131.0,78.0 121.2,97.1 114.6,117.6 94.1,124.2 75.0,134.0 55.9,124.2 35.4,117.6 28.8,97.1 19.0,78.0 28.8,58.9 35.4,38.4 55.9,31.8 75.0,22.0 94.1,31.8 114.6,38.4 121.2,58.9" fill="#FFDD2E" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <g transform="translate(51 54) scale(2)"><path d="M3 8l4.5 4L12 4l4.5 8L21 8l-2 11H5z" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="1.8" fill="#FF5CE6"/><circle cx="7.5" cy="15.5" r="1.2" fill="#2EC5FF"/><circle cx="16.5" cy="15.5" r="1.2" fill="#2EC5FF"/></g><g transform="translate(130 26) scale(1.1)"><path class="twinkle" style="animation-delay:0s;fill:#FFDD2E" d="M0-10C1-3 3-1 10 0 3 1 1 3 0 10-1 3-3 1-10 0-3-1-1-3 0-10z"/></g><g transform="translate(18 40) scale(0.8)"><path class="twinkle" style="animation-delay:0.5s;fill:#A77BFF" d="M0-10C1-3 3-1 10 0 3 1 1 3 0 10-1 3-3 1-10 0-3-1-1-3 0-10z"/></g></svg></div>
+    <div class="medcap" id="medcap">Хозяин ярмарки<small>один из 7 титулов</small></div>
+    <div class="fin" id="fin"><div class="t1">Лавка на один день</div><div class="t2" id="fin2">Один день. Три навыка. 3–5 минут.</div></div>
+    <div id="conf"><i class="cf" style="left:59.7%;background:#C6F432;width:18px;height:13px"></i><i class="cf" style="left:69.2%;background:#FF5CE6;width:26px;height:11px"></i><i class="cf" style="left:97.8%;background:#2EC5FF;width:26px;height:12px"></i><i class="cf" style="left:33.3%;background:#FFDD2E;width:18px;height:18px"></i><i class="cf" style="left:90.4%;background:#A77BFF;width:23px;height:10px"></i><i class="cf" style="left:1.0%;background:#C6F432;width:19px;height:17px"></i><i class="cf" style="left:58.4%;background:#FF5CE6;width:17px;height:10px"></i><i class="cf" style="left:56.4%;background:#2EC5FF;width:16px;height:19px"></i><i class="cf" style="left:55.1%;background:#FFDD2E;width:19px;height:20px"></i><i class="cf" style="left:55.8%;background:#A77BFF;width:24px;height:15px"></i><i class="cf" style="left:42.6%;background:#C6F432;width:19px;height:18px"></i><i class="cf" style="left:13.7%;background:#FF5CE6;width:24px;height:17px"></i><i class="cf" style="left:63.3%;background:#2EC5FF;width:15px;height:13px"></i><i class="cf" style="left:91.3%;background:#FFDD2E;width:21px;height:14px"></i><i class="cf" style="left:2.5%;background:#A77BFF;width:25px;height:11px"></i><i class="cf" style="left:48.0%;background:#C6F432;width:19px;height:12px"></i><i class="cf" style="left:16.6%;background:#FF5CE6;width:15px;height:13px"></i><i class="cf" style="left:81.5%;background:#2EC5FF;width:17px;height:16px"></i><i class="cf" style="left:60.4%;background:#FFDD2E;width:25px;height:16px"></i><i class="cf" style="left:33.1%;background:#A77BFF;width:14px;height:15px"></i><i class="cf" style="left:27.1%;background:#C6F432;width:26px;height:15px"></i><i class="cf" style="left:65.0%;background:#FF5CE6;width:21px;height:15px"></i><i class="cf" style="left:53.8%;background:#2EC5FF;width:19px;height:17px"></i><i class="cf" style="left:12.2%;background:#FFDD2E;width:17px;height:17px"></i><i class="cf" style="left:77.1%;background:#A77BFF;width:14px;height:16px"></i><i class="cf" style="left:51.8%;background:#C6F432;width:17px;height:17px"></i><i class="cf" style="left:91.8%;background:#FF5CE6;width:24px;height:13px"></i><i class="cf" style="left:22.2%;background:#2EC5FF;width:15px;height:16px"></i><i class="cf" style="left:98.7%;background:#FFDD2E;width:25px;height:19px"></i><i class="cf" style="left:30.9%;background:#A77BFF;width:19px;height:18px"></i><i class="cf" style="left:76.7%;background:#C6F432;width:15px;height:13px"></i><i class="cf" style="left:18.4%;background:#FF5CE6;width:14px;height:18px"></i><i class="cf" style="left:99.6%;background:#2EC5FF;width:19px;height:15px"></i><i class="cf" style="left:67.6%;background:#FFDD2E;width:16px;height:13px"></i><i class="cf" style="left:92.5%;background:#A77BFF;width:17px;height:15px"></i><i class="cf" style="left:67.7%;background:#C6F432;width:22px;height:14px"></i></div>
+  </section>
+
+  <!-- звук -->
+  <audio id="music" src="assets/music/happy-beats-business-moves-vol-11-by-ende-dot-app.mp3" data-start="0" data-duration="21" data-track-index="10" data-volume="0.55"
+    data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.55},{"t":19.6,"v":0.55},{"t":21,"v":0}]}]}'></audio>
+  <audio id="sx-key1" src="assets/sfx/keypress-003.wav" data-start="0.62" data-duration="0.3" data-track-index="11" data-volume="0.22"></audio>
+  <audio id="sx-key2" src="assets/sfx/keypress-007.wav" data-start="0.95" data-duration="0.3" data-track-index="12" data-volume="0.22"></audio>
+  <audio id="sx-key3" src="assets/sfx/keypress-003.wav" data-start="1.3" data-duration="0.3" data-track-index="11" data-volume="0.2"></audio>
+  <audio id="sx-key4" src="assets/sfx/keypress-007.wav" data-start="1.62" data-duration="0.3" data-track-index="12" data-volume="0.2"></audio>
+  <audio id="sx-splat" src="assets/sfx/impactSoft_heavy_001.ogg" data-start="2.45" data-duration="0.57" data-track-index="13" data-volume="0.75"></audio>
+  <audio id="sx-reveal" src="assets/sfx/impactSoft_medium_001.ogg" data-start="3.7" data-duration="0.18" data-track-index="14" data-volume="0.6"></audio>
+  <audio id="sx-p1" src="assets/sfx/card-slide-1.ogg" data-start="4.23" data-duration="0.5" data-track-index="15" data-volume="0.28"></audio>
+  <audio id="sx-p2" src="assets/sfx/card-slide-1.ogg" data-start="4.75" data-duration="0.5" data-track-index="16" data-volume="0.28"></audio>
+  <audio id="sx-p3" src="assets/sfx/card-slide-1.ogg" data-start="5.28" data-duration="0.5" data-track-index="15" data-volume="0.28"></audio>
+  <audio id="sx-coin" src="assets/sfx/click_003.ogg" data-start="7.85" data-duration="0.01" data-track-index="17" data-volume="0.5"></audio>
+  <audio id="sx-s4" src="assets/sfx/impactSoft_medium_004.ogg" data-start="8.96" data-duration="0.15" data-track-index="14" data-volume="0.5"></audio>
+  <audio id="sx-foxsplat" src="assets/sfx/impactSoft_heavy_001.ogg" data-start="11.1" data-duration="0.57" data-track-index="13" data-volume="0.55"></audio>
+  <audio id="sx-s5" src="assets/sfx/impactSoft_medium_001.ogg" data-start="12.65" data-duration="0.18" data-track-index="14" data-volume="0.5"></audio>
+  <audio id="sx-k1" src="assets/sfx/drop_002.ogg" data-start="13.18" data-duration="0.19" data-track-index="16" data-volume="0.4"></audio>
+  <audio id="sx-k2" src="assets/sfx/drop_002.ogg" data-start="13.7" data-duration="0.19" data-track-index="15" data-volume="0.4"></audio>
+  <audio id="sx-k3" src="assets/sfx/drop_002.ogg" data-start="14.22" data-duration="0.19" data-track-index="16" data-volume="0.4"></audio>
+  <audio id="sx-bell" src="assets/sfx/impactBell_heavy_000.ogg" data-start="17.91" data-duration="1.48" data-track-index="18" data-volume="0.5"></audio>
+</div>
+
+<script>
+document.fonts.ready.then(function () {
+  var tl = gsap.timeline({ paused: true });
+  var BASS = [0.446, 1.0, 0.591, 0.353, 0.21, 0.174, 0.172, 0.158, 0.164, 0.174, 0.18, 0.182, 0.157, 0.171, 0.171, 0.165, 0.706, 0.803, 0.526, 0.321, 0.188, 0.121, 0.134, 0.138, 0.162, 0.162, 0.165, 0.17, 0.172, 0.154, 0.152, 0.276, 0.762, 0.663, 0.475, 0.277, 0.163, 0.137, 0.128, 0.121, 0.138, 0.136, 0.134, 0.136, 0.134, 0.133, 0.123, 0.164, 0.839, 0.659, 0.432, 0.254, 0.142, 0.092, 0.101, 0.099, 0.103, 0.1, 0.097, 0.108, 0.107, 0.1, 0.096, 0.268, 0.841, 0.63, 0.37, 0.168, 0.13, 0.147, 0.118, 0.104, 0.102, 0.103, 0.1, 0.095, 0.101, 0.1, 0.12, 0.521, 0.884, 0.601, 0.323, 0.16, 0.115, 0.129, 0.088, 0.089, 0.092, 0.089, 0.084, 0.087, 0.087, 0.086, 0.104, 0.619, 0.75, 0.523, 0.275, 0.158, 0.114, 0.099, 0.074, 0.074, 0.073, 0.07, 0.069, 0.072, 0.069, 0.076, 0.177, 0.762, 0.644, 0.448, 0.241, 0.147, 0.118, 0.076, 0.06, 0.06, 0.059, 0.062, 0.062, 0.062, 0.058, 0.047, 0.25, 0.75, 0.67, 0.458, 0.25, 0.274, 0.256, 0.253, 0.262, 0.246, 0.245, 0.254, 0.251, 0.254, 0.256, 0.263, 0.196, 0.726, 0.57, 0.415, 0.219, 0.233, 0.247, 0.263, 0.27, 0.272, 0.266, 0.261, 0.255, 0.248, 0.247, 0.192, 0.457, 0.782, 0.482, 0.401, 0.193, 0.217, 0.208, 0.205, 0.197, 0.199, 0.204, 0.205, 0.203, 0.202, 0.21, 0.191, 0.777, 0.817, 0.421, 0.348, 0.173, 0.181, 0.162, 0.168, 0.158, 0.161, 0.167, 0.172, 0.178, 0.176, 0.162, 0.243, 0.824, 0.688, 0.582, 0.283, 0.145, 0.214, 0.174, 0.177, 0.171, 0.172, 0.167, 0.168, 0.171, 0.166, 0.157, 0.382, 0.797, 0.521, 0.428, 0.335, 0.134, 0.164, 0.133, 0.136, 0.14, 0.141, 0.139, 0.136, 0.127, 0.12, 0.146, 0.352, 0.87, 0.508, 0.292, 0.284, 0.111, 0.123, 0.118, 0.114, 0.106, 0.104, 0.106, 0.103, 0.109, 0.112, 0.117, 0.522, 0.849, 0.532, 0.266, 0.209, 0.099, 0.084, 0.093, 0.092, 0.09, 0.087, 0.091, 0.092, 0.093, 0.093, 0.099, 0.709, 0.845, 0.474, 0.28, 0.165, 0.162, 0.175, 0.164, 0.178, 0.175, 0.176, 0.174, 0.183, 0.176, 0.16, 0.226, 0.876, 0.603, 0.435, 0.269, 0.148, 0.15, 0.136, 0.151, 0.157, 0.169, 0.161, 0.164, 0.164, 0.163, 0.165, 0.42, 0.806, 0.617, 0.388, 0.219, 0.112, 0.113, 0.127, 0.131, 0.141, 0.134, 0.135, 0.153, 0.147, 0.152, 0.177, 0.418, 0.86, 0.552, 0.357, 0.215, 0.121, 0.115, 0.107, 0.109, 0.112, 0.112, 0.111, 0.116, 0.103, 0.098, 0.088, 0.511, 0.76, 0.561, 0.281, 0.138, 0.128, 0.131, 0.109, 0.104, 0.1, 0.101, 0.098, 0.099, 0.101, 0.091, 0.184, 0.728, 0.655, 0.489, 0.244, 0.132, 0.125, 0.104, 0.086, 0.093, 0.089, 0.089, 0.088, 0.085, 0.088, 0.085, 0.271, 0.835, 0.671, 0.44, 0.223, 0.14, 0.123, 0.085, 0.071, 0.073, 0.073, 0.073, 0.073, 0.071, 0.071, 0.075, 0.366, 0.853, 0.594, 0.368, 0.196, 0.126, 0.102, 0.064, 0.061, 0.06, 0.059, 0.059, 0.061, 0.063, 0.061, 0.066, 0.465, 0.715, 0.652, 0.309, 0.278, 0.242, 0.273, 0.257, 0.255, 0.253, 0.253, 0.259, 0.255, 0.259, 0.264, 0.237, 0.45, 0.557, 0.544, 0.274, 0.229, 0.213, 0.24, 0.238, 0.242, 0.25, 0.252, 0.245, 0.241, 0.241, 0.239, 0.161, 0.721, 0.583, 0.452, 0.253, 0.192, 0.2, 0.211, 0.203, 0.208, 0.211, 0.215, 0.218, 0.213, 0.202, 0.192, 0.326, 0.919, 0.58, 0.374, 0.256, 0.15, 0.168, 0.166, 0.166, 0.163, 0.165, 0.171, 0.172, 0.169, 0.168, 0.139, 0.057, 0.132, 0.186, 0.188, 0.188, 0.186, 0.197, 0.205, 0.2, 0.186, 0.181, 0.179, 0.172, 0.172, 0.199, 0.202, 0.185, 0.174, 0.161, 0.163, 0.158, 0.154, 0.156, 0.164, 0.161, 0.155, 0.15, 0.146, 0.145, 0.132, 0.144, 0.141, 0.064, 0.009, 0.003, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.0, 0.001, 0.001, 0.001, 0.001, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.001, 0.001, 0.001, 0.001, 0.001, 0.0, 0.017, 0.34, 0.674, 0.469, 0.286, 0.162, 0.172, 0.161, 0.178, 0.196, 0.251, 0.204, 0.201, 0.215, 0.196, 0.196, 0.244, 0.537, 0.695, 0.396, 0.263, 0.164, 0.172, 0.187, 0.174, 0.223, 0.228, 0.21, 0.198, 0.207, 0.196, 0.193, 0.265, 0.638, 0.63, 0.323, 0.215, 0.165, 0.162, 0.176, 0.142, 0.217, 0.228, 0.212, 0.206, 0.216, 0.18, 0.187, 0.33, 0.663, 0.613, 0.328, 0.19, 0.137, 0.156, 0.192, 0.126, 0.227, 0.213, 0.193, 0.203, 0.191, 0.199, 0.197, 0.428, 0.757, 0.584, 0.29, 0.097, 0.131, 0.209, 0.182, 0.112, 0.1, 0.161, 0.174, 0.173, 0.169, 0.163, 0.158, 0.425, 0.706, 0.5, 0.265, 0.074, 0.16, 0.205, 0.152, 0.127, 0.155, 0.172, 0.176, 0.172, 0.172, 0.165, 0.174, 0.55, 0.681, 0.411, 0.204, 0.088, 0.22, 0.224, 0.159, 0.123, 0.168, 0.183, 0.189, 0.176, 0.168, 0.165, 0.168, 0.624, 0.677, 0.358, 0.141, 0.109, 0.214, 0.199, 0.136, 0.097, 0.155, 0.187, 0.184, 0.179, 0.176, 0.165, 0.211, 0.731, 0.508, 0.403, 0.281, 0.308, 0.282, 0.309, 0.216];
+
+  /* ---------- ambient ---------- */
+  tl.fromTo('#garland', { rotation: -0.6, transformOrigin: '50% 0%' }, { rotation: 0.6, duration: 1.75, ease: 'sine.inOut', yoyo: true, repeat: 11 }, 0);
+  tl.fromTo('#cl1', { x: 0 }, { x: 120, duration: 21, ease: 'none' }, 0);
+  tl.fromTo('#cl2', { x: 0 }, { x: -140, duration: 21, ease: 'none' }, 0);
+  tl.fromTo('#sunw', { rotation: -6 }, { rotation: 6, duration: 2.1, ease: 'sine.inOut', yoyo: true, repeat: 9 }, 0);
+  // аудиореакция: бас мягко раздувает солнце и свечение за телефоном
+  var sun = document.getElementById('sun'), glow = document.getElementById('glow');
+  for (var f = 0; f < 630; f++) {
+    tl.call((function (b) { return function () { gsap.set(sun, { scale: 0.94 + b * 0.14 }); gsap.set(glow, { opacity: 0.35 + b * 0.4 }); }; })(BASS[f] || 0), [], f / 30);
+  }
+
+  /* ---------- 1. Хук 0–3.7 ---------- */
+  tl.fromTo('#phone', { y: 140, scale: 0.86, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.6)' }, 0);
+  tl.fromTo('#msg', { y: 40, scale: 0.9, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(1.8)' }, 0.35);
+  var chs = document.querySelectorAll('#msg .ch');
+  chs.forEach(function (c, i) { tl.set(c, { opacity: 1 }, 0.6 + i * 0.03); });
+  tl.fromTo('#hook1', { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, 0.25);
+  tl.to('#hook1', { y: -80, opacity: 0, duration: 0.3, ease: 'power2.in' }, 2.3);
+  // Кляксик влетает с баллончиком
+  tl.fromTo('#klx', { x: -1400, y: 260, rotation: -30 }, { x: 0, y: 0, rotation: 8, duration: 0.55, ease: 'power3.out' }, 1.9);
+  tl.to('#klx', { rotation: -6, duration: 0.25, ease: 'back.out(3)' }, 2.45);
+  tl.fromTo('#msplat', { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.35, ease: 'back.out(2.2)' }, 2.45);
+  tl.to('#msg .ch.k', { backgroundColor: '#C6F432', duration: 0.2, stagger: 0.012 }, 2.55);
+  tl.fromTo('#strike', { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 0.25, ease: 'power2.out' }, 2.5);
+  tl.set('#avR', { opacity: 0 }, 2.5); tl.set('#avF', { opacity: 1 }, 2.5); tl.set('#whoF', { opacity: 1 }, 2.6);
+  tl.fromTo('#phone', { rotation: 0 }, { rotation: 2.5, duration: 0.08, yoyo: true, repeat: 3, ease: 'sine.inOut' }, 2.45);
+  tl.fromTo('#hook2', { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'back.out(1.6)' }, 2.5);
+  tl.fromTo('#hlbg', { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 0.35, ease: 'power3.out' }, 2.75);
+
+  /* ---------- 2. Название 3.7–6.3 ---------- */
+  // навес-шторка падает и открывает название // beat-locked: 3.70s
+  tl.fromTo('#awn', { yPercent: -100 }, { yPercent: 0, duration: 0.25, ease: 'power2.in' }, 3.5);
+  tl.set('#phone', { opacity: 0 }, 3.75); tl.set('#glow', { visibility: 'hidden' }, 3.75);
+  tl.to('#awn', { yPercent: -84, duration: 0.5, ease: 'power3.out' }, 3.75);
+  tl.fromTo('#title', { y: 60, scale: 0.85, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.7)' }, 3.78);
+  tl.fromTo('#ul', { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 0.45, ease: 'power3.out' }, 4.05);
+  tl.fromTo('#sub', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }, 4.35);
+  tl.fromTo('#p0', { y: 160, scale: 0.4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(2)' }, 3.95);
+  // beat-grid: товары 4.23 / 4.75 / 5.28
+  [['#p1', 4.23], ['#p2', 4.75], ['#p3', 5.28]].forEach(function (p) {
+    tl.fromTo(p[0], { y: 120, scale: 0.3, rotation: -18, opacity: 0 }, { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 0.45, ease: 'back.out(2.4)' }, p[1]);
+  });
+  tl.to('#title', { y: -40, opacity: 0, duration: 0.3, ease: 'power2.in' }, 6.05);
+  tl.to(['#p0', '#p1', '#p2', '#p3'], { y: 80, opacity: 0, duration: 0.3, stagger: 0.03, ease: 'power2.in' }, 6.0);
+  tl.to('#awn', { yPercent: -100, duration: 0.3, ease: 'power2.in' }, 6.05);
+
+  /* ---------- телефон возвращается с геймплеем ---------- */
+  tl.set('#chat', { opacity: 0 }, 6.3); tl.set('#glow', { visibility: 'visible' }, 6.3);
+  tl.fromTo('#phone', { x: 520, opacity: 1, rotation: 6 }, { x: 0, rotation: 0, duration: 0.5, ease: 'back.out(1.3)', immediateRender: false }, 6.3);
+  [8.96, 12.65, 16.4].forEach(function (t) { tl.fromTo('#flash', { opacity: 0.85 }, { opacity: 0, duration: 0.3, ease: 'power2.out', immediateRender: false }, t); });
+
+  /* ---------- 3. Финансы 6.3–8.96 ---------- */
+  tl.fromTo('#pl3', { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, 6.38);
+  tl.fromTo('#h3', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }, 6.5);
+  tl.fromTo('#eq', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.6)' }, 6.85);
+  [['#co1', 7.2], ['#co2', 7.3], ['#co3', 7.4]].forEach(function (c) { tl.fromTo(c[0], { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.4, ease: 'back.out(2.2)' }, c[1]); });
+  tl.to('#co2', { y: -40, scale: 1.15, duration: 0.2, ease: 'power2.out', yoyo: true, repeat: 1 }, 7.85);
+  tl.set('#q1', { opacity: 0 }, 7.95); tl.fromTo('#q2', { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2.5)' }, 7.95);
+  tl.to('#c3', { x: -120, opacity: 0, duration: 0.25, ease: 'power2.in' }, 8.72);
+
+  /* ---------- 4. Безопасность 8.96–12.65 ---------- */
+  tl.fromTo('#pl4', { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, 8.96); // beat-locked: 8.96s
+  tl.fromTo('#h4', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }, 9.08);
+  // beat-grid: 10.01 / 10.54 / 11.06 — короткие ярлыки, дальше держатся вместе
+  [['#t1', 10.01], ['#t2', 10.54], ['#t3', 11.06]].forEach(function (t) { tl.fromTo(t[0], { y: 30, scale: 0.7, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2.2)' }, t[1]); });
+  tl.fromTo('#foxw', { y: 360 }, { y: 0, duration: 0.5, ease: 'back.out(1.4)' }, 9.4);
+  tl.fromTo('#foxw', { rotation: -4 }, { rotation: 4, duration: 0.35, ease: 'sine.inOut', yoyo: true, repeat: 3, immediateRender: false }, 9.9);
+  tl.fromTo('#foxsplat', { scale: 0, rotation: 30 }, { scale: 1, rotation: 0, duration: 0.35, ease: 'back.out(2.2)' }, 11.1);
+  tl.to('#foxw', { y: 420, duration: 0.45, ease: 'power3.in' }, 11.75);
+  tl.to('#c4', { x: -120, opacity: 0, duration: 0.25, ease: 'power2.in' }, 12.4);
+
+  /* ---------- 5. Мягкие навыки 12.65–16.4 ---------- */
+  tl.fromTo('#pl5', { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, 12.65); // beat-locked: 12.65s
+  tl.fromTo('#h5', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }, 12.77);
+  // beat-grid: 13.18 / 13.70 / 14.22
+  [['#k1', 13.18], ['#k2', 13.7], ['#k3', 14.22]].forEach(function (k, i) { tl.fromTo(k[0], { y: 60, scale: 0.4, rotation: i === 1 ? 0 : (i ? 14 : -14), opacity: 0 }, { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 0.45, ease: 'back.out(2.4)' }, k[1]); });
+  tl.to('#c5', { x: -120, opacity: 0, duration: 0.25, ease: 'power2.in' }, 16.15);
+
+  /* ---------- 6. Финал 16.4–21 ---------- */
+  tl.fromTo('#eveh', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }, 16.42);
+  tl.to('#eveh', { y: -40, opacity: 0, duration: 0.3, ease: 'power2.in' }, 17.6);
+  // beat-locked: 17.91s — медаль падает на сильную долю
+  tl.fromTo('#medal', { y: -520, rotation: -25, opacity: 1 }, { y: 0, rotation: 0, duration: 0.45, ease: 'bounce.out' }, 17.5);
+  tl.fromTo('#medcap', { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: 'power3.out' }, 17.95);
+  tl.fromTo('#fin', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(1.5)' }, 18.25);
+  tl.fromTo('#fin2', { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' }, 18.75);
+  document.querySelectorAll('.cf').forEach(function (c, i) {
+    tl.fromTo(c, { y: 0, rotation: 0 }, { y: 1180, rotation: 360 + i * 37, duration: 2.6 + (i % 5) * 0.25, ease: 'none' }, 17.9 + (i % 9) * 0.06);
+  });
+
+  window.__timelines['main'] = tl;
+});
+</script>
+</body>
+</html>
