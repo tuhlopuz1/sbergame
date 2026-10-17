@@ -1132,7 +1132,6 @@ function piggyArt(pg) {
 }
 function renderMorning(prod) {
   const M = { cr: 4, pg: 20 };
-  const first = firstTime('morning');
   app.innerHTML = `<section class="screen morning">${blobsBg()}
     <div class="row"><button class="ibtn" data-home aria-label="Назад">${ICON.x}</button>${soundBtn()}</div>
     <div class="mhead"><svg viewBox="-40 -40 80 80"><g class="sunr"><circle r="34" fill="#FFDD2E" opacity=".35"/>${Array.from({ length: 8 }, (_, i) => `<path d="M0 -28v-9" transform="rotate(${i * 45})" stroke="#FFC400" stroke-width="5" stroke-linecap="round"/>`).join('')}</g><circle r="21" fill="#FFDD2E"/><circle cx="-7" cy="-3" r="2.5" fill="#111216"/><circle cx="7" cy="-3" r="2.5" fill="#111216"/><path d="M-6 6q6 5 12 0" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
@@ -1162,7 +1161,6 @@ function renderMorning(prod) {
   };
   app.querySelectorAll('.step button').forEach(b => b.onclick = () => { M[b.dataset.d] += +b.dataset.v; Sound.coin(); vibrate(); upd(true); });
   upd(false);
-  if (first) setTimeout(() => { const pl = app.querySelector('.plus'); if (pl && D === null) coachTap(pl, null, app.querySelector('.morning')); }, 900);
   $('#open').onclick = () => { Sound.tap(); vibrate(); startDay(prod, M.cr, M.pg); };
 }
 
@@ -1463,7 +1461,7 @@ function dragIng(btn, target, onDrop, blocked) {
 async function chgEnc(e, c) {
   const me = D;
   const n = Math.min(e.n, Math.max(1, D.stock)), price = n * PRICE, paid = pick([10, 20, 50].filter(v => v > price));
-  const tut = firstTime('chgServe'), prog = D.i / D.q.length, T = tut ? 1e9 : Math.round(6500 - 2000 * prog);
+  const tut = firstTime('buy'), prog = D.i / D.q.length, T = tut ? 1e9 : Math.round(6500 - 2000 * prog);
   const b = sayB(`${prodSVG(D.prod)}<span class="x">×${n}</span>${noteSVG(paid)}${tut ? '' : `<span class="pat"><i style="animation-duration:${T}ms"></i></span>`}`, 'order');
   if (tut) coachTap(b, 'Тапни — продай!');
   const r = await waitServe(b, c, T, me);
@@ -1532,7 +1530,6 @@ async function storyEnc(id) {
   if (id === 'rain') { $('#rain').classList.add('on'); $('#sky').classList.add('rainy'); }
   await pwait(600); if (D !== me) return;
   const b = sayB(S.say(P), S.ev ? 'event' : '');
-  if (firstTime('story')) setTimeout(() => { const op = $('.opts'); if (op && D === me) coachTap(op, 'Что ответишь?'); }, 500);
   // если товар кончился и выбрать нечего — запасной вариант, чтобы день не застрял
   const opts = S.opts.some(optAvail) ? S.opts : [...S.opts, NOSTOCK];
   const idx = await choose(opts);
