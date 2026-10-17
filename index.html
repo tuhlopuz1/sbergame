@@ -375,6 +375,48 @@ svg{display:block;overflow:visible}
 .cnew{animation:pop .45s var(--spring) both;transform-box:fill-box;transform-origin:50% 100%}
 .stage.paused *{animation-play-state:paused!important}
 .toast{white-space:normal;max-width:calc(100% - 24px);text-align:center;width:max-content}
+.buzz{position:absolute;left:50%;top:50%;width:140px;height:198px;margin:-110px 0 0 -70px;z-index:6;animation:buzzIn .45s var(--spring) both}
+.buzz>svg{width:100%;height:100%;display:block;animation:buzz .5s linear infinite;filter:drop-shadow(0 14px 18px rgba(0,0,0,.25))}
+.buzz .rings{animation:rings .6s ease-in-out infinite}
+.buzz.open>svg{animation:none;transform:scale(1.25);opacity:0;transition:all .25s}
+@keyframes buzzIn{from{transform:translateY(60vh) rotate(20deg)}to{transform:none}}
+@keyframes buzz{0%,100%{transform:rotate(0)}10%,30%{transform:rotate(-8deg) translateX(-3px)}20%,40%{transform:rotate(8deg) translateX(3px)}50%{transform:rotate(0)}}
+@keyframes rings{50%{opacity:.25}}
+.pov{position:absolute;inset:0;z-index:9;display:grid;place-items:center;padding:6px 10px;background:rgba(17,18,22,.25);animation:fadeIn .25s both}
+.pov.out{opacity:0;transition:opacity .3s}
+@keyframes fadeIn{from{opacity:0}}
+.pphone{position:relative;width:min(380px,100%);height:100%;background:#111216;border-radius:36px;padding:12px;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.3);animation:pop .45s var(--spring) both}
+.pnotch{position:absolute;left:50%;top:6px;width:70px;height:14px;margin-left:-35px;background:#111216;border-radius:10px;z-index:3}
+.phead{display:flex;align-items:center;gap:8px;background:#fff;border-radius:24px 24px 8px 8px;padding:14px 12px 8px;font-size:15px}
+.phead b{flex:1;font-weight:900}
+.phead span{font-weight:900;background:var(--m);border-radius:10px;padding:3px 8px;font-variant-numeric:tabular-nums}
+.phead .ic.icc{width:30px;height:37px}
+.pfield{position:relative;flex:1;min-height:0;overflow:hidden;background:linear-gradient(#EAF6FF,#F2F3F7);border-radius:8px 8px 24px 24px;margin-top:4px;touch-action:manipulation}
+.pmsg{position:absolute;left:0;top:0;width:min(240px,calc(100% - 16px));background:#fff;border-radius:18px;padding:8px 10px 10px;box-shadow:0 8px 18px rgba(24,26,40,.12);cursor:pointer;will-change:transform;user-select:none;-webkit-user-select:none}
+.pmt{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.pmt b{font-weight:800;font-size:13px;color:var(--muted)}
+.pmt b s{text-decoration-color:var(--red);text-decoration-thickness:2px}
+.pav{width:28px;height:28px;flex:none}
+.pav>svg{width:100%;height:100%;display:block}
+.ptx{font-weight:800;font-size:15.5px;line-height:1.25;position:relative;z-index:1}
+.pmsg.hit .key{background:linear-gradient(transparent 12%,var(--m) 12%,var(--m) 92%,transparent 92%)}
+.pmsg.hit .pmt b{color:var(--fox)}
+.pmsg .splat{position:absolute;width:130px;height:130px;left:50%;top:50%;margin:-65px 0 0 -65px;pointer-events:none;mix-blend-mode:multiply;z-index:2}
+.pmsg.gone{opacity:0;transition:opacity .45s}
+.pmsg.shake{animation:wob .45s}
+.ptag{position:absolute;z-index:5;transform:translate(-50%,-110%);background:var(--ink);color:#fff;font-weight:900;font-size:14px;padding:6px 10px;border-radius:12px;white-space:nowrap;pointer-events:none;animation:ptag 1.4s var(--out) forwards}
+.ptag.g{background:var(--green);color:var(--ink)}
+.ptag.r{background:var(--red)}
+.ptag .ic{width:18px;height:18px}
+@keyframes ptag{0%{opacity:0;transform:translate(-50%,-80%) scale(.5)}15%{opacity:1;transform:translate(-50%,-110%) scale(1.05)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-150%)}}
+.pcap{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:#fff;font-weight:900;font-size:17px;padding:10px 16px;border-radius:16px;white-space:nowrap;z-index:6;box-shadow:0 0 0 3px #fff;animation:capIn .4s var(--spring) both}
+.pres{position:absolute;inset:12px;border-radius:26px;background:rgba(255,255,255,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;z-index:7;animation:pop .45s var(--spring) both}
+.pres .ic.icc{width:90px;height:110px}
+.pres b{font-weight:900;font-size:24px;line-height:1.1}
+.prow2{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.prow2 span{display:inline-flex;align-items:center;gap:4px;font-weight:900;font-size:17px;padding:6px 12px;border-radius:12px}
+.prow2 .g{background:#DDF8E8}.prow2 .r{background:#FFE3EA}
+.pres .btn{max-width:240px}
 /* ================= SVG-иконки ================= */
 .ic{width:1.25em;height:1.25em;display:inline-block;vertical-align:-.28em;flex:none;overflow:visible}
 .ic.icc{width:1.5em;height:1.85em;vertical-align:-.55em}
@@ -931,6 +973,7 @@ const IC = {
   trash: `<path d="M5 7h14l-1.2 12.5a2 2 0 0 1-2 1.5H8.2a2 2 0 0 1-2-1.5z" fill="#E3E5EC" ${K}/><rect x="3.5" y="4.5" width="17" height="3" rx="1.5" fill="#B9BCC8" ${K}/><path d="M10 10.5v7M14 10.5v7" stroke="#111216" stroke-width="1.5" stroke-linecap="round"/>`,
   note: `<rect x="2" y="5.5" width="20" height="13" rx="2.5" fill="#7EE8A8" ${K}/><circle cx="12" cy="12" r="3.4" fill="#1FD16C" stroke="#111216" stroke-width="1.3"/><path d="M5 8.5h2M17 15.5h2" stroke="#111216" stroke-width="1.4" stroke-linecap="round"/>`,
   dash: `<path d="M2 9h9M4 13h8M3 17h6" stroke="#111216" stroke-width="2" stroke-linecap="round"/><path d="${blobPath(17, 12, 5.5, 7, .25, 6)}" fill="#E3E5EC" ${K}/>`,
+  link: `<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2" stroke="#2EC5FF" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round"/>`,
   star: `<path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z" fill="#FFDD2E" ${K}/>`,
   lost: `<circle cx="12" cy="12" r="10" fill="#E7DDFF" ${K}/><path d="M9.5 9a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.1.9-1.1 1.8v.6" stroke="#111216" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.3" fill="#111216"/>`,
   /* ингредиенты */
@@ -1233,6 +1276,7 @@ function buildQueue() {
   };
   const q = [buyer('b'), buyer('b')];
   stories.forEach((id, i) => {
+    if (i === 2 || i === 7) q.push({ t: 'p', n: i === 2 ? 0 : 1 });   // ивент: телефон с Лисом
     q.push({ t: 's', id });
     q.push(buyer(i === 0 ? 'mix' : i === 2 ? 'chg' : pick(['b', 'mix', 'mix', 'chg', 'b'])));
     if (i % 3 === 2) q.push(buyer(pick(['b', 'mix'])));
@@ -1329,7 +1373,7 @@ async function runDay() {
   for (; D === me && D.i < D.q.length; D.i++) {
     setSun(D.i / D.q.length);
     const e = D.q[D.i];
-    if (e.t === 's') await storyEnc(e.id); else await buyerEnc(e);
+    if (e.t === 's') await storyEnc(e.id); else if (e.t === 'p') await phoneEnc(e); else await buyerEnc(e);
   }
   if (D === me) evening();
 }
@@ -1492,6 +1536,145 @@ async function chgEnc(e, c) {
   else if (s > need) { D.chgBad++; custFace(c, e, 'happy'); toast(`Лишние ${s - need} ${ic('coin')} ушли!`, 'r'); tipLine(`Сдача = оплата − цена: ${paid} − ${price} = ${need}`); Sound.bad(); custOut(c, 'run'); D.moments.push({ t: `${ic('coinsBack')} −${s - need} ${ic('coin')}`, c: 'r' }); }
   else { D.chgBad++; custFace(c, e, 'angry'); toast(`${ic('angry')} Мало! Надо ${need}`, 'r'); tipLine(`Сдача = оплата − цена: ${paid} − ${price} = ${need}`); meter('rep', -1); Sound.bad(); custOut(c, 'angry'); }
   await pwait(900);
+}
+
+/* ---------- Ивент: телефон вибрирует → «Кляксик против Лиса» ---------- */
+const PTRICK = { code: ['keypad', 'Просит код'], gift: ['gift', 'Халява'], personal: ['user', 'Выпытывает'], newnum: ['phone', 'Чужой номер'], link: ['link', 'Странная ссылка'], urgent: ['clock', 'Торопит'], secret: ['zip', 'Секрет от мамы'], fear: ['bolt', 'Пугает'], dropper: ['cashfly', 'Чужие деньги'] };
+const PF = (k, av, n, p) => ({ fox: true, k, av, n, p });
+const PH = (av, n, t) => ({ fox: false, av, n, p: [t] });
+const PFOX = [
+  PF('code', 'robot', 'Поддержка игры', ['', 'Скажи код из СМС', ' — дадим 1000 алмазов']), PF('code', 'gamer', 'Max_Pro', ['', 'Дай пароль', ' — подарю скин']),
+  PF('gift', 'prize', 'Розыгрыш', ['', 'Ты выиграл телефон!', ' Оплати доставку']), PF('gift', 'robot', 'Магазин скинов', ['', '5000 монет бесплатно', ' — жми сюда']),
+  PF('personal', 'cat', 'Котик_Даша', ['Давай дружить! ', 'Где ты живёшь?', '']), PF('personal', 'stranger', 'Незнакомец', ['', 'Скинь фото и адрес школы', '']),
+  PF('newnum', 'mom', 'Мама?', ['', 'Пишу с чужого номера.', ' Скинь код']), PF('newnum', 'grandma', 'Бабушка?', ['', 'У меня новый номер!', ' Переведи денежку']),
+  PF('link', 'petya', 'Петя', ['Смотри! ', 'skin-free.xyz', '']), PF('link', 'anya', 'Аня', ['Голосуй за меня: ', 'top-vote.click', '']),
+  PF('urgent', 'stranger', 'Неизвестный', ['', 'Ответь за 1 минуту,', ' иначе удалим аккаунт']), PF('secret', 'stranger', 'Новый друг', ['Пришлю подарок, ', 'только маме не говори', '']),
+  PF('fear', 'bank', 'Банк?', ['', 'Карту родителей заблокировали!', ' Назови цифры']), PF('fear', 'robot', 'Антивирус', ['', 'В телефоне 5 вирусов!', ' Скачай чистилку']),
+  PF('dropper', 'work', 'Подработка', ['', 'Прими деньги и переведи дальше', ' — 500 твои']), PF('dropper', 'gamer', 'Max_Pro', ['', 'Дай свою карту на денёк', ''])
+];
+const PFRIEND = [
+  PH('mom', 'Мама', 'Купи хлеб после школы'), PH('dad', 'Папа', 'Заберу тебя в 17:00'), PH('grandma', 'Бабушка', 'Испекла блинчики, приходи!'),
+  PH('petya', 'Петя', 'Го в футбол после уроков?'), PH('anya', 'Аня', 'С днём рождения!!!'), PH('sasha', 'Саша', 'Выходи гулять!'),
+  PH('coach', 'Тренер', 'Тренировка в 16:00'), PH('klass', 'Класс', 'Завтра экскурсия в зоопарк'), PH('mom', 'Мама', 'Горжусь тобой!'),
+  PH('dad', 'Папа', 'Вечером пицца'), PH('bank', 'Банк', 'Мы никогда не просим коды'), PH('sasha', 'Саша', 'У меня котята родились!')
+];
+const phoneSVG = () => `<svg viewBox="0 0 120 170"><rect x="14" y="6" width="92" height="158" rx="20" fill="#111216"/><rect x="21" y="20" width="78" height="128" rx="10" fill="#7FD4FF"/><rect x="46" y="11" width="28" height="5" rx="2.5" fill="#3A3D4A"/>
+  <g transform="translate(31 34)"><rect width="58" height="22" rx="8" fill="#fff"/><circle cx="11" cy="11" r="6" fill="#FF7A1A"/><rect x="21" y="8" width="30" height="6" rx="3" fill="#D9DCE6"/></g>
+  <g transform="translate(31 62)"><rect width="58" height="22" rx="8" fill="#fff"/><circle cx="11" cy="11" r="6" fill="#1FD16C"/><rect x="21" y="8" width="24" height="6" rx="3" fill="#D9DCE6"/></g>
+  <circle cx="92" cy="22" r="13" fill="#FF3D6E" stroke="#111216" stroke-width="3"/><text x="92" y="27.5" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="15" fill="#fff">!</text>
+  <g stroke="#111216" stroke-width="4" stroke-linecap="round" fill="none" class="rings"><path d="M4 50q-6 14 0 28"/><path d="M116 50q6 14 0 28"/></g></svg>`;
+async function phoneEnc(e) {
+  const me = D, y = $('#yard');
+  const ph = document.createElement('button'); ph.className = 'buzz'; ph.setAttribute('aria-label', 'Телефон звонит');
+  ph.innerHTML = phoneSVG(); y.appendChild(ph);
+  let ringing = true;
+  (async () => { while (ringing && D === me) { if (!D.paused) { vibrate('error'); Sound.tone(880, .08, 'square', .05); Sound.tone(1175, .08, 'square', .05, .12); } await pwait(1300); } })();
+  await new Promise(r => { ph.onclick = () => { if (!D.paused) r(); }; });
+  ringing = false;
+  if (D !== me) return;
+  Sound.pop(); ph.classList.add('open');
+  await pwait(250); ph.remove(); if (D !== me) return;
+  await foxChat(e.n || 0);
+}
+function foxChat(round) {
+  const me = D, y = $('#yard');
+  const tut = firstTime('foxchat');
+  const nFox = 5, nFr = 3;
+  let q = shuffle([...fresh('pfox', PFOX, nFox), ...fresh('pfr', PFRIEND, nFr)]);
+  if (tut) { const f = q.find(x => x.fox); q = [f, ...q.filter(x => x !== f)]; }
+  const ov = document.createElement('div'); ov.className = 'pov';
+  ov.innerHTML = `<div class="pphone"><div class="pnotch"></div>
+    <div class="phead">${mc('fox', 'sly', ['glasses'])}<b>Лис в чате ярмарки!</b><span id="pvN">0/${nFox}</span></div>
+    <div class="pfield" id="pfield"></div></div>`;
+  y.appendChild(ov);
+  const field = ov.querySelector('#pfield');
+  const S = { live: [], q, zap: 0, miss: 0, oops: 0, lost: 0, since: 9, side: false, hold: null, done: false };
+  const T = round ? 5.2 : 6.4, gap = round ? 1.15 : 1.4;
+  const tag = (b, html, cls = '') => { const t = document.createElement('div'); t.className = 'ptag ' + cls; t.innerHTML = html; t.style.left = clamp(b.x + b.w / 2, 80, field.clientWidth - 80) + 'px'; t.style.top = Math.max(20, b.y) + 'px'; field.appendChild(t); setTimeout(() => t.remove(), 1400); };
+  const spawn = it => {
+    const el = document.createElement('div'); el.className = 'pmsg';
+    el.innerHTML = `<div class="pmt"><span class="pav">${avatar(it.av)}</span><b>${it.n}</b></div><div class="ptx">${it.p.length > 1 ? `${it.p[0]}<span class="key">${it.p[1]}</span>${it.p[2]}` : it.p[0]}</div>`;
+    field.appendChild(el);
+    const W = field.clientWidth, w = el.offsetWidth, h = el.offsetHeight, room = Math.max(0, W - w - 12);
+    S.side = !S.side;
+    const b = { it, el, w, h, x: 6 + (S.side ? rnd(0, room * .35) : rnd(room * .65, room)), y: -h - 4, st: 'fall' };
+    el.style.transform = `translate(${b.x}px,${b.y}px)`;
+    el.addEventListener('pointerdown', ev => { ev.preventDefault(); tapMsg(b); });
+    S.live.push(b); S.since = 0;
+    if (tut && it.fox && !S.taught) b.teach = true;
+  };
+  const tapMsg = b => {
+    if (D.paused || b.st !== 'fall' || S.done) return;
+    if (S.hold && S.hold !== b) return;
+    if (b.it.fox) {
+      b.st = 'hit'; S.zap++; $('#pvN').textContent = `${S.zap}/${nFox}`;
+      if (S.hold === b) { S.hold = null; coachOff(); }
+      b.el.classList.add('hit'); b.el.querySelector('.pav').innerHTML = avatar('fox');
+      b.el.querySelector('.pmt b').innerHTML = `<s>${b.it.n}</s> Лис`;
+      b.el.insertAdjacentHTML('beforeend', splatSVG());
+      const [ik, tt] = PTRICK[b.it.k]; tag(b, `${ic(ik)} ${tt}!`);
+      Sound.spray(); vibrate('light'); mood('happy');
+      setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => { b.el.remove(); b.st = 'dead'; }, 450); }, 700);
+    } else if (!b.oops) {
+      b.oops = true; S.oops++; b.el.classList.remove('shake'); void b.el.offsetWidth; b.el.classList.add('shake');
+      tag(b, `${ic('heart')} Это свои!`, 'g'); Sound.bad(); vibrate('error'); meter('rep', -1);
+    }
+  };
+  const land = b => {
+    b.st = 'dead';
+    if (!b.it.fox) { b.el.classList.add('gone'); setTimeout(() => b.el.remove(), 450); Sound.deliver(); return; }
+    // Лис проскочил — утаскивает монеты прямо из кассы
+    S.miss++; const n = Math.min(5, D.wallet); S.lost += n;
+    b.el.classList.add('hit'); b.el.querySelector('.pav').innerHTML = avatar('fox');
+    const [ik, tt] = PTRICK[b.it.k]; tag({ x: b.x, w: b.w, y: field.clientHeight - 60 }, `${mc('fox', 'sly')} ${ic(ik)} ${tt}`, 'r');
+    if (n) { D.wallet -= n; updAll(); coinsFly($('#till'), field, n); bumpEl($('#till'), 'hurt'); }
+    Sound.steal(); vibrate('error'); mood('sad');
+    setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => b.el.remove(), 450); }, 500);
+  };
+  return new Promise(res => {
+    let last = performance.now();
+    const step = t => {
+      if (D !== me) return;
+      const dt = Math.min(.05, (t - last) / 1000); last = t;
+      if (!D.paused && !S.done) {
+        const H = field.clientHeight;
+        S.since += dt;
+        const topY = S.live.filter(b => b.st === 'fall').reduce((m, b) => Math.min(m, b.y), Infinity);
+        if (!S.hold && S.q.length && S.since > gap && topY > 30) spawn(S.q.shift());
+        for (const b of S.live) {
+          if (b.st !== 'fall' || S.hold === b) continue;
+          if (S.hold) continue;
+          b.y += (H + b.h) / T * dt; b.el.style.transform = `translate(${b.x}px,${b.y}px)`;
+          if (b.teach && b.y > H * .22) { b.teach = false; S.taught = true; S.hold = b; b.el.classList.add('tapme'); coach('Это Лис! Тапни — закрась!', b.el); }
+          if (b.y > H - b.h * .4) land(b);
+        }
+        S.live = S.live.filter(b => b.st !== 'dead');
+        if (!S.q.length && !S.live.length) { S.done = true; finish(); return; }
+      }
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    const coach = (cap, el) => {
+      const c = ov.querySelector('.pphone'); const cp = document.createElement('div'); cp.className = 'pcap'; cp.textContent = cap; c.appendChild(cp);
+      const off = () => { cp.remove(); el.classList.remove('tapme'); };
+      el.addEventListener('pointerdown', off, { once: true });
+    };
+    const finish = async () => {
+      const all = S.zap === nFox && !S.oops;
+      const ds = all ? 2 : S.zap >= S.miss ? 1 : -S.miss;
+      const fp = ov.querySelector('.pphone');
+      fp.insertAdjacentHTML('beforeend', `<div class="pres">${mc('fox', S.miss ? 'happy' : 'sad', ['glasses'])}
+        <b>${all ? 'Лис раскрыт!' : S.miss ? 'Лис кое-что утащил' : 'Почти всех поймал!'}</b>
+        <div class="prow2"><span class="g">${ic('check')} ${S.zap}/${nFox}</span>${S.lost ? `<span class="r">${ic('coin')} −${S.lost}</span>` : ''}${S.oops ? `<span class="r">${ic('heartBreak')} ${S.oops}</span>` : ''}</div>
+        <button class="btn" id="pdone">К прилавку ${ic('play')}</button></div>`);
+      if (all) Sound.win(); else Sound.tap();
+      meter('sh', ds);
+      D.moments.push({ t: `${ic('phone')} Лис: ${S.zap}/${nFox}${S.lost ? ` · −${S.lost} ${ic('coin')}` : ''}`, c: S.miss ? 'r' : 'g' });
+      D.foxZap = (D.foxZap || 0) + S.zap; D.foxMiss = (D.foxMiss || 0) + S.miss;
+      await new Promise(r => { fp.querySelector('#pdone').onclick = () => { if (!D.paused) r(); }; });
+      Sound.tap(); ov.classList.add('out'); await pwait(300); ov.remove(); res();
+    };
+  });
 }
 
 /* ---------- Ситуации ---------- */
@@ -1668,7 +1851,7 @@ function showSummary() {
   </div>`;
   sc.classList.add('show');
   Sound.win(); if (profit > 0) setTimeout(confetti, 400);
-  Bridge.send('complete', { title: T.id, profit, piggy: D.piggy, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, ordersRight: D.mixOk, ordersWrong: D.mixBad, changeRight: D.chgOk, changeWrong: D.chgBad, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
+  Bridge.send('complete', { title: T.id, profit, piggy: D.piggy, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, foxZapped: D.foxZap || 0, foxMissed: D.foxMiss || 0, ordersRight: D.mixOk, ordersWrong: D.mixBad, changeRight: D.chgOk, changeWrong: D.chgBad, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
   $('#again').onclick = () => { Sound.tap(); renderPick(); };
   $('#share').onclick = () => {
     Sound.tap();
