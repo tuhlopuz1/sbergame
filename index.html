@@ -428,6 +428,20 @@ svg{display:block;overflow:visible}
 @keyframes boom{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-10deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotate(-4deg)}30%{transform:translate(-50%,-50%) scale(1) rotate(-4deg)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-80%) rotate(-4deg)}}
 .prules{position:absolute;inset:12px;border-radius:26px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px 12px;z-index:8;text-align:center;animation:pop .45s var(--spring) both;overflow-y:auto}
 .prules.out{opacity:0;transition:opacity .25s}
+.prules{justify-content:flex-start}
+.prules>:first-child{margin-top:auto}
+.prules>:last-child{margin-bottom:auto}
+.prules>*{flex:none}
+.prules .btn{position:sticky;bottom:0;z-index:2;flex:none;box-shadow:0 -10px 0 8px #fff,0 8px 22px rgba(46,197,255,.28)}
+@media (max-height:720px){
+  .prules{gap:7px;padding:12px 10px}
+  .rhead .rk{width:48px;height:48px}.rhead h3{font-size:20px}
+  .rcard{padding:8px;gap:5px}.rcard small{display:none}
+  .rcard .rt{font-size:15px}.rcard .rt .ic{width:24px;height:24px}
+  .rcard .rtr .ic{width:22px;height:22px}
+  .stk>svg{width:36px;height:36px}
+  .prules .btn{min-height:50px}
+}
 .prules h3{font-weight:900;font-size:24px;margin-bottom:2px}
 .rrow{display:flex;align-items:center;gap:8px;width:100%;background:var(--soft);border-radius:18px;padding:8px}
 .rrow .mini{flex:1;min-width:0;background:#fff;border-radius:14px;padding:6px 8px 8px;text-align:left;font-weight:800;font-size:13.5px;line-height:1.25;box-shadow:0 4px 10px rgba(24,26,40,.08);position:relative;overflow:hidden}
@@ -443,6 +457,47 @@ svg{display:block;overflow:visible}
 .rrow .dz{width:56px;height:68px;flex:none}
 .rrow .dz>svg{width:100%;height:100%;display:block}
 .prules .btn{max-width:240px;margin-top:4px}
+.rhead{display:flex;align-items:center;gap:10px;width:100%;margin-bottom:2px}
+.rhead .rk{width:64px;height:64px;flex:none}
+.rhead .rk>svg{width:100%;height:100%;display:block}
+.rhead h3{font-weight:900;font-size:24px;line-height:1.05;text-align:left;letter-spacing:-.02em}
+.rcard{width:100%;border-radius:20px;padding:10px;display:flex;flex-direction:column;gap:7px;text-align:left}
+.rcard.bad{background:#F2FCD3;box-shadow:inset 0 0 0 3px #C6F432}
+.rcard.good{background:#DDF8E8;box-shadow:inset 0 0 0 3px #7EE8A8}
+.rcard.warn{background:#FFE3EA;box-shadow:inset 0 0 0 3px rgba(255,61,110,.45);flex-direction:row;align-items:center;font-weight:800;font-size:15px}
+.rcard .rt{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px;line-height:1.15}
+.rcard .rt b{font-weight:900}
+.rcard .rt .ic{width:30px;height:30px}
+.rcard small{font-weight:700;font-size:12.5px;color:var(--ink2);line-height:1.25}
+.rcard .rtr{display:flex;gap:6px}
+.rcard .rtr .ic{width:26px;height:26px}
+.rcard .mini{background:#fff;border-radius:14px;padding:6px 8px 8px;font-weight:800;font-size:13.5px;line-height:1.25;box-shadow:0 4px 10px rgba(24,26,40,.08);position:relative;overflow:hidden;flex:1;min-width:0}
+.rcard .mini .pav{width:22px;height:22px}
+.rcard .mini .pmt b{font-size:12px}
+.rcard .mini.fx .key{background:linear-gradient(transparent 12%,var(--m) 12%,var(--m) 92%,transparent 92%)}
+.rcard .msplat{position:absolute;right:-10px;top:-14px;width:66px;height:66px;mix-blend-mode:multiply;pointer-events:none}
+.rcard .rfx{width:46px;height:56px;flex:none}
+.rcard .rfx>svg{width:100%;height:100%;display:block}
+.rcard.warn .ic{width:22px;height:22px}
+.rrow2{display:flex;align-items:center;gap:6px}
+.rrow2 .arr{font-weight:900;font-size:20px;color:var(--muted)}
+.stk{display:flex;flex-direction:column;align-items:center;width:70px;flex:none;font-weight:900;font-size:11.5px}
+.stk>svg{width:44px;height:44px;display:block}
+.buzz .caller{position:absolute;left:50%;top:54%;width:84px;height:103px;margin:-52px 0 0 -42px;pointer-events:none}
+.buzz .caller>svg{width:100%;height:100%;display:block;animation:buzz .5s linear infinite}
+.ptray{display:flex;gap:6px;padding:8px 2px 0}
+.pst{flex:1;background:#fff;border-radius:18px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;touch-action:none;transition:transform .12s,box-shadow .2s;user-select:none;-webkit-user-select:none}
+.pst>svg{width:46px;height:46px;display:block}
+.pst b{font-weight:900;font-size:12.5px}
+.pst:active{transform:scale(.92)}
+.pst.sel{box-shadow:0 0 0 4px var(--m)}
+.pmsg.fm .pav{width:34px;height:42px}
+.pmsg.fm .pav>svg{width:100%;height:100%}
+.pmsg.answered{box-shadow:0 0 0 4px #1FD16C,0 8px 18px rgba(24,26,40,.12)}
+.pmsg .slap{position:absolute;right:-10px;top:-14px;width:48px;height:48px;z-index:3;animation:slap .4s var(--spring) both}
+.pmsg .slap>svg{width:100%;height:100%;display:block}
+@keyframes slap{from{transform:scale(2.2) rotate(-30deg);opacity:0}to{transform:rotate(12deg);opacity:1}}
+.dragc>svg{width:58px;height:58px;display:block}
 .pcap{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:#fff;font-weight:900;font-size:17px;padding:10px 16px;border-radius:16px;white-space:nowrap;z-index:6;box-shadow:0 0 0 3px #fff;animation:capIn .4s var(--spring) both}
 .pres{position:absolute;inset:12px;border-radius:26px;background:rgba(255,255,255,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;z-index:7;animation:pop .45s var(--spring) both}
 .pres .ic.icc{width:90px;height:110px}
@@ -1007,6 +1062,8 @@ const IC = {
   trash: `<path d="M5 7h14l-1.2 12.5a2 2 0 0 1-2 1.5H8.2a2 2 0 0 1-2-1.5z" fill="#E3E5EC" ${K}/><rect x="3.5" y="4.5" width="17" height="3" rx="1.5" fill="#B9BCC8" ${K}/><path d="M10 10.5v7M14 10.5v7" stroke="#111216" stroke-width="1.5" stroke-linecap="round"/>`,
   note: `<rect x="2" y="5.5" width="20" height="13" rx="2.5" fill="#7EE8A8" ${K}/><circle cx="12" cy="12" r="3.4" fill="#1FD16C" stroke="#111216" stroke-width="1.3"/><path d="M5 8.5h2M17 15.5h2" stroke="#111216" stroke-width="1.4" stroke-linecap="round"/>`,
   dash: `<path d="M2 9h9M4 13h8M3 17h6" stroke="#111216" stroke-width="2" stroke-linecap="round"/><path d="${blobPath(17, 12, 5.5, 7, .25, 6)}" fill="#E3E5EC" ${K}/>`,
+  party: `<path d="M3 21l5-14 9 9z" fill="#FF5CE6" ${K}/><path d="M5.5 14l4.5 4.5M7 10l7 7" stroke="#FFDD2E" stroke-width="1.8"/><g stroke="#111216" stroke-width="1.6" stroke-linecap="round"><path d="M14 3v3M19 5l-2 2M21 10h-3"/></g><circle cx="11" cy="4" r="1.5" fill="#2EC5FF"/><circle cx="20" cy="15" r="1.5" fill="#C6F432"/><circle cx="17" cy="2.5" r="1.2" fill="#FF3D6E"/>`,
+  hug: `<path d="M12 20s-7-4.5-7-9.5A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.5c0 5-7 9.5-7 9.5z" fill="#FF5CE6" ${K}/><path d="M3 9q-1 6 5 9M21 9q1 6-5 9" stroke="#FFC58A" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M3 9q-1 6 5 9M21 9q1 6-5 9" stroke="#111216" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".5"/>`,
   spray: `<rect x="5" y="9" width="9" height="13" rx="2.5" fill="#2B2D35" ${K}/><rect x="5" y="13" width="9" height="4" fill="#C6F432"/><rect x="7" y="5" width="5" height="4.5" rx="1" fill="#B9BCC8" ${K}/><rect x="9" y="2.5" width="4" height="3" rx="1" fill="#111216"/><g fill="#C6F432" stroke="#111216" stroke-width=".8"><circle cx="17" cy="3.5" r="1.6"/><circle cx="20.5" cy="6" r="1.3"/><circle cx="17.5" cy="8.5" r="1.8"/><circle cx="21" cy="11" r="1.1"/></g>`,
   link: `<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2" stroke="#2EC5FF" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round"/>`,
   star: `<path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z" fill="#FFDD2E" ${K}/>`,
@@ -1180,17 +1237,13 @@ function renderStart() {
     <p class="lead">Открой лавку на ярмарке. Готовь заказы, копи и не попадись хитрецам!</p>
     <button class="btn big" id="play">Открыть лавку ${ic('play')}</button>
   </section>`;
-  $('#play').onclick = () => { Sound.tap(); vibrate(); renderPick(); };
+  $('#play').onclick = () => { Sound.tap(); vibrate(); randomStall(); };
 }
-function renderPick() {
-  app.innerHTML = `<section class="screen pickp">${blobsBg()}
-    <div class="row" style="width:100%"><button class="ibtn" data-home aria-label="Назад">${ICON.x}</button>${soundBtn()}</div>
-    <div class="kick" style="margin-top:4px">Что будешь продавать?</div>
-    <h1 class="ttl">Выбери лавку</h1>
-    <div class="stalls">${Object.entries(PRODS).map(([k, P], i) => `<button class="stall" data-p="${k}" style="--i:${i}">
-      <span class="sv" style="background:${P.bg}">${prodSVG(k)}</span><span><b>${P.t}</b><span class="ings">${RECIPES[k].fl.map(f => ic(f[0])).join('')}${RECIPES[k].ex.map(e => ic(e)).join('')}</span></span></button>`).join('')}</div>
-  </section>`;
-  app.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { Sound.tap(); vibrate(); renderMorning(b.dataset.p); });
+/* лавка выбирается случайно; подряд одна и та же не выпадает */
+function randomStall() {
+  const ks = Object.keys(PRODS).filter(k => k !== SESSION.lastProd);
+  SESSION.lastProd = pick(ks);
+  renderMorning(SESSION.lastProd);
 }
 
 /* ================= Утро: бюджет ================= */
@@ -1311,7 +1364,7 @@ function buildQueue() {
   };
   const q = [buyer('b'), buyer('b')];
   stories.forEach((id, i) => {
-    if (i === 2 || i === 7) q.push({ t: 'p', n: i === 2 ? 0 : 1 });   // ивент: телефон с Лисом
+    if (i === 2 || i === 7) q.push({ t: 'p', n: 0, who: i === 2 ? 'fox' : 'friends' });   // ивент: звонит телефон — Лис или друзья
     q.push({ t: 's', id });
     q.push(buyer(i === 0 ? 'mix' : i === 2 ? 'chg' : pick(['b', 'mix', 'mix', 'chg', 'b'])));
     if (i % 3 === 2) q.push(buyer(pick(['b', 'mix'])));
@@ -1601,7 +1654,7 @@ const phoneSVG = () => `<svg viewBox="0 0 120 170"><rect x="14" y="6" width="92"
 async function phoneEnc(e) {
   const me = D, y = $('#yard');
   const ph = document.createElement('button'); ph.className = 'buzz'; ph.setAttribute('aria-label', 'Телефон звонит');
-  ph.innerHTML = phoneSVG(); y.appendChild(ph);
+  ph.innerHTML = phoneSVG() + `<span class="caller">${e.who === 'friends' ? critter('kitten', 'happy', ['bow']) : critter('fox', 'sly', ['glasses'])}</span>`; y.appendChild(ph);
   let ringing = true;
   (async () => { while (ringing && D === me) { if (!D.paused) { vibrate('error'); Sound.tone(880, .08, 'square', .05); Sound.tone(1175, .08, 'square', .05, .12); } await pwait(1300); } })();
   await new Promise(r => {
@@ -1618,19 +1671,157 @@ async function phoneEnc(e) {
   if (D !== me) return;
   Sound.pop(); ph.classList.add('open');
   await pwait(250); ph.remove(); if (D !== me) return;
-  await foxChat(e.n || 0);
+  if (e.who === 'friends') await friendChat(e.n || 0); else await foxChat(e.n || 0);
 }
-function foxRules(fp) {
-  const mini = (av, n, html, fox) => `<div class="mini ${fox ? 'fx' : ''}"><div class="pmt"><span class="pav">${avatar(av)}</span><b>${n}</b></div><div>${html}</div>${fox ? splatSVG('class="msplat"') : ''}</div>`;
-  fp.insertAdjacentHTML('beforeend', `<div class="prules">
-    <h3>Лис пишет в чат!</h3>
-    <div class="rrow">${mini('robot', 'Поддержка', 'Скажи <span class="key">код из СМС</span>', 1)}<div class="act">${ic('spray')}Тапни — закрась</div></div>
-    <div class="rrow">${mini('mom', 'Мама', 'Купи хлеб после школы', 0)}<div class="act">${ic('check')}Своих пропусти</div></div>
-    <div class="rrow danger"><div class="dz">${critter('fox', 'happy', ['bag'])}</div><div class="act wide">Долетел вниз — <b>−5</b> ${ic('coin')}</div></div>
-    <button class="btn" id="pgo">Поехали! ${ic('play')}</button></div>`);
+/* общая обёртка карточки правил */
+function rulesCard(fp, html) {
+  fp.insertAdjacentHTML('beforeend', `<div class="prules">${html}<button class="btn" id="pgo">Понятно, поехали! ${ic('play')}</button></div>`);
   const el = fp.querySelector('.prules');
   return new Promise(r => { el.querySelector('#pgo').onclick = () => { if (D.paused) return; Sound.tap(); el.classList.add('out'); setTimeout(() => { el.remove(); r(); }, 250); }; });
 }
+const miniMsg = (avHtml, n, html, cls = '') => `<div class="mini ${cls}"><div class="pmt"><span class="pav">${avHtml}</span><b>${n}</b></div><div>${html}</div>${cls === 'fx' ? splatSVG('class="msplat"') : ''}</div>`;
+function foxRules(fp) {
+  return rulesCard(fp, `
+    <div class="rhead"><span class="rk">${klyaksik({ can: true })}</span><h3>Лис пишет<br>в чат!</h3></div>
+    <div class="rcard bad"><div class="rt">${ic('spray')}<span>Мошенник? <b>Закрась!</b></span></div>
+      ${miniMsg(avatar('robot'), 'Поддержка', 'Скажи <span class="key">код из СМС</span>', 'fx')}
+      <div class="rtr">${['keypad', 'gift', 'link', 'zip', 'clock'].map(k => ic(k)).join('')}</div>
+      <small>Просят код и деньги, дарят «призы», шлют ссылки, просят секретов, торопят</small></div>
+    <div class="rcard good"><div class="rt">${ic('check')}<span>Свои? <b>Не трогай!</b></span></div>
+      ${miniMsg(avatar('mom'), 'Мама', 'Купи хлеб после школы')}</div>
+    <div class="rcard warn"><span class="rfx">${critter('fox', 'happy', ['bag'])}</span><span>Мошенник долетел вниз — <b>−5</b> ${ic('coin')}</span></div>`);
+}
+
+/* ---------- Ивент «Друзья в чате»: подбери поддержку по настроению ---------- */
+const STICK = {
+  joy: { st: 'party', t: 'Ура!', md: 'happy' },
+  sad: { st: 'hug', t: 'Обнимаю', md: 'sad' },
+  angry: { st: 'handshake', t: 'Я с тобой', md: 'angry' }
+};
+const FM = (k, n, t, mood) => ({ k, n, t, mood });
+const FMSG = [
+  FM('bunny', 'Зайка', 'Я победил в забеге!', 'joy'), FM('frog', 'Квакс', 'Мне подарили щенка!', 'joy'), FM('chick', 'Цыпа', 'Я научилась кататься!', 'joy'),
+  FM('hamster', 'Хома', 'Сам испёк торт!', 'joy'), FM('owl', 'Сова', 'Пятёрка за диктант!', 'joy'),
+  FM('mouse', 'Мышка', 'Потеряла любимую игрушку…', 'sad'), FM('bunny', 'Зайка', 'Меня не взяли в команду…', 'sad'), FM('bear', 'Мишка', 'Друг уехал в другой город…', 'sad'),
+  FM('chick', 'Цыпа', 'Уронила мороженое…', 'sad'), FM('kitten', 'Мурка', 'Заболела, не приду на ярмарку…', 'sad'),
+  FM('hamster', 'Хома', 'Брат сломал мою башню!', 'angry'), FM('frog', 'Квакс', 'Меня толкнули в очереди!', 'angry'), FM('bear', 'Мишка', 'Забрали мой мяч без спроса!', 'angry'),
+  FM('mouse', 'Мышка', 'Мне сказали обидное слово!', 'angry'), FM('owl', 'Сова', 'Испортили мой рисунок!', 'angry')
+];
+const stickerSVG = k => `<svg viewBox="0 0 64 64"><path d="${blobPath(32, 32, 29, 10, .06, k.length * 5)}" fill="${k === 'joy' ? '#FFE45C' : k === 'sad' ? '#FFC2E2' : '#B5E9FF'}" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)">${IC[STICK[k].st]}</g></svg>`;
+function friendRules(fp) {
+  const row = (k, n, t, mood) => `<div class="rrow2">${miniMsg(critter(k, STICK[mood].md), n, t)}<span class="arr">→</span><span class="stk">${stickerSVG(mood)}<b>${STICK[mood].t}</b></span></div>`;
+  return rulesCard(fp, `
+    <div class="rhead"><span class="rk">${critter('kitten', 'happy', ['bow'])}</span><h3>Друзья пишут<br>в чат!</h3></div>
+    <div class="rcard good"><div class="rt">${ic('heart')}<span>Пойми настроение — <b>перетащи наклейку!</b></span></div>
+      ${row('bunny', 'Зайка', 'Я победил в забеге!', 'joy')}${row('mouse', 'Мышка', 'Потеряла игрушку…', 'sad')}${row('hamster', 'Хома', 'Брат сломал башню!', 'angry')}</div>
+    <div class="rcard warn"><span class="rfx">${critter('mouse', 'sad', ['tear'])}</span><span>Не ответил — <b>друг грустит</b> ${ic('heartBreak')}</span></div>`);
+}
+async function friendChat(round) {
+  const me = D, y = $('#yard');
+  const tut = firstTime('friendchat');
+  const N = 6, q = fresh('fmsg', FMSG, N);
+  const ov = document.createElement('div'); ov.className = 'pov';
+  ov.innerHTML = `<div class="pphone fr"><div class="pnotch"></div>
+    <div class="phead">${mc('kitten', 'happy', ['bow'])}<b>Друзья в чате</b><span id="pvN">0/${N}</span></div>
+    <div class="pfield" id="pfield"><div class="pzone" id="pzone"></div></div>
+    <div class="ptray">${Object.keys(STICK).map(k => `<button class="pst" data-k="${k}">${stickerSVG(k)}<b>${STICK[k].t}</b></button>`).join('')}</div></div>`;
+  y.appendChild(ov);
+  const field = ov.querySelector('#pfield'), zone = ov.querySelector('#pzone'), fp = ov.querySelector('.pphone');
+  if (tut) await friendRules(fp);
+  if (D !== me) return;
+  const S = { live: [], q: q.slice(), ok: 0, bad: 0, miss: 0, since: 9, side: false, sel: null, done: false };
+  const T = round ? 7 : 8, gap = 1.9;
+  const tag = (b, html, cls = '') => { const t = document.createElement('div'); t.className = 'ptag ' + cls; t.innerHTML = html; t.style.left = clamp(b.x + b.w / 2, 80, field.clientWidth - 80) + 'px'; t.style.top = Math.max(20, b.y) + 'px'; field.appendChild(t); setTimeout(() => t.remove(), 1400); };
+  const flash = cls => { zone.classList.remove('hitz', 'okz'); void zone.offsetWidth; zone.classList.add(cls); };
+  const face = (b, md) => { b.el.querySelector('.pav').innerHTML = critter(b.it.k, md); };
+  const spawn = it => {
+    const el = document.createElement('div'); el.className = 'pmsg fm';
+    el.innerHTML = `<div class="pmt"><span class="pav">${critter(it.k, STICK[it.mood].md)}</span><b>${it.n}</b></div><div class="ptx">${it.t}</div>`;
+    field.appendChild(el);
+    const W = field.clientWidth, w = el.offsetWidth, h = el.offsetHeight, room = Math.max(0, W - w - 12);
+    S.side = !S.side;
+    const b = { it, el, w, h, x: 6 + (S.side ? rnd(0, room * .35) : rnd(room * .65, room)), y: -h - 4, st: 'fall' };
+    el.style.transform = `translate(${b.x}px,${b.y}px)`;
+    el.addEventListener('pointerdown', ev => { if (S.sel) { ev.preventDefault(); answer(b, S.sel); } });
+    S.live.push(b); S.since = 0;
+  };
+  const answer = (b, k) => {
+    if (D.paused || b.st !== 'fall' || S.done) return;
+    if (k === b.it.mood) {
+      b.st = 'done'; S.ok++; $('#pvN').textContent = `${S.ok}/${N}`;
+      face(b, 'happy'); b.el.classList.add('answered');
+      b.el.insertAdjacentHTML('beforeend', `<span class="slap">${stickerSVG(k)}</span>`);
+      Sound.good(); vibrate('light'); mood('happy');
+      for (let i = 0; i < 3; i++) setTimeout(() => floatAt(b.el, ic('heart', 'fh'), 'heart'), i * 120);
+      setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => { b.el.remove(); b.st = 'dead'; }, 450); }, 800);
+    } else {
+      S.bad++; face(b, b.it.mood === 'joy' ? 'sad' : 'angry');
+      b.el.classList.remove('shake'); void b.el.offsetWidth; b.el.classList.add('shake');
+      tag(b, `${ic('meh')} Не то настроение`, 'r'); Sound.bad(); vibrate('error');
+      setTimeout(() => { if (b.st === 'fall') face(b, STICK[b.it.mood].md); }, 700);
+    }
+    selectSt(null);
+  };
+  const selectSt = k => { S.sel = k; ov.querySelectorAll('.pst').forEach(x => x.classList.toggle('sel', x.dataset.k === k)); };
+  // наклейку можно перетащить на сообщение или тапнуть наклейку, а потом сообщение
+  ov.querySelectorAll('.pst').forEach(btn => btn.addEventListener('pointerdown', ev => {
+    if (D.paused || S.done) return;
+    ev.preventDefault();
+    const k = btn.dataset.k, g = document.createElement('div'); g.className = 'dragc'; g.innerHTML = stickerSVG(k);
+    g.style.left = ev.clientX + 'px'; g.style.top = ev.clientY + 'px'; document.body.appendChild(g);
+    const x0 = ev.clientX, y0 = ev.clientY; let moved = false;
+    const mv = e => { g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px'; if (Math.hypot(e.clientX - x0, e.clientY - y0) > 10) moved = true; };
+    const up = e => {
+      removeEventListener('pointermove', mv); removeEventListener('pointerup', up); removeEventListener('pointercancel', up); g.remove();
+      if (!moved) { selectSt(S.sel === k ? null : k); Sound.tap(); return; }
+      const hit = S.live.find(b => { const r = b.el.getBoundingClientRect(); return b.st === 'fall' && e.clientX > r.left - 10 && e.clientX < r.right + 10 && e.clientY > r.top - 10 && e.clientY < r.bottom + 10; });
+      if (hit) answer(hit, k);
+    };
+    addEventListener('pointermove', mv); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  }));
+  const land = b => {
+    b.st = 'dead'; S.miss++;
+    b.y = field.clientHeight - b.h - 6; b.el.style.transform = `translate(${b.x}px,${b.y}px)`;
+    face(b, 'sad'); b.el.classList.add('stolen');
+    flash('hitz'); tag(b, `${ic('heartBreak')} Друг остался без ответа`, 'r'); Sound.bad(); vibrate('error'); meter('rep', -1);
+    setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => b.el.remove(), 450); }, 700);
+  };
+  await new Promise(res => {
+    let last = performance.now();
+    const step = t => {
+      if (D !== me) return;
+      const dt = Math.min(.05, (t - last) / 1000); last = t;
+      if (!D.paused && !S.done) {
+        const H = field.clientHeight;
+        S.since += dt;
+        const topY = S.live.filter(b => b.st === 'fall').reduce((m, b) => Math.min(m, b.y), Infinity);
+        if (S.q.length && S.since > gap && topY > 40) spawn(S.q.shift());
+        for (const b of S.live) {
+          if (b.st !== 'fall') continue;
+          b.y += (H + b.h) / T * dt; b.el.style.transform = `translate(${b.x}px,${b.y}px)`;
+          if (b.y > H - b.h - 6) land(b);
+        }
+        S.live = S.live.filter(b => b.st !== 'dead');
+        if (!S.q.length && !S.live.length) { S.done = true; res(); return; }
+      }
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
+  if (D !== me) return;
+  const all = S.ok === N;
+  fp.insertAdjacentHTML('beforeend', `<div class="pres">${mc('kitten', S.ok >= N / 2 ? 'happy' : 'sad', ['bow'])}
+    <b>${all ? 'Ты лучший друг!' : S.ok >= N / 2 ? 'Друзьям стало лучше!' : 'Друзья ждали поддержки'}</b>
+    <div class="prow2"><span class="g">${ic('heart')} ${S.ok}/${N}</span>${S.miss ? `<span class="r">${ic('heartBreak')} ${S.miss}</span>` : ''}</div>
+    <button class="btn" id="pdone">К прилавку ${ic('play')}</button></div>`);
+  if (all) Sound.win(); else Sound.tap();
+  meter('rep', all ? 2 : S.ok >= N / 2 ? 1 : -1);
+  D.moments.push({ t: `${mc('kitten', 'happy', ['bow'])} Друзья: ${S.ok}/${N}`, c: S.ok >= N / 2 ? 'g' : 'r' });
+  D.friendOk = (D.friendOk || 0) + S.ok; D.friendMiss = (D.friendMiss || 0) + S.miss + S.bad;
+  await new Promise(r => { fp.querySelector('#pdone').onclick = () => { if (!D.paused) r(); }; });
+  Sound.tap(); ov.classList.add('out'); await pwait(300); ov.remove();
+}
+
 async function foxChat(round) {
   const me = D, y = $('#yard');
   const tut = firstTime('foxchat');
@@ -1912,7 +2103,7 @@ function showSummary() {
   sc.classList.add('show');
   Sound.win(); if (profit > 0) setTimeout(confetti, 400);
   Bridge.send('complete', { title: T.id, profit, piggy: D.piggy, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, foxZapped: D.foxZap || 0, foxMissed: D.foxMiss || 0, ordersRight: D.mixOk, ordersWrong: D.mixBad, changeRight: D.chgOk, changeWrong: D.chgBad, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
-  $('#again').onclick = () => { Sound.tap(); renderPick(); };
+  $('#again').onclick = () => { Sound.tap(); randomStall(); };
   $('#share').onclick = () => {
     Sound.tap();
     const text = `Я провёл(а) день в «Лавке на один день» и стал(а) «${T.t}»! Прибыль: ${profit} монет. А ты?`;
