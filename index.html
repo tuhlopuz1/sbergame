@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#F2F3F7">
 <meta name="color-scheme" content="light">
-<title>Кляксик спасает город</title>
+<title>Лавка на один день</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
 <style>
+
 /* Стиль по мотивам СберKids «1dali»: белая «комната» + кислотные спреи, дудлы и блобы с глазками. */
 :root{
   --bg:#F2F3F7;--card:#fff;--ink:#111216;--ink2:#2B2D35;--muted:#8B8FA0;--line:#E6E8EF;--soft:#EEF0F5;
@@ -137,218 +138,229 @@ svg{display:block;overflow:visible}
 .conf{position:absolute;top:-30px;width:26px;height:26px;animation:fall var(--d) cubic-bezier(.25,.6,.45,1) forwards;animation-delay:var(--dl)}
 @keyframes fall{to{transform:translate(var(--dx),110vh) rotate(var(--r))}}
 
-/* ---------- Старт ---------- */
-.start{padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 18px)}
-.start>*{position:relative;z-index:1}
+/* ================= Общее ================= */
 .row{display:flex;justify-content:space-between;align-items:center}
-.hero{flex:1;min-height:0;width:100%}
-.ttl{font-weight:900;font-size:clamp(34px,10vw,46px);line-height:.98;letter-spacing:-.03em;margin:4px 0 0;position:relative}
+.row2{display:flex;gap:10px}
+.btn.big{min-height:66px;font-size:22px;border-radius:24px;animation:breathe 1.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+.btn.big:active{animation:none;transform:scale(.96)}
+.btn[disabled]{filter:grayscale(1);opacity:.45;animation:none;pointer-events:none}
+.kick{font-family:var(--hand);font-weight:700;font-size:26px;line-height:1}
+.ttl{font-weight:900;font-size:clamp(34px,10vw,46px);line-height:.98;letter-spacing:-.03em;position:relative}
 .ttl .u{position:relative;display:inline-block;z-index:0}
 .ttl .u svg{position:absolute;left:-6%;bottom:-6px;width:112%;height:24px;z-index:-1}
-.lead{font-weight:700;font-size:17px;line-height:1.35;color:var(--ink2);margin:12px 0 16px}
-.btn.big{min-height:68px;font-size:22px;border-radius:24px;animation:breathe 1.8s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-.btn.big:active{animation:none;transform:scale(.96)}
-
-/* ---------- HUD ---------- */
-.game{padding-top:var(--safe-t)}
-.hud{display:flex;align-items:center;gap:10px;padding:10px 16px 6px;position:relative;z-index:8}
-.trail{flex:1;display:flex;justify-content:center;gap:8px}
-.trail span{width:40px;height:40px;border-radius:14px;background:#E3E5EC;display:grid;place-items:center;font-size:21px;filter:grayscale(1);opacity:.55;transition:all .3s var(--out)}
-.trail span.cur{background:#fff;box-shadow:var(--shadow);filter:none;opacity:1;transform:scale(1.12)}
-.trail span.done{background:var(--m);filter:none;opacity:1}
-.score{min-width:64px;height:46px;border-radius:15px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;padding:0 12px;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
-.score svg{width:18px;height:18px}
-.score.bump{animation:bump .4s var(--spring)}
-@keyframes bump{40%{transform:scale(1.18)}}
-.field{position:relative;flex:1;min-height:0;overflow:hidden;z-index:2;touch-action:none;user-select:none;-webkit-user-select:none}
-canvas.trailc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:6}
-.ftag{position:absolute;z-index:9;background:var(--ink);color:#fff;font-weight:900;font-size:16px;padding:7px 12px;border-radius:14px;white-space:nowrap;pointer-events:none;transform:translate(-50%,-50%);animation:ftag 1.5s var(--out) forwards}
-.ftag.g{background:var(--green);color:var(--ink)}
-.ftag.r{background:var(--red)}
-.ftag.y{background:var(--yellow);color:var(--ink)}
-@keyframes ftag{0%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(-10deg)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.1) rotate(-3deg)}75%{opacity:1;transform:translate(-50%,-90%) scale(1)}100%{opacity:0;transform:translate(-50%,-120%) scale(.9)}}
-.wbar{position:relative;z-index:6;margin:0 12px calc(var(--safe-b) + 10px);background:#fff;border-radius:24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;padding:8px 12px;min-height:66px}
-.coins{display:flex;gap:3px;flex:1}
-.coins svg{width:30px;height:30px;transition:all .35s var(--spring)}
-.coins svg.gone{opacity:.18;filter:grayscale(1);transform:scale(.7)}
-.wbar .wk{width:62px;height:62px;margin-top:-34px;flex:none}
-.wbar .wk svg{width:100%;height:100%}
-.hearts{display:flex;align-items:center;gap:4px;font-weight:900;font-size:19px;background:var(--soft);padding:6px 10px;border-radius:14px;font-variant-numeric:tabular-nums}
-.hearts svg{width:24px;height:24px}
-.hearts.wob,.coins.wob{animation:wob .5s}
-@keyframes wob{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
-
-/* ---------- обучение: рука-подсказка ---------- */
-.coach{position:absolute;inset:0;z-index:12;pointer-events:none}
-.coach .cap{position:absolute;left:50%;top:calc(var(--safe-t) + 70px);transform:translateX(-50%);background:var(--ink);color:#fff;font-weight:900;font-size:20px;padding:11px 18px;border-radius:18px;white-space:nowrap;animation:capIn .45s var(--spring) both;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.coach{position:absolute;inset:0;z-index:30;pointer-events:none}
+.coach .cap{position:absolute;left:50%;top:38%;transform:translateX(-50%);background:var(--ink);color:#fff;font-weight:900;font-size:20px;padding:11px 18px;border-radius:18px;white-space:nowrap;animation:capIn .45s var(--spring) both;box-shadow:0 10px 24px rgba(0,0,0,.2)}
 @keyframes capIn{from{opacity:0;transform:translateX(-50%) scale(.6)}to{opacity:1;transform:translateX(-50%) scale(1)}}
-.coach .cap.mid{top:42%}
-.coach .cap.bottom{top:auto;bottom:calc(var(--safe-b) + 104px)}
-.coach .ghand{position:absolute;left:0;top:0;font-size:52px;line-height:1;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25));margin:-8px 0 0 -18px}
+.coach .ghand{position:absolute;left:0;top:0;font-size:52px;line-height:1;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25));margin:-6px 0 0 -18px}
+.fly{position:fixed;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px;z-index:120;pointer-events:none}
+.fly svg{width:100%;height:100%}
 
-/* ---------- сцена-оверлей ---------- */
-.scene{position:absolute;inset:0;z-index:15;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--safe-t) + 20px) 20px calc(var(--safe-b) + 20px);background:rgba(242,243,247,.97);opacity:0;pointer-events:none;transition:opacity .3s}
+/* ================= Старт / выбор ================= */
+.start{padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 18px)}
+.start>*{position:relative;z-index:1}
+.start .hero{flex:1;min-height:0;width:100%}
+.start .hero>svg{width:100%;height:100%;display:block}
+.start .lead{font-weight:700;font-size:17px;line-height:1.35;color:var(--ink2);margin:12px 0 16px}
+.pickp{padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 18px);align-items:center;text-align:center}
+.pickp>*{position:relative;z-index:1}
+.pickp .ttl{font-size:34px;margin:6px 0 18px}
+.stalls{display:flex;flex-direction:column;gap:12px;width:100%;max-width:380px;flex:1;justify-content:center}
+.stall{display:flex;align-items:center;gap:14px;background:#fff;border-radius:28px;padding:10px 16px 10px 10px;box-shadow:var(--shadow);text-align:left;animation:pop .5s var(--spring) both;animation-delay:calc(.1s + var(--i)*.1s);transition:transform .14s var(--out);overflow:hidden;position:relative}
+.stall:active{transform:scale(.96)}
+.stall .sv{width:96px;height:96px;flex:none;border-radius:22px;display:grid;place-items:center;position:relative;overflow:hidden}
+.stall .sv svg{width:70px;height:70px;position:relative;animation:wig 2.6s ease-in-out infinite}
+.stall b{font-weight:900;font-size:24px;letter-spacing:-.02em}
+.stall span{display:block;font-weight:700;font-size:14px;color:var(--muted);margin-top:2px}
+
+/* ================= Утро ================= */
+.morning{padding:calc(var(--safe-t) + 12px) 14px calc(var(--safe-b) + 16px);background:linear-gradient(#FFE9C7,#F2F3F7 45%)}
+.morning>*{position:relative;z-index:1}
+.mhead{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
+.mhead svg{width:56px;height:56px;flex:none}
+.mhead .ttl{font-size:34px}
+.wallet{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:#fff;border-radius:20px;padding:10px 16px;font-weight:900;font-size:28px;font-variant-numeric:tabular-nums;margin-bottom:12px}
+.wallet svg{width:32px;height:32px}
+.wallet small{font-size:14px;opacity:.7;font-weight:700}
+.wallet.bump{animation:bump .4s var(--spring)}
+.mpanels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;flex:1;min-height:0}
+.mp{background:#fff;border-radius:26px;box-shadow:var(--shadow);padding:12px 8px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:0}
+.mp h3{font-weight:900;font-size:18px}
+.mp .art{flex:1;min-height:90px;width:100%;display:grid;place-items:center}
+.mp .art svg{width:100%;height:100%;max-height:150px}
+.mp .eq{display:flex;align-items:center;gap:3px;font-weight:800;font-size:13px;max-width:100%;background:var(--soft);border-radius:12px;padding:5px 9px;white-space:nowrap}
+.mp .eq svg{width:20px;height:20px;flex:none}
+.step{display:flex;align-items:center;justify-content:center;gap:4px;width:100%}
+.step button{width:44px;height:44px;flex:none;border-radius:16px;background:var(--soft);font-weight:900;font-size:26px;display:grid;place-items:center;transition:transform .12s}
+.step button:active{transform:scale(.88)}
+.step button.plus{background:var(--m)}
+.step button[disabled]{opacity:.3}
+.step b{min-width:0;flex:1;text-align:center;font-weight:900;font-size:24px;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;gap:3px}
+.step b svg{width:20px;height:20px}
+.goal{width:100%;display:flex;align-items:center;gap:6px}
+.goal .gbar{flex:1;height:10px;border-radius:6px;background:var(--soft);overflow:hidden}
+.goal .gbar i{display:block;height:100%;background:linear-gradient(90deg,#FF5CE6,#2EC5FF);border-radius:6px;transition:width .35s var(--out)}
+.goal svg{width:34px;height:22px;flex:none}
+.morning .btn.big{margin-top:12px}
+
+/* ================= День: сцена ================= */
+.stage{background:#DDF3FF}
+.sky{position:absolute;inset:0;background:linear-gradient(#BFE8FF,#E8F7FF 40%,#F2F3F7 70%);transition:background 2s}
+.sky.eve{background:linear-gradient(#FF9F6B,#FFC9C2 38%,#FBE6EF 70%)}
+.sky.rainy{background:linear-gradient(#9AA6BC,#C9D2E0 45%,#E3E7EE 75%)}
+.sky>svg{position:absolute;left:0;right:0;bottom:120px;width:100%;height:72%}
+.wheel{animation:spin 40s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cloud{animation:drift 30s linear infinite}
+@keyframes drift{from{transform:translateX(-80px)}to{transform:translateX(480px)}}
+.flag{transform-box:fill-box;transform-origin:50% 0;animation:flag 2.4s ease-in-out infinite}
+@keyframes flag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+#sun{position:absolute;left:8%;top:46%;width:64px;height:64px;margin:-32px 0 0 -32px;transition:left 1.4s var(--out),top 1.4s var(--out)}
+#sun>svg{width:100%;height:100%;display:block}
+.sunr{transform-box:fill-box;transform-origin:center;animation:spin 18s linear infinite}
+.awning{position:relative;z-index:4;height:calc(var(--safe-t) + 70px);flex:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.08))}
+.awning>svg{position:absolute;left:0;bottom:0;width:100%;height:70px}
+.awning .top{position:absolute;left:0;right:0;top:0;height:var(--safe-t)}
+.neon{position:absolute;left:50%;bottom:-30px;transform:translateX(-50%) scale(0);width:150px;height:46px;z-index:5;transition:transform .6s var(--spring)}
+.neon.on{transform:translateX(-50%) scale(1)}
+.neon svg{width:100%;height:100%}
+.neon.on .nt{animation:neon 2.2s infinite}
+@keyframes neon{0%,18%,22%,60%,100%{opacity:1}20%,61%{opacity:.3}}
+.hud{position:absolute;left:0;right:0;top:calc(var(--safe-t) + 8px);z-index:8;display:flex;align-items:center;gap:8px;padding:0 12px}
+.meters{flex:1;display:flex;gap:6px;justify-content:center;min-width:0}
+.meter{display:flex;align-items:center;gap:5px;background:#fff;border-radius:15px;padding:0 9px;height:44px;box-shadow:var(--shadow);min-width:0}
+.meter svg.mi{width:22px;height:22px;flex:none}
+.meter .mb{width:clamp(36px,14vw,70px);height:10px;border-radius:6px;background:var(--soft);overflow:hidden}
+.meter .mb i{display:block;height:100%;border-radius:6px;transition:width .6s var(--out)}
+.meter.rep .mb i{background:linear-gradient(90deg,#FF5CE6,#FF3D6E)}
+.meter.sh .mb i{background:linear-gradient(90deg,#2EC5FF,#1A9BFF)}
+.meter.up{animation:bump .5s var(--spring)}
+.meter.down{animation:wob .5s}
+@keyframes bump{40%{transform:scale(1.15)}}
+@keyframes wob{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+.yard{position:relative;flex:1;min-height:0;z-index:3}
+.cust{position:absolute;left:50%;bottom:86px;height:min(230px,calc(100% - 190px));aspect-ratio:160/196;transform:translateX(-50%);z-index:2}
+.cust .cw{width:100%;height:100%;animation:walkIn .65s var(--out) both}
+.cust .cw>svg{width:100%;height:100%;animation:bob 1.5s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes walkIn{0%{transform:translateX(110vw) rotate(10deg)}70%{transform:translateX(-14px) rotate(-3deg)}100%{transform:none}}
+@keyframes bob{0%,100%{transform:scale(1,1)}50%{transform:scale(1.02,.97) translateY(2px)}}
+.cust.out-happy .cw{animation:outHappy .7s ease-in forwards}
+@keyframes outHappy{0%{transform:none}30%{transform:translateY(-30px) rotate(-6deg)}100%{transform:translateX(-110vw) translateY(-10px) rotate(-12deg)}}
+.cust.out-sad .cw{animation:outSad 1s ease-in forwards}
+@keyframes outSad{0%{transform:none}100%{transform:translateX(110vw) translateY(10px) rotate(4deg)}}
+.cust.out-run .cw{animation:outRun .7s cubic-bezier(.5,0,.9,.4) forwards}
+@keyframes outRun{0%{transform:none}20%{transform:translateY(-16px) scale(1.05)}100%{transform:translateX(120vw) rotate(25deg)}}
+.cust.out-angry .cw{animation:outAngry 1s ease-in forwards}
+@keyframes outAngry{0%,30%{transform:none}10%,25%{transform:translateX(-8px)}18%{transform:translateX(8px)}100%{transform:translateX(110vw)}}
+.cust.shake .cw{animation:wob .45s}
+.cust.yay .cw{animation:yay .5s var(--out) 2}
+@keyframes yay{50%{transform:translateY(-22px)}}
+.say{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:5;background:#fff;border-radius:26px;padding:12px 18px;box-shadow:0 12px 30px rgba(24,26,40,.14);font-weight:800;font-size:18px;line-height:1.25;text-align:center;width:max-content;max-width:calc(100% - 28px);animation:sayIn .45s var(--spring) both}
+@keyframes sayIn{from{opacity:0;transform:translateX(-50%) scale(.5) translateY(30px)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.say::after{content:"";position:absolute;left:50%;bottom:-12px;margin-left:-12px;border:12px solid transparent;border-top-color:#fff;border-bottom:0}
+.say.order{display:flex;align-items:center;gap:6px;font-size:30px;font-weight:900;padding:10px 18px 16px;cursor:pointer}
+.say.order svg{width:54px;height:54px}
+.say.order .x{font-size:30px}
+.say .pat{position:absolute;left:14px;right:14px;bottom:7px;height:6px;border-radius:4px;background:var(--soft);overflow:hidden}
+.say .pat i{display:block;height:100%;width:100%;background:var(--green);border-radius:4px;transform-origin:left;animation:pat linear forwards}
+@keyframes pat{0%{transform:scaleX(1);background:var(--green)}60%{background:var(--yellow)}100%{transform:scaleX(0);background:var(--red)}}
+.say.event{background:var(--ink);color:#fff}
+.say.event::after{border-top-color:var(--ink)}
+.opts{position:absolute;left:10px;right:10px;bottom:4px;display:flex;gap:8px;justify-content:center;z-index:6}
+.op{flex:1;max-width:124px;min-height:84px;background:#fff;border-radius:24px;box-shadow:0 10px 24px rgba(24,26,40,.16);padding:8px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;animation:pop .4s var(--spring) both;animation-delay:calc(.15s + var(--i)*.08s);transition:transform .12s var(--out)}
+.op:active{transform:scale(.92)}
+.op b{font-size:36px;line-height:1;font-weight:400}
+.op span{font-weight:800;font-size:13.5px;line-height:1.1;text-align:center}
+.op.off{opacity:.42;filter:grayscale(.8);pointer-events:none}
+.op .bdg{position:absolute;right:-6px;top:-8px;background:var(--ink);color:#fff;font-weight:900;font-size:12px;padding:3px 7px;border-radius:9px;display:flex;align-items:center;gap:2px}
+.op .bdg.pig{background:#FFB3D9;color:var(--ink)}
+.op .bdg svg{width:14px;height:14px}
+.op.pick{transform:scale(1.08);box-shadow:0 0 0 4px var(--m),0 10px 24px rgba(24,26,40,.16)}
+.op.glow{animation:glowP 1s ease-in-out infinite}
+@keyframes glowP{0%,100%{box-shadow:0 0 0 0 rgba(198,244,50,0),0 10px 24px rgba(24,26,40,.16)}50%{box-shadow:0 0 0 7px var(--m),0 10px 24px rgba(24,26,40,.16)}}
+.toast{position:absolute;left:50%;top:22%;transform:translateX(-50%);z-index:20;background:var(--ink);color:#fff;font-weight:900;font-size:18px;padding:10px 16px;border-radius:18px;white-space:nowrap;pointer-events:none;animation:toast 2.2s var(--out) forwards;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.toast.r{background:var(--red)}
+.toast.g{background:var(--green);color:var(--ink)}
+@keyframes toast{0%{opacity:0;transform:translateX(-50%) scale(.4) rotate(-6deg)}12%{opacity:1;transform:translateX(-50%) scale(1.08) rotate(-2deg)}22%{transform:translateX(-50%) scale(1) rotate(-2deg)}85%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-20px) rotate(-2deg)}}
+.tipl{position:absolute;left:12px;right:12px;bottom:6px;z-index:7;background:var(--yellow);border-radius:20px;padding:10px 14px 10px 10px;display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;line-height:1.25;box-shadow:0 10px 24px rgba(0,0,0,.15);animation:tipIn 3.4s var(--out) forwards;pointer-events:none}
+.tipl svg{width:34px;height:34px;flex:none}
+@keyframes tipIn{0%{opacity:0;transform:translateY(30px)}10%{opacity:1;transform:none}88%{opacity:1}100%{opacity:0;transform:translateY(10px)}}
+.rain{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s;z-index:4;overflow:hidden}
+.rain.on{opacity:1}
+.rain i{position:absolute;top:-30px;width:3px;height:22px;border-radius:2px;background:rgba(46,155,255,.6);animation:drop .7s linear infinite}
+@keyframes drop{to{transform:translateY(110vh)}}
+.counter{position:relative;z-index:6;flex:none;background:#fff;border-radius:30px 30px 0 0;box-shadow:0 -10px 30px rgba(24,26,40,.1);padding:12px 12px calc(var(--safe-b) + 12px);display:flex;align-items:flex-end;justify-content:space-between;gap:6px;min-height:118px}
+.counter::before{content:"";position:absolute;left:0;right:0;top:0;height:12px;border-radius:30px 30px 0 0;background:repeating-linear-gradient(90deg,var(--aw1) 0 26px,var(--aw2) 26px 52px)}
+.ci{display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
+.ci b{font-weight:900;font-size:19px;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:3px;line-height:1}
+.ci b svg{width:18px;height:18px}
+.ci .ic{position:relative}
+.ci.kx{margin-top:-44px}
+.ci.kx svg{width:78px;height:78px}
+.ci.stock .ic svg{width:64px;height:64px}
+.ci.stock .ic svg+svg{position:absolute;left:12px;top:-8px;width:52px;height:52px;z-index:-1;opacity:.8}
+.ci.stock.low b{color:var(--red)}
+.ci.stock.empty .ic{filter:grayscale(1);opacity:.4}
+.ci.till .ic svg{width:92px;height:66px}
+.ci.pig .ic svg{width:70px;height:56px}
+.ci.bump{animation:bump .4s var(--spring)}
+.ci.hurt{animation:wob .45s}
+.scene{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--safe-t) + 16px) 16px calc(var(--safe-b) + 16px);background:rgba(242,243,247,.97);opacity:0;pointer-events:none;transition:opacity .35s;overflow-y:auto}
 .scene.show{opacity:1;pointer-events:auto}
-.scene .art{width:100%;max-width:340px;height:min(30vh,200px)}
-.scene .art>svg{width:100%;height:100%}
-.scene .kick{font-family:var(--hand);font-weight:700;font-size:25px;margin-top:6px}
-.scene .big{font-weight:900;font-size:44px;line-height:.98;letter-spacing:-.03em;position:relative;z-index:0;margin:2px 0 14px}
-.scene .big svg{position:absolute;left:-6%;bottom:-10px;width:112%;height:26px;z-index:-1}
-.scene .btn{max-width:330px}
-.legend{display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px;margin-bottom:18px}
-.lrow{display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap}
-.rc{display:flex;flex-direction:column;align-items:center;gap:3px;background:#fff;border-radius:18px;padding:8px 6px 6px;min-width:62px;box-shadow:var(--shadow);font-weight:800;font-size:12px;animation:pop .45s var(--spring) both;animation-delay:calc(.15s + var(--i)*.07s)}
-.rc b{font-size:30px;line-height:1;font-weight:400}
-.rc svg{width:30px;height:30px}
-.rc.bad{box-shadow:0 0 0 3px #FFB37A,var(--shadow)}
-.rc.good{box-shadow:0 0 0 3px #7EE8A8,var(--shadow)}
-.arrow{font-weight:900;font-size:16px;padding:0 2px;white-space:nowrap}
-.picks{display:flex;gap:12px;justify-content:center;margin-bottom:18px}
-.pk{width:92px;height:104px;border-radius:26px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:46px;animation:pop .45s var(--spring) both;animation-delay:calc(.15s + var(--i)*.08s);transition:transform .14s var(--out)}
-.pk span{font-size:13px;font-weight:800}
-.pk:active{transform:scale(.92)}
-.stars3{display:flex;gap:8px;justify-content:center;margin:4px 0 14px}
-.stars3 svg{width:58px;height:58px;animation:pop .5s var(--spring) both;animation-delay:calc(.5s + var(--i)*.22s)}
-.stars3 svg path,.ms svg path{fill:var(--yellow);stroke:#111216;stroke-width:1.4;stroke-linejoin:round}
-.stars3 svg.off path,.ms svg.off path{fill:#E3E5EC;stroke:#C9CCD8}
-.bld{transition:fill 1.1s var(--out)}
-.city .lit{animation:litPop .9s var(--spring) both;transform-box:fill-box;transform-origin:50% 100%}
-@keyframes litPop{0%{transform:scale(1)}40%{transform:scale(1.08,.94)}100%{transform:scale(1)}}
 
-/* ---------- Мир 1: пузыри ---------- */
-.bub{position:absolute;left:0;top:0;width:150px;margin:-64px 0 0 -75px;background:#fff;border-radius:28px;padding:16px 10px 12px;box-shadow:0 12px 26px rgba(24,26,40,.14);text-align:center;will-change:transform;pointer-events:none;z-index:3}
-.bub .bav{position:absolute;left:-12px;top:-14px;width:44px;height:44px}
-.bub .bav svg{width:44px;height:44px}
-.bub .bav.flip svg{animation:flip .55s var(--spring)}
-@keyframes flip{from{transform:rotateY(90deg) scale(.5)}to{transform:none}}
-.bub .bn{position:absolute;right:10px;top:-11px;background:var(--ink);color:#fff;font-weight:800;font-size:12px;padding:3px 9px;border-radius:9px;white-space:nowrap}
-.bub .be{font-size:46px;line-height:1;display:block}
-.bub .bt{font-weight:800;font-size:15px;line-height:1.15;display:block;margin-top:6px;position:relative;z-index:1}
-.bub .splat{position:absolute;width:150px;height:150px;left:50%;top:50%;margin:-75px 0 0 -75px;pointer-events:none;mix-blend-mode:multiply;z-index:2}
-.sp{transform-box:fill-box;transform-origin:center;animation:splat .32s var(--out) both}
-@keyframes splat{from{transform:scale(.1)}to{transform:scale(1)}}
-.drip{stroke-dasharray:1;stroke-dashoffset:1;animation:drawIn 1.2s ease-in .2s forwards}
-.bub.hit .bn{background:var(--fox)}
-.bub.out{transition:opacity .6s;opacity:0}
-.bub.oops{animation:bShake .4s}
-@keyframes bShake{0%,100%{margin-left:-75px}25%{margin-left:-83px}75%{margin-left:-67px}}
-.bub.spot{box-shadow:0 0 0 5px var(--m),0 0 0 11px rgba(255,255,255,.7),0 12px 26px rgba(24,26,40,.14)}
-.bub.spotg{box-shadow:0 0 0 5px var(--green),0 0 0 11px rgba(255,255,255,.7),0 12px 26px rgba(24,26,40,.14)}
-.bub.boss{width:230px;margin:-90px 0 0 -115px;padding:22px 12px 14px;border-radius:36px;background:#FFF4EA}
-.bub.boss .bav{width:64px;height:64px;left:-14px;top:-20px}
-.bub.boss .bav svg{width:64px;height:64px}
-.bub.boss .bi{display:flex;justify-content:center;gap:8px}
-.bub.boss .bi span{font-size:44px;line-height:1;transition:transform .3s var(--spring),opacity .3s;display:inline-block}
-.bub.boss .bi span.off{transform:scale(0) rotate(40deg);opacity:0}
-.bub.boss .hpb{height:10px;border-radius:6px;background:#FFD9E8;margin:12px 8px 0;overflow:hidden}
-.bub.boss .hpb i{display:block;height:100%;width:100%;background:var(--pink);transition:width .3s var(--out)}
-.bub.boss.hitb{animation:bossHit .3s}
-@keyframes bossHit{30%{filter:brightness(1.6);scale:1.06}}
-.runner{position:absolute;width:56px;height:56px;transition:transform 1s cubic-bezier(.5,0,.8,.3)}
-.runner svg{width:100%;height:100%}
-.runner .rc2{position:absolute;right:-8px;top:-8px;width:26px;height:26px}
+/* ================= Детектив ================= */
+.det .dh{font-weight:900;font-size:24px;margin:4px 0 12px;display:flex;align-items:center;gap:8px;justify-content:center}
+.det .dots{display:flex;gap:6px;justify-content:center;margin-bottom:12px}
+.det .dots i{width:16px;height:16px;border-radius:50%;background:#DCDFE8;transition:background .3s,transform .3s var(--spring)}
+.det .dots i.on{background:var(--red);transform:scale(1.25)}
+.phone{width:min(280px,78vw);background:#111216;border-radius:38px;padding:14px;box-shadow:0 24px 50px rgba(0,0,0,.25);animation:pop .5s var(--spring) both;position:relative}
+.phone .scr{background:#fff;border-radius:26px;padding:18px 12px 12px;display:flex;flex-direction:column;gap:6px;position:relative}
+.phone .notch{position:absolute;left:50%;top:6px;width:70px;height:16px;margin-left:-35px;background:#111216;border-radius:10px;z-index:2}
+.phone .okc{width:62px;height:62px;margin:6px auto 2px;border-radius:50%;background:#21A038;display:grid;place-items:center}
+.phone .okc svg{width:34px;height:34px}
+.phone .ph{font-weight:900;font-size:18px;margin-bottom:4px}
+.prow{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:14px;padding:9px 12px;font-weight:800;font-size:16px;position:relative;text-align:left;cursor:pointer;transition:transform .12s}
+.prow:active{transform:scale(.97)}
+.prow i{font-style:normal;font-size:20px}
+.prow svg.ring{position:absolute;inset:-8px -6px;width:calc(100% + 12px);height:calc(100% + 16px);pointer-events:none}
+.prow.found{background:#FFE3EA}
+.prow .lb{position:absolute;right:6px;top:-12px;background:var(--red);color:#fff;font-size:12px;font-weight:900;padding:3px 8px;border-radius:9px;animation:pop .35s var(--spring)}
+.prow.nope{animation:wob .4s}
+.det .btn{margin-top:14px;max-width:300px}
 
-/* ---------- Мир 2: копилка ---------- */
-.dream{margin:4px 14px 0;background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:8px 12px;display:flex;align-items:center;gap:10px;position:relative;z-index:4}
-.dream .de{font-size:38px;line-height:1;flex:none}
-.dream .db{flex:1;min-width:0}
-.pbar{height:14px;border-radius:9px;background:var(--soft);overflow:hidden;position:relative}
-.pbar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--grad);border-radius:9px;transition:width .35s var(--out)}
-.pbar.full i{background:linear-gradient(90deg,#FFD93B,#FF8A1F)}
-.dream .dn{font-weight:900;font-size:17px;display:flex;align-items:center;gap:4px;margin-top:4px;font-variant-numeric:tabular-nums}
-.dream .dn svg{width:20px;height:20px}
-.needs{display:flex;gap:6px;flex:none}
-.needs span{width:42px;height:42px;border-radius:13px;border:2.5px dashed #C9CCD8;display:grid;place-items:center;font-size:23px;opacity:.6}
-.needs span.ok{border:0;background:#DDF8E8;opacity:1;animation:pop .4s var(--spring)}
-.fall{position:absolute;left:0;top:0;width:64px;height:64px;margin:-32px 0 0 -32px;display:grid;place-items:center;font-size:44px;line-height:1;pointer-events:none;will-change:transform}
-.fall svg{width:48px;height:48px}
-.fall .pt{position:absolute;right:-12px;top:-8px;font-weight:900;font-size:13px;background:var(--red);color:#fff;padding:2px 7px;border-radius:9px;font-family:var(--font)}
-.fall .pt.g{background:var(--green);color:var(--ink)}
-.fall .pt.f{background:var(--fox)}
-.fall.need{background:#fff;border-radius:20px;box-shadow:0 0 0 3px #7EE8A8}
-.fall.trap{background:#FFE6D1;border-radius:50%;box-shadow:0 0 0 3px var(--fox)}
-.fall.gold{background:#FFF3B0;border-radius:50%;box-shadow:0 0 0 3px #FFC400}
-.fall.bounce{transition:transform .5s var(--out),opacity .5s;opacity:0}
-.catcher{position:absolute;left:0;bottom:4px;width:124px;height:110px;margin-left:-62px;pointer-events:none;z-index:4;will-change:transform}
-.catcher .pig{position:absolute;left:0;right:0;bottom:0;height:80px}
-.catcher .pig svg{width:100%;height:100%}
-.catcher.gulp .pig{animation:gulp .3s var(--spring)}
-@keyframes gulp{40%{transform:scale(1.12,.9)}}
-.catcher .bank{position:absolute;right:-14px;top:0;font-size:28px;opacity:0;transform:scale(0);transition:all .4s var(--spring)}
-.catcher .bank.on{opacity:1;transform:none}
-.catcher .slot{position:absolute;left:50%;top:22px;width:44px;height:8px;margin-left:-22px;border-radius:5px;background:#111216;opacity:.85}
-.timer{height:8px;border-radius:6px;background:#DCDFE8;margin:8px 14px 0;overflow:hidden;position:relative;z-index:4}
-.timer i{display:block;height:100%;width:100%;background:var(--ink);border-radius:6px}
-
-/* ---------- Мир 3: краски чувств ---------- */
-.street{position:relative;flex:1;min-height:0;z-index:2}
-.friend{--fs:min(44vw,26vh,180px);position:absolute;left:50%;bottom:28%;width:var(--fs);height:var(--fs);margin-left:calc(var(--fs) / -2);transition:transform .6s var(--out);z-index:3}
-.friend svg{width:100%;height:100%}
-.friend.in{animation:fIn .6s var(--out) both}
-@keyframes fIn{from{transform:translateX(80vw) rotate(8deg)}to{transform:none}}
-.friend.out{transform:translateX(-90vw) rotate(-8deg)}
-.friend.no{animation:fNo .5s}
-@keyframes fNo{0%,100%{rotate:0}20%{rotate:-8deg}40%{rotate:8deg}60%{rotate:-6deg}80%{rotate:4deg}}
-.friend.yay{animation:fYay .6s var(--out) 2}
-@keyframes fYay{0%,100%{translate:0 0}40%{translate:0 -26px}}
-.friend .fbody{transition:fill .45s}
-.think{position:absolute;left:50%;top:6%;transform:translateX(-50%);background:#fff;border-radius:32px;padding:12px 20px 10px;box-shadow:var(--shadow);text-align:center;z-index:4;animation:thinkIn .5s var(--spring) .3s both;min-width:180px}
-@keyframes thinkIn{from{opacity:0;transform:translateX(-50%) scale(.5)}to{opacity:1;transform:translateX(-50%) scale(1)}}
-.think b{display:block;font-size:50px;line-height:1.05;font-weight:400;letter-spacing:4px}
-.think span{display:block;font-weight:800;font-size:14px;color:var(--ink2);margin-top:4px}
-.think::after{content:"";position:absolute;left:50%;bottom:-16px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:var(--shadow);margin-left:-9px}
-.helps{position:absolute;left:0;right:0;bottom:4px;display:flex;justify-content:center;gap:8px;z-index:5;padding:0 10px}
-.hp{background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:10px 6px 8px;flex:1;max-width:112px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:12.5px;line-height:1.1;text-align:center;animation:pop .4s var(--spring) both;animation-delay:calc(var(--i)*.08s)}
-.hp b{font-size:38px;line-height:1;font-weight:400}
-.hp:active{transform:scale(.94)}
-.hp.no{opacity:.3;transform:scale(.9);pointer-events:none;transition:all .3s}
-.hp.glow,.bk.glow .bkc{animation:glowP 1s ease-in-out infinite}
-@keyframes glowP{0%,100%{box-shadow:0 0 0 0 rgba(255,221,46,.0),var(--shadow)}50%{box-shadow:0 0 0 8px rgba(255,221,46,.9),var(--shadow)}}
-.buckets{display:flex;justify-content:space-between;gap:4px;padding:8px 8px 6px;margin:0 10px calc(var(--safe-b) + 10px);background:#fff;border-radius:24px;box-shadow:var(--shadow);position:relative;z-index:6;transition:opacity .3s}
-.buckets.off{opacity:.35;pointer-events:none}
-.bk{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;touch-action:none;font-weight:800;font-size:11px;cursor:grab;user-select:none;-webkit-user-select:none}
-.bkc{width:56px;height:56px;border-radius:50%;position:relative;display:grid;place-items:center;font-size:28px;transition:transform .15s var(--out)}
-.bkc svg{position:absolute;inset:0;width:100%;height:100%}
-.bkc b{position:relative;font-weight:400}
-.bk:active .bkc{transform:scale(.9)}
-.dragc{position:fixed;z-index:60;width:64px;height:64px;margin:-32px 0 0 -32px;pointer-events:none;display:grid;place-items:center;font-size:30px}
-.dragc svg{position:absolute;inset:0;width:100%;height:100%}
-.dragc b{position:relative;font-weight:400}
-.dragc.fly{transition:transform .35s cubic-bezier(.3,.7,.4,1)}
-.pblot{position:absolute;width:120px;height:120px;margin:-60px 0 0 -60px;pointer-events:none;z-index:4;transition:opacity .8s}
-
-/* ---------- Финал ---------- */
-.result{overflow-y:auto;overscroll-behavior:contain;padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 20px)}
-.result>*{position:relative;z-index:1}
-.r-hero{height:190px;margin:4px 0 0}
-.r-hero>svg{width:100%;height:100%}
-.r-ttl{font-weight:900;font-size:36px;line-height:1;letter-spacing:-.03em;text-align:center}
-.r-sub{font-weight:700;color:var(--ink2);margin:10px 0 16px;line-height:1.35;font-size:16px;text-align:center}
-.medals{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-.medal{background:#fff;border-radius:22px;padding:12px 4px 10px;text-align:center;box-shadow:var(--shadow);animation:pop .45s var(--spring) both;animation-delay:calc(.4s + var(--i)*.1s)}
-.medal .mi{font-size:34px;line-height:1}
-.medal .mt{font-weight:800;font-size:12.5px;margin:4px 0 4px;line-height:1.1}
-.ms{display:flex;justify-content:center;gap:1px}
-.ms svg{width:20px;height:20px}
-.h2{font-weight:900;font-size:21px;letter-spacing:-.02em;margin:0 0 10px}
-.rules{background:var(--ink);color:#fff;border-radius:26px;padding:16px;margin-bottom:20px;display:flex;flex-direction:column;gap:12px}
-.rule{display:flex;gap:12px;align-items:center;font-weight:800;font-size:16px;line-height:1.25}
-.rule .rn{width:42px;height:42px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:22px;background:var(--c)}
-.btns{display:flex;flex-direction:column;gap:10px}
-.row2{display:flex;gap:10px}
-.total{display:flex;justify-content:center;margin-bottom:16px}
-.total span{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#fff;font-weight:900;font-size:20px;padding:9px 16px;border-radius:16px}
-.total svg{width:22px;height:22px}
-
-@media (max-height:660px){
-  .bub{width:136px}.bub .be{font-size:40px}.bub .bt{font-size:14px}
-  .scene .big{font-size:38px}.scene .art{height:22vh}
-  .think b{font-size:42px}
+/* ================= Вечер ================= */
+.eve .kick{margin-bottom:2px}
+.medal{width:150px;height:170px;margin:4px auto 0;animation:medalIn .8s var(--spring) both .2s}
+@keyframes medalIn{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+.medal svg{width:100%;height:100%}
+.etitle{font-weight:900;font-size:30px;letter-spacing:-.02em;line-height:1.05;margin:4px 0 12px}
+.estats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%;max-width:420px;margin-bottom:12px}
+.es{background:#fff;border-radius:18px;padding:9px 4px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:3px;animation:pop .4s var(--spring) both;animation-delay:calc(.6s + var(--i)*.08s)}
+.es svg{width:26px;height:26px}
+.es b{font-weight:900;font-size:19px;font-variant-numeric:tabular-nums}
+.es b.neg{color:var(--red)}
+.moms{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:420px;margin-bottom:12px}
+.mom{background:#fff;border-radius:14px;padding:6px 10px;font-weight:800;font-size:14px;box-shadow:var(--shadow);animation:pop .4s var(--spring) both;animation-delay:calc(.9s + var(--i)*.07s)}
+.mom.r{background:#FFE3EA}
+.mom.g{background:#DDF8E8}
+.tcol{display:flex;gap:6px;justify-content:center;margin:2px 0 4px}
+.tcol svg{width:40px;height:46px}
+.tcol .off{filter:grayscale(1);opacity:.3}
+.tcap{font-weight:800;font-size:13px;color:var(--muted);margin-bottom:12px}
+.eve .btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:380px}
+@media (max-height:680px){
+  .cust{height:min(190px,calc(100% - 180px))}
+  .say{font-size:16px;padding:10px 14px}
+  .op{min-height:76px}.op b{font-size:30px}
+  .medal{width:120px;height:136px}
+  .etitle{font-size:26px}
 }
 @media (prefers-reduced-motion:reduce){
-  .blobs i,.klx .k-body,.twinkle,.wiggle,.spray-can,.fox .f-tail,.btn.big{animation:none!important}
+  .blobs i,.klx .k-body,.twinkle,.wiggle,.wheel,.cloud,.flag,.sunr,.btn.big,.cust .cw>svg{animation:none!important}
 }
+.cnew{animation:pop .45s var(--spring) both;transform-box:fill-box;transform-origin:50% 100%}
+.stage.paused *{animation-play-state:paused!important}
+.toast{white-space:normal;max-width:calc(100% - 24px);text-align:center;width:max-content}
 </style>
 </head>
 <body>
@@ -602,68 +614,296 @@ function confetti() {
 }
 
 /* =========================================================
-   Состояние живёт только в памяти: между заходами ничего не
-   сохраняется (по ТЗ). Один заход = одно приключение и финал.
+   «Лавка на один день». Состояние живёт только в памяти:
+   между заходами ничего не сохраняется (по ТЗ).
    ========================================================= */
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
-const SESSION = { seen: new Set(), recent: {} };
-/* внутри захода недавно показанное уходит в конец очереди */
+const SESSION = { days: 0, titles: new Set(), seen: new Set(), recent: {} };
+const firstTime = k => { if (SESSION.seen.has(k)) return false; SESSION.seen.add(k); return true; };
 function fresh(key, arr, n) {
   const r = SESSION.recent[key] || [], s = shuffle(arr);
   const out = [...s.filter(x => !r.includes(x)), ...s.filter(x => r.includes(x))].slice(0, n);
-  SESSION.recent[key] = [...out, ...r.filter(x => !out.includes(x))].slice(0, Math.floor(arr.length * .7));
+  SESSION.recent[key] = [...out, ...r.filter(x => !out.includes(x))].slice(0, Math.max(1, Math.floor(arr.length * .6)));
   return out;
 }
-const firstTime = k => { if (SESSION.seen.has(k)) return false; SESSION.seen.add(k); return true; };
-
-Sound.coin = function () { this.tone(1046, .07, 'triangle', .08); this.tone(1568, .1, 'triangle', .07, .05); };
+Sound.cash = function () { this.tone(1318, .08, 'triangle', .09); this.tone(1760, .16, 'triangle', .08, .07); };
+Sound.coin = function () { this.tone(1046, .06, 'triangle', .07); this.tone(1568, .09, 'triangle', .06, .04); };
+Sound.whoosh = function () { this.tone(900, .3, 'sine', .06, 0, 200); };
 Sound.pop = function () { this.tone(420, .08, 'sine', .1, 0, 900); };
+Sound.step = function () { this.tone(240, .05, 'sine', .05); };
 
-let RUN = null, ACTIVE = null, loopId = 0;
-function stopAll() { loopId++; ACTIVE = null; }
-function runLoop(S, update) {
-  const id = ++loopId; let last = performance.now();
-  const step = t => { if (id !== loopId) return; const dt = Math.min(.05, (t - last) / 1000); last = t; if (!S.paused) update(dt); requestAnimationFrame(step); };
-  requestAnimationFrame(step);
-}
+let D = null, loopId = 0;
 const soundBtn = () => `<button class="ibtn sound-btn ${Sound.on ? 'on' : ''}" data-sound aria-label="Звук" aria-pressed="${Sound.on}">${ICON.sound}</button>`;
 const blobsBg = () => `<div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>`;
-const STAR_P = 'M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z';
-const starRow = n => [0, 1, 2].map(i => `<svg viewBox="0 0 24 24" class="${i < n ? '' : 'off'}" style="--i:${i}"><path d="${STAR_P}"/></svg>`).join('');
-
-function mood(m, ms = 1200) {
-  document.querySelectorAll('[data-mood]').forEach(el => { if (!el.closest('.scene')) el.dataset.mood = m; });
-  clearTimeout(mood.t);
-  if (m !== 'idle') mood.t = setTimeout(() => document.querySelectorAll('[data-mood]').forEach(el => { if (!el.closest('.scene')) el.dataset.mood = 'idle'; }), ms);
+/* пауза-совместимое ожидание: время идёт, только пока игра не на паузе */
+function pwait(ms) {
+  const id = loopId;
+  return new Promise(r => { let acc = 0, last = performance.now(); const f = t => { if (id !== loopId) return; if (!D || !D.paused) acc += t - last; last = t; acc >= ms ? r() : requestAnimationFrame(f); }; requestAnimationFrame(f); });
 }
-function floatAt(el, html, cls) {
-  const r = el.getBoundingClientRect(), d = document.createElement('div');
-  d.className = cls; d.innerHTML = html; d.style.left = (r.left + r.width / 2) + 'px'; d.style.top = (r.top + r.height / 3) + 'px';
-  fx.appendChild(d); setTimeout(() => d.remove(), 1300); return d;
-}
-/* короткая подпись прямо в игровом поле — вместо модалок */
-function ftag(field, x, y, html, cls = '') {
-  const t = document.createElement('div'); t.className = 'ftag ' + cls; t.innerHTML = html;
-  field.appendChild(t);
-  const hw = t.offsetWidth / 2 + 8;
-  t.style.left = clamp(x, hw, field.clientWidth - hw) + 'px'; t.style.top = clamp(y, 30, field.clientHeight - 20) + 'px'; setTimeout(() => t.remove(), 1500);
-}
-function setScore(add, el) {
-  if (!ACTIVE || !RUN) return;
-  ACTIVE.score += add; RUN.score += add;
-  const s = $('#score'); if (s) { s.querySelector('span').textContent = RUN.score; s.classList.remove('bump'); void s.offsetWidth; s.classList.add('bump'); }
-  if (el) floatAt(el, `+${add}`, 'pts');
-}
-function runFox(x, y, withCoin) {
-  const f = document.createElement('div'); f.className = 'runner';
-  f.innerHTML = foxHeadSVG('caught') + (withCoin ? `<div class="rc2">${ICON.coin}</div>` : '');
-  f.style.left = x + 'px'; f.style.top = y + 'px'; fx.appendChild(f);
-  requestAnimationFrame(() => requestAnimationFrame(() => { f.style.transform = `translate(${innerWidth - x + 80}px,-60px) rotate(20deg)`; }));
-  setTimeout(() => f.remove(), 1200);
+function mood(m, ms = 1300) {
+  const k = $('.ci.kx'); if (!k) return;
+  k.dataset.mood = m; clearTimeout(mood.t);
+  if (m !== 'idle') mood.t = setTimeout(() => { k.dataset.mood = 'idle'; }, ms);
 }
 
-/* ---------- модалка (только пауза) ---------- */
+/* ================= SVG: иконки ================= */
+const I = {
+  heart: `<svg viewBox="0 0 24 24" class="mi"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z" fill="#FF3D6E"/><ellipse cx="8.5" cy="9" rx="2" ry="1.3" fill="#fff" opacity=".6" transform="rotate(-30 8.5 9)"/></svg>`,
+  shield: `<svg viewBox="0 0 24 24" class="mi"><path d="M12 2l8 3v6c0 5.3-3.4 9.3-8 11-4.6-1.7-8-5.7-8-11V5z" fill="#2EC5FF"/><path d="M8 12l3 3 5-6" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  shieldX: `<svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5.3-3.4 9.3-8 11-4.6-1.7-8-5.7-8-11V5z" fill="#9AA0AE"/><path d="M12 5l-2 6 3 2-2 7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`,
+  check: `<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  bulb: ICON.bulb
+};
+const coin = () => ICON.coin;
+function crateSVG(prod) {
+  return `<svg viewBox="0 0 64 56"><rect x="4" y="12" width="56" height="40" rx="7" fill="#F2B866" stroke="#111216" stroke-width="2.5"/><path d="M4 26h56M4 39h56" stroke="#C98A3A" stroke-width="3"/><path d="M18 12v40M46 12v40" stroke="#C98A3A" stroke-width="2.5" opacity=".6"/>${prod ? `<g transform="translate(20 14) scale(.38)">${PRODS[prod].art}</g>` : ''}</svg>`;
+}
+function tillSVG() {
+  return `<svg viewBox="0 0 100 72"><rect x="6" y="26" width="88" height="42" rx="10" fill="#A77BFF" stroke="#111216" stroke-width="2.5"/><rect x="18" y="4" width="64" height="26" rx="7" fill="#111216"/><rect x="23" y="9" width="54" height="16" rx="4" fill="#C6F432"/>
+    <g fill="#fff" opacity=".9"><rect x="16" y="36" width="12" height="7" rx="2"/><rect x="32" y="36" width="12" height="7" rx="2"/><rect x="48" y="36" width="12" height="7" rx="2"/><rect x="16" y="47" width="12" height="7" rx="2"/><rect x="32" y="47" width="12" height="7" rx="2"/><rect x="48" y="47" width="12" height="7" rx="2"/></g>
+    <rect x="66" y="36" width="20" height="18" rx="4" fill="#FF5CE6"/><rect x="6" y="58" width="88" height="10" rx="5" fill="#111216" opacity=".15"/></svg>`;
+}
+function neonSVG(prod) {
+  return `<svg viewBox="0 0 150 46"><rect x="3" y="3" width="144" height="40" rx="14" fill="#111216" stroke="#FF5CE6" stroke-width="3"/>
+    <g class="nt"><text x="75" y="31" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="22" fill="#C6F432" style="filter:drop-shadow(0 0 4px #C6F432)">ВКУСНО!</text></g>
+    <g class="nt" style="animation-delay:.6s"><path d="M14 23l4-8 4 8-4 8z" fill="#2EC5FF"/><path d="M128 23l4-8 4 8-4 8z" fill="#2EC5FF"/></g></svg>`;
+}
+function medalSVG(T, big = true) {
+  const sc = Array.from({ length: 16 }, (_, i) => { const a = i / 16 * Math.PI * 2, r = i % 2 ? 50 : 56; return `${(75 + Math.cos(a) * r).toFixed(1)},${(78 + Math.sin(a) * r).toFixed(1)}`; }).join(' ');
+  return `<svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
+    <polygon points="${sc}" fill="${T.c}" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
+    <text x="75" y="${big ? 95 : 96}" text-anchor="middle" font-size="44">${T.i}</text>${big ? DOODLE.sparkle('#FFDD2E', 130, 26, 1.1, 0) + DOODLE.sparkle('#A77BFF', 18, 40, .8, .5) : ''}</svg>`;
+}
+
+/* ================= SVG: товары ================= */
+const PRODS = {
+  lemon: { t: 'Лимонад', d: 'Холодный и кислый', aw: ['#FFE45C', '#FFFFFF'], bg: '#FFF6B8',
+    art: `<path d="M16 18h32l-4 40a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4z" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><path d="M18.6 30h26.8l-2.6 27.3a3 3 0 0 1-3 2.7H24.2a3 3 0 0 1-3-2.7z" fill="#FFE14D"/><rect x="24" y="36" width="8" height="8" rx="2" fill="#fff" opacity=".85"/><rect x="34" y="43" width="7" height="7" rx="2" fill="#fff" opacity=".7"/><path d="M36 22L44 4" stroke="#FF5CE6" stroke-width="4" stroke-linecap="round"/><circle cx="47" cy="19" r="9" fill="#C6F432" stroke="#111216" stroke-width="2.2"/><path d="M47 12v14M40 19h14M42 14l10 10M52 14l-10 10" stroke="#8DC11A" stroke-width="1.5"/>`,
+    sour: 'Фу! Кислятина!', broke: 'Холодильник сломался!', brokeE: '🧊', unit: '🍋' },
+  donut: { t: 'Пончики', d: 'С розовой глазурью', aw: ['#FF9CEF', '#FFFFFF'], bg: '#FFE0F7',
+    art: `<circle cx="32" cy="34" r="24" fill="#F4C27A" stroke="#111216" stroke-width="2.5"/><path d="M11 31q3-15 21-17t23 13q1 9-7 10t-13 7-14-3-10-10z" fill="#FF8AD8"/><circle cx="32" cy="33" r="8" fill="#F2F3F7" stroke="#111216" stroke-width="2.5"/><g stroke-width="3" stroke-linecap="round"><path d="M18 26l3-2" stroke="#2EC5FF"/><path d="M42 20l3 1" stroke="#C6F432"/><path d="M47 33l1 3" stroke="#FFDD2E"/><path d="M24 43l-3 2" stroke="#A77BFF"/><path d="M28 19l3 -1" stroke="#fff"/><path d="M40 44l3 1" stroke="#2EC5FF"/></g>`,
+    sour: 'Фу! Чёрствый!', broke: 'Печка сломалась!', brokeE: '🔥', unit: '🍩' },
+  slime: { t: 'Слаймы', d: 'Тянутся и светятся', aw: ['#C6F432', '#C9B0FF'], bg: '#E6FBC8',
+    art: `<rect x="14" y="18" width="36" height="40" rx="11" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><rect x="12" y="10" width="40" height="11" rx="4" fill="#A77BFF" stroke="#111216" stroke-width="2.5"/><path d="M16.5 38q8-9 16-3t15-2v14a9 9 0 0 1-9 9H25a8.5 8.5 0 0 1-8.5-8.5z" fill="#7CE85A"/><circle cx="27" cy="46" r="3.6" fill="#fff"/><circle cx="37" cy="46" r="3.6" fill="#fff"/><circle cx="27.6" cy="46.6" r="1.8" fill="#111216"/><circle cx="37.6" cy="46.6" r="1.8" fill="#111216"/><path d="M29 52q3 2 6 0" stroke="#111216" stroke-width="1.6" fill="none" stroke-linecap="round"/>`,
+    sour: 'Фу! Не тянется!', broke: 'Банки треснули!', brokeE: '💥', unit: '🟢' }
+};
+const prodSVG = (k, cls = '') => `<svg viewBox="0 0 64 64" class="${cls}">${PRODS[k].art}</svg>`;
+
+/* ================= SVG: зверята ================= */
+const CR = {
+  fox:      { c: '#FF7A1A', c2: '#fff', ear: 'pointy', ei: '#111216', mz: 1 },
+  wolf:     { c: '#8C93A6', c2: '#E3E5EC', ear: 'pointy', ei: '#5B6070', mz: 1 },
+  raccoon:  { c: '#A3A9B8', c2: '#EEF0F5', ear: 'round', ei: '#5B6070', mz: 1, mask: 1 },
+  beaver:   { c: '#B97A45', c2: '#F1D5B0', ear: 'small', mz: 1, teeth: 1 },
+  hedgehog: { c: '#F1CFA6', c2: '#FFF1DF', ear: 'none', sp: '#7A5230', mz: 1 },
+  kitten:   { c: '#FFC58A', c2: '#FFF3E3', ear: 'pointy', ei: '#FF9CC9', mz: 1, wh: 1 },
+  bear:     { c: '#A06A42', c2: '#EBCBA6', ear: 'round', ei: '#7A4B2B', mz: 1 },
+  bunny:    { c: '#EDE7FF', c2: '#fff', ear: 'long', ei: '#FFB3D9', wh: 1 },
+  frog:     { c: '#7EDC6A', c2: '#C9F5B8', ear: 'frog' },
+  chick:    { c: '#FFE14D', c2: '#FFF6B8', ear: 'tuft', beak: 1 },
+  mouse:    { c: '#C9CCD8', c2: '#EEF0F5', ear: 'big', ei: '#FFB3D9', wh: 1 },
+  owl:      { c: '#A77BFF', c2: '#E7DDFF', ear: 'tufts', beak: 1, owl: 1 },
+  hamster:  { c: '#FFB36B', c2: '#FFE6CC', ear: 'small', ham: 1 }
+};
+const BUYERS = ['bunny', 'frog', 'chick', 'mouse', 'owl', 'hamster', 'kitten', 'fox', 'bear', 'beaver'];
+function critter(k, md = 'idle', acc = []) {
+  const C = CR[k] || CR.bunny, dk = '#111216', seed = k.length * 13 + 5;
+  const ears = {
+    pointy: `<path d="M34 72L28 12l48 36z" fill="${C.c}"/><path d="M126 72l6-60-48 36z" fill="${C.c}"/><path d="M40 60l-3-32 23 19z" fill="${C.ei}"/><path d="M120 60l3-32-23 19z" fill="${C.ei}"/>`,
+    round: `<circle cx="36" cy="52" r="19" fill="${C.c}"/><circle cx="124" cy="52" r="19" fill="${C.c}"/><circle cx="36" cy="52" r="10" fill="${C.ei}"/><circle cx="124" cy="52" r="10" fill="${C.ei}"/>`,
+    small: `<circle cx="44" cy="52" r="13" fill="${C.c}"/><circle cx="116" cy="52" r="13" fill="${C.c}"/><circle cx="44" cy="52" r="6" fill="${C.c2}"/><circle cx="116" cy="52" r="6" fill="${C.c2}"/>`,
+    long: `<ellipse cx="58" cy="24" rx="13" ry="38" fill="${C.c}" transform="rotate(-12 58 24)"/><ellipse cx="102" cy="24" rx="13" ry="38" fill="${C.c}" transform="rotate(12 102 24)"/><ellipse cx="58" cy="26" rx="6" ry="27" fill="${C.ei}" transform="rotate(-12 58 26)"/><ellipse cx="102" cy="26" rx="6" ry="27" fill="${C.ei}" transform="rotate(12 102 26)"/>`,
+    big: `<circle cx="34" cy="56" r="27" fill="${C.c}"/><circle cx="126" cy="56" r="27" fill="${C.c}"/><circle cx="34" cy="56" r="16" fill="${C.ei}"/><circle cx="126" cy="56" r="16" fill="${C.ei}"/>`,
+    tufts: `<path d="M34 66L28 24l30 24z" fill="${C.c}"/><path d="M126 66l6-42-30 24z" fill="${C.c}"/>`,
+    tuft: `<path d="M70 50q2-22 10-6 4-18 12 0" stroke="${C.c}" stroke-width="8" fill="none" stroke-linecap="round"/>`,
+    frog: `<circle cx="54" cy="56" r="23" fill="${C.c}"/><circle cx="106" cy="56" r="23" fill="${C.c}"/>`,
+    none: ''
+  }[C.ear];
+  const spikes = C.sp ? `<polygon points="${Array.from({ length: 26 }, (_, i) => { const a = i / 26 * Math.PI * 2, r = i % 2 ? 58 : 76; return `${(80 + Math.cos(a) * r).toFixed(1)},${(96 + Math.sin(a) * r * .92).toFixed(1)}`; }).join(' ')}" fill="${C.sp}"/>` : '';
+  const ex = C.ear === 'frog' ? [54, 106] : [62, 98], ey = C.ear === 'frog' ? 56 : 90;
+  const eye = (x, side) => {
+    const w = C.owl ? 14 : 11, p = C.owl ? 7 : 5.5;
+    if (md === 'happy') return `<path d="M${x - 10} ${ey + 3}q10-13 20 0" stroke="${dk}" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+    let s = (C.owl ? `<circle cx="${x}" cy="${ey}" r="${w + 5}" fill="${C.c2}"/>` : '') + `<circle cx="${x}" cy="${ey}" r="${w}" fill="#fff"/><circle cx="${x + 1}" cy="${ey + (md === 'sad' ? 3 : 1)}" r="${p}" fill="${dk}"/><circle cx="${x + 3}" cy="${ey - 2}" r="2" fill="#fff"/>`;
+    if (md === 'sly') s += `<path d="M${x - w - 1} ${ey}a${w + 1} ${w + 1} 0 0 1 ${2 * w + 2} 0z" fill="${C.mask ? '#3A3D4A' : C.c}"/>`;
+    if (md === 'angry') s += `<path d="M${x - 12 * side} ${ey - 18}l${22 * side} 9" stroke="${dk}" stroke-width="6" stroke-linecap="round"/>`;
+    if (md === 'sad') s += `<path d="M${x - 12 * side} ${ey - 12}l${20 * side} -7" stroke="${dk}" stroke-width="4.5" stroke-linecap="round"/>`;
+    return s;
+  };
+  const mouths = {
+    idle: `<path d="M70 120q10 9 20 0" stroke="${dk}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`,
+    happy: `<path d="M65 116q15 20 30 0z" fill="${dk}"/><path d="M73 126q7 4 14 0q-7-3-14 0z" fill="#FF5C8A"/>`,
+    sad: `<path d="M70 127q10-9 20 0" stroke="${dk}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`,
+    angry: `<path d="M67 124q6-6 13 0t13 0" stroke="${dk}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`,
+    sly: `<path d="M68 120q14 8 26-6" stroke="${dk}" stroke-width="4.5" fill="none" stroke-linecap="round"/>`
+  };
+  const A = name => acc.includes(name);
+  return `<svg viewBox="0 0 160 196" aria-hidden="true">
+    <ellipse cx="80" cy="190" rx="50" ry="6" fill="#111216" opacity=".1"/>
+    ${spikes}
+    <ellipse cx="80" cy="168" rx="46" ry="26" fill="${C.c}"/><ellipse cx="80" cy="172" rx="26" ry="16" fill="${C.c2}"/>
+    <ellipse cx="36" cy="160" rx="10" ry="17" fill="${C.c}" transform="rotate(28 36 160)"/><ellipse cx="124" cy="160" rx="10" ry="17" fill="${C.c}" transform="rotate(-28 124 160)"/>
+    ${A('apron') ? `<path d="M56 150h48v32a8 8 0 0 1-8 8H64a8 8 0 0 1-8-8z" fill="#fff"/><path d="M56 160h48" stroke="#FF5CE6" stroke-width="5"/>` : ''}
+    ${A('tie') ? `<path d="M80 144l-7 6 7 26 7-26z" fill="#FF3D6E"/>` : ''}
+    ${A('bag') ? `<g transform="translate(108 140) rotate(12)"><path d="M6 10q-8 6-6 18a10 10 0 0 0 10 8h12a10 10 0 0 0 10-8q2-12-6-18z" fill="#C9A15B" stroke="${dk}" stroke-width="2"/><path d="M8 8h16l-3-6H11z" fill="#C9A15B" stroke="${dk}" stroke-width="2"/><text x="16" y="30" text-anchor="middle" font-size="12" font-weight="900" fill="${dk}">$</text></g>` : ''}
+    ${A('phone') ? `<g transform="translate(110 132) rotate(-14)"><rect width="24" height="40" rx="6" fill="${dk}"/><rect x="3" y="4" width="18" height="30" rx="3" fill="#7FD4FF"/><path d="M8 18l3 3 6-7" stroke="#21A038" stroke-width="2.4" fill="none"/></g>` : ''}
+    ${ears}
+    <path d="${blobPath(80, 96, 52, 10, .04, seed)}" fill="${C.c}"/>
+    ${C.mz ? `<ellipse cx="80" cy="114" rx="28" ry="21" fill="${C.c2}"/>` : ''}
+    ${C.ham ? `<ellipse cx="46" cy="114" rx="17" ry="14" fill="${C.c2}"/><ellipse cx="114" cy="114" rx="17" ry="14" fill="${C.c2}"/>` : ''}
+    ${C.mask ? `<path d="M30 92q6-20 50-14 44-6 50 14-6 14-26 12-14-2-24-4-10 2-24 4-20 2-26-12z" fill="#3A3D4A"/>` : ''}
+    ${eye(ex[0], 1)}${eye(ex[1], -1)}
+    ${C.beak ? `<path d="M71 104h18l-9 11z" fill="#FF8A1F" stroke="${dk}" stroke-width="1.5" stroke-linejoin="round"/>` : `<ellipse cx="80" cy="106" rx="7" ry="5" fill="${dk}"/>`}
+    ${C.beak ? '' : mouths[md] || mouths.idle}
+    ${C.teeth ? `<rect x="73" y="119" width="7" height="10" rx="2" fill="#fff" stroke="${dk}" stroke-width="1.5"/><rect x="80" y="119" width="7" height="10" rx="2" fill="#fff" stroke="${dk}" stroke-width="1.5"/>` : ''}
+    <circle cx="46" cy="110" r="7" fill="#FF5CE6" opacity=".3"/><circle cx="114" cy="110" r="7" fill="#FF5CE6" opacity=".3"/>
+    ${C.wh ? `<path d="M40 110l-16-3M40 116l-16 3M120 110l16-3M120 116l16 3" stroke="${dk}" stroke-width="2" stroke-linecap="round" opacity=".5"/>` : ''}
+    ${A('glasses') ? `<g><rect x="42" y="80" width="34" height="21" rx="10" fill="${dk}"/><rect x="84" y="80" width="34" height="21" rx="10" fill="${dk}"/><path d="M76 88h8" stroke="${dk}" stroke-width="4"/><path d="M48 85h9M90 85h9" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/></g>` : ''}
+    ${A('rglasses') ? `<g fill="none" stroke="${dk}" stroke-width="3.5"><circle cx="${ex[0]}" cy="${ey}" r="17"/><circle cx="${ex[1]}" cy="${ey}" r="17"/><path d="M${ex[0] + 17} ${ey}h${ex[1] - ex[0] - 34}"/></g>` : ''}
+    ${A('cap') ? `<path d="M36 64q44-50 88 0z" fill="#2EC5FF"/><path d="M112 60q26 0 30 10-16 4-34-4z" fill="#1A9BFF"/><circle cx="80" cy="34" r="5" fill="#1A9BFF"/>` : ''}
+    ${A('hardhat') ? `<path d="M34 66q0-40 46-40t46 40z" fill="#FFDD2E" stroke="${dk}" stroke-width="2.5"/><rect x="28" y="62" width="104" height="9" rx="4.5" fill="#FFC400" stroke="${dk}" stroke-width="2.5"/>` : ''}
+    ${A('bow') ? `<g transform="translate(112 42) rotate(18)"><path d="M0 0l-16-10v20zM0 0l16-10v20z" fill="#FF5CE6"/><circle r="5" fill="#FF3D6E"/></g>` : ''}
+    ${A('tear') ? `<path d="M${ex[0] - 6} ${ey + 14}q-5 10 0 15 5-5 0-15z" fill="#2E9BFF"/>` : ''}
+  </svg>`;
+}
+const mascotCust = () => `<svg viewBox="0 0 160 196" aria-hidden="true"><svg x="14" y="40" width="132" height="132" viewBox="0 0 132 132">${klyaksik().replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')}</svg></svg>`;
+function eventArt(kind) {
+  if (kind === 'rain') return `<svg viewBox="0 0 160 196"><g class="wiggle"><path d="${blobPath(80, 80, 50, 12, .12, 7)}" fill="#7F8BA6"/><circle cx="62" cy="78" r="8" fill="#fff"/><circle cx="98" cy="78" r="8" fill="#fff"/><circle cx="63" cy="80" r="4" fill="#111216"/><circle cx="99" cy="80" r="4" fill="#111216"/><path d="M70 98q10-6 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+    ${[40, 64, 88, 112, 128].map((x, i) => `<path d="M${x} 136l-6 16" stroke="#2E9BFF" stroke-width="5" stroke-linecap="round"><animate attributeName="opacity" values="1;.2;1" dur="${.6 + i * .1}s" repeatCount="indefinite"/></path>`).join('')}</svg>`;
+  const P = PRODS[D.prod];
+  return `<svg viewBox="0 0 160 196"><g class="wiggle"><rect x="30" y="40" width="100" height="140" rx="18" fill="#E3E5EC" stroke="#111216" stroke-width="3"/><path d="M30 92h100" stroke="#111216" stroke-width="3"/><rect x="112" y="56" width="8" height="24" rx="4" fill="#111216"/><rect x="112" y="104" width="8" height="30" rx="4" fill="#111216"/>
+    <circle cx="62" cy="66" r="7" fill="#fff"/><circle cx="92" cy="66" r="7" fill="#fff"/><path d="M58 64l8 4M88 68l8-4" stroke="#111216" stroke-width="3"/><path d="M66 82q11-6 22 0" stroke="#111216" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <g transform="translate(48 110) scale(.9)">${P.art}</g></g>
+    <g fill="#FFDD2E" stroke="#111216" stroke-width="2"><path d="M128 30l-10 14h8l-6 14 14-18h-8l6-10z"><animate attributeName="opacity" values="1;0;1" dur=".5s" repeatCount="indefinite"/></path><path d="M24 120l-8 10h6l-4 10 10-13h-6l4-7z"><animate attributeName="opacity" values="0;1;0" dur=".6s" repeatCount="indefinite"/></path></g></svg>`;
+}
+
+/* ================= Сцена ярмарки ================= */
+function skySVG() {
+  const flags = Array.from({ length: 11 }, (_, i) => { const x = 10 + i * 38, y = 38 + Math.sin(i / 10 * Math.PI) * 26; return `<path class="flag" style="animation-delay:${-i * .2}s" d="M${x} ${y}l14 0-7 20z" fill="${['#C6F432', '#FF5CE6', '#2EC5FF', '#FFDD2E', '#A77BFF'][i % 5]}"/>`; }).join('');
+  const tent = (x, c, h) => `<g transform="translate(${x} ${300 - h})"><path d="M0 ${h}V30L40 0l40 30v${h - 30}z" fill="${c}" opacity=".55"/><path d="M0 30L40 0l40 30z" fill="#fff" opacity=".7"/><rect x="28" y="${h - 34}" width="24" height="34" rx="4" fill="#fff" opacity=".6"/></g>`;
+  return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <g class="cloud" style="animation-duration:38s"><path d="${blobPath(0, 70, 26, 9, .2, 3)}" fill="#fff"/><path d="${blobPath(26, 76, 20, 9, .2, 8)}" fill="#fff"/></g>
+    <g class="cloud" style="animation-duration:52s;animation-delay:-20s"><path d="${blobPath(0, 120, 20, 9, .2, 5)}" fill="#fff"/><path d="${blobPath(20, 124, 15, 9, .2, 9)}" fill="#fff"/></g>
+    <g transform="translate(318 168)"><g class="wheel"><circle r="62" fill="none" stroke="#A77BFF" stroke-width="5" opacity=".7"/>${Array.from({ length: 8 }, (_, i) => `<path d="M0 0L${(Math.cos(i * Math.PI / 4) * 62).toFixed(1)} ${(Math.sin(i * Math.PI / 4) * 62).toFixed(1)}" stroke="#A77BFF" stroke-width="3" opacity=".6"/><circle cx="${(Math.cos(i * Math.PI / 4) * 62).toFixed(1)}" cy="${(Math.sin(i * Math.PI / 4) * 62).toFixed(1)}" r="9" fill="${['#FF5CE6', '#2EC5FF', '#C6F432', '#FFDD2E'][i % 4]}" opacity=".85"/>`).join('')}</g><path d="M0 0l-30 132M0 0l30 132" stroke="#A77BFF" stroke-width="6" opacity=".6"/></g>
+    ${tent(-6, '#FF5CE6', 96)}${tent(70, '#2EC5FF', 120)}${tent(150, '#C6F432', 90)}
+    <rect x="0" y="292" width="400" height="20" fill="#C6F432" opacity=".55"/>
+    <path d="M0 40Q200 92 400 40" stroke="#111216" stroke-width="2" fill="none" opacity=".5"/>${flags}
+  </svg>`;
+}
+function awningSVG(P) {
+  const n = 10, w = 400 / n;
+  return `<svg viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true">${Array.from({ length: n }, (_, i) => { const c = P.aw[i % 2], x = i * w; return `<rect x="${x}" y="0" width="${w}" height="48" fill="${c}"/><circle cx="${x + w / 2}" cy="48" r="${w / 2}" fill="${c}"/>`; }).join('')}<rect x="0" y="0" width="400" height="8" fill="#111216" opacity=".08"/></svg>`;
+}
+function setSun(p) {
+  const s = document.getElementById('sun'); if (!s) return;
+  p = clamp(p, 0, 1.1);
+  s.style.left = (8 + 84 * Math.min(p, 1)) + '%';
+  s.style.top = (46 - 30 * Math.sin(Math.PI * Math.min(p, 1)) + (p > 1 ? 14 : 0)) + '%';
+}
+/* svg-строку → содержимое для <g>, чтобы не вкладывать <svg> в <svg> */
+const inner = s => s.replace(/^\s*<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+const coinG = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})">${inner(ICON.coin)}</g>`;
+
+/* ================= Ситуации ================= */
+const PRICE = 5, CRATE = 10, PER_CRATE = 5, SIGN_COST = 40;
+const ST = {
+  bank: { who: ['fox', ['glasses']], md: 'sly', say: 'Я из банка! 🏦 Скажи код из СМС — дам 1000 🪙',
+    opts: [
+      { i: '🔢', t: 'Сказать код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `🦊💨 Утащила ${-f.m} 🪙`, tip: 'Код из СМС — секрет. Банк его не спрашивает.', mom: f => ({ t: `🦊 −${-f.m} 🪙`, c: 'r' }) },
+      { i: '🙅', t: 'Не скажу', fx: { s: 2 }, exit: 'sad', res: '🛡️ Лиса ушла ни с чем' },
+      { i: '📞', t: 'Позвоню в банк', fx: { s: 3 }, exit: 'run', res: '🏦 «Это не мы!» 🛡️', mom: () => ({ t: '🦊 Раскрыта!', c: 'g' }) }] },
+  qr: { who: ['wolf', ['cap']], md: 'sly', say: 'Сканируй QR — выиграешь самокат! 🛴',
+    opts: [
+      { i: '📱', t: 'Сканировать', bad: 1, fx: D => ({ m: -Math.min(30, D.wallet), s: -2, scam: 1 }), exit: 'run', res: f => `📱💨 QR украл ${-f.m} 🪙`, tip: 'Чужие QR-коды могут вести к жуликам.', mom: f => ({ t: `🐺 −${-f.m} 🪙`, c: 'r' }) },
+      { i: '🙅', t: 'Не надо', fx: { s: 2 }, exit: 'sad', res: '🛡️ Волк ушёл' }] },
+  guard: { who: ['raccoon', ['cap']], md: 'sly', say: 'Отдохни! Я покараулю кассу 😇',
+    opts: [
+      { i: '😴', t: 'Спасибо!', bad: 1, fx: D => ({ m: -Math.floor(D.wallet / 10) * 5, s: -2, scam: 1 }), exit: 'run', res: f => `💨 Касса похудела на ${-f.m} 🪙`, tip: 'Кассу и вещи не оставляют незнакомцам.', mom: f => ({ t: `🦝 −${-f.m} 🪙`, c: 'r' }) },
+      { i: '💪', t: 'Сам справлюсь', fx: { s: 2 }, exit: 'sad', res: '🛡️ Касса под присмотром' }] },
+  fakefriend: { who: ['bunny', []], md: 'idle', say: 'Это я, твой друг! Новый номер. Скинь код 🙏',
+    opts: [
+      { i: '🔢', t: 'Скинуть код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `🐰💨 Это был не друг! −${-f.m}`, tip: 'Друга проверяют звонком на старый номер.', mom: f => ({ t: `🐰 −${-f.m} 🪙`, c: 'r' }) },
+      { i: '📞', t: 'Позвоню другу', fx: { s: 3 }, exit: 'run', res: '📞 «Это не я!» 🛡️', mom: () => ({ t: '🐰 Раскрыт!', c: 'g' }) }] },
+  lottery: { who: ['hamster', ['bow']], md: 'happy', say: 'Лотерея! Билет 20 🪙 — шанс выиграть 500!',
+    opts: [
+      { i: '🎟️', t: 'Купить', cost: 20, bad: 1, fx: () => Math.random() < .15 ? { m: 20, lucky: 1 } : { m: -20 }, exit: 'happy', res: f => f.lucky ? '🎉 Повезло! Но это редкость' : '🎟️ Билет пустой 😅', tip: 'В лотерее почти всегда проигрывают.', mom: f => f.lucky ? null : { t: '🎟️ −20 🪙', c: 'r' } },
+      { i: '🙅', t: 'Не буду', fx: { s: 1 }, exit: 'sad', res: '🪙 Монеты целы' }] },
+  invest: { who: ['beaver', ['tie']], md: 'sly', say: 'Дай 40 🪙 — к вечеру будет ×3! 🚀',
+    opts: [
+      { i: '💸', t: 'Вложить', cost: 40, bad: 1, fx: { m: -40, s: -2, scam: 1, later: 'invest' }, exit: 'run', res: '🦫 Бобёр убежал…', tip: '«×3 за день» обещают только жулики.' },
+      { i: '🙅', t: 'Не верю', fx: { s: 2 }, exit: 'sad', res: '🛡️ Хитрый бобёр ушёл' }] },
+  screenshot: { who: ['raccoon', ['phone']], md: 'sly', say: 'Беру 6! Я уже перевёл, смотри 📱',
+    opts: [
+      { i: '✅', t: 'Отдать', ref: 'detFail' },
+      { i: '🔍', t: 'Проверить', detect: 1 }] },
+  supplier: { who: ['beaver', ['hardhat']], md: 'happy', say: P => `10 ${P.unit} за 15 🪙! Только сейчас! ⏰`,
+    opts: [
+      { i: '📦', t: 'Беру!', cost: 15, fx: { m: -15, st: 10 }, exit: 'happy', res: '📦 +10 порций', mom: () => ({ t: '📦 +10', c: '' }) },
+      { i: '🤔', t: 'Не сейчас', fx: {}, exit: 'sad', res: '🦫 Ушёл к соседям' }] },
+  loan: { who: ['kitten', ['bow']], md: 'sad', say: 'Дай в долг 20 🪙? Завтра верну! 🙏',
+    opts: [
+      { i: '🤝', t: 'Дать', cost: 20, fx: { m: -20, r: 1, later: 'loan' }, exit: 'happy', res: '🐱 Котёнок сияет' },
+      { i: '🙅', t: 'Не дам', fx: { r: -1 }, exit: 'sad', res: '😿 Котёнок грустит' },
+      { i: '🎁', t: 'Угощу', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: '🐱 Мур! Вкусно!' }] },
+  sour: { who: ['hedgehog', []], md: 'angry', say: P => `${P.sour} 😠`,
+    opts: [
+      { i: '😤', t: 'Сам такой!', bad: 1, fx: { r: -2 }, exit: 'angry', res: '🦔 Расскажет всем 😬', tip: 'Спокойный ответ гасит ссору.', mom: () => ({ t: '🦔 −2 ❤️', c: 'r' }) },
+      { i: '🪙', t: 'Вернуть деньги', cost: 5, fx: { m: -5, r: 1 }, exit: 'happy', res: '🦔 Ну ладно…' },
+      { i: '💐', t: 'Извиниться', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: '🦔 Вот это сервис! 💛' }] },
+  rival: { who: ['bear', ['apron']], md: 'sly', say: 'Я торгую рядом. Кто дешевле — тот победил! 😏',
+    opts: [
+      { i: '📉', t: 'Скинуть цену', fx: { m: -15 }, exit: 'angry', res: '📉 Оба заработали меньше', mom: () => ({ t: '📉 −15 🪙', c: 'r' }) },
+      { i: '🤝', t: 'Дружить лавками', fx: { m: 15, r: 2 }, exit: 'happy', res: '🤝 Набор вдвоём — хит!', mom: () => ({ t: '🐻🤝 +15', c: 'g' }) },
+      { i: '😤', t: 'Уходи!', fx: { r: -1 }, exit: 'angry', res: '🐻 Обиделся' }] },
+  chick: { who: ['chick', ['tear']], md: 'sad', say: P => `Я уронил свой ${P.unit}… 😭`,
+    opts: [
+      { i: '🎁', t: 'Дать новый', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: '🐥 Цып-цып! 💛' },
+      { i: '🪙', t: 'Купи ещё', fx: { r: -1 }, exit: 'sad', res: '🐥 Ушёл грустный' }] },
+  lost: { who: ['mouse', ['tear']], md: 'sad', say: 'Я потерялся… Где мама? 🥺',
+    opts: [
+      { i: '👮', t: 'Позвать охрану', fx: { r: 2, s: 2 }, exit: 'happy', res: '🐭 Мама нашлась! 💛', mom: () => ({ t: '🐭 Мама нашлась', c: 'g' }) },
+      { i: '🚶', t: 'Искать сам', bad: 1, fx: D => ({ m: -Math.min(10, D.wallet), r: 1 }), exit: 'happy', res: f => `🐭 Нашлась! Но лавка пустовала −${-f.m}`, tip: 'Потерялся малыш — зови взрослого рядом.' },
+      { i: '🤷', t: 'Не моё дело', fx: { r: -2 }, exit: 'sad', res: '🐭 Плачет дальше 😢' }] },
+  owl: { who: ['owl', ['rglasses']], md: 'idle', say: 'Я тут каждый день! Скидку дашь? 🦉',
+    opts: [
+      { i: '🙂', t: 'Скидка', needStock: 2, fx: { st: -2, m: 8, r: 1 }, exit: 'happy', res: '🦉 Приду ещё!' },
+      { i: '🎁', t: 'Полцены', needStock: 2, fx: { st: -2, m: 5, r: 2 }, exit: 'happy', res: '🦉 Ух, щедро!' },
+      { i: '💯', t: 'Без скидок', needStock: 2, fx: { st: -2, m: 10 }, exit: 'sad', res: '🦉 Ну ладно…' }] },
+  wallet: { who: ['bunny', ['bag']], md: 'idle', say: '👛 Ой! Зайчик обронил кошелёк!',
+    opts: [
+      { i: '🏃', t: 'Догнать', fx: { r: 2, m: 5 }, exit: 'happy', res: '🐰 Спасибо! Держи 5 🪙', mom: () => ({ t: '👛 Вернул', c: 'g' }) },
+      { i: '🙈', t: 'Оставить', fx: { m: 30, r: -2 }, exit: 'sad', res: '🐰 Ищет кошелёк… 😢' }] },
+  overpaid: { who: ['frog', []], md: 'happy', say: P => `Держи 50 🪙 за один ${P.unit}!`,
+    opts: [
+      { i: '🪙', t: 'Дать сдачу', needStock: 1, fx: { st: -1, m: 5, r: 2 }, exit: 'happy', res: '🐸 Ква! Честно!' },
+      { i: '🤫', t: 'Промолчать', needStock: 1, fx: { st: -1, m: 50, r: -2 }, exit: 'happy', res: '🐸 Мама лягушонка ищет 45 🪙…' }] },
+  detFail: { bad: 1, fx: D => ({ st: -Math.min(6, D.stock), s: -2, scam: 1 }), exit: 'run', res: f => `🦝💨 Унёс ${-f.st} порций!`, tip: 'Деньги проверяют в кассе, а не на картинке.', mom: f => ({ t: `🦝 −${-f.st} ${PRODS[D.prod].unit}`, c: 'r' }) },
+  detOk: { fx: { s: 3 }, exit: 'run', res: '🦝 Попался! 🛡️', mom: () => ({ t: '🦝 Пойман!', c: 'g' }) },
+  sign: { art: () => mascotCust(), say: 'Купим вывеску? ✨ Будет больше покупателей!',
+    opts: [
+      { i: '✨', t: 'Купить', costPig: SIGN_COST, fx: { p: -SIGN_COST, sign: 1, r: 1 }, exit: 'happy', res: '✨ Вывеска горит!', mom: () => ({ t: '✨ Вывеска', c: 'g' }) },
+      { i: '🐷', t: 'Копить', fx: {}, exit: 'happy', res: '🐷 Копим дальше' }] },
+  rain: { ev: 1, art: () => eventArt('rain'), say: 'Дождь! ☔ Покупатели убегают',
+    opts: [
+      { i: '⛱️', t: 'Купить навес', cost: 20, pay: 1, fx: { pay: 20 }, exit: 'sad', res: '⛱️ Сухо! Торгуем!' },
+      { i: '🏃', t: 'Переждать', fx: { skip: 2 }, exit: 'sad', res: '☔ Двое ушли без покупки', mom: () => ({ t: '☔ −2 покупателя', c: 'r' }) }] },
+  broke: { ev: 1, art: () => eventArt('broke'), say: P => `${P.broke} ${P.brokeE}`,
+    opts: [
+      { i: '🔧', t: 'Починить', cost: 30, pay: 1, fx: { pay: 30 }, exit: 'sad', res: '🔧 Как новенький!' },
+      { i: '🤷', t: 'Так сойдёт', fx: D => ({ st: -Math.ceil(D.stock / 2) }), exit: 'sad', res: f => `💥 Пропало ${-f.st} порций`, mom: f => ({ t: `💥 −${-f.st} ${PRODS[D.prod].unit}`, c: 'r' }) }] }
+};
+const SAFE = ['bank', 'qr', 'guard', 'fakefriend', 'lottery', 'invest'], SOFT = ['sour', 'rival', 'chick', 'lost', 'owl', 'wallet', 'overpaid'];
+const TITLES = [
+  { id: 'king', i: '👑', t: 'Хозяин ярмарки', c: '#FFDD2E', ok: S => S.rep >= 8 && S.shield >= 7 && S.profit >= 40 },
+  { id: 'prey', i: '🦊', t: 'Лёгкая добыча для жуликов', c: '#FF9A4D', ok: S => S.scammed >= 2 || S.shield <= 2 },
+  { id: 'friend', i: '💛', t: 'Друг всего района', c: '#FF9CEF', ok: S => S.rep >= 9 },
+  { id: 'shark', i: '🦈', t: 'Акула бизнеса', c: '#7FD4FF', ok: S => S.profit >= 60 && S.rep <= 6 },
+  { id: 'piggy', i: '🐷', t: 'Мастер копилки', c: '#FFC2E2', ok: S => S.sign || S.piggy >= 60 },
+  { id: 'honest', i: '🤝', t: 'Честный торговец', c: '#C6F432', ok: S => S.shield >= 6 && S.rep >= 6 },
+  { id: 'newbie', i: '🌱', t: 'Начинающий торговец', c: '#9BF0BE', ok: () => true }
+];
+
+/* ================= Пауза / модалка ================= */
 function modal(html, onClose) {
   const m = $('#modal'); if (!m) return;
   $('#mcard').innerHTML = `<svg class="deco" viewBox="0 0 110 110">${DOODLE.starO('var(--m)', 76, 30, 1.3, .1)}${DOODLE.sparkle('#111216', 50, 64, .7, .2)}</svg>` + html;
@@ -672,682 +912,422 @@ function modal(html, onClose) {
 }
 const isModal = () => { const m = $('#modal'); return !!(m && m.classList.contains('show')); };
 function pauseMenu() {
-  const S = ACTIVE;
-  if (!S || !$('#modal') || isModal()) return;
-  const was = S.paused; S.paused = true;
+  if (!D || D.over || !$('#modal') || isModal()) return;
+  D.paused = true; $('#stage').classList.add('paused');
   modal(`<div class="mh"><div class="mm" data-mood="idle">${klyaksik()}</div><h3>Пауза</h3></div>
-    <button class="btn" id="mOk">Продолжить ▶</button><button class="btn soft" id="mExit">Начать сначала</button>`, () => { S.paused = was; });
-  $('#mExit').onclick = () => { Sound.tap(); renderStart(); };
+    <button class="btn" id="mOk">Продолжить ▶</button><button class="btn soft" id="mExit">Новый день</button>`, () => { D.paused = false; $('#stage').classList.remove('paused'); });
+  $('#mExit').onclick = () => { Sound.tap(); loopId++; D = null; renderStart(); };
 }
-document.addEventListener('visibilitychange', () => { if (document.hidden && ACTIVE && !ACTIVE.paused) pauseMenu(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden && D && !D.paused) pauseMenu(); });
 
-/* ---------- сцена-оверлей: одна кнопка, минимум текста ---------- */
-function scene(html, btn = '#go') {
-  const el = $('#scene'); if (!el) return new Promise(() => {});
-  el.innerHTML = html; el.classList.add('show');
-  return new Promise(r => { const b = $(btn); if (b) b.onclick = () => { Sound.tap(); vibrate(); el.classList.remove('show'); r(); }; });
-}
-const sceneHide = () => { const el = $('#scene'); if (el) el.classList.remove('show'); };
-
-/* ---------- обучение: рука показывает жест ---------- */
-function coach(cap, path, dur = 1500, pos = 'top') {
-  const c = $('#coach'); if (!c) return;
-  c.innerHTML = cap ? `<div class="cap ${pos}">${cap}</div>` : '';
-  if (path && !RM) {
-    const h = document.createElement('div'); h.className = 'ghand'; h.textContent = '👆'; c.appendChild(h);
-    const cr = c.getBoundingClientRect();
-    h.animate(path.map(([x, y], i) => ({ transform: `translate(${x - cr.left}px,${y - cr.top}px)`, opacity: i === 0 || i === path.length - 1 ? 0 : 1 })), { duration: dur, iterations: Infinity, easing: 'ease-in-out' });
-  }
-}
-const coachOff = () => { const c = $('#coach'); if (c) c.innerHTML = ''; };
-
-/* ---------- город: 3 района, краска возвращается по одному ---------- */
-const WORLDS = [
-  { id: 'safe', e: '📱', t: 'Спам-атака', c: '#2EC5FF', start: () => startW1() },
-  { id: 'money', e: '🐷', t: 'Копилка мечты', c: '#FFC400', start: () => startW2() },
-  { id: 'soft', e: '🎨', t: 'Краски чувств', c: '#FF5CE6', start: () => startW3() }
-];
-function cityArt(done, lit = -1, fox = false) {
-  const g = '#D5D8E2', g2 = '#C3C7D3', col = i => i < done ? WORLDS[i].c : g;
-  const cls = i => `bld ${i === lit ? 'lit' : ''}`;
-  return `<svg viewBox="0 0 360 200" class="city" aria-hidden="true">
-    ${DOODLE.sparkle('#FFDD2E', 30, 30, 1, 0)}${DOODLE.sparkle('#A77BFF', 330, 24, .8, .5)}
-    <rect x="0" y="176" width="360" height="24" rx="12" fill="${done === 3 ? '#C6F432' : g2}" class="bld"/>
-    <g class="${cls(0)}"><rect x="34" y="40" width="70" height="138" rx="16" fill="${col(0)}" class="bld"/><rect x="46" y="54" width="46" height="78" rx="9" fill="#fff" opacity=".85"/><path d="M69 40V14" stroke="#111216" stroke-width="5" stroke-linecap="round"/><circle cx="69" cy="12" r="7" fill="${done > 0 ? '#FF3D6E' : g2}" class="bld"/><circle cx="69" cy="154" r="9" fill="#fff" opacity=".85"/></g>
-    <g class="${cls(1)}"><path d="M134 84L180 52l46 32z" fill="${col(1)}" class="bld"/><rect x="140" y="88" width="80" height="90" rx="8" fill="${col(1)}" class="bld"/><g fill="#fff" opacity=".85"><rect x="150" y="98" width="12" height="64" rx="4"/><rect x="174" y="98" width="12" height="64" rx="4"/><rect x="198" y="98" width="12" height="64" rx="4"/></g><circle cx="180" cy="72" r="8" fill="#fff" opacity=".9"/></g>
-    <g class="${cls(2)}"><path d="M250 96l42-38 42 38z" fill="${col(2)}" class="bld"/><rect x="256" y="94" width="72" height="84" rx="10" fill="${col(2)}" class="bld"/><path d="M292 150s-16-10-16-21a8 8 0 0 1 16-3 8 8 0 0 1 16 3c0 11-16 21-16 21z" fill="#fff" opacity=".9"/></g>
-    ${fox ? `<g transform="translate(286 104) rotate(12)"><g class="wiggle"><svg width="74" height="82" viewBox="30 4 100 112">${foxHead()}</svg></g></g>` : ''}
+/* ================= Старт ================= */
+function startHero() {
+  const P = PRODS;
+  const flags = Array.from({ length: 9 }, (_, i) => { const x = 22 + i * 38, y = 26 + Math.sin(i / 8 * Math.PI) * 22; return `<path class="flag" style="animation-delay:${-i * .25}s" d="M${x} ${y}l16 0-8 22z" fill="${['#C6F432', '#FF5CE6', '#2EC5FF', '#FFDD2E', '#A77BFF'][i % 5]}"/>`; }).join('');
+  const aw = Array.from({ length: 8 }, (_, i) => { const x = 28 + i * 38, c = i % 2 ? '#fff' : '#FF9CEF'; return `<rect x="${x}" y="84" width="38" height="40" fill="${c}"/><circle cx="${x + 19}" cy="124" r="19" fill="${c}"/>`; }).join('');
+  return `<svg viewBox="0 0 360 330" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <path d="M10 22Q180 70 350 22" stroke="#111216" stroke-width="2" fill="none" opacity=".5"/>${flags}
+    ${DOODLE.sparkle('#FFDD2E', 30, 78, 1.1, 0)}${DOODLE.sparkle('#A77BFF', 334, 76, .9, .6)}
+    <rect x="38" y="96" width="10" height="200" rx="5" fill="#111216"/><rect x="312" y="96" width="10" height="200" rx="5" fill="#111216"/>
+    <g style="filter:drop-shadow(0 6px 6px rgba(0,0,0,.1))">${aw}</g>
+    <g transform="translate(118 120) scale(.95)">${inner(klyaksik())}</g>
+    <g transform="translate(258 132) scale(.5)"><g class="wiggle">${inner(critter('fox', 'sly', ['glasses']))}</g></g>
+    <rect x="22" y="232" width="316" height="84" rx="20" fill="#fff" stroke="#111216" stroke-width="3"/>
+    <rect x="22" y="232" width="316" height="14" rx="7" fill="#C6F432"/>
+    <g transform="translate(50 186) scale(.85)"><g class="wiggle">${P.lemon.art}</g></g>
+    <g transform="translate(150 192) scale(.8)"><g class="wiggle" style="animation-delay:-.8s">${P.donut.art}</g></g>
+    <g transform="translate(246 188) scale(.82)"><g class="wiggle" style="animation-delay:-1.6s">${P.slime.art}</g></g>
+    ${coinG(70, 270, 1)}${coinG(92, 276, .9)}${coinG(80, 258, .8)}${coinG(270, 268, 1)}${coinG(290, 262, .8)}
   </svg>`;
 }
-function worldShell(i, body) {
-  app.innerHTML = `<section class="screen game">${blobsBg()}
+function renderStart() {
+  loopId++; D = null;
+  app.innerHTML = `<section class="screen start">${blobsBg()}
+    <div class="row"><button class="ibtn" data-close aria-label="Закрыть">${ICON.x}</button>${soundBtn()}</div>
+    <div class="hero" data-mood="idle">${startHero()}</div>
+    <h1 class="ttl">Лавка на <span class="u">один день${DOODLE.under('var(--m)')}</span></h1>
+    <p class="lead">Открой лавку на ярмарке. Торгуй, копи и не попадись хитрецам!</p>
+    <button class="btn big" id="play">Открыть лавку ▶</button>
+  </section>`;
+  $('#play').onclick = () => { Sound.tap(); vibrate(); renderPick(); };
+}
+function renderPick() {
+  app.innerHTML = `<section class="screen pickp">${blobsBg()}
+    <div class="row" style="width:100%"><button class="ibtn" data-home aria-label="Назад">${ICON.x}</button>${soundBtn()}</div>
+    <div class="kick" style="margin-top:4px">Что будешь продавать?</div>
+    <h1 class="ttl">Выбери лавку</h1>
+    <div class="stalls">${Object.entries(PRODS).map(([k, P], i) => `<button class="stall" data-p="${k}" style="--i:${i}">
+      <span class="sv" style="background:${P.bg}">${prodSVG(k)}</span><span><b>${P.t}</b><span>${P.d}</span></span></button>`).join('')}</div>
+  </section>`;
+  app.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { Sound.tap(); vibrate(); renderMorning(b.dataset.p); });
+}
+
+/* ================= Утро: бюджет ================= */
+function cratesArt(n, prod) {
+  const pos = [[8, 74], [52, 74], [96, 74], [30, 38], [74, 38], [52, 2], [8, 2], [96, 2]];
+  return `<svg viewBox="0 0 160 120">${pos.slice(0, n).map(([x, y], i) => `<g transform="translate(${x} ${y})"><g class="${i === n - 1 ? 'cnew' : ''}">${inner(crateSVG(prod))}</g></g>`).join('')}${n ? '' : '<text x="80" y="70" text-anchor="middle" font-size="40" opacity=".3">📦</text>'}</svg>`;
+}
+function piggyArt(pg) {
+  const k = pg / 10;
+  return `<svg viewBox="0 0 160 120"><g transform="translate(22 46) scale(1.45)">${inner(pigSVG())}</g>
+    ${Array.from({ length: k }, (_, i) => coinG(108 + (i % 2) * 6, 70 - i * 9, .9)).join('')}
+    <g transform="translate(4 0) scale(.55)">${inner(neonSVG())}</g></svg>`;
+}
+function renderMorning(prod) {
+  const M = { cr: 4, pg: 20 }, P = PRODS[prod];
+  const first = firstTime('morning');
+  app.innerHTML = `<section class="screen morning">${blobsBg()}
+    <div class="row"><button class="ibtn" data-home aria-label="Назад">${ICON.x}</button>${soundBtn()}</div>
+    <div class="mhead"><svg viewBox="-40 -40 80 80"><g class="sunr"><circle r="34" fill="#FFDD2E" opacity=".35"/>${Array.from({ length: 8 }, (_, i) => `<path d="M0 -28v-9" transform="rotate(${i * 45})" stroke="#FFC400" stroke-width="5" stroke-linecap="round"/>`).join('')}</g><circle r="21" fill="#FFDD2E"/><circle cx="-7" cy="-3" r="2.5" fill="#111216"/><circle cx="7" cy="-3" r="2.5" fill="#111216"/><path d="M-6 6q6 5 12 0" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      <div><div class="kick">Утро на ярмарке</div><div class="ttl">Готовим лавку</div></div></div>
+    <div class="wallet" id="mw">${coin()}<span id="mwN">100</span><small>в кассе</small></div>
+    <div class="mpanels">
+      <div class="mp"><h3>Закупка</h3><div class="art" id="crArt"></div>
+        <div class="eq">📦 = 5 ${prodSVG(prod)} · ${prodSVG(prod)} = 5 ${coin()}</div>
+        <div class="step"><button data-d="cr" data-v="-1" aria-label="Меньше">−</button><b id="crN"></b><button class="plus" data-d="cr" data-v="1" aria-label="Больше">+</button></div></div>
+      <div class="mp"><h3>Копилка</h3><div class="art" id="pgArt"></div>
+        <div class="goal"><div class="gbar"><i id="pgBar"></i></div><b style="font-weight:900;font-size:14px;white-space:nowrap">✨ ${SIGN_COST}</b></div>
+        <div class="step"><button data-d="pg" data-v="-10" aria-label="Меньше">−</button><b id="pgN"></b><button class="plus" data-d="pg" data-v="10" aria-label="Больше">+</button></div></div>
+    </div>
+    <button class="btn big" id="open">Открыть лавку ☀️</button>
+  </section>`;
+  const upd = (bump) => {
+    const wal = 100 - M.cr * CRATE - M.pg;
+    $('#mwN').textContent = wal;
+    $('#crN').innerHTML = `${M.cr}<small style="font-size:14px">📦</small>`;
+    $('#pgN').innerHTML = `${M.pg}${coin()}`;
+    $('#crArt').innerHTML = cratesArt(M.cr, prod); $('#pgArt').innerHTML = piggyArt(M.pg);
+    $('#pgBar').style.width = Math.min(100, M.pg / SIGN_COST * 100) + '%';
+    app.querySelectorAll('.step button').forEach(b => { const d = b.dataset.d, v = +b.dataset.v; b.disabled = d === 'cr' ? (M.cr + v < 0 || M.cr + v > 8 || (v > 0 && wal < CRATE)) : (M.pg + v < 0 || (v > 0 && wal < 10)); });
+    $('#open').disabled = M.cr < 1;
+    if (bump) { const w = $('#mw'); w.classList.remove('bump'); void w.offsetWidth; w.classList.add('bump'); }
+  };
+  app.querySelectorAll('.step button').forEach(b => b.onclick = () => { M[b.dataset.d] += +b.dataset.v; Sound.coin(); vibrate(); upd(true); });
+  upd(false);
+  if (first) setTimeout(() => { const pl = app.querySelector('.plus'); if (pl && D === null) coachTap(pl, null, app.querySelector('.morning')); }, 900);
+  $('#open').onclick = () => { Sound.tap(); vibrate(); startDay(prod, M.cr, M.pg); };
+}
+
+/* ================= Подсказки рукой ================= */
+function coachTap(el, cap, host) {
+  host = host || $('#stage'); if (!host || !el) return;
+  let c = host.querySelector('.coach'); if (!c) { c = document.createElement('div'); c.className = 'coach'; host.appendChild(c); }
+  c.innerHTML = (cap ? `<div class="cap">${cap}</div>` : '') + (RM ? '' : '<div class="ghand">👆</div>');
+  const h = c.querySelector('.ghand'); if (!h) return;
+  const hr = host.getBoundingClientRect(), r = el.getBoundingClientRect(), x = r.left + r.width / 2 - hr.left, y = r.top + r.height / 2 - hr.top;
+  h.animate([{ transform: `translate(${x + 30}px,${y + 50}px)`, opacity: 0 }, { transform: `translate(${x}px,${y}px)`, opacity: 1, offset: .35 }, { transform: `translate(${x}px,${y}px) scale(.85)`, opacity: 1, offset: .5 }, { transform: `translate(${x}px,${y}px)`, opacity: 1, offset: .65 }, { transform: `translate(${x + 30}px,${y + 50}px)`, opacity: 0 }], { duration: 1500, iterations: Infinity });
+  const off = () => { c.innerHTML = ''; host.removeEventListener('pointerdown', off, true); };
+  host.addEventListener('pointerdown', off, true);
+}
+const coachOff = () => document.querySelectorAll('.coach').forEach(c => { c.innerHTML = ''; });
+/* ================= День ================= */
+function buildQueue() {
+  const stories = shuffle([...fresh('safe', SAFE, 3), 'screenshot', 'supplier', 'loan', ...fresh('soft', SOFT, 3)]);
+  stories.splice(4, 0, 'sign');
+  stories.splice(8, 0, pick(['rain', 'broke']));
+  const buyer = () => ({ t: 'b', k: pick(BUYERS), n: 1 + (Math.random() * 3 | 0), acc: Math.random() < .3 ? [pick(['bow', 'cap', 'rglasses'])] : [] });
+  const q = [buyer(), buyer()];
+  stories.forEach((id, i) => { q.push({ t: 's', id }); q.push(buyer()); if (i % 3 === 2) q.push(buyer()); });
+  return q;
+}
+function startDay(prod, cr, pg) {
+  loopId++;
+  SESSION.days++;
+  D = { prod, wallet: 100 - cr * CRATE - pg, piggy: pg, stock: cr * PER_CRATE, rep: 5, shield: 5, sign: false, paused: false, over: false,
+    q: buildQueue(), i: 0, moments: [], later: [], scammed: 0, sold: 0, missed: 0, crates: cr, saved0: pg };
+  const P = PRODS[prod];
+  app.innerHTML = `<section class="screen stage" id="stage" style="--aw1:${P.aw[0]};--aw2:${P.aw[1] === '#FFFFFF' ? '#F2F3F7' : P.aw[1]}">
+    <div class="sky" id="sky">${skySVG()}<div class="sunw" id="sun"><svg viewBox="-40 -40 80 80"><g class="sunr"><circle r="34" fill="#FFDD2E" opacity=".35"/>${Array.from({ length: 8 }, (_, i) => `<path d="M0 -30v-10" transform="rotate(${i * 45})" stroke="#FFC400" stroke-width="5" stroke-linecap="round"/>`).join('')}</g><circle r="22" fill="#FFDD2E"/><circle cx="-7" cy="-3" r="2.5" fill="#111216"/><circle cx="7" cy="-3" r="2.5" fill="#111216"/><path d="M-6 6q6 5 12 0" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg></div></div>
+    <div class="awning"><div class="top" style="background:${P.aw[0]}"></div>${awningSVG(P)}<div class="neon" id="neon">${neonSVG()}</div></div>
     <header class="hud">
       <button class="ibtn" data-pause aria-label="Пауза">${ICON.pause}</button>
-      <div class="trail">${WORLDS.map((w, k) => `<span class="${k < i ? 'done' : k === i ? 'cur' : ''}">${w.e}</span>`).join('')}</div>
-      <div class="score" id="score">${ICON.star}<span>${RUN.score}</span></div>
+      <div class="meters"><div class="meter rep" id="mRep">${I.heart}<span class="mb"><i></i></span></div><div class="meter sh" id="mSh">${I.shield}<span class="mb"><i></i></span></div></div>
       ${soundBtn()}
     </header>
-    ${body}
-    <div class="coach" id="coach"></div>
+    <div class="yard" id="yard"><div class="rain" id="rain">${Array.from({ length: 34 }, () => `<i style="left:${rnd(0, 100).toFixed(1)}%;animation-delay:${rnd(0, .7).toFixed(2)}s;animation-duration:${rnd(.5, .8).toFixed(2)}s"></i>`).join('')}</div></div>
+    <div class="counter">
+      <div class="ci kx" data-mood="idle">${klyaksik({ can: false })}</div>
+      <div class="ci stock" id="stock"><span class="ic">${prodSVG(prod)}${prodSVG(prod)}</span><b id="stockN"></b></div>
+      <div class="ci till" id="till"><span class="ic">${tillSVG()}</span><b>${coin()}<span id="walletN"></span></b></div>
+      <div class="ci pig" id="pig"><span class="ic">${pigSVG()}</span><b>${coin()}<span id="pigN"></span></b></div>
+    </div>
+    <div class="coach"></div>
     <div class="scene" id="scene"></div>
     <div class="modal" id="modal"><div class="mcard" id="mcard"></div></div>
   </section>`;
+  updAll(); setSun(0);
+  runDay();
 }
-const rc = (b, l, cls = '', i = 0) => `<span class="rc ${cls}" style="--i:${i}"><b>${b}</b>${l}</span>`;
-const introHead = (i, art) => `<div class="art">${art}</div><div class="kick">Мир ${i + 1} из 3</div><div class="big">${WORLDS[i].t}${DOODLE.under('var(--m)')}</div>`;
+const bumpEl = (el, cls = 'bump') => { if (!el) return; el.classList.remove('bump', 'hurt', 'up', 'down'); void el.offsetWidth; el.classList.add(cls); };
+function updAll() {
+  $('#walletN').textContent = D.wallet; $('#pigN').textContent = D.piggy; $('#stockN').textContent = D.stock;
+  const st = $('#stock'); st.classList.toggle('low', D.stock > 0 && D.stock <= 3); st.classList.toggle('empty', D.stock === 0);
+  $('#mRep .mb i').style.width = D.rep * 10 + '%'; $('#mSh .mb i').style.width = D.shield * 10 + '%';
+}
+function meter(kind, d) {
+  if (!d) return;
+  const key = kind === 'rep' ? 'rep' : 'shield', el = kind === 'rep' ? $('#mRep') : $('#mSh');
+  D[key] = clamp(D[key] + d, 0, 10); updAll();
+  bumpEl(el, d > 0 ? 'up' : 'down');
+  const f = floatAt(el, `${d > 0 ? '+' : ''}${d}`, 'pts'); f.style.top = (parseFloat(f.style.top) + 30) + 'px';
+  if (kind === 'rep' && d > 0) for (let i = 0; i < Math.min(3, d + 1); i++) setTimeout(() => floatAt(el, ICON.heart('#FF3D6E'), 'heart'), i * 120);
+}
+function floatAt(el, html, cls) {
+  const r = el.getBoundingClientRect(), d = document.createElement('div');
+  d.className = cls; d.innerHTML = html; d.style.left = (r.left + r.width / 2) + 'px'; d.style.top = (r.top + r.height / 3) + 'px';
+  fx.appendChild(d); setTimeout(() => d.remove(), 1300); return d;
+}
+/* полёт монет / товаров по дуге */
+function flyTo(fromEl, toEl, n, html) {
+  if (!fromEl || !toEl) return;
+  const a = fromEl.getBoundingClientRect(), b = toEl.getBoundingClientRect();
+  const x0 = a.left + a.width / 2, y0 = a.top + a.height / 2, x1 = b.left + b.width / 2, y1 = b.top + b.height / 2;
+  for (let i = 0; i < n; i++) {
+    const f = document.createElement('div'); f.className = 'fly'; f.innerHTML = html; fx.appendChild(f);
+    const dx = rnd(-24, 24), mx = (x0 + x1) / 2 + dx, my = Math.min(y0, y1) - 70 - rnd(0, 40);
+    f.animate([{ transform: `translate(${x0 + dx * .3}px,${y0}px) scale(.6)`, opacity: 0 }, { transform: `translate(${mx}px,${my}px) scale(1.1)`, opacity: 1, offset: .45 }, { transform: `translate(${x1}px,${y1}px) scale(.7)`, opacity: 1 }], { duration: RM ? 200 : 620, delay: i * 70, easing: 'cubic-bezier(.3,.6,.4,1)', fill: 'both' });
+    setTimeout(() => f.remove(), (RM ? 200 : 620) + i * 70 + 20);
+  }
+}
+const coinsFly = (from, to, amt) => flyTo(from, to, clamp(Math.ceil(Math.abs(amt) / 5), 1, 8), ICON.coin);
+const itemsFly = (from, to, n) => flyTo(from, to, clamp(n, 1, 6), prodSVG(D.prod));
+function toast(text, cls = '') {
+  const y = $('#yard'); if (!y) return;
+  const t = document.createElement('div'); t.className = 'toast ' + cls; t.textContent = text; y.appendChild(t);
+  setTimeout(() => t.remove(), 2300);
+}
+function tipLine(text) {
+  const y = $('#yard'); if (!y) return;
+  const t = document.createElement('div'); t.className = 'tipl'; t.innerHTML = `${I.bulb}<span>${text}</span>`; y.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+function custIn(svg) {
+  const c = document.createElement('div'); c.className = 'cust'; c.innerHTML = `<div class="cw">${svg}</div>`;
+  $('#yard').appendChild(c); Sound.step(); setTimeout(() => Sound.step(), 180); return c;
+}
+function custOut(c, how) { c.classList.add('out-' + how); setTimeout(() => c.remove(), 1100); }
+function sayB(html, cls = '') { const b = document.createElement('div'); b.className = 'say ' + cls; b.innerHTML = html; $('#yard').appendChild(b); return b; }
 
-/* ================= Старт ================= */
-function renderStart() {
-  stopAll();
-  app.innerHTML = `<section class="screen start">${blobsBg()}
-    <div class="row"><button class="ibtn" data-close aria-label="Закрыть">${ICON.x}</button>${soundBtn()}</div>
-    <div class="hero" style="position:relative" data-mood="idle"><svg viewBox="0 0 360 330" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%">
-      <g transform="translate(0 0)">${cityArt(0).replace('<svg viewBox="0 0 360 200" class="city" aria-hidden="true">', '<g>').replace(/<\/svg>\s*$/, '</g>')}</g>
-      <g transform="translate(250 150) rotate(-10)"><g class="wiggle"><svg width="96" height="106" viewBox="30 4 100 112">${foxHead()}</svg></g>
-        <g transform="translate(70 70)"><rect x="-14" y="-6" width="34" height="36" rx="8" fill="#FF8A1F"/><path d="M-14 -4q17-14 34 0" stroke="#111216" stroke-width="3" fill="none"/><circle cx="-6" cy="8" r="5" fill="#2EC5FF"/><circle cx="6" cy="14" r="5" fill="#FF5CE6"/><circle cx="10" cy="4" r="4" fill="#C6F432"/></g></g>
-      ${klyaksik({ can: true, attrs: 'x="0" y="168" width="164" height="164"' })}
-    </svg></div>
-    <h1 class="ttl">Кляксик спасает <span class="u">город${DOODLE.under('var(--m)')}</span></h1>
-    <p class="lead">Лис-хулиган украл все краски! Пройди 3 мира и верни городу цвет.</p>
-    <button class="btn big" id="play">Играть ▶</button>
-  </section>`;
-  $('#play').onclick = () => { Sound.tap(); vibrate(); RUN = { score: 0, stars: [0, 0, 0], m: {} }; WORLDS[0].start(); };
-}
-
-/* ================= Переход: район окрашен ================= */
-async function worldDone(i, stars, metrics) {
-  RUN.stars[i] = Math.max(RUN.stars[i], stars); RUN.m[WORLDS[i].id] = metrics;
-  const S = ACTIVE; stopAll();
-  Sound.win(); vibrate('success');
-  const el = $('#scene');
-  el.innerHTML = `<div class="art" style="height:min(32vh,220px)">${cityArt(i, -1)}</div><div class="kick">Цвет вернулся!</div>
-    <div class="big">${WORLDS[i].e} ${['Отлично', 'Супер', 'Ура'][i]}!${DOODLE.under('var(--m)')}</div>
-    <div class="stars3">${starRow(stars)}</div>
-    <button class="btn big" id="go">${i < 2 ? 'Дальше ▶' : 'Финал 🎉'}</button>`;
-  el.classList.add('show');
-  // район перекрашивается из серого в цвет
-  setTimeout(() => { const a = el.querySelector('.art'); if (a) a.innerHTML = cityArt(i + 1, i); Sound.spray(); }, 450);
-  if (stars === 3) setTimeout(confetti, 700);
-  await new Promise(r => $('#go').onclick = r);
-  Sound.tap();
-  if (i < 2) WORLDS[i + 1].start(); else renderFinal();
-}
-
-/* =========================================================
-   МИР 1 · БЕЗОПАСНОСТЬ · «Спам-атака»
-   Сообщения взлетают, как фрукты. Пшикни свайпом Лиса — друзей не трогай.
-   ========================================================= */
-const TRICK = {
-  code: { i: '🔢', t: 'Просит код' }, gift: { i: '🎁', t: 'Халява' }, link: { i: '🔗', t: 'Странная ссылка' },
-  secret: { i: '🤫', t: 'Секрет от мамы' }, urgent: { i: '⏰', t: 'Торопит' }, personal: { i: '🏠', t: 'Выпытывает' },
-  money: { i: '💸', t: 'Просит деньги' }, fear: { i: '😱', t: 'Пугает' }, newnum: { i: '📵', t: 'Чужой номер' }
-};
-const FX = (k, av, n, e, t) => ({ fox: true, k, av, n, e, t });
-const FR = (av, n, e, t) => ({ fox: false, av, n, e, t });
-const FOXB = [
-  FX('code', 'robot', 'Поддержка', '🔢', 'Скажи код из СМС'), FX('code', 'gamer', 'Max_Pro', '🔑', 'Дай пароль — дам скин'),
-  FX('code', 'stranger', 'Курьер', '📦', 'Назови цифры из СМС'), FX('code', 'robot', 'Кубо-игра', '🔢', 'Код — и 1000 алмазов'),
-  FX('gift', 'prize', 'Розыгрыш', '🎁', 'Ты выиграл телефон!'), FX('gift', 'robot', 'Магазин', '💎', '1000 алмазов даром!'),
-  FX('gift', 'prize', 'Блогер', '📱', 'Дарю планшет! Пиши'), FX('gift', 'prize', 'Супер-акция', '👟', 'Кроссовки за 0 ₽'),
-  FX('link', 'petya', 'Петя', '🔗', 'Жми: skin-free.xyz'), FX('link', 'anya', 'Аня', '🔗', 'Голосуй: top-vote.click'),
-  FX('link', 'robot', 'Кубо-игра', '⬇️', 'Скачай мод: kubo.apk'), FX('link', 'sasha', 'Саша', '😱', 'Это ты на видео? жми'),
-  FX('secret', 'stranger', 'Новый друг', '🤫', 'Только маме не говори'), FX('secret', 'cat', 'Котик_Даша', '🤐', 'Это наш секрет 😉'),
-  FX('secret', 'gamer', 'Pro_Gamer', '🗑️', 'Удали нашу переписку'),
-  FX('urgent', 'stranger', 'Неизвестный', '⏰', 'Ответь за 1 минуту!'), FX('urgent', 'robot', 'Акция', '⌛', 'Осталось 30 секунд!'),
-  FX('personal', 'cat', 'Котик_Даша', '🏠', 'Где ты живёшь?'), FX('personal', 'gamer', 'Pro_Gamer', '🏫', 'В какой ты школе?'),
-  FX('personal', 'stranger', 'Незнакомец', '📸', 'Скинь своё фото'), FX('personal', 'gamer', 'Pro_Gamer', '🔑', 'Ты дома один?'),
-  FX('money', 'grandma', 'Бабушка?', '💸', 'Новый номер! Переведи'), FX('money', 'work', 'Подработка', '💳', 'Перешли чужие деньги'),
-  FX('money', 'gamer', 'Max_Pro', '💳', 'Дай карту на денёк'),
-  FX('fear', 'bank', 'Банк?', '😱', 'Карту взломали!'), FX('fear', 'robot', 'Антивирус', '🦠', 'В телефоне 5 вирусов!'),
-  FX('fear', 'gamer', 'Модератор', '🚫', 'Тебя забанят!'),
-  FX('newnum', 'mom', 'Мама?', '📵', 'Пишу с чужого номера'), FX('newnum', 'dad', 'Папа?', '📵', 'Телефон сел. Скинь код')
-];
-const FRB = [
-  FR('mom', 'Мама', '🍞', 'Купи хлеб'), FR('dad', 'Папа', '🚗', 'Заберу в 17:00'), FR('grandma', 'Бабушка', '🥞', 'Испекла блинчики!'),
-  FR('petya', 'Петя', '⚽', 'Го в футбол?'), FR('anya', 'Аня', '🎂', 'С днём рождения!'), FR('sasha', 'Саша', '😹', 'Смотри, смешной кот'),
-  FR('coach', 'Тренер', '🏀', 'Тренировка в 4'), FR('klass', 'Класс', '🦒', 'Завтра в зоопарк'), FR('mom', 'Мама', '❤️', 'Горжусь тобой!'),
-  FR('dad', 'Папа', '🧢', 'Надень шапку'), FR('grandma', 'Бабушка', '☎️', 'Позвони вечером'), FR('sasha', 'Саша', '🛝', 'Выходи гулять!'),
-  FR('anya', 'Аня', '🐉', 'Нарисовала дракона'), FR('klass', 'Класс', '🎉', 'Домашки нет!'), FR('coach', 'Тренер', '💪', 'Ты молодец!'),
-  FR('petya', 'Петя', '🐶', 'У меня щенок!'), FR('mom', 'Мама', '🐠', 'Покорми рыбок'), FR('dad', 'Папа', '🍕', 'На ужин пицца'),
-  FR('bank', 'Банк', '🔒', 'Коды мы не спрашиваем')
-];
-const W1_COINS = 5;
-const W1_SALVOS = [1, 1, 1, 1, 2, 1, 2, 2, 3, 2, 3, 3];   // сколько сообщений взлетает разом
-
-async function startW1(retry = false) {
-  stopAll();
-  const tut = firstTime('w1');
-  const total = sum(W1_SALVOS, x => x), nFox = Math.round(total * .6);
-  const foxes = fresh('fox', FOXB, nFox), friends = fresh('fr', FRB, total - nFox);
-  let pool = shuffle([...foxes, ...friends]);
-  if (tut) { // обучение: первым Лис с кодом, вторым — друг
-    const f0 = FOXB.find(x => x.k === 'code' && x.e === '🔢'), h0 = friends[0];
-    pool = [{ ...f0, tut: 1 }, { ...h0, tut: 1 }, ...pool.filter(x => x !== h0 && x !== f0)];
+async function runDay() {
+  const me = D;
+  await pwait(400);
+  for (; D === me && D.i < D.q.length; D.i++) {
+    setSun(D.i / D.q.length);
+    const e = D.q[D.i];
+    if (e.t === 'b') await buyerEnc(e); else await storyEnc(e.id);
   }
-  const S = ACTIVE = { id: 'w1', paused: true, score: 0, coins: W1_COINS, live: [], pool, salvos: W1_SALVOS.slice(), wait: .6, combo: 0, zapped: 0, missed: 0, friendHits: 0, delivered: 0, hit: {}, miss: {}, trail: [], speed: 1, phase: 'play', tutStep: tut ? 0 : 2 };
-  worldShell(0, `<div class="field" id="field"><canvas class="trailc" id="trailc"></canvas></div>
-    <div class="wbar"><div class="coins" id="coins">${Array.from({ length: W1_COINS }, () => ICON.coin).join('')}</div>
-      <div class="wk" data-mood="idle">${klyaksik({ can: true })}</div>
-      <div class="hearts" id="hearts">${ICON.heart('#1FD16C')}<b id="heartN">0</b></div></div>`);
-  if (!retry) await scene(`${introHead(0, cityArt(0))}
-    <div class="legend">
-      <div class="lrow">${rc('🔢', 'код', 'bad', 0)}${rc('🎁', 'халява', 'bad', 1)}${rc('🔗', 'ссылка', 'bad', 2)}${rc('🤫', 'секрет', 'bad', 3)}<span class="arrow">🦊 пшик!</span></div>
-      <div class="lrow">${rc('⚽', 'играть', 'good', 4)}${rc('🍞', 'просьба', 'good', 5)}${rc('❤️', 'привет', 'good', 6)}<span class="arrow">💚 не трогай</span></div>
-    </div><button class="btn big" id="go">Поехали! ▶</button>`);
-  if (ACTIVE !== S) return;
-  const field = $('#field'), cv = $('#trailc'), ctx = cv.getContext('2d'), dpr = Math.min(2, devicePixelRatio || 1);
-  const fit = () => { cv.width = field.clientWidth * dpr; cv.height = field.clientHeight * dpr; };
-  fit();
-  const pt = e => { const r = field.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
-  field.onpointerdown = e => { if (S.paused) return; try { field.setPointerCapture(e.pointerId); } catch (er) {} S.down = true; S.lp = pt(e); S.trail.push({ p: S.lp, t: performance.now() }); w1Hits(S, S.lp, S.lp, field); };
-  field.onpointermove = e => { if (!S.down || S.paused) return; const p = pt(e); w1Hits(S, S.lp, p, field); S.lp = p; S.trail.push({ p, t: performance.now() }); };
-  field.onpointerup = field.onpointercancel = () => { S.down = false; };
-  S.paused = false;
-  runLoop(S, dt => { w1Update(S, dt, field); w1Trail(S, ctx, dpr, cv); });
+  if (D === me) evening();
 }
-function w1Trail(S, ctx, dpr, cv) {
-  const now = performance.now();
-  S.trail = S.trail.filter(x => now - x.t < 170);
-  ctx.clearRect(0, 0, cv.width, cv.height);
-  if (S.trail.length < 2) return;
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  const col = getComputedStyle(document.documentElement).getPropertyValue('--m').trim() || '#C6F432';
-  for (let i = 1; i < S.trail.length; i++) {
-    const a = S.trail[i - 1].p, b = S.trail[i].p, k = 1 - (now - S.trail[i].t) / 170;
-    ctx.strokeStyle = col; ctx.globalAlpha = .9 * k; ctx.lineWidth = (4 + 12 * k) * dpr;
-    ctx.beginPath(); ctx.moveTo(a[0] * dpr, a[1] * dpr); ctx.lineTo(b[0] * dpr, b[1] * dpr); ctx.stroke();
-  }
-  ctx.globalAlpha = 1;
-}
-const segDist = (c, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], l = dx * dx + dy * dy, t = l ? clamp(((c[0] - a[0]) * dx + (c[1] - a[1]) * dy) / l, 0, 1) : 0; return Math.hypot(c[0] - a[0] - t * dx, c[1] - a[1] - t * dy); };
-function w1Launch(S, it, field, slot = 0, n = 1) {
-  const W = field.clientWidth, H = field.clientHeight;
-  const el = document.createElement('div');
-  el.className = 'bub';
-  el.innerHTML = `<span class="bn">${it.n}</span><span class="bav">${avatar(it.av)}</span><span class="be">${it.e}</span><span class="bt">${it.t}</span>`;
-  field.appendChild(el);
-  const lane = n > 1 ? (slot + .5) / n : rnd(.3, .7);
-  const x0 = clamp(W * lane + rnd(-20, 20), 80, W - 80), apex = it.tut ? H * .38 : rnd(H * .16, H * .36);
-  const g = H * .78 * S.speed, vy = -Math.sqrt(2 * g * (H + 80 - apex)), tf = 2 * -vy / g;
-  const x1 = clamp(x0 + rnd(-W * .22, W * .22), 80, W - 80);
-  const b = { it, el, x: x0, y: H + 80, vx: it.tut ? 0 : (x1 - x0) / tf, vy, g, rot: rnd(-6, 6), vr: rnd(-12, 12), state: 'fly', r: 72 };
-  w1Place(b); S.live.push(b);
-}
-const w1Place = b => { b.el.style.transform = `translate(${b.x}px,${b.y}px) rotate(${b.rot}deg)`; };
-function w1Update(S, dt, field) {
-  const H = field.clientHeight;
-  if (S.phase === 'boss') return w1BossUpdate(S, dt, field);
-  // новые залпы
-  const flying = S.live.filter(b => b.state === 'fly' && !b.dead).length;
-  S.wait -= dt;
-  if (S.salvos.length && !S.freeze && S.wait <= 0 && (flying === 0 || S.wait < -.6)) {
-    const n = S.salvos.shift(), items = S.pool.splice(0, n);
-    items.forEach((it, k) => setTimeout(() => { if (ACTIVE === S) w1Launch(S, it, field, k, n); }, k * 260));
-    S.wait = .9 + n * .45; S.speed = Math.min(1.35, S.speed + .03);
-  }
-  for (const b of S.live) {
-    if (b.state === 'dead') continue;
-    // обучение: замереть в верхней точке
-    if (b.it.tut && !b.taught && !b.dead && b.vy >= 0 && b.state === 'fly') { b.taught = true; w1Teach(S, b, field); }
-    if (S.freeze === b) continue;
-    b.vy += b.g * dt; b.x += b.vx * dt; b.y += b.vy * dt; b.rot += b.vr * dt; w1Place(b);
-    if (b.vy > 0 && b.y > H + 100) w1Land(S, b, field);
-  }
-  S.live = S.live.filter(b => b.state !== 'dead');
-  if (!S.salvos.length && !S.live.length && S.phase === 'play' && S.coins > 0) { S.phase = 'boss'; w1Boss(S, field); }
-}
-function w1Teach(S, b, field) {
-  S.freeze = b;
-  const r = b.el.getBoundingClientRect();
-  if (b.it.fox) {
-    b.el.classList.add('spot');
-    coach('Пшикни Лиса! 🎨', [[r.left - 30, r.top + 20], [r.left - 10, r.top + 30], [r.right + 10, r.bottom - 10], [r.right + 30, r.bottom]], 1300);
-  } else {
-    b.el.classList.add('spotg');
-    coach('Это друг 💚 Пусть летит!');
-    setTimeout(() => { if (ACTIVE !== S) return; b.el.classList.remove('spotg'); coachOff(); S.freeze = null; }, 1900);
-  }
-}
-function w1Hits(S, a, p, field) {
-  if (S.phase === 'boss') return w1BossHit(S, a, p, field);
-  for (const b of S.live) {
-    if (b.state !== 'fly' || b.dead) continue;
-    if (S.freeze && S.freeze !== b) continue;
-    if (segDist([b.x, b.y], a, p) > b.r) continue;
-    if (b.it.fox) w1Zap(S, b, field);
-    else if (!b.oops && S.freeze !== b) w1Oops(S, b, field);
-  }
-}
-function w1Zap(S, b, field) {
-  const it = b.it;
-  b.state = 'hit';
-  if (S.freeze === b) { S.freeze = null; coachOff(); b.el.classList.remove('spot'); }
-  S.combo++; S.zapped++; S.hit[it.k] = (S.hit[it.k] || 0) + 1;
-  const av = b.el.querySelector('.bav'); av.innerHTML = avatar('fox'); av.classList.add('flip');
-  b.el.querySelector('.bn').textContent = '🦊 Лис!';
-  b.el.classList.add('hit'); b.el.insertAdjacentHTML('beforeend', splatSVG());
-  const m = S.combo >= 6 ? 3 : S.combo >= 3 ? 2 : 1;
-  setScore(10 * m, b.el); Sound.spray(); vibrate('light'); mood('happy');
-  ftag(field, b.x, b.y - 80, `${TRICK[it.k].i} ${TRICK[it.k].t}!${m > 1 ? ` · x${m}🔥` : ''}`);
-  b.vy = Math.max(b.vy, 0) + 120; b.vr = rnd(-200, 200); b.vx *= .4; b.state = 'fly'; b.dead = true;
-  setTimeout(() => b.el.classList.add('out'), 500);
-}
-function w1Oops(S, b, field) {
-  b.oops = true; S.combo = 0; S.friendHits++;
-  b.el.classList.remove('oops'); void b.el.offsetWidth; b.el.classList.add('oops');
-  Sound.bad(); vibrate('error'); mood('oops', 1500);
-  ftag(field, b.x, b.y - 80, '💚 Это друг!', 'g');
-}
-function w1Land(S, b, field) {
-  b.state = 'dead'; b.el.remove();
-  if (b.dead || S.phase !== 'play') return;   // закрашенный Лис улетел
-  const W = field.clientWidth, H = field.clientHeight, x = clamp(b.x, 60, W - 60);
-  if (!b.it.fox) {
-    S.delivered++; $('#heartN').textContent = S.delivered;
-    const h = $('#hearts'); h.classList.remove('wob'); void h.offsetWidth; h.classList.add('wob');
-    if (!b.oops) setScore(5, h);
-    Sound.deliver();
-    return;
-  }
-  // Лис проскочил и утащил монетку — без модалок, прямо в игре
-  S.missed++; S.combo = 0; S.miss[b.it.k] = (S.miss[b.it.k] || 0) + 1;
-  S.coins--;
-  const cs = $('#coins'), coin = cs.children[S.coins];
-  coin.classList.add('gone'); cs.classList.remove('wob'); void cs.offsetWidth; cs.classList.add('wob');
-  const r = coin.getBoundingClientRect(); runFox(r.left, r.top - 30, true);
-  Sound.steal(); vibrate('error'); mood('sad', 1600);
-  ftag(field, x, H - 40, `🦊 ${TRICK[b.it.k].i} ${TRICK[b.it.k].t}`, 'r');
-  if (S.coins <= 0) w1Lose(S);
-}
-async function w1Lose(S) {
-  S.paused = true; S.phase = 'lost';
-  await wait(900); if (ACTIVE !== S) return;
-  const tricks = Object.keys(S.miss).slice(0, 4);
-  Sound.bad();
-  await scene(`<div class="art">${cityArt(0, -1, true)}</div><div class="kick">Ой-ой!</div><div class="big">Лис утащил монетки${DOODLE.under('var(--pink)')}</div>
-    <div class="legend"><div class="lrow">${tricks.map((k, i) => rc(TRICK[k].i, TRICK[k].t, 'bad', i)).join('')}</div></div>
-    <button class="btn big" id="go">Реванш! 🔁</button>`);
-  if (ACTIVE === S) startW1(true);
-}
-/* --- Лис-главарь: огромный пузырь, 3 уловки, каждый пшик сбивает одну --- */
-function w1Boss(S, field) {
-  const W = field.clientWidth, H = field.clientHeight;
-  const ks = shuffle(Object.keys(S.miss).length >= 3 ? Object.keys(S.miss) : Object.keys(TRICK)).slice(0, 3);
-  const el = document.createElement('div'); el.className = 'bub boss';
-  el.innerHTML = `<span class="bn">Мама?</span><span class="bav">${avatar('mom')}</span><div class="bi">${ks.map(k => `<span>${TRICK[k].i}</span>`).join('')}</div><span class="bt">Лис-главарь</span><div class="hpb"><i></i></div>`;
-  field.appendChild(el);
-  S.boss = { el, ks, left: 3, t: 0, x: W / 2, y: H + 120, cd: 0 };
-  coach('Главарь! Пшикай много раз! 💥');
-  setTimeout(() => { if (ACTIVE === S) coachOff(); }, 2200);
-  Sound.tone(220, .3, 'square', .06, 0, 440);
-}
-function w1BossUpdate(S, dt, field) {
-  const B = S.boss; if (!B) return;
-  const W = field.clientWidth, H = field.clientHeight;
-  B.t += dt; B.cd -= dt;
-  const ty = H * .42 + Math.sin(B.t * 2.2) * 26;
-  B.y += (ty - B.y) * Math.min(1, dt * 3);
-  B.x = W / 2 + Math.sin(B.t * 1.4) * Math.max(0, W / 2 - 130);
-  if (!B.dead) B.el.style.transform = `translate(${B.x}px,${B.y}px) rotate(${Math.sin(B.t * 3) * 4}deg)`;
-}
-function w1BossHit(S, a, p, field) {
-  const B = S.boss; if (!B || B.dead || B.cd > 0 || segDist([B.x, B.y], a, p) > 110) return;
-  B.cd = .28; B.left--;
-  const k = B.ks[2 - B.left], spans = B.el.querySelectorAll('.bi span');
-  spans[2 - B.left].classList.add('off');
-  B.el.querySelector('.hpb i').style.width = (B.left / 3 * 100) + '%';
-  B.el.classList.remove('hitb'); void B.el.offsetWidth; B.el.classList.add('hitb');
-  setScore(20, B.el); Sound.hit(); vibrate('light'); mood('happy');
-  ftag(field, B.x, B.y - 120, `${TRICK[k].i} ${TRICK[k].t}!`);
-  if (B.left > 0) return;
-  B.dead = true;
-  const av = B.el.querySelector('.bav'); av.innerHTML = avatar('fox'); av.classList.add('flip');
-  B.el.querySelector('.bn').textContent = '🦊 Лис!';
-  B.el.insertAdjacentHTML('beforeend', splatSVG());
-  setTimeout(() => {
-    const r = B.el.getBoundingClientRect(); runFox(r.left + 60, r.top, false); B.el.classList.add('out');
-    confetti();
-    const errs = S.missed + S.friendHits;
-    setTimeout(() => { if (ACTIVE === S) worldDone(0, errs <= 1 ? 3 : errs <= 4 ? 2 : 1, { zapped: S.zapped, missed: S.missed, friendHits: S.friendHits, delivered: S.delivered, tricksMissed: Object.keys(S.miss) }); }, 1200);
-  }, 700);
-}
-
-/* =========================================================
-   МИР 2 · ДЕНЬГИ · «Копилка мечты»
-   Лови монетки копилкой. Хотелки тратят, Лис-ловушки отнимают, вклад растит.
-   ========================================================= */
-const DREAMS = [{ e: '🛴', t: 'Самокат' }, { e: '🎧', t: 'Наушники' }, { e: '🎨', t: 'Краски' }];
-const WANTS = ['🍭', '🧸', '🎈', '🍦', '🍩', '🎮', '🪀', '🍫', '🥤', '🃏'];
-const NEEDS = ['📓', '🧤', '✏️', '🪥', '🎒', '🧦'];
-const TRAPS = [['🎰', '×10'], ['🦊', '×2'], ['📦', '???'], ['🎲', 'спор']];
-const DREAM = 30, W2_DUR = 42;
-
-async function startW2() {
-  stopAll();
-  const tut = firstTime('w2');
-  const S = ACTIVE = { id: 'w2', paused: true, score: 0, coins: 0, t: 0, items: [], next: .4, cx: 0, tx: 0, needs: fresh('needs', NEEDS, 2).map(e => ({ e, ok: false })), dream: DREAMS[0], wants: [], traps: 0, trapLost: 0, bank: false, bankGain: 0, debt: 0, events: [], moved: !tut };
-  worldShell(1, `<div class="dream"><span class="de" id="dreamE">🛴</span><div class="db"><div class="pbar" id="pbar"><i></i></div><div class="dn">${ICON.coin}<span id="coinN">0</span> / ${DREAM}</div></div><div class="needs" id="needs">${S.needs.map(n => `<span>${n.e}</span>`).join('')}</div></div>
-    <div class="timer"><i id="timer"></i></div>
-    <div class="field" id="field"><div class="catcher" id="catcher"><span class="bank" id="bankB">🏦</span><div class="pig">${pigSVG()}</div></div></div>`);
-  // выбор мечты — первое действие и есть «старт»
-  const el = $('#scene');
-  el.innerHTML = `${introHead(1, cityArt(1))}<div class="kick" style="margin:-6px 0 10px">Выбери мечту:</div>
-    <div class="picks">${DREAMS.map((d, i) => `<button class="pk" data-d="${i}" style="--i:${i}">${d.e}<span>${d.t}</span></button>`).join('')}</div>
-    <div class="legend"><div class="lrow">${rc(ICON.coin, 'лови', 'good', 0)}${rc(S.needs[0].e, 'нужно', 'good', 1)}${rc('🍭', 'тратит', '', 2)}${rc('🦊', 'ловушка', 'bad', 3)}${rc('🏦', 'растит', 'good', 4)}</div></div>`;
-  el.classList.add('show');
-  await new Promise(r => el.querySelectorAll('[data-d]').forEach(b => b.onclick = () => { S.dream = DREAMS[+b.dataset.d]; Sound.tap(); vibrate(); el.classList.remove('show'); r(); }));
-  if (ACTIVE !== S) return;
-  $('#dreamE').textContent = S.dream.e;
-  // сценарий падений
-  const ev = [];
-  for (let t = .6; t < W2_DUR - 2; t += rnd(.5, .75)) { const r = Math.random(); ev.push({ at: t, k: r < .56 ? 'coin' : r < .64 ? 'bag' : r < .88 ? 'want' : 'trap' }); }
-  [7, 19].forEach((at, i) => ev.push({ at, k: 'need', n: i }));
-  ev.push({ at: 13, k: 'bank' }, { at: 25, k: 'credit' });
-  S.events = ev.sort((a, b) => a.at - b.at);
-  const field = $('#field');
-  S.cx = S.tx = field.clientWidth / 2;
-  const setT = e => { const r = field.getBoundingClientRect(); S.tx = clamp(e.clientX - r.left, 60, r.width - 60); if (!S.moved) { S.moved = true; coachOff(); } };
-  field.onpointerdown = e => { try { field.setPointerCapture(e.pointerId); } catch (er) {} setT(e); };
-  field.onpointermove = e => { if (e.buttons || e.pointerType === 'mouse') setT(e); };
-  S.onKey = e => { const W = field.clientWidth; if (e.key === 'ArrowLeft') S.tx = clamp(S.tx - 70, 60, W - 60); if (e.key === 'ArrowRight') S.tx = clamp(S.tx + 70, 60, W - 60); };
-  if (tut) { const r = field.getBoundingClientRect(), y = r.bottom - 60; coach('Двигай копилку! 👆', [[r.left + r.width * .3, y], [r.left + r.width * .3, y], [r.left + r.width * .7, y], [r.left + r.width * .3, y]], 1800, 'mid'); }
-  S.paused = false;
-  runLoop(S, dt => w2Update(S, dt, field));
-}
-function w2Coins(S, d, el, cls) {
-  S.coins = Math.max(0, S.coins + d);
-  $('#coinN').textContent = S.coins;
-  $('#pbar i').style.width = clamp(S.coins / DREAM * 100, 0, 100) + '%';
-  $('#pbar').classList.toggle('full', S.coins >= DREAM);
-  if (el && d) floatAt(el, (d > 0 ? '+' : '') + d, 'pts');
-}
-function w2Spawn(S, field, e) {
-  const W = field.clientWidth, el = document.createElement('div');
-  let it = { k: e.k, v: 0 };
-  if (e.k === 'coin') { el.className = 'fall'; el.innerHTML = ICON.coin; it.v = 1; }
-  else if (e.k === 'bag') { el.className = 'fall'; el.innerHTML = '💰<span class="pt g">+3</span>'; it.v = 3; }
-  else if (e.k === 'want') { const w = pick(WANTS); it.v = -(2 + (Math.random() * 3 | 0)); it.e = w; el.className = 'fall'; el.innerHTML = `${w}<span class="pt">${it.v}</span>`; }
-  else if (e.k === 'trap') { const t = pick(TRAPS); it.v = -5; it.e = t[0]; el.className = 'fall trap'; el.innerHTML = `${t[0]}<span class="pt f">${t[1]}</span>`; }
-  else if (e.k === 'need') { const n = S.needs[e.n]; if (n.ok) return; it.v = -(2 + (e.late || 0)); it.n = e.n; it.e = n.e; el.className = 'fall need'; el.innerHTML = `${n.e}<span class="pt">${it.v}</span>`; }
-  else if (e.k === 'bank') { el.className = 'fall gold'; el.innerHTML = '🏦'; }
-  else if (e.k === 'credit') { el.className = 'fall gold'; el.innerHTML = '💳<span class="pt g">+5</span>'; }
-  field.appendChild(el);
-  it.el = el; it.x = rnd(40, W - 40); it.y = -40; it.sp = rnd(.9, 1.1) * (1 + S.t / W2_DUR * .45);
-  if (e.k === 'need' || e.k === 'bank' || e.k === 'credit') it.sp *= .8;
-  it.ev = e;
-  el.style.transform = `translate(${it.x}px,${it.y}px)`;
-  S.items.push(it);
-}
-function w2Update(S, dt, field) {
-  const W = field.clientWidth, H = field.clientHeight;
-  S.t += dt;
-  $('#timer').style.width = clamp(100 - S.t / W2_DUR * 100, 0, 100) + '%';
-  S.cx += (S.tx - S.cx) * Math.min(1, dt * 14);
-  const c = $('#catcher'); c.style.transform = `translateX(${S.cx}px)`;
-  while (S.events.length && S.events[0].at <= S.t) w2Spawn(S, field, S.events.shift());
-  // вклад: монетки растут сами
-  if (S.bank) { S.bankT = (S.bankT || 0) + dt; if (S.bankT > 2.5) { S.bankT = 0; S.bankGain++; w2Coins(S, 1, $('#bankB')); Sound.coin(); } }
-  if (S.debt && S.t > S.debtAt) { const d = S.debt; S.debt = 0; w2Coins(S, -d, c); Sound.steal(); ftag(field, S.cx, H - 140, `💳 Долг: −${d}`, 'r'); mood('oops'); }
-  const catchY = H - 96, fallSp = H / 2.7;
-  for (const it of S.items) {
-    if (it.done) continue;
-    it.y += fallSp * it.sp * dt; it.el.style.transform = `translate(${it.x}px,${it.y}px)`;
-    if (it.y > catchY && it.y < catchY + 40 && Math.abs(it.x - S.cx) < 58) w2Catch(S, it, field, c);
-    else if (it.y > H + 40) {
-      it.done = true; it.el.remove();
-      if (it.k === 'need') { S.events.push({ at: S.t + 2.5, k: 'need', n: it.n, late: (it.ev.late || 0) + 1 }); S.events.sort((a, b) => a.at - b.at); }
-    }
-  }
-  S.items = S.items.filter(it => !it.done);
-  if (S.t >= W2_DUR && !S.items.length && !S.over) { S.over = true; w2End(S); }
-}
-function w2Catch(S, it, field, c) {
-  it.done = true;
-  const H = field.clientHeight, bounce = () => { it.el.classList.add('bounce'); it.el.style.transform = `translate(${it.x + rnd(-80, 80)}px,${it.y - 120}px) rotate(40deg)`; setTimeout(() => it.el.remove(), 500); };
-  c.classList.remove('gulp'); void c.offsetWidth; c.classList.add('gulp');
-  if (it.k === 'coin' || it.k === 'bag') { it.el.remove(); w2Coins(S, it.v, c); setScore(it.v * 2); Sound.coin(); vibrate('light'); return; }
-  if (it.k === 'want' || it.k === 'need') {
-    if (S.coins < -it.v) { bounce(); Sound.bad(); ftag(field, S.cx, H - 150, 'Не хватает 🪙', 'y'); if (it.k === 'need') S.events.push({ at: S.t + 3, k: 'need', n: it.n, late: it.ev.late || 0 }), S.events.sort((a, b) => a.at - b.at); return; }
-    it.el.remove(); w2Coins(S, it.v, c);
-    if (it.k === 'need') {
-      S.needs[it.n].ok = true; $('#needs').children[it.n].classList.add('ok');
-      setScore(15, c); Sound.good(); mood('happy'); ftag(field, S.cx, H - 150, `${it.e} Нужное ✓`, 'g');
-    } else { S.wants.push([it.e, -it.v]); Sound.pop(); ftag(field, S.cx, H - 150, `${it.e} Хотелка ${it.v}`, 'y'); }
-    return;
-  }
-  if (it.k === 'trap') {
-    it.el.remove(); const lost = Math.min(5, S.coins); S.traps++; S.trapLost += lost; w2Coins(S, -lost, c);
-    const r = c.getBoundingClientRect(); runFox(r.left + 30, r.top, true);
-    Sound.steal(); vibrate('error'); mood('sad', 1500); ftag(field, S.cx, H - 150, `🦊 Ловушка! −${lost}`, 'r'); return;
-  }
-  if (it.k === 'bank') { it.el.remove(); S.bank = true; $('#bankB').classList.add('on'); setScore(20, c); Sound.win(); ftag(field, S.cx, H - 150, '🏦 Вклад: монетки растут!', 'g'); return; }
-  if (it.k === 'credit') { it.el.remove(); w2Coins(S, 5, c); S.debt = 8; S.debtAt = S.t + 5; Sound.coin(); ftag(field, S.cx, H - 150, '💳 В долг: вернуть 8!', 'y'); }
-}
-async function w2End(S) {
-  S.paused = true;
-  const ok = S.coins >= DREAM, needsOk = S.needs.every(n => n.ok), spent = sum(S.wants, w => w[1]);
-  await wait(400); if (ACTIVE !== S) return;
-  if (ok) { Sound.win(); confetti(); } else Sound.tap();
-  const chips = [
-    S.wants.length ? rc(S.wants.slice(0, 3).map(w => w[0]).join(''), `хотелки −${spent}`, '', 0) : '',
-    S.traps ? rc('🦊', `ловушки −${S.trapLost}`, 'bad', 1) : '',
-    S.bankGain ? rc('🏦', `вклад +${S.bankGain}`, 'good', 2) : '',
-    rc(S.needs.map(n => n.e).join(''), needsOk ? 'нужное ✓' : 'нужное ✗', needsOk ? 'good' : 'bad', 3)
-  ].join('');
-  await scene(`<div class="art" style="display:grid;place-items:center;font-size:110px;line-height:1">${S.dream.e}</div>
-    <div class="kick">${ok ? 'Накопил(а)!' : `Не хватило ${DREAM - S.coins} 🪙`}</div><div class="big">${ok ? 'Мечта твоя!' : 'Почти!'}${DOODLE.under('var(--m)')}</div>
-    <div class="legend"><div class="lrow">${chips}</div></div><button class="btn big" id="go">Дальше ▶</button>`);
-  if (ACTIVE !== S) return;
-  worldDone(1, 1 + (ok ? 1 : 0) + (needsOk && !S.traps ? 1 : 0), { coins: S.coins, goal: DREAM, dreamReached: ok, needsOk, wantsBought: S.wants.length, wantsSpent: spent, traps: S.traps, bankGain: S.bankGain });
-}
-
-/* =========================================================
-   МИР 3 · ДРУЖБА И Я · «Краски чувств»
-   Брось на друга краску его чувства, потом выбери, как помочь.
-   ========================================================= */
-const EMO = {
-  joy: { e: '😄', t: 'Радость', c: '#FFD93B' }, sad: { e: '😢', t: 'Грусть', c: '#5CC2FF' },
-  angry: { e: '😠', t: 'Злость', c: '#FF5C7A' }, fear: { e: '😨', t: 'Страх', c: '#A77BFF' },
-  wow: { e: '😲', t: 'Удивление', c: '#3FE08A' }
-};
-const SI = (p, s, emo, ge, gt) => ({ p, s, emo, good: [ge, gt] });
-const SITS = [
-  SI('🐶🎁', 'Подарили щенка', 'joy', '🙌', 'Порадоваться'), SI('🏆🥇', 'Победил в забеге', 'joy', '👏', 'Похлопать'),
-  SI('🎂🎉', 'День рождения', 'joy', '🎁', 'Поздравить'), SI('🚲✨', 'Научился кататься', 'joy', '🙌', 'Дать пять'),
-  SI('🎪🎟️', 'Идёт в цирк', 'joy', '🙌', 'Порадоваться'),
-  SI('🧸💔', 'Сломалась игрушка', 'sad', '🛠️', 'Починить вместе'), SI('🍦⬇️', 'Уронил мороженое', 'sad', '🍦', 'Поделиться'),
-  SI('🐱❓', 'Потерялся кот', 'sad', '🔍', 'Искать вместе'), SI('👋🚚', 'Друг уехал', 'sad', '🤗', 'Обнять'),
-  SI('🌧️⚽', 'Отменили футбол', 'sad', '🎲', 'Позвать играть'),
-  SI('🏰💥', 'Сломали башню', 'angry', '🧱', 'Построить снова'), SI('🎨💦', 'Залили рисунок', 'angry', '🖍️', 'Нарисовать новый'),
-  SI('📱✋', 'Отобрали планшет', 'angry', '🗣️', 'Сказать «верни»'), SI('🛝👉', 'Толкнули с горки', 'angry', '🧑‍🏫', 'Позвать взрослого'),
-  SI('🌩️🌙', 'Гром ночью', 'fear', '🤗', 'Быть рядом'), SI('🐕❗', 'Большая собака', 'fear', '🧑‍🏫', 'Позвать взрослого'),
-  SI('🌑🛏️', 'Темно в комнате', 'fear', '💡', 'Включить свет'), SI('💉🏥', 'Идёт к врачу', 'fear', '🤝', 'Держать за руку'),
-  SI('🎤😰', 'Выступать на сцене', 'fear', '👏', 'Подбодрить'),
-  SI('📦🐱', 'Из коробки котёнок!', 'wow', '😲', 'Удивиться вместе'), SI('🎈🎈🎈', 'Гора шариков!', 'wow', '📸', 'Посмотреть'),
-  SI('🍄😮', 'Гигантский гриб!', 'wow', '👀', 'Рассмотреть'), SI('🎁🐢', 'Подарили черепаху!', 'wow', '😲', 'Ого вместе')
-];
-const BAD = { joy: [['😒', 'Завидовать'], ['🙄', 'Отвернуться']], sad: [['😝', 'Дразнить'], ['🙄', 'Уйти']], angry: [['👊', 'Толкнуть'], ['😝', 'Смеяться']], fear: [['👻', 'Напугать'], ['😝', 'Дразнить']], wow: [['🙄', 'Скукота'], ['😒', 'Подумаешь']] };
-const W3_N = 6;
-function faceSVG(color, emo, seed) {
-  const d = blobPath(80, 88, 64, 10, .07, seed), dark = '#111216';
-  const eyes = (r = 13, pr = 6, dy = 0) => `<circle cx="60" cy="${80 + dy}" r="${r}" fill="#fff"/><circle cx="100" cy="${80 + dy}" r="${r}" fill="#fff"/><circle cx="62" cy="${82 + dy}" r="${pr}" fill="${dark}"/><circle cx="102" cy="${82 + dy}" r="${pr}" fill="${dark}"/>`;
-  const F = {
-    none: eyes() + `<path d="M68 112h24" stroke="${dark}" stroke-width="5" stroke-linecap="round"/>`,
-    joy: eyes() + `<path d="M56 104q24 30 48 0z" fill="${dark}"/><path d="M68 116q12 7 24 0q-12-4-24 0z" fill="#FF5C8A"/><circle cx="44" cy="102" r="7" fill="#FF5CE6" opacity=".35"/><circle cx="116" cy="102" r="7" fill="#FF5CE6" opacity=".35"/>`,
-    sad: eyes(12, 6, 2) + `<path d="M48 62l20-6M112 62l-20-6" stroke="${dark}" stroke-width="4.5" stroke-linecap="round"/><path d="M64 120q16-14 32 0" stroke="${dark}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M52 96q-4 9 0 14 4-5 0-14z" fill="#2E9BFF"/>`,
-    angry: eyes(12, 6, 2) + `<path d="M46 58l24 10M114 58l-24 10" stroke="${dark}" stroke-width="6" stroke-linecap="round"/><path d="M64 120q16-10 32 0" stroke="${dark}" stroke-width="5" fill="none" stroke-linecap="round"/>`,
-    fear: eyes(15, 4) + `<path d="M48 56q10-8 22-2M112 56q-10-8-22-2" stroke="${dark}" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M66 116q4-6 7 0t7 0 7 0 7 0" stroke="${dark}" stroke-width="4" fill="none" stroke-linecap="round"/>`,
-    wow: eyes(15, 6) + `<path d="M48 54q10-10 22-4M112 54q-10-10-22-4" stroke="${dark}" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="80" cy="116" rx="11" ry="14" fill="${dark}"/>`
-  };
-  return `<svg viewBox="0 0 160 170"><ellipse cx="80" cy="162" rx="46" ry="6" fill="#111216" opacity=".08"/><path class="fbody" d="${d}" fill="${color}"/><ellipse cx="54" cy="52" rx="13" ry="7" fill="#fff" opacity=".45" transform="rotate(-30 54 52)"/>${F[emo] || F.none}</svg>`;
-}
-const bucketSVG = (c, seed) => `<svg viewBox="0 0 56 56"><path d="${blobPath(28, 28, 25, 8, .08, seed)}" fill="${c}"/></svg>`;
-
-async function startW3() {
-  stopAll();
-  const tut = firstTime('w3');
-  const list = fresh('sits', SITS, W3_N);
-  const S = ACTIVE = { id: 'w3', paused: true, score: 0, list, i: -1, step: 'wait', right: 0, wrong: 0, kind: 0, unkind: 0, wrongHere: 0, tut, got: {} };
-  worldShell(2, `<div class="street field" id="field"></div>
-    <div class="buckets off" id="buckets">${Object.entries(EMO).map(([k, E], i) => `<div class="bk" data-e="${k}"><span class="bkc">${bucketSVG(E.c, i * 7 + 3)}<b>${E.e}</b></span>${E.t}</div>`).join('')}</div>`);
-  await scene(`${introHead(2, cityArt(2))}
-    <div class="legend"><div class="lrow">${Object.values(EMO).map((E, i) => rc(E.e, E.t, '', i)).join('')}</div>
-    <div class="lrow"><span class="arrow">🎨 Раскрась друга → 💛 помоги ему</span></div></div>
-    <button class="btn big" id="go">Поехали! ▶</button>`);
-  if (ACTIVE !== S) return;
-  $('#buckets').querySelectorAll('.bk').forEach(b => w3Drag(S, b));
-  S.paused = false;
-  w3Next(S);
-}
-function w3Next(S) {
-  S.i++;
-  const field = $('#field');
-  if (S.i >= S.list.length) {
-    const errs = S.wrong + S.unkind;
-    return worldDone(2, errs <= 1 ? 3 : errs <= 4 ? 2 : 1, { emotionsRight: S.right, emotionsWrong: S.wrong, kindHelps: S.kind, unkindTries: S.unkind });
-  }
-  const s = S.cur = S.list[S.i];
-  S.step = 'emo'; S.wrongHere = 0; S.seed = Math.random() * 99 | 0;
-  field.innerHTML = `<div class="think"><b>${s.p}</b><span>${s.s}</span></div><div class="friend in" id="friend">${faceSVG('#D5D8E2', 'none', S.seed)}</div>`;
-  $('#buckets').classList.remove('off');
-  document.querySelectorAll('.bk').forEach(b => b.classList.remove('glow'));
-  if (S.tut && S.i === 0) setTimeout(() => {
-    if (ACTIVE !== S || S.step !== 'emo') return;
-    const bk = document.querySelector(`.bk[data-e="${s.emo}"]`), fr = $('#friend');
-    bk.classList.add('glow');
-    const a = bk.getBoundingClientRect(), b = fr.getBoundingClientRect();
-    coach('Тащи краску на друга! 🎨', [[a.left + 28, a.top + 20], [a.left + 28, a.top + 20], [b.left + b.width / 2, b.top + b.height / 2], [b.left + b.width / 2, b.top + b.height / 2]], 1700, 'bottom');
-  }, 700);
-}
-function w3Drag(S, bk) {
-  const k = bk.dataset.e, E = EMO[k];
-  bk.addEventListener('pointerdown', e => {
-    if (S.paused || S.step !== 'emo') return;
-    e.preventDefault();
-    const g = document.createElement('div'); g.className = 'dragc'; g.innerHTML = `${bucketSVG(E.c, 5)}<b>${E.e}</b>`;
-    g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px'; document.body.appendChild(g);
-    const x0 = e.clientX, y0 = e.clientY; let moved = false;
-    Sound.tap();
-    const mv = ev => { g.style.left = ev.clientX + 'px'; g.style.top = ev.clientY + 'px'; if (Math.hypot(ev.clientX - x0, ev.clientY - y0) > 12) moved = true; };
-    const up = ev => {
-      removeEventListener('pointermove', mv); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
-      const fr = $('#friend'); if (!fr) return g.remove();
-      const r = fr.getBoundingClientRect();
-      const over = ev.clientX > r.left - 20 && ev.clientX < r.right + 20 && ev.clientY > r.top - 20 && ev.clientY < r.bottom + 20;
-      if (over) { g.remove(); w3Paint(S, k, ev.clientX, ev.clientY); return; }
-      if (!moved) { // просто тап — краска летит в друга сама
-        g.classList.add('fly'); const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        g.style.transform = `translate(${cx - ev.clientX}px,${cy - ev.clientY}px) scale(1.2)`;
-        setTimeout(() => { g.remove(); w3Paint(S, k, cx, cy); }, 340); return;
-      }
-      g.remove();
-    };
-    addEventListener('pointermove', mv); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+async function buyerEnc(e) {
+  const me = D;
+  if (D.rep <= 2 && Math.random() < .4) { toast('😒 Покупатель прошёл мимо', 'r'); D.missed++; await pwait(1200); return; }
+  const c = custIn(critter(e.k, 'idle', e.acc));
+  await pwait(600); if (D !== me) return;
+  const tut = firstTime('buy');
+  const prog = D.i / D.q.length, T = tut ? 1e9 : Math.round(5600 - 2200 * prog);
+  const b = sayB(`${prodSVG(D.prod)}<span class="x">×${e.n}</span>${tut ? '' : `<span class="pat"><i style="animation-duration:${T}ms"></i></span>`}`, 'order');
+  if (tut) coachTap(b, 'Тапни — продай!');
+  const r = await new Promise(res => {
+    let done = false; const go = v => { if (!done) { done = true; res(v); } };
+    const tap = () => { if (!D.paused && D === me) go('serve'); };
+    b.onclick = tap; c.onclick = tap; $('#stock').onclick = tap;
+    pwait(T).then(() => go('late'));
   });
-}
-function w3Splash(field, x, y, color) {
-  const fr = field.getBoundingClientRect(), d = document.createElement('div'); d.className = 'pblot';
-  d.style.left = (x - fr.left) + 'px'; d.style.top = (y - fr.top) + 'px';
-  d.innerHTML = splatSVG('style="width:100%;height:100%"').replace(/var\(--m\)/g, color);
-  field.appendChild(d); setTimeout(() => { d.style.opacity = 0; setTimeout(() => d.remove(), 800); }, 500);
-}
-function w3Paint(S, k, x, y) {
-  if (S.step !== 'emo' || ACTIVE !== S) return;
-  const s = S.cur, E = EMO[k], field = $('#field'), fr = $('#friend');
-  coachOff(); document.querySelectorAll('.bk').forEach(b => b.classList.remove('glow'));
-  w3Splash(field, x, y, E.c); Sound.spray();
-  if (k === s.emo) {
-    S.step = 'help'; S.right++; S.got[k] = 1;
-    fr.classList.remove('in', 'no'); fr.innerHTML = faceSVG(E.c, k, S.seed);
-    setScore(10, fr); vibrate('light'); mood('happy');
-    ftag(field, field.clientWidth / 2, fr.offsetTop - 10, `${E.e} ${E.t}!`, 'g');
-    $('#buckets').classList.add('off');
-    setTimeout(() => { if (ACTIVE === S) w3Helps(S); }, 650);
-  } else {
-    S.wrong++; S.wrongHere++;
-    fr.classList.remove('in', 'no'); void fr.offsetWidth; fr.classList.add('no');
-    fr.innerHTML = faceSVG(E.c, k, S.seed);
-    setTimeout(() => { if (S.cur === s && S.step === 'emo') fr.innerHTML = faceSVG('#D5D8E2', 'none', S.seed); }, 700);
-    Sound.bad(); vibrate('error'); mood('oops');
-    ftag(field, field.clientWidth / 2, fr.offsetTop - 10, `Не ${E.t.toLowerCase()} 🙅`, 'r');
-    if (S.wrongHere >= 2) document.querySelector(`.bk[data-e="${s.emo}"]`).classList.add('glow');
+  if (D !== me) return;
+  coachOff(); $('#stock').onclick = null; b.remove();
+  if (r === 'late') {
+    D.missed++; Sound.bad(); vibrate('error'); mood('oops');
+    c.querySelector('.cw').innerHTML = critter(e.k, 'angry', e.acc);
+    toast('⏰ Не дождался!', 'r'); meter('rep', -1); custOut(c, 'angry'); await pwait(900); return;
   }
+  const sold = Math.min(e.n, D.stock);
+  if (!sold) {
+    D.missed++; Sound.bad(); mood('sad');
+    c.querySelector('.cw').innerHTML = critter(e.k, 'sad', e.acc);
+    toast(`${PRODS[D.prod].unit} Всё раскупили!`, 'r'); meter('rep', -1); custOut(c, 'sad'); await pwait(900); return;
+  }
+  D.stock -= sold; updAll(); bumpEl($('#stock'), 'hurt');
+  itemsFly($('#stock'), c, sold); Sound.pop();
+  await pwait(380); if (D !== me) return;
+  const pay = sold * PRICE + (D.rep >= 8 ? 2 : 0);
+  c.querySelector('.cw').innerHTML = critter(e.k, 'happy', e.acc);
+  coinsFly(c, $('#till'), pay); D.sold += sold;
+  await pwait(500); if (D !== me) return;
+  D.wallet += pay; updAll(); bumpEl($('#till')); Sound.cash(); vibrate('light'); mood('happy');
+  if (sold < e.n) toast('Не хватило 😕');
+  else if (D.rep >= 8) floatAt($('#till'), '+2 💛', 'pts');
+  custOut(c, 'happy'); await pwait(650);
 }
-function w3Helps(S) {
-  const s = S.cur, field = $('#field');
-  const opts = shuffle([{ e: s.good[0], t: s.good[1], ok: true }, ...BAD[s.emo].map(b => ({ e: b[0], t: b[1] }))]);
-  const box = document.createElement('div'); box.className = 'helps'; box.id = 'helps';
-  box.innerHTML = opts.map((o, i) => `<button class="hp" data-i="${i}" style="--i:${i}"><b>${o.e}</b>${o.t}</button>`).join('');
-  field.appendChild(box);
-  if (S.tut && S.i === 0) coach('Как помочь другу? 💛', null, 0, 'mid');
-  let wrongs = 0;
-  box.querySelectorAll('.hp').forEach(b => b.onclick = () => {
-    if (S.paused || S.step !== 'help') return;
-    const o = opts[+b.dataset.i], fr = $('#friend');
-    coachOff();
-    if (o.ok) {
-      S.step = 'wait'; S.kind++;
-      setScore(15, b); Sound.good(); vibrate('success'); mood('happy');
-      fr.innerHTML = faceSVG(EMO.joy.c, 'joy', S.seed); fr.classList.add('yay');
-      for (let i = 0; i < 4; i++) setTimeout(() => floatAt(fr, ICON.heart(pick(['#FF5CE6', '#FF3D6E', '#1FD16C'])), 'heart'), i * 140);
-      box.remove();
-      setTimeout(() => { if (ACTIVE !== S) return; fr.classList.remove('yay'); fr.classList.add('out'); field.querySelector('.think').remove(); }, 1100);
-      setTimeout(() => { if (ACTIVE === S) w3Next(S); }, 1700);
-    } else {
-      S.unkind++; wrongs++; b.classList.add('no');
-      fr.classList.remove('no'); void fr.offsetWidth; fr.classList.add('no');
-      Sound.bad(); vibrate('error'); mood('sad');
-      ftag(field, field.clientWidth / 2, fr.offsetTop - 10, 'Другу стало хуже 😢', 'r');
-      if (wrongs >= 1) box.querySelectorAll('.hp').forEach((x, i) => { if (opts[i].ok) x.classList.add('glow'); });
-    }
+function optAvail(o) {
+  if (o.costPig && D.piggy < o.costPig) return false;
+  if (o.needStock && D.stock < o.needStock) return false;
+  if (o.cost) return o.pay ? (D.piggy >= o.cost || D.wallet >= o.cost) : D.wallet >= o.cost;
+  return true;
+}
+function optBadge(o) {
+  if (o.costPig) return `<span class="bdg pig">🐷 ${o.costPig}</span>`;
+  if (o.cost && o.pay && D.piggy >= o.cost) return `<span class="bdg pig">🐷 ${o.cost}</span>`;
+  if (o.cost) return `<span class="bdg">−${o.cost}${coin()}</span>`;
+  if (o.needStock) return `<span class="bdg" style="background:#fff;color:var(--ink);box-shadow:var(--shadow)">−${o.needStock}${prodSVG(D.prod)}</span>`;
+  return '';
+}
+function choose(opts) {
+  const box = document.createElement('div'); box.className = 'opts';
+  box.innerHTML = opts.map((o, i) => `<button class="op ${optAvail(o) ? '' : 'off'}" data-i="${i}" style="--i:${i}">${optBadge(o)}<b>${o.i}</b><span>${o.t}</span></button>`).join('');
+  $('#yard').appendChild(box);
+  return new Promise(res => box.querySelectorAll('.op').forEach(b => b.onclick = () => {
+    if (D.paused) return;
+    b.classList.add('pick'); Sound.tap(); vibrate();
+    box.querySelectorAll('.op').forEach(x => { x.onclick = null; });
+    setTimeout(() => { box.remove(); res(+b.dataset.i); }, 200);
+  }));
+}
+async function storyEnc(id) {
+  const me = D, S = ST[id], P = PRODS[D.prod];
+  const c = custIn(S.art ? S.art() : critter(S.who[0], S.md || 'idle', S.who[1]));
+  if (id === 'rain') { $('#rain').classList.add('on'); $('#sky').classList.add('rainy'); }
+  await pwait(600); if (D !== me) return;
+  const b = sayB(typeof S.say === 'function' ? S.say(P) : S.say, S.ev ? 'event' : '');
+  if (firstTime('story')) setTimeout(() => { const op = $('.opts'); if (op && D === me) coachTap(op, 'Что ответишь?'); }, 500);
+  const idx = await choose(S.opts);
+  if (D !== me) return;
+  coachOff(); b.remove();
+  let o = S.opts[idx];
+  if (o.ref) o = ST[o.ref];
+  if (o.detect) { const ok = await detective(); if (D !== me) return; o = ST[ok ? 'detOk' : 'detFail']; }
+  const f = typeof o.fx === 'function' ? o.fx(D) : { ...(o.fx || {}) };
+  await applyFx(f, c);
+  if (D !== me) return;
+  if (id === 'rain') { $('#rain').classList.remove('on'); $('#sky').classList.remove('rainy'); }
+  const bad = o.bad && !f.lucky;
+  const res = typeof o.res === 'function' ? o.res(f) : o.res;
+  if (res) toast(res, bad ? 'r' : (f.r > 0 || f.s > 0 ? 'g' : ''));
+  const mm = o.mom && o.mom(f); if (mm) D.moments.push(mm);
+  if (bad) { Sound.bad(); vibrate('error'); mood('oops', 2200); if (o.tip) setTimeout(() => D === me && tipLine(o.tip), 600); }
+  else if (f.r > 0 || f.s > 0) { Sound.good(); mood('happy'); }
+  if (!S.ev && !S.art) {
+    const md = bad ? (o.exit === 'run' ? 'happy' : 'sly') : (o.exit === 'happy' ? 'happy' : o.exit === 'angry' ? 'angry' : 'sad');
+    c.querySelector('.cw').innerHTML = critter(S.who[0], md, o.exit === 'run' && bad ? [...S.who[1], 'bag'] : S.who[1]);
+  }
+  await pwait(500); if (D !== me) return;
+  custOut(c, S.ev ? 'sad' : (o.exit || 'happy'));
+  await pwait(bad ? 2600 : 1100);
+}
+async function applyFx(f, c) {
+  const till = $('#till'), pig = $('#pig'), stock = $('#stock');
+  if (f.pay) { if (D.piggy >= f.pay) { f.p = (f.p || 0) - f.pay; D.moments.push({ t: '🐷 Копилка выручила!', c: 'g' }); } else f.m = (f.m || 0) - f.pay; }
+  if (f.st < 0) { const n = Math.min(-f.st, D.stock); f.st = -n; if (n) { D.stock -= n; itemsFly(stock, c, n); bumpEl(stock, 'hurt'); } }
+  if (f.st > 0) { D.stock += f.st; itemsFly(c, stock, 6); bumpEl(stock); }
+  if (f.m < 0) { const n = Math.min(-f.m, D.wallet); f.m = -n; if (n) { D.wallet -= n; coinsFly(till, c, n); bumpEl(till, 'hurt'); Sound.steal(); } }
+  if (f.m > 0) { D.wallet += f.m; coinsFly(c, till, f.m); bumpEl(till); Sound.cash(); }
+  if (f.p) { D.piggy = Math.max(0, D.piggy + f.p); if (f.p < 0) coinsFly(pig, c, -f.p); bumpEl(pig, f.p < 0 ? 'hurt' : 'bump'); }
+  updAll();
+  if (f.r) meter('rep', f.r);
+  if (f.s) meter('sh', f.s);
+  if (f.scam) D.scammed++;
+  if (f.later) D.later.push(f.later);
+  if (f.skip) { let k = f.skip; for (let j = D.i + 1; j < D.q.length && k; j++) if (D.q[j].t === 'b') { D.q.splice(j, 1); j--; k--; D.missed++; } }
+  if (f.sign) {
+    D.sign = true; $('#neon').classList.add('on'); Sound.win(); confetti();
+    for (let k = 0; k < 3; k++) { const j = D.i + 2 + Math.floor(Math.random() * (D.q.length - D.i - 1)); D.q.splice(j, 0, { t: 'b', k: pick(BUYERS), n: 2 + (Math.random() * 2 | 0), acc: [] }); }
+  }
+  await pwait(450);
+}
+
+/* ================= Мини-детектив: скриншот «перевода» ================= */
+function detective() {
+  const sc = $('#scene');
+  const bads = shuffle([['🏦', 'Сбирбанк', 'Опечатка!'], ['🪙', 'Сумма: 3', 'Надо 30!'], ['📅', '32 мая', 'Нет такого дня!'], ['🕐', '25:70', 'Нет такого времени!']]).slice(0, 3);
+  const rows = shuffle([...bads.map(b => ({ e: b[0], t: b[1], lb: b[2], bad: 1 })), { e: '👤', t: 'Енот Е.' }, { e: '💬', t: 'За покупку' }]);
+  sc.innerHTML = `<div class="det"><div class="dh">🔍 Найди 2 подвоха</div><div class="dots"><i></i><i></i></div>
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="okc">${I.check}</div><div class="ph">Перевод выполнен</div>
+    ${rows.map((r, i) => `<button class="prow" data-i="${i}"><i>${r.e}</i>${r.t}</button>`).join('')}</div></div>
+    <button class="btn soft" id="trust">Ладно, верю 🤷</button></div>`;
+  sc.classList.add('show'); Sound.pop();
+  return new Promise(res => {
+    let found = 0;
+    sc.querySelectorAll('.prow').forEach(b => b.onclick = () => {
+      const r = rows[+b.dataset.i];
+      if (!r.bad) { b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); Sound.tap(); return; }
+      if (b.classList.contains('found')) return;
+      found++; b.classList.add('found');
+      b.insertAdjacentHTML('beforeend', `<svg class="ring" viewBox="0 0 200 50" preserveAspectRatio="none"><path class="draw" pathLength="1" d="M100 4C160 2 196 12 194 25s-40 22-94 21S4 38 6 24 50 4 108 6" stroke="#FF3D6E" stroke-width="4" fill="none" stroke-linecap="round"/></svg><span class="lb">${r.lb}</span>`);
+      sc.querySelectorAll('.dots i')[found - 1].classList.add('on');
+      Sound.spray(); vibrate('light');
+      if (found === 2) { sc.querySelectorAll('.prow').forEach(x => { x.onclick = null; }); Sound.win(); setTimeout(() => { sc.classList.remove('show'); res(true); }, 1100); }
+    });
+    $('#trust').onclick = () => { Sound.tap(); sc.classList.remove('show'); res(false); };
   });
 }
 
-/* ================= Финал ================= */
-function renderFinal() {
-  stopAll();
-  const st = RUN.stars, total = sum(st, x => x);
-  const title = total >= 8 ? 'Супергерой города!' : total >= 6 ? 'Город спасён!' : 'Цвета вернулись!';
-  app.innerHTML = `<section class="screen result">${blobsBg()}
-    <div class="row"><button class="ibtn" data-close aria-label="Закрыть">${ICON.x}</button>${soundBtn()}</div>
-    <div class="r-hero" data-mood="happy"><svg viewBox="0 0 360 200">${cityArt(3).replace('<svg viewBox="0 0 360 200" class="city" aria-hidden="true">', '<g>').replace(/<\/svg>\s*$/, '</g>')}
-      ${klyaksik({ can: true, attrs: 'x="132" y="112" width="90" height="90"' })}</svg></div>
-    <div class="r-ttl">${title}</div>
-    <p class="r-sub">Ты прогнал(а) Лиса и вернул(а) городу все краски!</p>
-    <div class="total"><span>${ICON.star}<b data-count="${RUN.score}">0</b> очков</span></div>
-    <div class="medals">${WORLDS.map((w, i) => `<div class="medal" style="--i:${i}"><div class="mi">${w.e}</div><div class="mt">${w.t}</div><div class="ms">${starRow(st[i])}</div></div>`).join('')}</div>
-    <div class="h2">Правила героя</div>
-    <div class="rules">
-      <div class="rule"><span class="rn" style="--c:#2EC5FF">🔢</span>Коды и пароли — никому!</div>
-      <div class="rule"><span class="rn" style="--c:#FFC400">🐷</span>Сначала копи, потом трать.</div>
-      <div class="rule"><span class="rn" style="--c:#FF5CE6">💛</span>Пойми друга — и помоги.</div>
+/* ================= Вечер ================= */
+async function evening() {
+  const me = D;
+  setSun(1.08); $('#sky').classList.add('eve'); toast('🌙 Вечер! Закрываемся');
+  await pwait(1500); if (D !== me) return;
+  for (const L of D.later) {
+    if (L === 'loan') {
+      const back = Math.random() < .7;
+      const c = custIn(critter('kitten', back ? 'happy' : 'sad', ['bow']));
+      await pwait(650); if (D !== me) return;
+      const b = sayB(back ? 'Возвращаю долг! И +5 сверху 💛' : 'Ой… я всё потратил 😿');
+      if (back) { coinsFly(c, $('#till'), 25); D.wallet += 25; updAll(); Sound.cash(); D.moments.push({ t: '🐱 Вернул +25', c: 'g' }); }
+      else { Sound.bad(); D.moments.push({ t: '🐱 Не вернул −20', c: 'r' }); }
+      await pwait(1700); b.remove(); custOut(c, back ? 'happy' : 'sad'); await pwait(700);
+    }
+    if (L === 'invest') {
+      const c = custIn(critter('beaver', 'happy', ['tie', 'bag']));
+      await pwait(500); custOut(c, 'run'); toast('🦫💨 Бобёр с деньгами не вернулся', 'r');
+      D.moments.push({ t: '🦫 −40 🪙', c: 'r' }); await pwait(1800);
+    }
+    if (D !== me) return;
+  }
+  if (D.stock > 0) D.moments.push({ t: `📦 Осталось ${D.stock} ${PRODS[D.prod].unit}`, c: '' });
+  showSummary();
+}
+function showSummary() {
+  D.over = true;
+  const profit = D.wallet + D.piggy - 100;
+  const stat = { rep: D.rep, shield: D.shield, profit, scammed: D.scammed, sign: D.sign, piggy: D.piggy };
+  const T = TITLES.find(t => t.ok(stat)); SESSION.titles.add(T.id);
+  const P = PRODS[D.prod];
+  const sc = $('#scene');
+  sc.innerHTML = `<div class="eve">
+    <div class="kick">Лавка закрыта 🌙</div>
+    <div class="medal">${medalSVG(T)}</div>
+    <div class="etitle">${T.t}</div>
+    <div class="estats">
+      <div class="es" style="--i:0">${coin()}<b class="${profit < 0 ? 'neg' : ''}">${profit >= 0 ? '+' : ''}${profit}</b></div>
+      <div class="es" style="--i:1"><svg viewBox="0 0 80 64">${inner(pigSVG())}</svg><b>${D.piggy}</b></div>
+      <div class="es" style="--i:2">${I.heart}<b>${D.rep}/10</b></div>
+      <div class="es" style="--i:3">${D.shield >= 4 ? I.shield : I.shieldX}<b>${D.shield}/10</b></div>
     </div>
-    <div class="btns">
-      <button class="btn big" id="again">Играть ещё раз 🔁</button>
-      <div class="row2"><button class="btn dark" id="share">Поделиться</button><button class="btn soft" id="done">Готово</button></div>
-    </div>
-  </section>`;
-  confetti(); Sound.win();
-  setTimeout(() => app.querySelectorAll('[data-count]').forEach(countUp), 500);
-  Bridge.send('complete', { score: RUN.score, stars: st, starsTotal: total, safety: RUN.m.safe, money: RUN.m.money, soft: RUN.m.soft });
-  $('#again').onclick = () => { Sound.tap(); RUN = { score: 0, stars: [0, 0, 0], m: {} }; WORLDS[0].start(); };
+    <div class="moms">${[{ t: `${P.unit} Продано ${D.sold}`, c: 'g' }, ...D.moments].slice(0, 8).map((m, i) => `<span class="mom ${m.c}" style="--i:${i}">${m.t}</span>`).join('')}</div>
+    <div class="tcol">${TITLES.map(t => `<span class="${SESSION.titles.has(t.id) ? '' : 'off'}" title="${t.t}">${medalSVG(t, false)}</span>`).join('')}</div>
+    <div class="tcap">Титулы: ${SESSION.titles.size} из ${TITLES.length}. Собери все!</div>
+    <div class="btns"><button class="btn big" id="again">Новый день 🔁</button>
+      <div class="row2"><button class="btn dark" id="share">Поделиться</button><button class="btn soft" id="done">Готово</button></div></div>
+  </div>`;
+  sc.classList.add('show');
+  Sound.win(); if (profit > 0) setTimeout(confetti, 400);
+  Bridge.send('complete', { title: T.id, profit, piggy: D.piggy, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
+  $('#again').onclick = () => { Sound.tap(); renderPick(); };
   $('#share').onclick = () => {
     Sound.tap();
-    const text = `Я спас(ла) город от Лиса-хулигана в игре «Кляксик спасает город» 🎨🦊\n${'⭐'.repeat(total)} · ${RUN.score} очков. Сможешь больше?`;
+    const text = `Я провёл(а) день в «Лавке на один день» ${P.unit} и стал(а) «${T.t}» ${T.i}! Прибыль: ${profit} 🪙. А ты?`;
     Bridge.send('share', { text });
     if (!Bridge.native() && navigator.share) navigator.share({ text }).catch(() => {});
   };
-  $('#done').onclick = () => { Sound.tap(); Bridge.send('finish', { score: RUN.score, stars: total }); };
+  $('#done').onclick = () => { Sound.tap(); Bridge.send('finish', { title: T.id, profit }); };
 }
 
 /* ================= Глобальные обработчики ================= */
 document.addEventListener('click', e => {
   if (e.target.closest('[data-sound]')) { Sound.toggle(); return; }
   if (e.target.closest('[data-close]')) { Bridge.send('close'); return; }
+  if (e.target.closest('[data-home]')) { Sound.tap(); renderStart(); return; }
   if (e.target.closest('[data-pause]')) { Sound.tap(); pauseMenu(); }
 });
-document.addEventListener('keydown', e => { if (ACTIVE && ACTIVE.onKey && !ACTIVE.paused && !isModal()) ACTIVE.onKey(e); });
-
 renderStart();
 })();
 </script>
