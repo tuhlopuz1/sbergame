@@ -233,7 +233,7 @@ svg{display:block;overflow:visible}
 .cust.shake .cw{animation:wob .45s}
 .cust.yay .cw{animation:yay .5s var(--out) 2}
 @keyframes yay{50%{transform:translateY(-22px)}}
-.say{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:5;background:#fff;border-radius:26px;padding:12px 18px;box-shadow:0 12px 30px rgba(24,26,40,.14);font-weight:800;font-size:18px;line-height:1.25;text-align:center;width:max-content;max-width:calc(100% - 28px);animation:sayIn .45s var(--spring) both}
+.say{position:absolute;left:50%;top:auto;bottom:calc(98px + min(230px,100% - 190px));transform:translateX(-50%);z-index:5;background:#fff;border-radius:26px;padding:12px 18px;box-shadow:0 12px 30px rgba(24,26,40,.14);font-weight:800;font-size:18px;line-height:1.25;text-align:center;width:max-content;max-width:calc(100% - 28px);animation:sayIn .45s var(--spring) both}
 @keyframes sayIn{from{opacity:0;transform:translateX(-50%) scale(.5) translateY(30px)}to{opacity:1;transform:translateX(-50%) scale(1)}}
 .say::after{content:"";position:absolute;left:50%;bottom:-12px;margin-left:-12px;border:12px solid transparent;border-top-color:#fff;border-bottom:0}
 .say.order{display:flex;align-items:center;gap:6px;font-size:30px;font-weight:900;padding:10px 18px 16px;cursor:pointer}
@@ -369,7 +369,14 @@ svg{display:block;overflow:visible}
 .pmsg.hit .pmt b{color:var(--fox)}
 .pmsg .splat{position:absolute;width:130px;height:130px;left:50%;top:50%;margin:-65px 0 0 -65px;pointer-events:none;mix-blend-mode:multiply;z-index:2}
 .pmsg.gone{opacity:0;transition:opacity .45s}
-.pmsg.shake{animation:wob .45s}
+.pmsg.shake>.pmt,.pmsg.shake>.ptx{animation:wob .45s}
+.pmsg.safe{box-shadow:0 0 0 4px #1FD16C,0 8px 18px rgba(24,26,40,.12)}
+.pmsg .sbadge{position:absolute;left:-6px;top:-13px;z-index:3;display:flex;align-items:center;gap:3px;background:#1FD16C;color:var(--ink);font-weight:900;font-size:12.5px;padding:3px 8px;border-radius:10px;animation:pop .35s var(--spring)}
+.pmsg .sbadge .ic{width:15px;height:15px}
+.pmsg .nospray{position:absolute;left:50%;top:50%;width:66px;height:66px;margin:-33px 0 0 -33px;z-index:4;border-radius:50%;background:#fff;border:4px solid var(--red);display:grid;place-items:center;pointer-events:none;animation:nospray 1.2s var(--out) forwards}
+.pmsg .nospray::after{content:"";position:absolute;left:50%;top:4px;bottom:4px;width:5px;margin-left:-2.5px;border-radius:3px;background:var(--red);transform:rotate(45deg)}
+.pmsg .nospray .ic{width:36px;height:36px}
+@keyframes nospray{0%{opacity:0;transform:scale(.3)}20%{opacity:1;transform:scale(1.15)}35%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:scale(.9)}}
 .ptag{position:absolute;z-index:5;transform:translate(-50%,-110%);background:var(--ink);color:#fff;font-weight:900;font-size:14px;padding:6px 10px;border-radius:12px;white-space:nowrap;pointer-events:none;animation:ptag 1.4s var(--out) forwards}
 .ptag.g{background:var(--green);color:var(--ink)}
 .ptag.r{background:var(--red)}
@@ -442,6 +449,8 @@ svg{display:block;overflow:visible}
 /* ================= Собери заказ / сдача ================= */
 .yard .cust{transition:bottom .45s var(--out),height .45s var(--out)}
 .yard.busy .cust{bottom:236px;height:min(150px,calc(100% - 350px))}
+.yard.busy .say{bottom:calc(246px + min(150px,100% - 350px))}
+.say{transition:bottom .45s var(--out)}
 .say.mixo{padding:10px 16px 16px}
 .recipe{display:flex;align-items:center;gap:4px}
 .recipe .ic{width:46px;height:46px}
@@ -1721,8 +1730,12 @@ async function foxChat(round) {
       Sound.spray(); vibrate('light'); mood('happy');
       setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => { b.el.remove(); b.st = 'dead'; }, 450); }, 700);
     } else if (!b.oops) {
-      b.oops = true; S.oops++; b.el.classList.remove('shake'); void b.el.offsetWidth; b.el.classList.add('shake');
-      tag(b, `${ic('heart')} Это свои!`, 'g'); Sound.bad(); vibrate('error'); if (!S.tut) meter('rep', -1);
+      // нажали на своё: перечёркнутый баллончик, сообщение зелёное с плашкой «Своё» и спокойно долетает
+      b.oops = true; S.oops++; b.el.classList.add('safe'); b.el.classList.remove('shake'); void b.el.offsetWidth; b.el.classList.add('shake');
+      b.el.insertAdjacentHTML('beforeend', `<span class="nospray">${ic('spray')}</span><span class="sbadge">${ic('check')} Своё</span>`);
+      setTimeout(() => b.el.querySelector('.nospray')?.remove(), 1250);
+      field.querySelectorAll('.thint').forEach(t => t.remove());
+      tag(b, `${ic('stop')} Не трогай — это свои!`, 'r'); Sound.bad(); vibrate('error'); if (!S.tut) meter('rep', -1);
     }
   };
   const flash = cls => { zone.classList.remove('hitz', 'okz'); void zone.offsetWidth; zone.classList.add(cls); };
