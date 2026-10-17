@@ -160,7 +160,6 @@ svg{display:block;overflow:visible}
 .start{padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 18px)}
 .start>*{position:relative;z-index:1}
 .start .hero{flex:1;min-height:0;width:100%}
-.start .hero>svg{width:100%;height:100%;display:block}
 .start .lead{font-weight:700;font-size:17px;line-height:1.35;color:var(--ink2);margin:12px 0 16px}
 .pickp{padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 18px);align-items:center;text-align:center}
 .pickp>*{position:relative;z-index:1}
@@ -183,19 +182,19 @@ svg{display:block;overflow:visible}
 .wallet svg{width:32px;height:32px}
 .wallet small{font-size:14px;opacity:.7;font-weight:700}
 .wallet.bump{animation:bump .4s var(--spring)}
-.mpanels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;flex:1;min-height:0}
-.mp{background:#fff;border-radius:26px;box-shadow:var(--shadow);padding:12px 8px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:0}
+.mpanels{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;min-height:0}
+.mp{background:#fff;border-radius:26px;box-shadow:var(--shadow);padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:0}
 .mp h3{font-weight:900;font-size:18px}
 .mp .art{flex:1;min-height:90px;width:100%;display:grid;place-items:center}
 .mp .art svg{width:100%;height:100%;max-height:150px}
-.mp .eq{display:flex;align-items:center;gap:3px;font-weight:800;font-size:13px;max-width:100%;background:var(--soft);border-radius:12px;padding:5px 9px;white-space:nowrap}
-.mp .eq svg{width:20px;height:20px;flex:none}
-.step{display:flex;align-items:center;justify-content:center;gap:4px;width:100%}
-.step button{width:44px;height:44px;flex:none;border-radius:16px;background:var(--soft);font-weight:900;font-size:26px;display:grid;place-items:center;transition:transform .12s}
+.mp .eq{display:flex;align-items:center;gap:4px;font-weight:800;font-size:14px;background:var(--soft);border-radius:12px;padding:5px 9px;white-space:nowrap}
+.mp .eq svg{width:22px;height:22px}
+.step{display:flex;align-items:center;gap:8px}
+.step button{width:48px;height:48px;border-radius:16px;background:var(--soft);font-weight:900;font-size:26px;display:grid;place-items:center;transition:transform .12s}
 .step button:active{transform:scale(.88)}
 .step button.plus{background:var(--m)}
 .step button[disabled]{opacity:.3}
-.step b{min-width:0;flex:1;text-align:center;font-weight:900;font-size:24px;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;gap:3px}
+.step b{min-width:52px;text-align:center;font-weight:900;font-size:24px;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;gap:3px}
 .step b svg{width:20px;height:20px}
 .goal{width:100%;display:flex;align-items:center;gap:6px}
 .goal .gbar{flex:1;height:10px;border-radius:6px;background:var(--soft);overflow:hidden}
@@ -259,7 +258,8 @@ svg{display:block;overflow:visible}
 @keyframes sayIn{from{opacity:0;transform:translateX(-50%) scale(.5) translateY(30px)}to{opacity:1;transform:translateX(-50%) scale(1)}}
 .say::after{content:"";position:absolute;left:50%;bottom:-12px;margin-left:-12px;border:12px solid transparent;border-top-color:#fff;border-bottom:0}
 .say.order{display:flex;align-items:center;gap:6px;font-size:30px;font-weight:900;padding:10px 18px 16px;cursor:pointer}
-.say.order svg{width:54px;height:54px}
+.say.order>svg{width:54px;height:54px}
+.say.order>svg.note{width:74px;height:42px;margin-left:6px}
 .say.order .x{font-size:30px}
 .say .pat{position:absolute;left:14px;right:14px;bottom:7px;height:6px;border-radius:4px;background:var(--soft);overflow:hidden}
 .say .pat i{display:block;height:100%;width:100%;background:var(--green);border-radius:4px;transform-origin:left;animation:pat linear forwards}
@@ -294,19 +294,21 @@ svg{display:block;overflow:visible}
 .ci{display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
 .ci b{font-weight:900;font-size:19px;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:3px;line-height:1}
 .ci b svg{width:18px;height:18px}
-.ci .ic{position:relative}
+.ci .ic2{position:relative;display:block}
 .ci.kx{margin-top:-44px}
-.ci.kx svg{width:78px;height:78px}
-.ci.stock .ic svg{width:64px;height:64px}
-.ci.stock .ic svg+svg{position:absolute;left:12px;top:-8px;width:52px;height:52px;z-index:-1;opacity:.8}
+.ci.kx>svg{width:78px;height:78px}
+.ci.stock .ic2>svg{width:64px;height:64px;display:block}
+.ci.stock .ic2>svg+svg{position:absolute;left:12px;top:-8px;width:52px;height:52px;z-index:-1;opacity:.8}
 .ci.stock.low b{color:var(--red)}
-.ci.stock.empty .ic{filter:grayscale(1);opacity:.4}
-.ci.till .ic svg{width:92px;height:66px}
-.ci.pig .ic svg{width:70px;height:56px}
+.ci.stock.empty .ic2{filter:grayscale(1);opacity:.4}
+.ci.till .ic2>svg{width:92px;height:66px;display:block}
+.ci.pig .ic2>svg{width:70px;height:56px;display:block}
 .ci.bump{animation:bump .4s var(--spring)}
 .ci.hurt{animation:wob .45s}
 .scene{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--safe-t) + 16px) 16px calc(var(--safe-b) + 16px);background:rgba(242,243,247,.97);opacity:0;pointer-events:none;transition:opacity .35s;overflow-y:auto}
 .scene.show{opacity:1;pointer-events:auto}
+.scene{justify-content:flex-start}
+.scene>*{margin:auto 0;flex:none}
 
 /* ================= Детектив ================= */
 .det .dh{font-weight:900;font-size:24px;margin:4px 0 12px;display:flex;align-items:center;gap:8px;justify-content:center}
@@ -358,9 +360,73 @@ svg{display:block;overflow:visible}
 @media (prefers-reduced-motion:reduce){
   .blobs i,.klx .k-body,.twinkle,.wiggle,.wheel,.cloud,.flag,.sunr,.btn.big,.cust .cw>svg{animation:none!important}
 }
+
+.start .hero>svg{width:100%;height:100%;display:block}
 .cnew{animation:pop .45s var(--spring) both;transform-box:fill-box;transform-origin:50% 100%}
 .stage.paused *{animation-play-state:paused!important}
 .toast{white-space:normal;max-width:calc(100% - 24px);text-align:center;width:max-content}
+/* ================= SVG-иконки ================= */
+.ic{width:1.25em;height:1.25em;display:inline-block;vertical-align:-.28em;flex:none;overflow:visible}
+.ic.icc{width:1.5em;height:1.85em;vertical-align:-.55em}
+.btn .ic{width:26px;height:26px;vertical-align:middle}
+.ibtn .ic{width:24px;height:24px}
+.op .oi{width:42px;height:42px}
+.op .bdg .ic{width:14px;height:14px;vertical-align:-2px}
+.op .bdg.w{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+.meter .ic.mi{width:22px;height:22px}
+.heart .ic.fh{width:28px;height:28px}
+.stall .ings{display:flex;gap:4px;margin-top:6px}
+.stall .ings .ic{width:26px;height:26px}
+.mp .eq .ic{width:20px;height:20px}
+.step b .ic{width:22px;height:22px}
+.wallet .ic{width:32px;height:32px}
+.es .ic{width:28px;height:28px}
+.prow .ic{width:24px;height:24px}
+.det .dh .ic{width:28px;height:28px}
+.kick .ic{width:26px;height:26px}
+/* ================= Собери заказ / сдача ================= */
+.yard .cust{transition:bottom .45s var(--out),height .45s var(--out)}
+.yard.busy .cust{bottom:236px;height:min(150px,calc(100% - 350px))}
+.say.mixo{padding:10px 16px 16px}
+.recipe{display:flex;align-items:center;gap:4px}
+.recipe .ic{width:46px;height:46px}
+.recipe i.plus{font-style:normal;font-weight:900;font-size:22px;color:var(--muted)}
+.bench{position:absolute;left:8px;right:8px;bottom:6px;z-index:6;background:#fff;border-radius:26px;box-shadow:0 10px 26px rgba(24,26,40,.18);padding:10px;display:grid;grid-template-columns:104px minmax(0,1fr);gap:8px 10px;animation:benchIn .45s var(--spring) both}
+@keyframes benchIn{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:none}}
+.bench .cup{grid-row:1 / 3;display:grid;place-items:center}
+.bench .cup>svg{width:104px;height:122px;display:block}
+.bench .cup.pulse>svg{animation:bump .35s var(--spring)}
+.ings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.ing{height:54px;border-radius:16px;background:var(--soft);display:grid;place-items:center;touch-action:none;transition:transform .12s,background .2s;user-select:none;-webkit-user-select:none}
+.ing:active{transform:scale(.9)}
+.ing .ic{width:38px;height:38px}
+.ing.used{background:#DDF8E8;box-shadow:inset 0 0 0 2.5px #1FD16C}
+.ing.pour{background:#fff;box-shadow:inset 0 0 0 2px var(--line)}
+.bench .give{min-height:52px;font-size:18px;border-radius:16px;align-self:end}
+.dragc{position:fixed;z-index:60;width:60px;height:60px;margin:-30px 0 0 -30px;pointer-events:none;display:grid;place-items:center;filter:drop-shadow(0 8px 10px rgba(0,0,0,.2))}
+.dragc .ic{width:50px;height:50px}
+.dragc.flyc{transition:transform .3s cubic-bezier(.3,.7,.4,1)}
+.bench.chg{grid-template-columns:minmax(0,1fr);gap:8px}
+.eqn{display:flex;align-items:center;justify-content:center;gap:6px;font-weight:900;font-size:24px}
+.eqn .note{width:70px;height:40px;display:block}
+.eqn .pr{display:flex;align-items:center;gap:2px;background:var(--soft);border-radius:12px;padding:4px 8px;font-size:16px}
+.eqn .pr .ic{width:24px;height:24px}
+.eqn .pr small{font-size:18px;font-weight:900;margin-left:4px;color:var(--ink)}
+.eqn .q{min-width:52px;height:44px;border-radius:14px;background:var(--ink);color:#C6F432;display:grid;place-items:center;padding:0 8px}
+.tray{min-height:40px;display:flex;flex-wrap:wrap;gap:3px;justify-content:center;align-items:center;background:var(--soft);border-radius:14px;padding:4px}
+.tray span{width:30px;height:30px;animation:pop .3s var(--spring)}
+.tray span svg{width:100%;height:100%;display:block}
+.coinsel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.cb{height:58px;border-radius:16px;background:var(--soft);display:grid;place-items:center;transition:transform .12s}
+.cb:active{transform:scale(.88)}
+.cb svg{width:50px;height:50px;display:block}
+@media (max-height:680px){
+  .yard.busy .cust{bottom:222px;height:min(110px,calc(100% - 330px))}
+  .bench .cup>svg{width:90px;height:104px}.bench{grid-template-columns:90px minmax(0,1fr)}
+  .ing{height:46px}.ing .ic{width:32px;height:32px}
+  .cb{height:50px}.cb svg{width:42px;height:42px}
+  .recipe .ic{width:38px;height:38px}
+}
 </style>
 </head>
 <body>
@@ -672,21 +738,23 @@ function medalSVG(T, big = true) {
   const sc = Array.from({ length: 16 }, (_, i) => { const a = i / 16 * Math.PI * 2, r = i % 2 ? 50 : 56; return `${(75 + Math.cos(a) * r).toFixed(1)},${(78 + Math.sin(a) * r).toFixed(1)}`; }).join(' ');
   return `<svg viewBox="0 0 150 172"><path d="M48 116l-14 50 22-10 14 16 10-50z" fill="#FF5CE6"/><path d="M102 116l14 50-22-10-14 16-10-50z" fill="#2EC5FF"/>
     <polygon points="${sc}" fill="${T.c}" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="75" cy="78" r="38" fill="#fff" opacity=".9"/>
-    <text x="75" y="${big ? 95 : 96}" text-anchor="middle" font-size="44">${T.i}</text>${big ? DOODLE.sparkle('#FFDD2E', 130, 26, 1.1, 0) + DOODLE.sparkle('#A77BFF', 18, 40, .8, .5) : ''}</svg>`;
+    <g transform="translate(51 54) scale(2)">${IC[T.ic]}</g>${big ? DOODLE.sparkle('#FFDD2E', 130, 26, 1.1, 0) + DOODLE.sparkle('#A77BFF', 18, 40, .8, .5) : ''}</svg>`;
 }
 
 /* ================= SVG: товары ================= */
 const PRODS = {
   lemon: { t: 'Лимонад', d: 'Холодный и кислый', aw: ['#FFE45C', '#FFFFFF'], bg: '#FFF6B8',
     art: `<path d="M16 18h32l-4 40a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4z" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><path d="M18.6 30h26.8l-2.6 27.3a3 3 0 0 1-3 2.7H24.2a3 3 0 0 1-3-2.7z" fill="#FFE14D"/><rect x="24" y="36" width="8" height="8" rx="2" fill="#fff" opacity=".85"/><rect x="34" y="43" width="7" height="7" rx="2" fill="#fff" opacity=".7"/><path d="M36 22L44 4" stroke="#FF5CE6" stroke-width="4" stroke-linecap="round"/><circle cx="47" cy="19" r="9" fill="#C6F432" stroke="#111216" stroke-width="2.2"/><path d="M47 12v14M40 19h14M42 14l10 10M52 14l-10 10" stroke="#8DC11A" stroke-width="1.5"/>`,
-    sour: 'Фу! Кислятина!', broke: 'Холодильник сломался!', brokeE: '🧊', unit: '🍋' },
+    sour: 'Фу! Кислятина!', broke: 'Холодильник сломался!' },
   donut: { t: 'Пончики', d: 'С розовой глазурью', aw: ['#FF9CEF', '#FFFFFF'], bg: '#FFE0F7',
     art: `<circle cx="32" cy="34" r="24" fill="#F4C27A" stroke="#111216" stroke-width="2.5"/><path d="M11 31q3-15 21-17t23 13q1 9-7 10t-13 7-14-3-10-10z" fill="#FF8AD8"/><circle cx="32" cy="33" r="8" fill="#F2F3F7" stroke="#111216" stroke-width="2.5"/><g stroke-width="3" stroke-linecap="round"><path d="M18 26l3-2" stroke="#2EC5FF"/><path d="M42 20l3 1" stroke="#C6F432"/><path d="M47 33l1 3" stroke="#FFDD2E"/><path d="M24 43l-3 2" stroke="#A77BFF"/><path d="M28 19l3 -1" stroke="#fff"/><path d="M40 44l3 1" stroke="#2EC5FF"/></g>`,
-    sour: 'Фу! Чёрствый!', broke: 'Печка сломалась!', brokeE: '🔥', unit: '🍩' },
+    sour: 'Фу! Чёрствый!', broke: 'Печка сломалась!' },
   slime: { t: 'Слаймы', d: 'Тянутся и светятся', aw: ['#C6F432', '#C9B0FF'], bg: '#E6FBC8',
     art: `<rect x="14" y="18" width="36" height="40" rx="11" fill="#E9F7FF" stroke="#111216" stroke-width="2.5"/><rect x="12" y="10" width="40" height="11" rx="4" fill="#A77BFF" stroke="#111216" stroke-width="2.5"/><path d="M16.5 38q8-9 16-3t15-2v14a9 9 0 0 1-9 9H25a8.5 8.5 0 0 1-8.5-8.5z" fill="#7CE85A"/><circle cx="27" cy="46" r="3.6" fill="#fff"/><circle cx="37" cy="46" r="3.6" fill="#fff"/><circle cx="27.6" cy="46.6" r="1.8" fill="#111216"/><circle cx="37.6" cy="46.6" r="1.8" fill="#111216"/><path d="M29 52q3 2 6 0" stroke="#111216" stroke-width="1.6" fill="none" stroke-linecap="round"/>`,
-    sour: 'Фу! Не тянется!', broke: 'Банки треснули!', brokeE: '💥', unit: '🟢' }
+    sour: 'Фу! Не тянется!', broke: 'Банки треснули!' }
 };
+/* мини-зверёк для подписей */
+const mc = (k, md = 'idle', acc = []) => critter(k, md, acc).replace('<svg ', '<svg class="ic icc" ');
 const prodSVG = (k, cls = '') => `<svg viewBox="0 0 64 64" class="${cls}">${PRODS[k].art}</svg>`;
 
 /* ================= SVG: зверята ================= */
@@ -706,15 +774,16 @@ const CR = {
   hamster:  { c: '#FFB36B', c2: '#FFE6CC', ear: 'small', ham: 1 }
 };
 const BUYERS = ['bunny', 'frog', 'chick', 'mouse', 'owl', 'hamster', 'kitten', 'fox', 'bear', 'beaver'];
+const BUYER_ACC = { bunny: ['bow'], frog: ['bow'], chick: ['bow'], mouse: ['bow', 'rglasses'], owl: ['rglasses'], hamster: ['bow', 'cap'], kitten: ['bow'], fox: ['cap', 'rglasses'], bear: ['cap'], beaver: ['cap'] };
 function critter(k, md = 'idle', acc = []) {
   const C = CR[k] || CR.bunny, dk = '#111216', seed = k.length * 13 + 5;
   const ears = {
-    pointy: `<path d="M34 72L28 12l48 36z" fill="${C.c}"/><path d="M126 72l6-60-48 36z" fill="${C.c}"/><path d="M40 60l-3-32 23 19z" fill="${C.ei}"/><path d="M120 60l3-32-23 19z" fill="${C.ei}"/>`,
-    round: `<circle cx="36" cy="52" r="19" fill="${C.c}"/><circle cx="124" cy="52" r="19" fill="${C.c}"/><circle cx="36" cy="52" r="10" fill="${C.ei}"/><circle cx="124" cy="52" r="10" fill="${C.ei}"/>`,
-    small: `<circle cx="44" cy="52" r="13" fill="${C.c}"/><circle cx="116" cy="52" r="13" fill="${C.c}"/><circle cx="44" cy="52" r="6" fill="${C.c2}"/><circle cx="116" cy="52" r="6" fill="${C.c2}"/>`,
+    pointy: `<path d="M40 78L30 14l50 36z" fill="${C.c}"/><path d="M120 78l10-64-50 36z" fill="${C.c}"/><path d="M44 62l-6-36 24 20z" fill="${C.ei}"/><path d="M116 62l6-36-24 20z" fill="${C.ei}"/>`,
+    round: `<circle cx="42" cy="58" r="20" fill="${C.c}"/><circle cx="118" cy="58" r="20" fill="${C.c}"/><circle cx="40" cy="56" r="10" fill="${C.ei}"/><circle cx="120" cy="56" r="10" fill="${C.ei}"/>`,
+    small: `<circle cx="48" cy="58" r="14" fill="${C.c}"/><circle cx="112" cy="58" r="14" fill="${C.c}"/><circle cx="46" cy="56" r="7" fill="${C.c2}"/><circle cx="114" cy="56" r="7" fill="${C.c2}"/>`,
     long: `<ellipse cx="58" cy="24" rx="13" ry="38" fill="${C.c}" transform="rotate(-12 58 24)"/><ellipse cx="102" cy="24" rx="13" ry="38" fill="${C.c}" transform="rotate(12 102 24)"/><ellipse cx="58" cy="26" rx="6" ry="27" fill="${C.ei}" transform="rotate(-12 58 26)"/><ellipse cx="102" cy="26" rx="6" ry="27" fill="${C.ei}" transform="rotate(12 102 26)"/>`,
-    big: `<circle cx="34" cy="56" r="27" fill="${C.c}"/><circle cx="126" cy="56" r="27" fill="${C.c}"/><circle cx="34" cy="56" r="16" fill="${C.ei}"/><circle cx="126" cy="56" r="16" fill="${C.ei}"/>`,
-    tufts: `<path d="M34 66L28 24l30 24z" fill="${C.c}"/><path d="M126 66l6-42-30 24z" fill="${C.c}"/>`,
+    big: `<circle cx="40" cy="60" r="27" fill="${C.c}"/><circle cx="120" cy="60" r="27" fill="${C.c}"/><circle cx="38" cy="58" r="16" fill="${C.ei}"/><circle cx="122" cy="58" r="16" fill="${C.ei}"/>`,
+    tufts: `<path d="M40 70L30 26l34 22z" fill="${C.c}"/><path d="M120 70l10-44-34 22z" fill="${C.c}"/>`,
     tuft: `<path d="M70 50q2-22 10-6 4-18 12 0" stroke="${C.c}" stroke-width="8" fill="none" stroke-linecap="round"/>`,
     frog: `<circle cx="54" cy="56" r="23" fill="${C.c}"/><circle cx="106" cy="56" r="23" fill="${C.c}"/>`,
     none: ''
@@ -760,8 +829,8 @@ function critter(k, md = 'idle', acc = []) {
     ${C.wh ? `<path d="M40 110l-16-3M40 116l-16 3M120 110l16-3M120 116l16 3" stroke="${dk}" stroke-width="2" stroke-linecap="round" opacity=".5"/>` : ''}
     ${A('glasses') ? `<g><rect x="42" y="80" width="34" height="21" rx="10" fill="${dk}"/><rect x="84" y="80" width="34" height="21" rx="10" fill="${dk}"/><path d="M76 88h8" stroke="${dk}" stroke-width="4"/><path d="M48 85h9M90 85h9" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/></g>` : ''}
     ${A('rglasses') ? `<g fill="none" stroke="${dk}" stroke-width="3.5"><circle cx="${ex[0]}" cy="${ey}" r="17"/><circle cx="${ex[1]}" cy="${ey}" r="17"/><path d="M${ex[0] + 17} ${ey}h${ex[1] - ex[0] - 34}"/></g>` : ''}
-    ${A('cap') ? `<path d="M36 64q44-50 88 0z" fill="#2EC5FF"/><path d="M112 60q26 0 30 10-16 4-34-4z" fill="#1A9BFF"/><circle cx="80" cy="34" r="5" fill="#1A9BFF"/>` : ''}
-    ${A('hardhat') ? `<path d="M34 66q0-40 46-40t46 40z" fill="#FFDD2E" stroke="${dk}" stroke-width="2.5"/><rect x="28" y="62" width="104" height="9" rx="4.5" fill="#FFC400" stroke="${dk}" stroke-width="2.5"/>` : ''}
+    ${A('cap') ? `<path d="M32 70C30 30 130 30 128 70q-48-12-96 0z" fill="#2EC5FF" stroke="${dk}" stroke-width="2.5" stroke-linejoin="round"/><path d="M118 66q22-4 30 6-18 8-34 2z" fill="#1A9BFF" stroke="${dk}" stroke-width="2.5" stroke-linejoin="round"/><path d="M80 40v28" stroke="${dk}" stroke-width="2" opacity=".35"/><circle cx="80" cy="40" r="5" fill="#C6F432" stroke="${dk}" stroke-width="2"/>` : ''}
+    ${A('hardhat') ? `<path d="M34 68C34 28 126 28 126 68z" fill="#FFDD2E" stroke="${dk}" stroke-width="2.5"/><path d="M80 32v36" stroke="#FFC400" stroke-width="6"/><rect x="26" y="64" width="108" height="10" rx="5" fill="#FFC400" stroke="${dk}" stroke-width="2.5"/>` : ''}
     ${A('bow') ? `<g transform="translate(112 42) rotate(18)"><path d="M0 0l-16-10v20zM0 0l16-10v20z" fill="#FF5CE6"/><circle r="5" fill="#FF3D6E"/></g>` : ''}
     ${A('tear') ? `<path d="M${ex[0] - 6} ${ey + 14}q-5 10 0 15 5-5 0-15z" fill="#2E9BFF"/>` : ''}
   </svg>`;
@@ -800,107 +869,186 @@ function setSun(p) {
   s.style.left = (8 + 84 * Math.min(p, 1)) + '%';
   s.style.top = (46 - 30 * Math.sin(Math.PI * Math.min(p, 1)) + (p > 1 ? 14 : 0)) + '%';
 }
+/* ================= SVG-иконки (вместо эмодзи: одинаково на всех устройствах) ================= */
+const K = 'stroke="#111216" stroke-width="1.6" stroke-linejoin="round"';
+const IC = {
+  coin: `<circle cx="12" cy="12" r="10" fill="#FFDD2E" ${K}/><circle cx="12" cy="12" r="6.4" fill="none" stroke="#E6A800" stroke-width="1.8"/><path d="M12 8.6l1 2.1 2.3.2-1.7 1.5.5 2.3-2.1-1.2-2.1 1.2.5-2.3-1.7-1.5 2.3-.2z" fill="#E6A800"/>`,
+  heart: `<path d="M12 20.5s-8-5-8-10.6A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.9c0 5.6-8 10.6-8 10.6z" fill="#FF3D6E" ${K}/><ellipse cx="8.4" cy="9.8" rx="1.7" ry="1" fill="#fff" opacity=".7" transform="rotate(-30 8.4 9.8)"/>`,
+  heartBreak: `<path d="M12 20.5s-8-5-8-10.6A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.9c0 5.6-8 10.6-8 10.6z" fill="#FF8FAB" ${K}/><path d="M12 7l-1.6 3.4 2.6 2-2 3.6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+  shield: `<path d="M12 2.5l8 3v5.8c0 5-3.4 8.8-8 10.4-4.6-1.6-8-5.4-8-10.4V5.5z" fill="#2EC5FF" ${K}/><path d="M8.3 12l2.6 2.6 4.8-5.2" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  shieldX: `<path d="M12 2.5l8 3v5.8c0 5-3.4 8.8-8 10.4-4.6-1.6-8-5.4-8-10.4V5.5z" fill="#B9BCC8" ${K}/><path d="M12 5.5l-2 5.2 3 1.8-2 6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+  check: `<circle cx="12" cy="12" r="10" fill="#1FD16C" ${K}/><path d="M7.5 12.3l3 3 6-6.3" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  stop: `<circle cx="12" cy="12" r="10" fill="#FF3D6E" ${K}/><path d="M8.3 8.3l7.4 7.4M15.7 8.3l-7.4 7.4" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>`,
+  keypad: `<rect x="5" y="2.5" width="14" height="19" rx="4" fill="#111216"/><g fill="#C6F432">${[0, 1, 2].map(r => [0, 1, 2].map(c => `<circle cx="${8.5 + c * 3.5}" cy="${7.2 + r * 3.6}" r="1.25"/>`).join('')).join('')}</g><rect x="9.5" y="17.6" width="5" height="1.6" rx=".8" fill="#fff"/>`,
+  phone: `<path d="M6.2 3.2l3.2.6 1.2 4-2 1.6c1 2.3 2.8 4.1 5.1 5.1l1.6-2 4 1.2.6 3.2-2.4 2.6C10.6 19.6 4.4 13.4 3.6 5.6z" fill="#1FD16C" ${K}/>`,
+  qr: `<rect x="3" y="3" width="18" height="18" rx="3" fill="#fff" ${K}/><g fill="#111216"><rect x="5.5" y="5.5" width="5" height="5" rx="1"/><rect x="13.5" y="5.5" width="5" height="5" rx="1"/><rect x="5.5" y="13.5" width="5" height="5" rx="1"/><rect x="13.5" y="13.5" width="2" height="2"/><rect x="16.5" y="16.5" width="2" height="2"/><rect x="13.5" y="17" width="2" height="1.5"/></g><g fill="#fff"><rect x="7" y="7" width="2" height="2"/><rect x="15" y="7" width="2" height="2"/><rect x="7" y="15" width="2" height="2"/></g>`,
+  zzz: `<circle cx="12" cy="12" r="10" fill="#C9B0FF" ${K}/><path d="M7 8h5l-5 6h5M13.5 12h3.5l-3.5 4h3.5" stroke="#111216" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  ticket: `<g transform="rotate(-12 12 12)"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z" fill="#FF5CE6" ${K}/><path d="M15 7v10" stroke="#111216" stroke-width="1.2" stroke-dasharray="1.6 1.4"/><path d="M8.5 9.6l.9 1.8 2 .2-1.5 1.3.5 2-1.9-1.1-1.8 1.1.4-2L5.6 11.6l2-.2z" fill="#FFDD2E"/></g>`,
+  cashfly: `<rect x="3" y="7" width="14" height="10" rx="2" fill="#7EE8A8" ${K}/><circle cx="10" cy="12" r="2.6" fill="#1FD16C" stroke="#111216" stroke-width="1.2"/><path d="M19 8h3M19.5 12h2.5M19 16h3" stroke="#111216" stroke-width="1.6" stroke-linecap="round"/>`,
+  give: `<rect x="3" y="9" width="11" height="10" rx="2" fill="#F2B866" ${K}/><path d="M3 13h11" stroke="#C98A3A" stroke-width="1.5"/><path d="M15 12h6m-2.6-2.8L21 12l-2.6 2.8" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  magnifier: `<circle cx="10" cy="10" r="6.5" fill="#B5E9FF" ${K}/><path d="M7.4 8a3 3 0 0 1 3-2" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M15 15l5.5 5.5" stroke="#111216" stroke-width="3.2" stroke-linecap="round"/>`,
+  box: `<rect x="3" y="6" width="18" height="14" rx="2.5" fill="#F2B866" ${K}/><path d="M3 11h18M3 15.5h18" stroke="#C98A3A" stroke-width="1.6"/><path d="M8 6v14M16 6v14" stroke="#C98A3A" stroke-width="1.4" opacity=".7"/>`,
+  think: `<path d="M5 15a4 4 0 0 1 1-7.8A5 5 0 0 1 15.5 6 4 4 0 0 1 19 14a3 3 0 0 1-3 2H7a2.5 2.5 0 0 1-2-1z" fill="#fff" ${K}/><circle cx="9" cy="11.4" r="1.1" fill="#111216"/><circle cx="12.2" cy="11.4" r="1.1" fill="#111216"/><circle cx="15.4" cy="11.4" r="1.1" fill="#111216"/><circle cx="6" cy="19.5" r="1.4" fill="#fff" ${K}/>`,
+  handshake: `<path d="M2.5 9l4-3 4 1.6L13 6l4.5 1 4 3.4-6.4 6.6a1.6 1.6 0 0 1-2.3 0l-.6-.5-.8.8a1.6 1.6 0 0 1-2.3 0l-.4-.4-.6.5a1.6 1.6 0 0 1-2.2-.2z" fill="#FFC58A" ${K}/><path d="M10.5 7.6l-2.3 2.6a1.4 1.4 0 0 0 2 2l2.3-2" stroke="#111216" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
+  gift: `<rect x="3.5" y="9" width="17" height="11.5" rx="2" fill="#FF5CE6" ${K}/><rect x="2.5" y="6.5" width="19" height="4" rx="1.5" fill="#FF9CEF" ${K}/><path d="M12 6.5v14" stroke="#C6F432" stroke-width="3"/><path d="M12 6.5c-1-3-5-3.6-5-1.4 0 1.4 3 1.4 5 1.4zm0 0c1-3 5-3.6 5-1.4 0 1.4-3 1.4-5 1.4z" fill="#C6F432" ${K}/>`,
+  angry: `<circle cx="12" cy="12" r="10" fill="#FF7A9A" ${K}/><path d="M6.5 8.4l4 1.8M17.5 8.4l-4 1.8" stroke="#111216" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="12" r="1.3" fill="#111216"/><circle cx="15" cy="12" r="1.3" fill="#111216"/><path d="M8.5 17q3.5-3 7 0" stroke="#111216" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+  coinsBack: `<circle cx="11" cy="13" r="8" fill="#FFDD2E" ${K}/><circle cx="11" cy="13" r="4.6" fill="none" stroke="#E6A800" stroke-width="1.6"/><path d="M15 3.5a8 8 0 0 1 6 7" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M18.6 9.6l2.4 1.4 1-2.6" stroke="#1FD16C" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  flower: `<path d="M12 22v-8M12 18l-3-3M12 17l3-2.5" stroke="#1FD16C" stroke-width="2" stroke-linecap="round"/><g ${K}><circle cx="12" cy="6" r="3.2" fill="#FF5CE6"/><circle cx="7" cy="9.5" r="3.2" fill="#FFDD2E"/><circle cx="17" cy="9.5" r="3.2" fill="#2EC5FF"/><circle cx="12" cy="11.5" r="3" fill="#C6F432"/></g>`,
+  chartDown: `<rect x="3" y="3" width="18" height="18" rx="4" fill="#fff" ${K}/><path d="M6 8l4 4 3-2 5 6" stroke="#FF3D6E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 16h3.5v-3.5" stroke="#FF3D6E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  guard: `<circle cx="12" cy="12" r="10" fill="#1A9BFF" ${K}/><path d="M12 5.5l1.9 3.9 4.3.6-3.1 3 .7 4.3L12 15.3l-3.8 2 .7-4.3-3.1-3 4.3-.6z" fill="#FFDD2E" ${K}/>`,
+  steps: `<g fill="#A77BFF" ${K}><ellipse cx="8" cy="15" rx="3" ry="4.6" transform="rotate(-12 8 15)"/><ellipse cx="16" cy="8" rx="3" ry="4.6" transform="rotate(12 16 8)"/></g><g fill="#A77BFF"><circle cx="6" cy="9" r="1.3"/><circle cx="9.5" cy="8.6" r="1.3"/><circle cx="14" cy="2.6" r="1.2"/><circle cx="17.6" cy="2.4" r="1.2"/></g>`,
+  meh: `<circle cx="12" cy="12" r="10" fill="#FFDD2E" ${K}/><circle cx="9" cy="10.5" r="1.3" fill="#111216"/><circle cx="15" cy="10.5" r="1.3" fill="#111216"/><path d="M8.5 15.5h7" stroke="#111216" stroke-width="1.8" stroke-linecap="round"/>`,
+  tag: `<path d="M3 11.5V4.5A1.5 1.5 0 0 1 4.5 3h7l9.5 9.5-8.5 8.5z" fill="#FFDD2E" ${K}/><circle cx="7.5" cy="7.5" r="1.6" fill="#fff" ${K}/><path d="M10.5 16.5l6-6M11.5 11.5h.01M15.5 15.5h.01" stroke="#111216" stroke-width="2" stroke-linecap="round"/>`,
+  run: `<path d="M3 8h8M2 12h7M4 16h6" stroke="#111216" stroke-width="1.8" stroke-linecap="round"/><path d="${blobPath(16, 12, 6, 7, .2, 4)}" fill="#E3E5EC" ${K}/>`,
+  wallet: `<rect x="3" y="6" width="18" height="14" rx="3" fill="#A77BFF" ${K}/><path d="M5 6l9-3 2 3" fill="#C9B0FF" ${K}/><rect x="14" y="10.5" width="7" height="5" rx="2" fill="#C9B0FF" ${K}/><circle cx="17" cy="13" r="1.2" fill="#111216"/>`,
+  zip: `<circle cx="12" cy="12" r="10" fill="#FFDD2E" ${K}/><circle cx="9" cy="10" r="1.3" fill="#111216"/><circle cx="15" cy="10" r="1.3" fill="#111216"/><path d="M7.5 15.5h9" stroke="#111216" stroke-width="2.2" stroke-linecap="round"/><path d="M9 14.2v2.6M11 14.2v2.6M13 14.2v2.6M15 14.2v2.6" stroke="#111216" stroke-width="1"/>`,
+  spark: `<path d="M12 2c.9 5.1 2.9 7.1 8 8-5.1.9-7.1 2.9-8 8-.9-5.1-2.9-7.1-8-8 5.1-.9 7.1-2.9 8-8z" fill="#C6F432" ${K}/><circle cx="19" cy="18.5" r="1.6" fill="#FF5CE6"/><circle cx="5" cy="4.5" r="1.2" fill="#2EC5FF"/>`,
+  pig: `<path d="M5.5 8L5 4l3.6 2.6zM18.5 8L19 4l-3.6 2.6z" fill="#FF9CC9" ${K}/><ellipse cx="12" cy="13" rx="9" ry="7.5" fill="#FFC2E2" ${K}/><ellipse cx="12" cy="15" rx="3.6" ry="2.6" fill="#FF9CC9" ${K}/><circle cx="10.8" cy="15" r=".8" fill="#111216"/><circle cx="13.2" cy="15" r=".8" fill="#111216"/><circle cx="8" cy="11" r="1.1" fill="#111216"/><circle cx="16" cy="11" r="1.1" fill="#111216"/>`,
+  umbrella: `<path d="M3 12a9 9 0 0 1 18 0q-1.5-1.6-3 0-1.5-1.6-3 0-1.5-1.6-3 0-1.5-1.6-3 0-1.5-1.6-3 0-1.5-1.6-3 0z" fill="#FF5CE6" ${K}/><path d="M12 3v1M12 12v6.5a2 2 0 0 1-4 0" stroke="#111216" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M12 4q-3 3-3 7.4M12 4q3 3 3 7.4" stroke="#fff" stroke-width="1.2" fill="none"/>`,
+  wrench: `<path d="M14.5 3.5a5 5 0 0 0-4.6 6.9L3.6 16.7a2 2 0 0 0 2.8 2.8l6.3-6.3a5 5 0 0 0 6.9-4.6l-3 1.7-2.4-1.4-.1-2.8z" fill="#B9BCC8" ${K}/><circle cx="5" cy="18" r="1" fill="#fff"/>`,
+  bolt: `<path d="M13.5 2L5 13h6l-1.5 9L19 10h-6z" fill="#FFDD2E" ${K}/>`,
+  clock: `<path d="M4 5.5l3-2.5M20 5.5l-3-2.5" stroke="#111216" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="13" r="8" fill="#FF7A9A" ${K}/><circle cx="12" cy="13" r="5.6" fill="#fff"/><path d="M12 9.6V13l2.4 1.6" stroke="#111216" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+  moon: `<path d="M15 3a9 9 0 1 0 6 13.6A7.5 7.5 0 0 1 15 3z" fill="#FFDD2E" ${K}/><circle cx="10" cy="11" r="1" fill="#111216"/><path d="M9.5 15q1.5 1.2 3 0" stroke="#111216" stroke-width="1.2" fill="none" stroke-linecap="round"/>`,
+  sun: `<g stroke="#FFC400" stroke-width="2" stroke-linecap="round">${Array.from({ length: 8 }, (_, i) => `<path d="M12 1.6v2.4" transform="rotate(${i * 45} 12 12)"/>`).join('')}</g><circle cx="12" cy="12" r="6" fill="#FFDD2E" ${K}/>`,
+  rain: `<path d="M5 13a4 4 0 0 1 1-7.8A5 5 0 0 1 15.5 4 4 4 0 0 1 19 12a3 3 0 0 1-3 2H7a2.5 2.5 0 0 1-2-1z" fill="#9AA6BC" ${K}/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3" stroke="#2E9BFF" stroke-width="2" stroke-linecap="round"/>`,
+  bank: `<path d="M3 9L12 3l9 6z" fill="#2EC5FF" ${K}/><rect x="3.5" y="18" width="17" height="3" rx="1" fill="#2EC5FF" ${K}/><g fill="#fff" ${K}><rect x="5.5" y="10" width="3" height="7.5" rx="1"/><rect x="10.5" y="10" width="3" height="7.5" rx="1"/><rect x="15.5" y="10" width="3" height="7.5" rx="1"/></g>`,
+  rocket: `<path d="M12 2c4 3 5.5 7.5 4 12h-8C6.5 9.5 8 5 12 2z" fill="#fff" ${K}/><circle cx="12" cy="8.5" r="2" fill="#2EC5FF" ${K}/><path d="M8 14l-3 3 3 1M16 14l3 3-3 1" fill="#FF5CE6" ${K}/><path d="M10 15.5q2 6 4 0" fill="#FF8A1F" ${K}/>`,
+  calendar: `<rect x="3" y="5" width="18" height="16" rx="3" fill="#fff" ${K}/><path d="M3 9.5h18" stroke="#111216" stroke-width="1.6"/><rect x="3" y="5" width="18" height="4.5" rx="2" fill="#FF3D6E"/><path d="M8 3v4M16 3v4" stroke="#111216" stroke-width="1.8" stroke-linecap="round"/><g fill="#111216"><circle cx="8" cy="13.5" r="1"/><circle cx="12" cy="13.5" r="1"/><circle cx="16" cy="13.5" r="1"/><circle cx="8" cy="17" r="1"/><circle cx="12" cy="17" r="1"/></g>`,
+  user: `<circle cx="12" cy="8.5" r="4.5" fill="#FFC58A" ${K}/><path d="M4 21a8 8 0 0 1 16 0z" fill="#A77BFF" ${K}/>`,
+  chat: `<path d="M4 5h16a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 17h-9l-5 4v-4H4a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 5z" fill="#C6F432" ${K}/><path d="M7 10h10M7 13h6" stroke="#111216" stroke-width="1.6" stroke-linecap="round"/>`,
+  sad: `<circle cx="12" cy="12" r="10" fill="#8FD8FF" ${K}/><circle cx="9" cy="10.5" r="1.3" fill="#111216"/><circle cx="15" cy="10.5" r="1.3" fill="#111216"/><path d="M8.5 17q3.5-3 7 0" stroke="#111216" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M7 13q-1 2 0 3 1-1 0-3z" fill="#2E9BFF"/>`,
+  happy: `<circle cx="12" cy="12" r="10" fill="#FFDD2E" ${K}/><path d="M7.6 10q1.4-2 2.8 0M13.6 10q1.4-2 2.8 0" stroke="#111216" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M7.5 13.5q4.5 6 9 0z" fill="#111216"/>`,
+  crown: `<path d="M3 8l4.5 4L12 4l4.5 8L21 8l-2 11H5z" fill="#FFDD2E" ${K}/><circle cx="12" cy="14.5" r="1.8" fill="#FF5CE6"/><circle cx="7.5" cy="15.5" r="1.2" fill="#2EC5FF"/><circle cx="16.5" cy="15.5" r="1.2" fill="#2EC5FF"/>`,
+  shark: `<path d="M2 14q6-7 13-6l2-5 1 6q3 1 5 4-2 3-6 3-8 1-15-2z" fill="#7FD4FF" ${K}/><path d="M6 15q6 2 12 0" fill="#fff"/><circle cx="17.5" cy="12" r="1" fill="#111216"/><path d="M14 15.4l.8 1 .8-1 .8 1 .8-1" stroke="#111216" stroke-width="1" fill="none"/><path d="M8 17l-3 4 5-2" fill="#7FD4FF" ${K}/>`,
+  sprout: `<path d="M12 21v-9" stroke="#1FD16C" stroke-width="2.2" stroke-linecap="round"/><path d="M12 13C12 7 7 4 3 5c0 5 4 8 9 8z" fill="#7EE8A8" ${K}/><path d="M12 11c0-5 4-8 9-7 0 5-4 7-9 7z" fill="#C6F432" ${K}/><path d="M7 21h10" stroke="#B97A45" stroke-width="2.4" stroke-linecap="round"/>`,
+  play: `<path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.8l-12-7.5A1 1 0 0 0 7 4.5z" fill="#111216"/>`,
+  repeat: `<path d="M4 11a7 7 0 0 1 12-5l2 2M20 13a7 7 0 0 1-12 5l-2-2" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M18 3.5V8h-4.5M6 20.5V16h4.5" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  trash: `<path d="M5 7h14l-1.2 12.5a2 2 0 0 1-2 1.5H8.2a2 2 0 0 1-2-1.5z" fill="#E3E5EC" ${K}/><rect x="3.5" y="4.5" width="17" height="3" rx="1.5" fill="#B9BCC8" ${K}/><path d="M10 10.5v7M14 10.5v7" stroke="#111216" stroke-width="1.5" stroke-linecap="round"/>`,
+  note: `<rect x="2" y="5.5" width="20" height="13" rx="2.5" fill="#7EE8A8" ${K}/><circle cx="12" cy="12" r="3.4" fill="#1FD16C" stroke="#111216" stroke-width="1.3"/><path d="M5 8.5h2M17 15.5h2" stroke="#111216" stroke-width="1.4" stroke-linecap="round"/>`,
+  dash: `<path d="M2 9h9M4 13h8M3 17h6" stroke="#111216" stroke-width="2" stroke-linecap="round"/><path d="${blobPath(17, 12, 5.5, 7, .25, 6)}" fill="#E3E5EC" ${K}/>`,
+  star: `<path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z" fill="#FFDD2E" ${K}/>`,
+  lost: `<circle cx="12" cy="12" r="10" fill="#E7DDFF" ${K}/><path d="M9.5 9a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.1.9-1.1 1.8v.6" stroke="#111216" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.3" fill="#111216"/>`,
+  /* ингредиенты */
+  i_lemon: `<circle cx="12" cy="12" r="9" fill="#FFE14D" ${K}/><circle cx="12" cy="12" r="6.4" fill="#FFF3A6"/><path d="M12 5.6v12.8M5.6 12h12.8M7.5 7.5l9 9M16.5 7.5l-9 9" stroke="#F2C200" stroke-width="1.2"/>`,
+  i_straw: `<path d="M12 21c-5-2-8-7-7-11 1-3 4-3 7-1 3-2 6-2 7 1 1 4-2 9-7 11z" fill="#FF4F7B" ${K}/><path d="M12 9c-1-3-4-4-5-3M12 9c1-3 4-4 5-3" fill="#1FD16C" ${K}/><g fill="#FFDD2E"><circle cx="9" cy="13" r=".8"/><circle cx="13" cy="12" r=".8"/><circle cx="15" cy="15" r=".8"/><circle cx="11" cy="16.5" r=".8"/></g>`,
+  i_orange: `<circle cx="12" cy="12" r="9" fill="#FF9A2E" ${K}/><circle cx="12" cy="12" r="6.4" fill="#FFC27A"/><path d="M12 5.6v12.8M5.6 12h12.8M7.5 7.5l9 9M16.5 7.5l-9 9" stroke="#FF8A1F" stroke-width="1.2"/>`,
+  i_ice: `<rect x="4" y="5" width="12" height="12" rx="3" fill="#D6F3FF" ${K} transform="rotate(-10 10 11)"/><rect x="11" y="9" width="10" height="10" rx="2.5" fill="#B5E9FF" ${K} transform="rotate(12 16 14)"/><path d="M7 8l2-.4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>`,
+  i_mint: `<path d="M12 21C5 19 3 12 6 5c5 1 8 6 6 16z" fill="#1FD16C" ${K}/><path d="M12 21c2-6 5-10 9-11-1 6-4 10-9 11z" fill="#7EE8A8" ${K}/><path d="M11 18C9 13 8 10 6.5 7" stroke="#0E8A45" stroke-width="1.2" fill="none"/>`,
+  i_pink: `<path d="M12 3s6.5 7.3 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10.3 12 3 12 3z" fill="#FF8AD8" ${K}/><ellipse cx="9.5" cy="13" rx="1.4" ry="2.4" fill="#fff" opacity=".6"/>`,
+  i_choco: `<path d="M12 3s6.5 7.3 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10.3 12 3 12 3z" fill="#8B5A3C" ${K}/><ellipse cx="9.5" cy="13" rx="1.4" ry="2.4" fill="#fff" opacity=".4"/>`,
+  i_mintg: `<path d="M12 3s6.5 7.3 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10.3 12 3 12 3z" fill="#7FE3D0" ${K}/><ellipse cx="9.5" cy="13" rx="1.4" ry="2.4" fill="#fff" opacity=".6"/>`,
+  i_sprinkles: `<rect x="3" y="3" width="18" height="18" rx="9" fill="#fff" ${K}/><g stroke-width="2.4" stroke-linecap="round"><path d="M7 9l2-1.5" stroke="#2EC5FF"/><path d="M14 7l2 1" stroke="#FF5CE6"/><path d="M10 13l-1 2" stroke="#C6F432"/><path d="M15 13.5l2 .5" stroke="#FFDD2E"/><path d="M12 17l2-1" stroke="#A77BFF"/><path d="M7 15.5l1 1.5" stroke="#FF3D6E"/></g>`,
+  i_cherry: `<path d="M13 3c-1 4-4 7-6 9M13 3c1 4 2 7 4 9" stroke="#1FD16C" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="7.5" cy="15.5" r="4.5" fill="#FF3D6E" ${K}/><circle cx="16.5" cy="15.5" r="4.5" fill="#FF3D6E" ${K}/><circle cx="6.2" cy="14" r="1" fill="#fff"/><circle cx="15.2" cy="14" r="1" fill="#fff"/>`,
+  i_green: `<path d="${blobPath(12, 13, 8, 8, .18, 3)}" fill="#7CE85A" ${K}/><circle cx="10" cy="12" r="1.4" fill="#fff"/><circle cx="14" cy="12" r="1.4" fill="#fff"/>`,
+  i_purple: `<path d="${blobPath(12, 13, 8, 8, .18, 5)}" fill="#B98CFF" ${K}/><circle cx="10" cy="12" r="1.4" fill="#fff"/><circle cx="14" cy="12" r="1.4" fill="#fff"/>`,
+  i_blue: `<path d="${blobPath(12, 13, 8, 8, .18, 7)}" fill="#6CC8FF" ${K}/><circle cx="10" cy="12" r="1.4" fill="#fff"/><circle cx="14" cy="12" r="1.4" fill="#fff"/>`,
+  i_glitter: `<path d="M9 2c.6 3.4 1.9 4.7 5.3 5.3-3.4.6-4.7 1.9-5.3 5.3-.6-3.4-1.9-4.7-5.3-5.3C7.1 6.7 8.4 5.4 9 2z" fill="#FFDD2E" ${K}/><path d="M17 11c.4 2.3 1.3 3.2 3.6 3.6-2.3.4-3.2 1.3-3.6 3.6-.4-2.3-1.3-3.2-3.6-3.6 2.3-.4 3.2-1.3 3.6-3.6z" fill="#FF5CE6" ${K}/><circle cx="7" cy="18" r="1.6" fill="#2EC5FF" ${K}/>`,
+  i_star: `<path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z" fill="#FFDD2E" ${K}/><circle cx="10" cy="11" r="1" fill="#111216"/><circle cx="14" cy="11" r="1" fill="#111216"/><path d="M10.5 13.5q1.5 1.2 3 0" stroke="#111216" stroke-width="1.2" fill="none" stroke-linecap="round"/>`
+};
+const ic = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n] || ''}</svg>`;
+const pi = k => `<svg class="ic" viewBox="0 0 64 64" aria-hidden="true">${PRODS[k].art}</svg>`;
 /* svg-строку → содержимое для <g>, чтобы не вкладывать <svg> в <svg> */
 const inner = s => s.replace(/^\s*<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
 const coinG = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})">${inner(ICON.coin)}</g>`;
+const C = () => ic('coin'), U = () => pi(D.prod);
 
 /* ================= Ситуации ================= */
 const PRICE = 5, CRATE = 10, PER_CRATE = 5, SIGN_COST = 40;
 const ST = {
-  bank: { who: ['fox', ['glasses']], md: 'sly', say: 'Я из банка! 🏦 Скажи код из СМС — дам 1000 🪙',
+  bank: { who: ['fox', ['glasses']], md: 'sly', say: () => `Я из банка! ${ic('bank')} Скажи код из СМС — дам 1000 ${C()}`,
     opts: [
-      { i: '🔢', t: 'Сказать код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `🦊💨 Утащила ${-f.m} 🪙`, tip: 'Код из СМС — секрет. Банк его не спрашивает.', mom: f => ({ t: `🦊 −${-f.m} 🪙`, c: 'r' }) },
-      { i: '🙅', t: 'Не скажу', fx: { s: 2 }, exit: 'sad', res: '🛡️ Лиса ушла ни с чем' },
-      { i: '📞', t: 'Позвоню в банк', fx: { s: 3 }, exit: 'run', res: '🏦 «Это не мы!» 🛡️', mom: () => ({ t: '🦊 Раскрыта!', c: 'g' }) }] },
-  qr: { who: ['wolf', ['cap']], md: 'sly', say: 'Сканируй QR — выиграешь самокат! 🛴',
+      { i: 'keypad', t: 'Сказать код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `${mc('fox', 'sly')} Утащила ${-f.m} ${C()}`, tip: 'Код из СМС — секрет. Банк его не спрашивает.', mom: f => ({ t: `${mc('fox')} −${-f.m} ${C()}`, c: 'r' }) },
+      { i: 'stop', t: 'Не скажу', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Лиса ушла ни с чем` },
+      { i: 'phone', t: 'Позвоню в банк', fx: { s: 3 }, exit: 'run', res: `${ic('bank')} «Это не мы!»`, mom: () => ({ t: `${mc('fox')} Раскрыта!`, c: 'g' }) }] },
+  qr: { who: ['wolf', ['cap']], md: 'sly', say: () => `Сканируй ${ic('qr')} — выиграешь самокат!`,
     opts: [
-      { i: '📱', t: 'Сканировать', bad: 1, fx: D => ({ m: -Math.min(30, D.wallet), s: -2, scam: 1 }), exit: 'run', res: f => `📱💨 QR украл ${-f.m} 🪙`, tip: 'Чужие QR-коды могут вести к жуликам.', mom: f => ({ t: `🐺 −${-f.m} 🪙`, c: 'r' }) },
-      { i: '🙅', t: 'Не надо', fx: { s: 2 }, exit: 'sad', res: '🛡️ Волк ушёл' }] },
-  guard: { who: ['raccoon', ['cap']], md: 'sly', say: 'Отдохни! Я покараулю кассу 😇',
+      { i: 'qr', t: 'Сканировать', bad: 1, fx: D => ({ m: -Math.min(30, D.wallet), s: -2, scam: 1 }), exit: 'run', res: f => `${ic('qr')} Код украл ${-f.m} ${C()}`, tip: 'Чужие QR-коды могут вести к жуликам.', mom: f => ({ t: `${mc('wolf')} −${-f.m} ${C()}`, c: 'r' }) },
+      { i: 'stop', t: 'Не надо', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Волк ушёл` }] },
+  guard: { who: ['raccoon', ['cap']], md: 'sly', say: () => `Отдохни! Я покараулю кассу ${ic('zzz')}`,
     opts: [
-      { i: '😴', t: 'Спасибо!', bad: 1, fx: D => ({ m: -Math.floor(D.wallet / 10) * 5, s: -2, scam: 1 }), exit: 'run', res: f => `💨 Касса похудела на ${-f.m} 🪙`, tip: 'Кассу и вещи не оставляют незнакомцам.', mom: f => ({ t: `🦝 −${-f.m} 🪙`, c: 'r' }) },
-      { i: '💪', t: 'Сам справлюсь', fx: { s: 2 }, exit: 'sad', res: '🛡️ Касса под присмотром' }] },
-  fakefriend: { who: ['bunny', []], md: 'idle', say: 'Это я, твой друг! Новый номер. Скинь код 🙏',
+      { i: 'zzz', t: 'Спасибо!', bad: 1, fx: D => ({ m: -Math.floor(D.wallet / 10) * 5, s: -2, scam: 1 }), exit: 'run', res: f => `${ic('dash')} Касса похудела на ${-f.m} ${C()}`, tip: 'Кассу и вещи не оставляют незнакомцам.', mom: f => ({ t: `${mc('raccoon')} −${-f.m} ${C()}`, c: 'r' }) },
+      { i: 'shield', t: 'Сам справлюсь', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Касса под присмотром` }] },
+  fakefriend: { who: ['bunny', []], md: 'idle', say: () => `Это я, твой друг! Новый номер. Скинь код ${ic('keypad')}`,
     opts: [
-      { i: '🔢', t: 'Скинуть код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `🐰💨 Это был не друг! −${-f.m}`, tip: 'Друга проверяют звонком на старый номер.', mom: f => ({ t: `🐰 −${-f.m} 🪙`, c: 'r' }) },
-      { i: '📞', t: 'Позвоню другу', fx: { s: 3 }, exit: 'run', res: '📞 «Это не я!» 🛡️', mom: () => ({ t: '🐰 Раскрыт!', c: 'g' }) }] },
-  lottery: { who: ['hamster', ['bow']], md: 'happy', say: 'Лотерея! Билет 20 🪙 — шанс выиграть 500!',
+      { i: 'keypad', t: 'Скинуть код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `${mc('bunny', 'sly')} Это был не друг! −${-f.m} ${C()}`, tip: 'Друга проверяют звонком на старый номер.', mom: f => ({ t: `${mc('bunny')} −${-f.m} ${C()}`, c: 'r' }) },
+      { i: 'phone', t: 'Позвоню другу', fx: { s: 3 }, exit: 'run', res: `${ic('phone')} «Это не я!»`, mom: () => ({ t: `${mc('bunny')} Раскрыт!`, c: 'g' }) }] },
+  lottery: { who: ['hamster', ['bow']], md: 'happy', say: () => `Лотерея! ${ic('ticket')} 20 ${C()} — шанс выиграть 500!`,
     opts: [
-      { i: '🎟️', t: 'Купить', cost: 20, bad: 1, fx: () => Math.random() < .15 ? { m: 20, lucky: 1 } : { m: -20 }, exit: 'happy', res: f => f.lucky ? '🎉 Повезло! Но это редкость' : '🎟️ Билет пустой 😅', tip: 'В лотерее почти всегда проигрывают.', mom: f => f.lucky ? null : { t: '🎟️ −20 🪙', c: 'r' } },
-      { i: '🙅', t: 'Не буду', fx: { s: 1 }, exit: 'sad', res: '🪙 Монеты целы' }] },
-  invest: { who: ['beaver', ['tie']], md: 'sly', say: 'Дай 40 🪙 — к вечеру будет ×3! 🚀',
+      { i: 'ticket', t: 'Купить', cost: 20, bad: 1, fx: () => Math.random() < .15 ? { m: 20, lucky: 1 } : { m: -20 }, exit: 'happy', res: f => f.lucky ? `${ic('star')} Повезло! Но это редкость` : `${ic('ticket')} Билет пустой`, tip: 'В лотерее почти всегда проигрывают.', mom: f => f.lucky ? null : { t: `${ic('ticket')} −20 ${C()}`, c: 'r' } },
+      { i: 'stop', t: 'Не буду', fx: { s: 1 }, exit: 'sad', res: `${C()} Монеты целы` }] },
+  invest: { who: ['beaver', ['tie']], md: 'sly', say: () => `Дай 40 ${C()} — к вечеру будет ×3! ${ic('rocket')}`,
     opts: [
-      { i: '💸', t: 'Вложить', cost: 40, bad: 1, fx: { m: -40, s: -2, scam: 1, later: 'invest' }, exit: 'run', res: '🦫 Бобёр убежал…', tip: '«×3 за день» обещают только жулики.' },
-      { i: '🙅', t: 'Не верю', fx: { s: 2 }, exit: 'sad', res: '🛡️ Хитрый бобёр ушёл' }] },
-  screenshot: { who: ['raccoon', ['phone']], md: 'sly', say: 'Беру 6! Я уже перевёл, смотри 📱',
+      { i: 'cashfly', t: 'Вложить', cost: 40, bad: 1, fx: { m: -40, s: -2, scam: 1, later: 'invest' }, exit: 'run', res: `${mc('beaver', 'sly')} Бобёр убежал…`, tip: '«×3 за день» обещают только жулики.' },
+      { i: 'stop', t: 'Не верю', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Хитрый бобёр ушёл` }] },
+  screenshot: { who: ['raccoon', ['phone']], md: 'sly', say: () => `Беру 6 ${U()}! Я уже перевёл, смотри`,
     opts: [
-      { i: '✅', t: 'Отдать', ref: 'detFail' },
-      { i: '🔍', t: 'Проверить', detect: 1 }] },
-  supplier: { who: ['beaver', ['hardhat']], md: 'happy', say: P => `10 ${P.unit} за 15 🪙! Только сейчас! ⏰`,
+      { i: 'give', t: 'Отдать', ref: 'detFail' },
+      { i: 'magnifier', t: 'Проверить', detect: 1 }] },
+  supplier: { who: ['beaver', ['hardhat']], md: 'happy', say: () => `10 ${U()} за 15 ${C()}! Только сейчас! ${ic('clock')}`,
     opts: [
-      { i: '📦', t: 'Беру!', cost: 15, fx: { m: -15, st: 10 }, exit: 'happy', res: '📦 +10 порций', mom: () => ({ t: '📦 +10', c: '' }) },
-      { i: '🤔', t: 'Не сейчас', fx: {}, exit: 'sad', res: '🦫 Ушёл к соседям' }] },
-  loan: { who: ['kitten', ['bow']], md: 'sad', say: 'Дай в долг 20 🪙? Завтра верну! 🙏',
+      { i: 'box', t: 'Беру!', cost: 15, fx: { m: -15, st: 10 }, exit: 'happy', res: () => `${ic('box')} +10 ${U()}`, mom: () => ({ t: `${ic('box')} +10 ${U()}`, c: '' }) },
+      { i: 'think', t: 'Не сейчас', fx: {}, exit: 'sad', res: `${mc('beaver')} Ушёл к соседям` }] },
+  loan: { who: ['kitten', ['bow']], md: 'sad', say: () => `Дай в долг 20 ${C()}? Завтра верну!`,
     opts: [
-      { i: '🤝', t: 'Дать', cost: 20, fx: { m: -20, r: 1, later: 'loan' }, exit: 'happy', res: '🐱 Котёнок сияет' },
-      { i: '🙅', t: 'Не дам', fx: { r: -1 }, exit: 'sad', res: '😿 Котёнок грустит' },
-      { i: '🎁', t: 'Угощу', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: '🐱 Мур! Вкусно!' }] },
-  sour: { who: ['hedgehog', []], md: 'angry', say: P => `${P.sour} 😠`,
+      { i: 'handshake', t: 'Дать', cost: 20, fx: { m: -20, r: 1, later: 'loan' }, exit: 'happy', res: `${mc('kitten', 'happy', ['bow'])} Котёнок сияет` },
+      { i: 'stop', t: 'Не дам', fx: { r: -1 }, exit: 'sad', res: `${mc('kitten', 'sad', ['bow'])} Котёнок грустит` },
+      { i: 'gift', t: 'Угощу', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: `${mc('kitten', 'happy', ['bow'])} Мур! Вкусно!` }] },
+  sour: { who: ['hedgehog', []], md: 'angry', say: P => `${P.sour} ${ic('angry')}`,
     opts: [
-      { i: '😤', t: 'Сам такой!', bad: 1, fx: { r: -2 }, exit: 'angry', res: '🦔 Расскажет всем 😬', tip: 'Спокойный ответ гасит ссору.', mom: () => ({ t: '🦔 −2 ❤️', c: 'r' }) },
-      { i: '🪙', t: 'Вернуть деньги', cost: 5, fx: { m: -5, r: 1 }, exit: 'happy', res: '🦔 Ну ладно…' },
-      { i: '💐', t: 'Извиниться', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: '🦔 Вот это сервис! 💛' }] },
-  rival: { who: ['bear', ['apron']], md: 'sly', say: 'Я торгую рядом. Кто дешевле — тот победил! 😏',
+      { i: 'angry', t: 'Сам такой!', bad: 1, fx: { r: -2 }, exit: 'angry', res: `${mc('hedgehog', 'angry')} Расскажет всем!`, tip: 'Спокойный ответ гасит ссору.', mom: () => ({ t: `${mc('hedgehog')} −2 ${ic('heart')}`, c: 'r' }) },
+      { i: 'coinsBack', t: 'Вернуть деньги', cost: 5, fx: { m: -5, r: 1 }, exit: 'happy', res: `${mc('hedgehog')} Ну ладно…` },
+      { i: 'flower', t: 'Извиниться', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: `${mc('hedgehog', 'happy')} Вот это сервис!` }] },
+  rival: { who: ['bear', ['apron']], md: 'sly', say: () => `Я торгую рядом. Кто дешевле — тот победил!`,
     opts: [
-      { i: '📉', t: 'Скинуть цену', fx: { m: -15 }, exit: 'angry', res: '📉 Оба заработали меньше', mom: () => ({ t: '📉 −15 🪙', c: 'r' }) },
-      { i: '🤝', t: 'Дружить лавками', fx: { m: 15, r: 2 }, exit: 'happy', res: '🤝 Набор вдвоём — хит!', mom: () => ({ t: '🐻🤝 +15', c: 'g' }) },
-      { i: '😤', t: 'Уходи!', fx: { r: -1 }, exit: 'angry', res: '🐻 Обиделся' }] },
-  chick: { who: ['chick', ['tear']], md: 'sad', say: P => `Я уронил свой ${P.unit}… 😭`,
+      { i: 'chartDown', t: 'Скинуть цену', fx: { m: -15 }, exit: 'angry', res: `${ic('chartDown')} Оба заработали меньше`, mom: () => ({ t: `${ic('chartDown')} −15 ${C()}`, c: 'r' }) },
+      { i: 'handshake', t: 'Дружить лавками', fx: { m: 15, r: 2 }, exit: 'happy', res: `${ic('handshake')} Набор вдвоём — хит!`, mom: () => ({ t: `${mc('bear')} ${ic('handshake')} +15`, c: 'g' }) },
+      { i: 'angry', t: 'Уходи!', fx: { r: -1 }, exit: 'angry', res: `${mc('bear', 'angry')} Обиделся` }] },
+  chick: { who: ['chick', ['tear']], md: 'sad', say: () => `Я уронил свой ${U()}…`,
     opts: [
-      { i: '🎁', t: 'Дать новый', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: '🐥 Цып-цып! 💛' },
-      { i: '🪙', t: 'Купи ещё', fx: { r: -1 }, exit: 'sad', res: '🐥 Ушёл грустный' }] },
-  lost: { who: ['mouse', ['tear']], md: 'sad', say: 'Я потерялся… Где мама? 🥺',
+      { i: 'gift', t: 'Дать новый', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: `${mc('chick', 'happy')} Цып-цып!` },
+      { i: 'coin', t: 'Купи ещё', fx: { r: -1 }, exit: 'sad', res: `${mc('chick', 'sad')} Ушёл грустный` }] },
+  lost: { who: ['mouse', ['tear']], md: 'sad', say: () => `Я потерялся… Где мама? ${ic('lost')}`,
     opts: [
-      { i: '👮', t: 'Позвать охрану', fx: { r: 2, s: 2 }, exit: 'happy', res: '🐭 Мама нашлась! 💛', mom: () => ({ t: '🐭 Мама нашлась', c: 'g' }) },
-      { i: '🚶', t: 'Искать сам', bad: 1, fx: D => ({ m: -Math.min(10, D.wallet), r: 1 }), exit: 'happy', res: f => `🐭 Нашлась! Но лавка пустовала −${-f.m}`, tip: 'Потерялся малыш — зови взрослого рядом.' },
-      { i: '🤷', t: 'Не моё дело', fx: { r: -2 }, exit: 'sad', res: '🐭 Плачет дальше 😢' }] },
-  owl: { who: ['owl', ['rglasses']], md: 'idle', say: 'Я тут каждый день! Скидку дашь? 🦉',
+      { i: 'guard', t: 'Позвать охрану', fx: { r: 2, s: 2 }, exit: 'happy', res: `${mc('mouse', 'happy')} Мама нашлась!`, mom: () => ({ t: `${mc('mouse')} Мама нашлась`, c: 'g' }) },
+      { i: 'steps', t: 'Искать сам', bad: 1, fx: D => ({ m: -Math.min(10, D.wallet), r: 1 }), exit: 'happy', res: f => `Нашлась! Но лавка пустовала −${-f.m} ${C()}`, tip: 'Потерялся малыш — зови взрослого рядом.' },
+      { i: 'meh', t: 'Не моё дело', fx: { r: -2 }, exit: 'sad', res: `${mc('mouse', 'sad')} Плачет дальше` }] },
+  owl: { who: ['owl', ['rglasses']], md: 'idle', say: () => `Я тут каждый день! Скидку дашь? ${ic('tag')}`,
     opts: [
-      { i: '🙂', t: 'Скидка', needStock: 2, fx: { st: -2, m: 8, r: 1 }, exit: 'happy', res: '🦉 Приду ещё!' },
-      { i: '🎁', t: 'Полцены', needStock: 2, fx: { st: -2, m: 5, r: 2 }, exit: 'happy', res: '🦉 Ух, щедро!' },
-      { i: '💯', t: 'Без скидок', needStock: 2, fx: { st: -2, m: 10 }, exit: 'sad', res: '🦉 Ну ладно…' }] },
-  wallet: { who: ['bunny', ['bag']], md: 'idle', say: '👛 Ой! Зайчик обронил кошелёк!',
+      { i: 'tag', t: 'Скидка', needStock: 2, fx: { st: -2, m: 8, r: 1 }, exit: 'happy', res: `${mc('owl', 'happy')} Приду ещё!` },
+      { i: 'gift', t: 'Полцены', needStock: 2, fx: { st: -2, m: 5, r: 2 }, exit: 'happy', res: `${mc('owl', 'happy')} Ух, щедро!` },
+      { i: 'coin', t: 'Без скидок', needStock: 2, fx: { st: -2, m: 10 }, exit: 'sad', res: `${mc('owl')} Ну ладно…` }] },
+  wallet: { who: ['bunny', ['bag']], md: 'idle', say: () => `${ic('wallet')} Ой! Зайчик обронил кошелёк!`,
     opts: [
-      { i: '🏃', t: 'Догнать', fx: { r: 2, m: 5 }, exit: 'happy', res: '🐰 Спасибо! Держи 5 🪙', mom: () => ({ t: '👛 Вернул', c: 'g' }) },
-      { i: '🙈', t: 'Оставить', fx: { m: 30, r: -2 }, exit: 'sad', res: '🐰 Ищет кошелёк… 😢' }] },
-  overpaid: { who: ['frog', []], md: 'happy', say: P => `Держи 50 🪙 за один ${P.unit}!`,
+      { i: 'run', t: 'Догнать', fx: { r: 2, m: 5 }, exit: 'happy', res: `${mc('bunny', 'happy')} Спасибо! Держи 5 ${C()}`, mom: () => ({ t: `${ic('wallet')} Вернул`, c: 'g' }) },
+      { i: 'wallet', t: 'Оставить', fx: { m: 30, r: -2 }, exit: 'sad', res: `${mc('bunny', 'sad')} Ищет кошелёк…` }] },
+  overpaid: { who: ['frog', []], md: 'happy', say: () => `Держи 50 ${C()} за один ${U()}!`,
     opts: [
-      { i: '🪙', t: 'Дать сдачу', needStock: 1, fx: { st: -1, m: 5, r: 2 }, exit: 'happy', res: '🐸 Ква! Честно!' },
-      { i: '🤫', t: 'Промолчать', needStock: 1, fx: { st: -1, m: 50, r: -2 }, exit: 'happy', res: '🐸 Мама лягушонка ищет 45 🪙…' }] },
-  detFail: { bad: 1, fx: D => ({ st: -Math.min(6, D.stock), s: -2, scam: 1 }), exit: 'run', res: f => `🦝💨 Унёс ${-f.st} порций!`, tip: 'Деньги проверяют в кассе, а не на картинке.', mom: f => ({ t: `🦝 −${-f.st} ${PRODS[D.prod].unit}`, c: 'r' }) },
-  detOk: { fx: { s: 3 }, exit: 'run', res: '🦝 Попался! 🛡️', mom: () => ({ t: '🦝 Пойман!', c: 'g' }) },
-  sign: { art: () => mascotCust(), say: 'Купим вывеску? ✨ Будет больше покупателей!',
+      { i: 'coinsBack', t: 'Дать сдачу', needStock: 1, fx: { st: -1, m: 5, r: 2 }, exit: 'happy', res: `${mc('frog', 'happy')} Ква! Честно!` },
+      { i: 'zip', t: 'Промолчать', needStock: 1, fx: { st: -1, m: 50, r: -2 }, exit: 'happy', res: `${mc('frog', 'sad')} Его мама ищет 45 ${C()}…` }] },
+  detFail: { bad: 1, fx: D => ({ st: -Math.min(6, D.stock), s: -2, scam: 1 }), exit: 'run', res: f => `${mc('raccoon', 'sly')} Унёс ${-f.st} ${U()}!`, tip: 'Деньги проверяют в кассе, а не на картинке.', mom: f => ({ t: `${mc('raccoon')} −${-f.st} ${U()}`, c: 'r' }) },
+  detOk: { fx: { s: 3 }, exit: 'run', res: `${mc('raccoon', 'sad')} Попался!`, mom: () => ({ t: `${mc('raccoon')} Пойман!`, c: 'g' }) },
+  sign: { art: () => mascotCust(), say: () => `Купим вывеску? ${ic('spark')} Будет больше покупателей!`,
     opts: [
-      { i: '✨', t: 'Купить', costPig: SIGN_COST, fx: { p: -SIGN_COST, sign: 1, r: 1 }, exit: 'happy', res: '✨ Вывеска горит!', mom: () => ({ t: '✨ Вывеска', c: 'g' }) },
-      { i: '🐷', t: 'Копить', fx: {}, exit: 'happy', res: '🐷 Копим дальше' }] },
-  rain: { ev: 1, art: () => eventArt('rain'), say: 'Дождь! ☔ Покупатели убегают',
+      { i: 'spark', t: 'Купить', costPig: SIGN_COST, fx: { p: -SIGN_COST, sign: 1, r: 1 }, exit: 'happy', res: `${ic('spark')} Вывеска горит!`, mom: () => ({ t: `${ic('spark')} Вывеска`, c: 'g' }) },
+      { i: 'pig', t: 'Копить', fx: {}, exit: 'happy', res: `${ic('pig')} Копим дальше` }] },
+  rain: { ev: 1, art: () => eventArt('rain'), say: () => `Дождь! ${ic('rain')} Покупатели убегают`,
     opts: [
-      { i: '⛱️', t: 'Купить навес', cost: 20, pay: 1, fx: { pay: 20 }, exit: 'sad', res: '⛱️ Сухо! Торгуем!' },
-      { i: '🏃', t: 'Переждать', fx: { skip: 2 }, exit: 'sad', res: '☔ Двое ушли без покупки', mom: () => ({ t: '☔ −2 покупателя', c: 'r' }) }] },
-  broke: { ev: 1, art: () => eventArt('broke'), say: P => `${P.broke} ${P.brokeE}`,
+      { i: 'umbrella', t: 'Купить навес', cost: 20, pay: 1, fx: { pay: 20 }, exit: 'sad', res: `${ic('umbrella')} Сухо! Торгуем!` },
+      { i: 'run', t: 'Переждать', fx: { skip: 2 }, exit: 'sad', res: `${ic('rain')} Двое ушли без покупки`, mom: () => ({ t: `${ic('rain')} −2 покупателя`, c: 'r' }) }] },
+  broke: { ev: 1, art: () => eventArt('broke'), say: P => `${P.broke} ${ic('bolt')}`,
     opts: [
-      { i: '🔧', t: 'Починить', cost: 30, pay: 1, fx: { pay: 30 }, exit: 'sad', res: '🔧 Как новенький!' },
-      { i: '🤷', t: 'Так сойдёт', fx: D => ({ st: -Math.ceil(D.stock / 2) }), exit: 'sad', res: f => `💥 Пропало ${-f.st} порций`, mom: f => ({ t: `💥 −${-f.st} ${PRODS[D.prod].unit}`, c: 'r' }) }] }
+      { i: 'wrench', t: 'Починить', cost: 30, pay: 1, fx: { pay: 30 }, exit: 'sad', res: `${ic('wrench')} Как новенький!` },
+      { i: 'meh', t: 'Так сойдёт', fx: D => ({ st: -Math.ceil(D.stock / 2) }), exit: 'sad', res: f => `${ic('bolt')} Пропало ${-f.st} ${U()}`, mom: f => ({ t: `${ic('bolt')} −${-f.st} ${U()}`, c: 'r' }) }] }
 };
 const SAFE = ['bank', 'qr', 'guard', 'fakefriend', 'lottery', 'invest'], SOFT = ['sour', 'rival', 'chick', 'lost', 'owl', 'wallet', 'overpaid'];
 const TITLES = [
-  { id: 'king', i: '👑', t: 'Хозяин ярмарки', c: '#FFDD2E', ok: S => S.rep >= 8 && S.shield >= 7 && S.profit >= 40 },
-  { id: 'prey', i: '🦊', t: 'Лёгкая добыча для жуликов', c: '#FF9A4D', ok: S => S.scammed >= 2 || S.shield <= 2 },
-  { id: 'friend', i: '💛', t: 'Друг всего района', c: '#FF9CEF', ok: S => S.rep >= 9 },
-  { id: 'shark', i: '🦈', t: 'Акула бизнеса', c: '#7FD4FF', ok: S => S.profit >= 60 && S.rep <= 6 },
-  { id: 'piggy', i: '🐷', t: 'Мастер копилки', c: '#FFC2E2', ok: S => S.sign || S.piggy >= 60 },
-  { id: 'honest', i: '🤝', t: 'Честный торговец', c: '#C6F432', ok: S => S.shield >= 6 && S.rep >= 6 },
-  { id: 'newbie', i: '🌱', t: 'Начинающий торговец', c: '#9BF0BE', ok: () => true }
+  { id: 'king', ic: 'crown', t: 'Хозяин ярмарки', c: '#FFDD2E', ok: S => S.rep >= 8 && S.shield >= 7 && S.profit >= 40 },
+  { id: 'prey', ic: 'dash', t: 'Лёгкая добыча для жуликов', c: '#FF9A4D', ok: S => S.scammed >= 2 || S.shield <= 2 },
+  { id: 'friend', ic: 'heart', t: 'Друг всего района', c: '#FF9CEF', ok: S => S.rep >= 9 },
+  { id: 'shark', ic: 'shark', t: 'Акула бизнеса', c: '#7FD4FF', ok: S => S.profit >= 60 && S.rep <= 6 },
+  { id: 'piggy', ic: 'pig', t: 'Мастер копилки', c: '#FFC2E2', ok: S => S.sign || S.piggy >= 60 },
+  { id: 'honest', ic: 'handshake', t: 'Честный торговец', c: '#C6F432', ok: S => S.shield >= 6 && S.rep >= 6 },
+  { id: 'newbie', ic: 'sprout', t: 'Начинающий торговец', c: '#9BF0BE', ok: () => true }
 ];
 
 /* ================= Пауза / модалка ================= */
@@ -915,7 +1063,7 @@ function pauseMenu() {
   if (!D || D.over || !$('#modal') || isModal()) return;
   D.paused = true; $('#stage').classList.add('paused');
   modal(`<div class="mh"><div class="mm" data-mood="idle">${klyaksik()}</div><h3>Пауза</h3></div>
-    <button class="btn" id="mOk">Продолжить ▶</button><button class="btn soft" id="mExit">Новый день</button>`, () => { D.paused = false; $('#stage').classList.remove('paused'); });
+    <button class="btn" id="mOk">Продолжить ${ic('play')}</button><button class="btn soft" id="mExit">Новый день ${ic('repeat')}</button>`, () => { D.paused = false; $('#stage').classList.remove('paused'); });
   $('#mExit').onclick = () => { Sound.tap(); loopId++; D = null; renderStart(); };
 }
 document.addEventListener('visibilitychange', () => { if (document.hidden && D && !D.paused) pauseMenu(); });
@@ -946,8 +1094,8 @@ function renderStart() {
     <div class="row"><button class="ibtn" data-close aria-label="Закрыть">${ICON.x}</button>${soundBtn()}</div>
     <div class="hero" data-mood="idle">${startHero()}</div>
     <h1 class="ttl">Лавка на <span class="u">один день${DOODLE.under('var(--m)')}</span></h1>
-    <p class="lead">Открой лавку на ярмарке. Торгуй, копи и не попадись хитрецам!</p>
-    <button class="btn big" id="play">Открыть лавку ▶</button>
+    <p class="lead">Открой лавку на ярмарке. Готовь заказы, копи и не попадись хитрецам!</p>
+    <button class="btn big" id="play">Открыть лавку ${ic('play')}</button>
   </section>`;
   $('#play').onclick = () => { Sound.tap(); vibrate(); renderPick(); };
 }
@@ -957,7 +1105,7 @@ function renderPick() {
     <div class="kick" style="margin-top:4px">Что будешь продавать?</div>
     <h1 class="ttl">Выбери лавку</h1>
     <div class="stalls">${Object.entries(PRODS).map(([k, P], i) => `<button class="stall" data-p="${k}" style="--i:${i}">
-      <span class="sv" style="background:${P.bg}">${prodSVG(k)}</span><span><b>${P.t}</b><span>${P.d}</span></span></button>`).join('')}</div>
+      <span class="sv" style="background:${P.bg}">${prodSVG(k)}</span><span><b>${P.t}</b><span class="ings">${RECIPES[k].fl.map(f => ic(f[0])).join('')}${RECIPES[k].ex.map(e => ic(e)).join('')}</span></span></button>`).join('')}</div>
   </section>`;
   app.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { Sound.tap(); vibrate(); renderMorning(b.dataset.p); });
 }
@@ -965,7 +1113,7 @@ function renderPick() {
 /* ================= Утро: бюджет ================= */
 function cratesArt(n, prod) {
   const pos = [[8, 74], [52, 74], [96, 74], [30, 38], [74, 38], [52, 2], [8, 2], [96, 2]];
-  return `<svg viewBox="0 0 160 120">${pos.slice(0, n).map(([x, y], i) => `<g transform="translate(${x} ${y})"><g class="${i === n - 1 ? 'cnew' : ''}">${inner(crateSVG(prod))}</g></g>`).join('')}${n ? '' : '<text x="80" y="70" text-anchor="middle" font-size="40" opacity=".3">📦</text>'}</svg>`;
+  return `<svg viewBox="0 0 160 120">${pos.slice(0, n).map(([x, y], i) => `<g transform="translate(${x} ${y})"><g class="${i === n - 1 ? 'cnew' : ''}">${inner(crateSVG(prod))}</g></g>`).join('')}${n ? '' : `<g transform="translate(56 36) scale(2)" opacity=".3">${IC.box}</g>`}</svg>`;
 }
 function piggyArt(pg) {
   const k = pg / 10;
@@ -974,28 +1122,28 @@ function piggyArt(pg) {
     <g transform="translate(4 0) scale(.55)">${inner(neonSVG())}</g></svg>`;
 }
 function renderMorning(prod) {
-  const M = { cr: 4, pg: 20 }, P = PRODS[prod];
+  const M = { cr: 4, pg: 20 };
   const first = firstTime('morning');
   app.innerHTML = `<section class="screen morning">${blobsBg()}
     <div class="row"><button class="ibtn" data-home aria-label="Назад">${ICON.x}</button>${soundBtn()}</div>
     <div class="mhead"><svg viewBox="-40 -40 80 80"><g class="sunr"><circle r="34" fill="#FFDD2E" opacity=".35"/>${Array.from({ length: 8 }, (_, i) => `<path d="M0 -28v-9" transform="rotate(${i * 45})" stroke="#FFC400" stroke-width="5" stroke-linecap="round"/>`).join('')}</g><circle r="21" fill="#FFDD2E"/><circle cx="-7" cy="-3" r="2.5" fill="#111216"/><circle cx="7" cy="-3" r="2.5" fill="#111216"/><path d="M-6 6q6 5 12 0" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
       <div><div class="kick">Утро на ярмарке</div><div class="ttl">Готовим лавку</div></div></div>
-    <div class="wallet" id="mw">${coin()}<span id="mwN">100</span><small>в кассе</small></div>
+    <div class="wallet" id="mw">${ic('coin')}<span id="mwN">100</span><small>в кассе</small></div>
     <div class="mpanels">
       <div class="mp"><h3>Закупка</h3><div class="art" id="crArt"></div>
-        <div class="eq">📦 = 5 ${prodSVG(prod)} · ${prodSVG(prod)} = 5 ${coin()}</div>
+        <div class="eq">${ic('box')} = 5 ${pi(prod)} · ${pi(prod)} = 5 ${ic('coin')}</div>
         <div class="step"><button data-d="cr" data-v="-1" aria-label="Меньше">−</button><b id="crN"></b><button class="plus" data-d="cr" data-v="1" aria-label="Больше">+</button></div></div>
       <div class="mp"><h3>Копилка</h3><div class="art" id="pgArt"></div>
-        <div class="goal"><div class="gbar"><i id="pgBar"></i></div><b style="font-weight:900;font-size:14px;white-space:nowrap">✨ ${SIGN_COST}</b></div>
+        <div class="goal"><div class="gbar"><i id="pgBar"></i></div><b style="font-weight:900;font-size:14px;white-space:nowrap">${ic('spark')} ${SIGN_COST}</b></div>
         <div class="step"><button data-d="pg" data-v="-10" aria-label="Меньше">−</button><b id="pgN"></b><button class="plus" data-d="pg" data-v="10" aria-label="Больше">+</button></div></div>
     </div>
-    <button class="btn big" id="open">Открыть лавку ☀️</button>
+    <button class="btn big" id="open">Открыть лавку ${ic('sun')}</button>
   </section>`;
-  const upd = (bump) => {
+  const upd = bump => {
     const wal = 100 - M.cr * CRATE - M.pg;
     $('#mwN').textContent = wal;
-    $('#crN').innerHTML = `${M.cr}<small style="font-size:14px">📦</small>`;
-    $('#pgN').innerHTML = `${M.pg}${coin()}`;
+    $('#crN').innerHTML = `${M.cr}${ic('box')}`;
+    $('#pgN').innerHTML = `${M.pg}${ic('coin')}`;
     $('#crArt').innerHTML = cratesArt(M.cr, prod); $('#pgArt').innerHTML = piggyArt(M.pg);
     $('#pgBar').style.width = Math.min(100, M.pg / SIGN_COST * 100) + '%';
     app.querySelectorAll('.step button').forEach(b => { const d = b.dataset.d, v = +b.dataset.v; b.disabled = d === 'cr' ? (M.cr + v < 0 || M.cr + v > 8 || (v > 0 && wal < CRATE)) : (M.pg + v < 0 || (v > 0 && wal < 10)); });
@@ -1009,47 +1157,95 @@ function renderMorning(prod) {
 }
 
 /* ================= Подсказки рукой ================= */
-function coachTap(el, cap, host) {
+const HAND = `<svg viewBox="0 0 48 56"><path d="M17 30V9a4 4 0 0 1 8 0v15l2-.4V20a4 4 0 0 1 8 0v4.4l1.2.2a4 4 0 0 1 6.8 2.8V39c0 8-6 14-14 14h-3c-5 0-8-2-11-6l-8-11a4 4 0 0 1 6-5z" fill="#fff" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><path d="M25 26v8M33 26v8" stroke="#111216" stroke-width="2.4" stroke-linecap="round"/></svg>`;
+function coachTap(el, cap, host, toEl) {
   host = host || $('#stage'); if (!host || !el) return;
   let c = host.querySelector('.coach'); if (!c) { c = document.createElement('div'); c.className = 'coach'; host.appendChild(c); }
-  c.innerHTML = (cap ? `<div class="cap">${cap}</div>` : '') + (RM ? '' : '<div class="ghand">👆</div>');
+  c.innerHTML = (cap ? `<div class="cap">${cap}</div>` : '') + (RM ? '' : `<div class="ghand">${HAND}</div>`);
   const h = c.querySelector('.ghand'); if (!h) return;
   const hr = host.getBoundingClientRect(), r = el.getBoundingClientRect(), x = r.left + r.width / 2 - hr.left, y = r.top + r.height / 2 - hr.top;
-  h.animate([{ transform: `translate(${x + 30}px,${y + 50}px)`, opacity: 0 }, { transform: `translate(${x}px,${y}px)`, opacity: 1, offset: .35 }, { transform: `translate(${x}px,${y}px) scale(.85)`, opacity: 1, offset: .5 }, { transform: `translate(${x}px,${y}px)`, opacity: 1, offset: .65 }, { transform: `translate(${x + 30}px,${y + 50}px)`, opacity: 0 }], { duration: 1500, iterations: Infinity });
+  if (toEl) { // жест «перетащи»
+    const t = toEl.getBoundingClientRect(), x2 = t.left + t.width / 2 - hr.left, y2 = t.top + t.height / 2 - hr.top;
+    h.animate([{ transform: `translate(${x}px,${y}px)`, opacity: 0 }, { transform: `translate(${x}px,${y}px) scale(.9)`, opacity: 1, offset: .2 }, { transform: `translate(${x2}px,${y2}px) scale(.9)`, opacity: 1, offset: .75 }, { transform: `translate(${x2}px,${y2}px)`, opacity: 0 }], { duration: 1800, iterations: Infinity, easing: 'ease-in-out' });
+  } else h.animate([{ transform: `translate(${x + 30}px,${y + 50}px)`, opacity: 0 }, { transform: `translate(${x}px,${y}px)`, opacity: 1, offset: .35 }, { transform: `translate(${x}px,${y}px) scale(.85)`, opacity: 1, offset: .5 }, { transform: `translate(${x}px,${y}px)`, opacity: 1, offset: .65 }, { transform: `translate(${x + 30}px,${y + 50}px)`, opacity: 0 }], { duration: 1500, iterations: Infinity });
   const off = () => { c.innerHTML = ''; host.removeEventListener('pointerdown', off, true); };
   host.addEventListener('pointerdown', off, true);
 }
 const coachOff = () => document.querySelectorAll('.coach').forEach(c => { c.innerHTML = ''; });
+const sum = a => a.reduce((s, x) => s + x, 0);
+/* ================= Рецепты: «собери заказ» ================= */
+const RECIPES = {
+  lemon: { fl: [['i_lemon', '#FFE14D'], ['i_straw', '#FF6B95'], ['i_orange', '#FFA53D']], ex: ['i_ice', 'i_mint'] },
+  donut: { fl: [['i_pink', '#FF8AD8'], ['i_choco', '#8B5A3C'], ['i_mintg', '#7FE3D0']], ex: ['i_sprinkles', 'i_cherry'] },
+  slime: { fl: [['i_green', '#7CE85A'], ['i_purple', '#B98CFF'], ['i_blue', '#6CC8FF']], ex: ['i_glitter', 'i_star'] }
+};
+const MUD = '#A08460', dk = '#111216';
+function cupSVG(prod, st) {
+  const R = RECIPES[prod], col = st.mud ? MUD : st.f >= 0 ? R.fl[st.f][1] : null;
+  const g = (n, x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})">${IC[n]}</g>`;
+  if (prod === 'lemon') return `<svg viewBox="0 0 120 140">
+    <path d="M92 40L106 4" stroke="#FF5CE6" stroke-width="6" stroke-linecap="round"/>
+    <path d="M20 22h80l-11 108a8 8 0 0 1-8 7H39a8 8 0 0 1-8-7z" fill="#EAF8FF" stroke="${dk}" stroke-width="3" stroke-linejoin="round"/>
+    ${col ? `<path d="M24.6 50h70.8l-8.4 79a5 5 0 0 1-5 4.4H39a5 5 0 0 1-5-4.4z" fill="${col}"/>${st.mud ? `<g fill="#6E5638"><circle cx="48" cy="80" r="4"/><circle cx="70" cy="100" r="5"/><circle cx="56" cy="114" r="3"/></g>` : `<g fill="#fff" opacity=".5"><circle cx="44" cy="96" r="3"/><circle cx="72" cy="112" r="2.5"/><circle cx="62" cy="86" r="2"/></g>`}` : ''}
+    ${st.ex[0] ? `<g><rect x="36" y="56" width="20" height="20" rx="5" fill="#fff" opacity=".85" stroke="${dk}" stroke-width="2" transform="rotate(-12 46 66)"/><rect x="60" y="66" width="18" height="18" rx="5" fill="#fff" opacity=".85" stroke="${dk}" stroke-width="2" transform="rotate(14 69 75)"/></g>` : ''}
+    ${st.ex[1] ? g('i_mint', 26, 6, 1.7) : ''}
+    ${!st.mud && st.f >= 0 ? g(R.fl[st.f][0], 78, 8, 1.6) : ''}
+    <path d="M30 34l4 60" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/></svg>`;
+  if (prod === 'donut') return `<svg viewBox="0 0 120 140">
+    <ellipse cx="60" cy="128" rx="44" ry="6" fill="${dk}" opacity=".08"/>
+    <circle cx="60" cy="80" r="46" fill="#F4C27A" stroke="${dk}" stroke-width="3"/>
+    ${col ? `<path d="M18 74q4-34 42-36t44 30q2 14-12 16t-18 10-30-2-24-14-2-4z" fill="${col}" stroke="${dk}" stroke-width="2.5" stroke-linejoin="round"/>` : ''}
+    <circle cx="60" cy="78" r="15" fill="#F2F3F7" stroke="${dk}" stroke-width="3"/>
+    ${st.ex[0] ? `<g stroke-width="5" stroke-linecap="round"><path d="M32 66l6-4" stroke="#2EC5FF"/><path d="M80 52l6 2" stroke="#C6F432"/><path d="M92 72l2 6" stroke="#FFDD2E"/><path d="M44 50l5-3" stroke="#fff"/><path d="M36 86l-4 5" stroke="#A77BFF"/><path d="M84 92l5 2" stroke="#FF3D6E"/><path d="M62 44l6 1" stroke="#2EC5FF"/></g>` : ''}
+    ${st.ex[1] ? g('i_cherry', 42, 2, 1.6) : ''}</svg>`;
+  return `<svg viewBox="0 0 120 140">
+    <rect x="20" y="32" width="80" height="102" rx="24" fill="#EAF8FF" stroke="${dk}" stroke-width="3"/>
+    <rect x="14" y="18" width="92" height="20" rx="8" fill="#A77BFF" stroke="${dk}" stroke-width="3"/>
+    ${col ? `<path d="M23.5 74q14-14 30-6t44-4v42a24 24 0 0 1-24 24H47.5a24 24 0 0 1-24-24z" fill="${col}"/><circle cx="48" cy="98" r="7" fill="#fff"/><circle cx="72" cy="98" r="7" fill="#fff"/><circle cx="49" cy="99" r="3.5" fill="${dk}"/><circle cx="73" cy="99" r="3.5" fill="${dk}"/><path d="M54 112q6 5 12 0" stroke="${dk}" stroke-width="2.5" fill="none" stroke-linecap="round"/>` : ''}
+    ${st.ex[0] ? `<g fill="#FFDD2E" stroke="${dk}" stroke-width="1.5"><path d="M38 80l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M84 112l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z"/></g><g fill="#FF5CE6"><circle cx="80" cy="82" r="2.4"/><circle cx="40" cy="120" r="2"/></g>` : ''}
+    ${st.ex[1] ? g('i_star', 74, 0, 1.6) : ''}
+    <path d="M30 46v40" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/></svg>`;
+}
+const coinBtn = v => `<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="${v === 20 ? 21 : v === 10 ? 19 : 17}" fill="${v === 20 ? '#C6F432' : '#FFDD2E'}" stroke="${dk}" stroke-width="2.5"/><circle cx="24" cy="24" r="${v === 20 ? 15 : v === 10 ? 13.5 : 12}" fill="none" stroke="${v === 20 ? '#8DC11A' : '#E6A800'}" stroke-width="2.4"/><text x="24" y="30.5" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="17" fill="${dk}">${v}</text></svg>`;
+const noteSVG = v => `<svg viewBox="0 0 84 48" class="note"><rect x="2" y="2" width="80" height="44" rx="8" fill="#7EE8A8" stroke="${dk}" stroke-width="2.5"/><rect x="8" y="8" width="68" height="32" rx="5" fill="none" stroke="#1FD16C" stroke-width="2"/><text x="42" y="33" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="22" fill="${dk}">${v}</text></svg>`;
+
 /* ================= День ================= */
 function buildQueue() {
   const stories = shuffle([...fresh('safe', SAFE, 3), 'screenshot', 'supplier', 'loan', ...fresh('soft', SOFT, 3)]);
   stories.splice(4, 0, 'sign');
   stories.splice(8, 0, pick(['rain', 'broke']));
-  const buyer = () => ({ t: 'b', k: pick(BUYERS), n: 1 + (Math.random() * 3 | 0), acc: Math.random() < .3 ? [pick(['bow', 'cap', 'rglasses'])] : [] });
-  const q = [buyer(), buyer()];
-  stories.forEach((id, i) => { q.push({ t: 's', id }); q.push(buyer()); if (i % 3 === 2) q.push(buyer()); });
+  const buyer = t => {
+    const k = pick(BUYERS), acc = Math.random() < .35 ? [pick(BUYER_ACC[k] || ['bow'])] : [];
+    return { t, k, n: 1 + (Math.random() * 3 | 0), acc };
+  };
+  const q = [buyer('b'), buyer('b')];
+  stories.forEach((id, i) => {
+    q.push({ t: 's', id });
+    q.push(buyer(i === 0 ? 'mix' : i === 2 ? 'chg' : pick(['b', 'mix', 'mix', 'chg', 'b'])));
+    if (i % 3 === 2) q.push(buyer(pick(['b', 'mix'])));
+  });
   return q;
 }
 function startDay(prod, cr, pg) {
   loopId++;
   SESSION.days++;
   D = { prod, wallet: 100 - cr * CRATE - pg, piggy: pg, stock: cr * PER_CRATE, rep: 5, shield: 5, sign: false, paused: false, over: false,
-    q: buildQueue(), i: 0, moments: [], later: [], scammed: 0, sold: 0, missed: 0, crates: cr, saved0: pg };
+    q: buildQueue(), i: 0, moments: [], later: [], scammed: 0, sold: 0, missed: 0, mixOk: 0, mixBad: 0, chgOk: 0, chgBad: 0 };
   const P = PRODS[prod];
   app.innerHTML = `<section class="screen stage" id="stage" style="--aw1:${P.aw[0]};--aw2:${P.aw[1] === '#FFFFFF' ? '#F2F3F7' : P.aw[1]}">
     <div class="sky" id="sky">${skySVG()}<div class="sunw" id="sun"><svg viewBox="-40 -40 80 80"><g class="sunr"><circle r="34" fill="#FFDD2E" opacity=".35"/>${Array.from({ length: 8 }, (_, i) => `<path d="M0 -30v-10" transform="rotate(${i * 45})" stroke="#FFC400" stroke-width="5" stroke-linecap="round"/>`).join('')}</g><circle r="22" fill="#FFDD2E"/><circle cx="-7" cy="-3" r="2.5" fill="#111216"/><circle cx="7" cy="-3" r="2.5" fill="#111216"/><path d="M-6 6q6 5 12 0" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg></div></div>
     <div class="awning"><div class="top" style="background:${P.aw[0]}"></div>${awningSVG(P)}<div class="neon" id="neon">${neonSVG()}</div></div>
     <header class="hud">
       <button class="ibtn" data-pause aria-label="Пауза">${ICON.pause}</button>
-      <div class="meters"><div class="meter rep" id="mRep">${I.heart}<span class="mb"><i></i></span></div><div class="meter sh" id="mSh">${I.shield}<span class="mb"><i></i></span></div></div>
+      <div class="meters"><div class="meter rep" id="mRep">${ic('heart', 'mi')}<span class="mb"><i></i></span></div><div class="meter sh" id="mSh">${ic('shield', 'mi')}<span class="mb"><i></i></span></div></div>
       ${soundBtn()}
     </header>
     <div class="yard" id="yard"><div class="rain" id="rain">${Array.from({ length: 34 }, () => `<i style="left:${rnd(0, 100).toFixed(1)}%;animation-delay:${rnd(0, .7).toFixed(2)}s;animation-duration:${rnd(.5, .8).toFixed(2)}s"></i>`).join('')}</div></div>
     <div class="counter">
-      <div class="ci kx" data-mood="idle">${klyaksik({ can: false })}</div>
-      <div class="ci stock" id="stock"><span class="ic">${prodSVG(prod)}${prodSVG(prod)}</span><b id="stockN"></b></div>
-      <div class="ci till" id="till"><span class="ic">${tillSVG()}</span><b>${coin()}<span id="walletN"></span></b></div>
-      <div class="ci pig" id="pig"><span class="ic">${pigSVG()}</span><b>${coin()}<span id="pigN"></span></b></div>
+      <div class="ci kx" data-mood="idle">${klyaksik()}</div>
+      <div class="ci stock" id="stock"><span class="ic2">${prodSVG(prod)}${prodSVG(prod)}</span><b id="stockN"></b></div>
+      <div class="ci till" id="till"><span class="ic2">${tillSVG()}</span><b>${ic('coin')}<span id="walletN"></span></b></div>
+      <div class="ci pig" id="pig"><span class="ic2">${pigSVG()}</span><b>${ic('coin')}<span id="pigN"></span></b></div>
     </div>
     <div class="coach"></div>
     <div class="scene" id="scene"></div>
@@ -1070,7 +1266,7 @@ function meter(kind, d) {
   D[key] = clamp(D[key] + d, 0, 10); updAll();
   bumpEl(el, d > 0 ? 'up' : 'down');
   const f = floatAt(el, `${d > 0 ? '+' : ''}${d}`, 'pts'); f.style.top = (parseFloat(f.style.top) + 30) + 'px';
-  if (kind === 'rep' && d > 0) for (let i = 0; i < Math.min(3, d + 1); i++) setTimeout(() => floatAt(el, ICON.heart('#FF3D6E'), 'heart'), i * 120);
+  if (kind === 'rep') for (let i = 0; i < Math.min(3, Math.abs(d) + 1); i++) setTimeout(() => floatAt(el, ic(d > 0 ? 'heart' : 'heartBreak', 'fh'), 'heart'), i * 120);
 }
 function floatAt(el, html, cls) {
   const r = el.getBoundingClientRect(), d = document.createElement('div');
@@ -1091,14 +1287,14 @@ function flyTo(fromEl, toEl, n, html) {
 }
 const coinsFly = (from, to, amt) => flyTo(from, to, clamp(Math.ceil(Math.abs(amt) / 5), 1, 8), ICON.coin);
 const itemsFly = (from, to, n) => flyTo(from, to, clamp(n, 1, 6), prodSVG(D.prod));
-function toast(text, cls = '') {
+function toast(html, cls = '') {
   const y = $('#yard'); if (!y) return;
-  const t = document.createElement('div'); t.className = 'toast ' + cls; t.textContent = text; y.appendChild(t);
+  const t = document.createElement('div'); t.className = 'toast ' + cls; t.innerHTML = html; y.appendChild(t);
   setTimeout(() => t.remove(), 2300);
 }
 function tipLine(text) {
   const y = $('#yard'); if (!y) return;
-  const t = document.createElement('div'); t.className = 'tipl'; t.innerHTML = `${I.bulb}<span>${text}</span>`; y.appendChild(t);
+  const t = document.createElement('div'); t.className = 'tipl'; t.innerHTML = `${ICON.bulb}<span>${text}</span>`; y.appendChild(t);
   setTimeout(() => t.remove(), 3500);
 }
 function custIn(svg) {
@@ -1106,6 +1302,7 @@ function custIn(svg) {
   $('#yard').appendChild(c); Sound.step(); setTimeout(() => Sound.step(), 180); return c;
 }
 function custOut(c, how) { c.classList.add('out-' + how); setTimeout(() => c.remove(), 1100); }
+const custFace = (c, e, md) => { c.querySelector('.cw').innerHTML = critter(e.k, md, e.acc); };
 function sayB(html, cls = '') { const b = document.createElement('div'); b.className = 'say ' + cls; b.innerHTML = html; $('#yard').appendChild(b); return b; }
 
 async function runDay() {
@@ -1114,50 +1311,173 @@ async function runDay() {
   for (; D === me && D.i < D.q.length; D.i++) {
     setSun(D.i / D.q.length);
     const e = D.q[D.i];
-    if (e.t === 'b') await buyerEnc(e); else await storyEnc(e.id);
+    if (e.t === 's') await storyEnc(e.id); else await buyerEnc(e);
   }
   if (D === me) evening();
 }
-async function buyerEnc(e) {
-  const me = D;
-  if (D.rep <= 2 && Math.random() < .4) { toast('😒 Покупатель прошёл мимо', 'r'); D.missed++; await pwait(1200); return; }
-  const c = custIn(critter(e.k, 'idle', e.acc));
-  await pwait(600); if (D !== me) return;
-  const tut = firstTime('buy');
-  const prog = D.i / D.q.length, T = tut ? 1e9 : Math.round(5600 - 2200 * prog);
-  const b = sayB(`${prodSVG(D.prod)}<span class="x">×${e.n}</span>${tut ? '' : `<span class="pat"><i style="animation-duration:${T}ms"></i></span>`}`, 'order');
-  if (tut) coachTap(b, 'Тапни — продай!');
-  const r = await new Promise(res => {
+/* ждать тапа по заказу или конца терпения */
+function waitServe(b, c, T, me) {
+  return new Promise(res => {
     let done = false; const go = v => { if (!done) { done = true; res(v); } };
     const tap = () => { if (!D.paused && D === me) go('serve'); };
     b.onclick = tap; c.onclick = tap; $('#stock').onclick = tap;
     pwait(T).then(() => go('late'));
   });
+}
+async function buyerLeaves(c, e, why) {
+  D.missed++; Sound.bad(); vibrate('error'); mood('oops');
+  custFace(c, e, why === 'late' ? 'angry' : 'sad');
+  toast(why === 'late' ? `${ic('clock')} Не дождался!` : `${pi(D.prod)} Всё раскупили!`, 'r');
+  meter('rep', -1); custOut(c, why === 'late' ? 'angry' : 'sad'); await pwait(900);
+}
+async function buyerEnc(e) {
+  const me = D;
+  if (D.rep <= 2 && Math.random() < .4) { toast(`${ic('meh')} Покупатель прошёл мимо`, 'r'); D.missed++; await pwait(1200); return; }
+  const c = custIn(critter(e.k, 'idle', e.acc));
+  await pwait(600); if (D !== me) return;
+  if (e.t === 'mix') return mixEnc(e, c);
+  if (e.t === 'chg') return chgEnc(e, c);
+  const tut = firstTime('buy'), prog = D.i / D.q.length, T = tut ? 1e9 : Math.round(5600 - 2200 * prog);
+  const b = sayB(`${prodSVG(D.prod)}<span class="x">×${e.n}</span>${tut ? '' : `<span class="pat"><i style="animation-duration:${T}ms"></i></span>`}`, 'order');
+  if (tut) coachTap(b, 'Тапни — продай!');
+  const r = await waitServe(b, c, T, me);
   if (D !== me) return;
   coachOff(); $('#stock').onclick = null; b.remove();
-  if (r === 'late') {
-    D.missed++; Sound.bad(); vibrate('error'); mood('oops');
-    c.querySelector('.cw').innerHTML = critter(e.k, 'angry', e.acc);
-    toast('⏰ Не дождался!', 'r'); meter('rep', -1); custOut(c, 'angry'); await pwait(900); return;
-  }
+  if (r === 'late') return buyerLeaves(c, e, 'late');
   const sold = Math.min(e.n, D.stock);
-  if (!sold) {
-    D.missed++; Sound.bad(); mood('sad');
-    c.querySelector('.cw').innerHTML = critter(e.k, 'sad', e.acc);
-    toast(`${PRODS[D.prod].unit} Всё раскупили!`, 'r'); meter('rep', -1); custOut(c, 'sad'); await pwait(900); return;
-  }
+  if (!sold) return buyerLeaves(c, e, 'empty');
+  await sell(c, e, sold, sold * PRICE);
+  if (sold < e.n) toast(`${ic('meh')} Не хватило`);
+  custOut(c, 'happy'); await pwait(650);
+}
+async function sell(c, e, sold, pay) {
+  const me = D;
   D.stock -= sold; updAll(); bumpEl($('#stock'), 'hurt');
   itemsFly($('#stock'), c, sold); Sound.pop();
   await pwait(380); if (D !== me) return;
-  const pay = sold * PRICE + (D.rep >= 8 ? 2 : 0);
-  c.querySelector('.cw').innerHTML = critter(e.k, 'happy', e.acc);
+  pay += D.rep >= 8 ? 2 : 0;
+  custFace(c, e, 'happy');
   coinsFly(c, $('#till'), pay); D.sold += sold;
   await pwait(500); if (D !== me) return;
   D.wallet += pay; updAll(); bumpEl($('#till')); Sound.cash(); vibrate('light'); mood('happy');
-  if (sold < e.n) toast('Не хватило 😕');
-  else if (D.rep >= 8) floatAt($('#till'), '+2 💛', 'pts');
-  custOut(c, 'happy'); await pwait(650);
 }
+
+/* ---------- Собери заказ ---------- */
+async function mixEnc(e, c) {
+  const me = D, R = RECIPES[D.prod];
+  if (!D.stock) return buyerLeaves(c, e, 'empty');
+  const ord = { f: Math.random() * 3 | 0, ex: [Math.random() < .5, Math.random() < .5] };
+  if (D.mixOk + D.mixBad === 0) ord.ex = [true, false];
+  const tut = firstTime('mix'), prog = D.i / D.q.length, T = tut ? 1e9 : Math.round(17000 - 5000 * prog);
+  const ordIcons = () => [ic(R.fl[ord.f][0]), ...R.ex.filter((_, i) => ord.ex[i]).map(x => ic(x))].join('<i class="plus">+</i>');
+  const b = sayB(`<span class="recipe">${ordIcons()}</span>${tut ? '' : `<span class="pat"><i style="animation-duration:${T}ms"></i></span>`}`, 'order mixo');
+  const st = { f: -1, mud: false, ex: [false, false] };
+  const y = $('#yard'); y.classList.add('busy');
+  const bench = document.createElement('div'); bench.className = 'bench';
+  bench.innerHTML = `<div class="cup" id="cup">${cupSVG(D.prod, st)}</div>
+    <div class="ings">${R.fl.map((f, i) => `<button class="ing" data-k="f" data-i="${i}" aria-label="Вкус ${i + 1}">${ic(f[0])}</button>`).join('')}${R.ex.map((x, i) => `<button class="ing" data-k="x" data-i="${i}" aria-label="Добавка ${i + 1}">${ic(x)}</button>`).join('')}<button class="ing pour" id="pour" aria-label="Вылить">${ic('trash')}</button></div>
+    <button class="btn give" id="give">Отдать ${ic('check')}</button>`;
+  y.appendChild(bench);
+  const cup = bench.querySelector('#cup');
+  const draw = () => { cup.innerHTML = cupSVG(D.prod, st); bumpEl(cup, 'pulse'); bench.querySelectorAll('.ing[data-k]').forEach(x => { const i = +x.dataset.i; x.classList.toggle('used', x.dataset.k === 'f' ? st.f === i && !st.mud : st.ex[i]); }); };
+  const matches = () => !st.mud && st.f === ord.f && st.ex[0] === ord.ex[0] && st.ex[1] === ord.ex[1];
+  const add = (k, i) => {
+    if (k === 'f') { if (st.f === -1) st.f = i; else if (st.f !== i) st.mud = true; }
+    else st.ex[i] = true;
+    Sound.pop(); vibrate('light'); draw();
+    if (st.mud) toast(`${ic('meh')} Смешалось! Вылей и заново`, 'r');
+    if (tut) { coachOff(); if (matches()) coachTap($('#give'), 'Готово? Отдай!'); else { const nx = st.f !== ord.f ? bench.querySelector(`.ing[data-k="f"][data-i="${ord.f}"]`) : bench.querySelector(`.ing[data-k="x"][data-i="${ord.ex.findIndex((v, j) => v && !st.ex[j])}"]`); if (nx) coachTap(nx, null, null, cup); } }
+  };
+  bench.querySelectorAll('.ing[data-k]').forEach(btn => dragIng(btn, cup, () => add(btn.dataset.k, +btn.dataset.i), () => D.paused || D !== me));
+  bench.querySelector('#pour').onclick = () => { if (D.paused) return; st.f = -1; st.mud = false; st.ex = [false, false]; Sound.whoosh(); draw(); };
+  if (tut) setTimeout(() => { if (D === me) coachTap(bench.querySelector(`.ing[data-k="f"][data-i="${ord.f}"]`), 'Собери заказ!', null, cup); }, 400);
+  const r = await new Promise(res => {
+    let done = false; const go = v => { if (!done) { done = true; res(v); } };
+    bench.querySelector('#give').onclick = () => { if (D.paused) return; if (st.f < 0) { toast(`${ic('think')} Сначала собери заказ`); return; } go('give'); };
+    pwait(T).then(() => go('late'));
+  });
+  if (D !== me) return;
+  coachOff(); b.remove(); bench.remove(); y.classList.remove('busy');
+  if (r === 'late') return buyerLeaves(c, e, 'late');
+  const ok = matches();
+  if (ok) {
+    D.mixOk++; await sell(c, e, 1, 10);
+    toast(`${ic('check')} Идеально! +10 ${ic('coin')}`, 'g'); meter('rep', 1);
+    custOut(c, 'happy');
+  } else {
+    D.mixBad++; await sell(c, e, 1, PRICE); custFace(c, e, 'sad');
+    toast(`Просили: ${ordIcons()}`, 'r'); meter('rep', -1); Sound.bad();
+    custOut(c, 'sad');
+  }
+  await pwait(800);
+}
+/* перетаскивание ингредиента (тап тоже работает) */
+function dragIng(btn, target, onDrop, blocked) {
+  btn.addEventListener('pointerdown', ev => {
+    if (blocked()) return;
+    ev.preventDefault();
+    const g = document.createElement('div'); g.className = 'dragc'; g.innerHTML = btn.innerHTML;
+    g.style.left = ev.clientX + 'px'; g.style.top = ev.clientY + 'px'; document.body.appendChild(g);
+    const x0 = ev.clientX, y0 = ev.clientY; let moved = false;
+    const mv = e => { g.style.left = e.clientX + 'px'; g.style.top = e.clientY + 'px'; if (Math.hypot(e.clientX - x0, e.clientY - y0) > 10) moved = true; };
+    const up = e => {
+      removeEventListener('pointermove', mv); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
+      const r = target.getBoundingClientRect();
+      const over = e.clientX > r.left - 16 && e.clientX < r.right + 16 && e.clientY > r.top - 16 && e.clientY < r.bottom + 16;
+      if (over) { g.remove(); onDrop(); return; }
+      if (!moved) { // тап: ингредиент сам летит в стакан
+        g.classList.add('flyc'); g.style.transform = `translate(${r.left + r.width / 2 - e.clientX}px,${r.top + r.height / 2 - e.clientY}px) scale(.8)`;
+        setTimeout(() => { g.remove(); onDrop(); }, 300); return;
+      }
+      g.remove();
+    };
+    addEventListener('pointermove', mv); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  });
+}
+
+/* ---------- Дай сдачу ---------- */
+async function chgEnc(e, c) {
+  const me = D;
+  const n = Math.min(e.n, Math.max(1, D.stock)), price = n * PRICE, paid = pick([10, 20, 50].filter(v => v > price));
+  const tut = firstTime('chgServe'), prog = D.i / D.q.length, T = tut ? 1e9 : Math.round(6500 - 2000 * prog);
+  const b = sayB(`${prodSVG(D.prod)}<span class="x">×${n}</span>${noteSVG(paid)}${tut ? '' : `<span class="pat"><i style="animation-duration:${T}ms"></i></span>`}`, 'order');
+  if (tut) coachTap(b, 'Тапни — продай!');
+  const r = await waitServe(b, c, T, me);
+  if (D !== me) return;
+  coachOff(); $('#stock').onclick = null; b.remove();
+  if (r === 'late') return buyerLeaves(c, e, 'late');
+  if (D.stock < n) return buyerLeaves(c, e, 'empty');
+  D.stock -= n; D.sold += n; updAll(); itemsFly($('#stock'), c, n); Sound.pop();
+  await pwait(350); if (D !== me) return;
+  flyTo(c, $('#till'), 1, noteSVG(paid)); D.wallet += paid; updAll(); Sound.cash(); custFace(c, e, 'idle');
+  await pwait(500); if (D !== me) return;
+  const need = paid - price, tray = [];
+  const y = $('#yard'); y.classList.add('busy');
+  const bench = document.createElement('div'); bench.className = 'bench chg';
+  bench.innerHTML = `<div class="eqn"><span>${noteSVG(paid)}</span><b>−</b><span class="pr">${pi(D.prod)}×${n}<small>${price}</small></span><b>=</b><span class="q" id="trayN">?</span></div>
+    <div class="tray" id="tray"></div>
+    <div class="coinsel">${[5, 10, 20].map(v => `<button class="cb" data-v="${v}" aria-label="${v}">${coinBtn(v)}</button>`).join('')}<button class="ing pour" id="pour" aria-label="Убрать">${ic('trash')}</button></div>
+    <button class="btn give" id="give">Отдать сдачу ${ic('check')}</button>`;
+  y.appendChild(bench);
+  const drawTray = () => { const s = sum(tray); $('#trayN').textContent = tray.length ? s : '?'; $('#tray').innerHTML = tray.map(v => `<span>${coinBtn(v)}</span>`).join(''); };
+  bench.querySelectorAll('.cb').forEach(btn => btn.onclick = () => { if (D.paused) return; if (sum(tray) + +btn.dataset.v > D.wallet) { toast(`${ic('coin')} В кассе столько нет`); return; } tray.push(+btn.dataset.v); Sound.coin(); vibrate('light'); drawTray(); coachOff(); });
+  bench.querySelector('#pour').onclick = () => { tray.length = 0; Sound.whoosh(); drawTray(); };
+  if (firstTime('chg')) setTimeout(() => { if (D === me) coachTap(bench.querySelector('.cb'), 'Дай сдачу!'); }, 400);
+  await new Promise(res => { bench.querySelector('#give').onclick = () => { if (!D.paused) res(); }; });
+  if (D !== me) return;
+  coachOff();
+  const s = sum(tray);
+  bench.remove(); y.classList.remove('busy');
+  if (s) { D.wallet -= s; updAll(); coinsFly($('#till'), c, s); Sound.coin(); }
+  await pwait(400); if (D !== me) return;
+  if (s === need) { D.chgOk++; custFace(c, e, 'happy'); toast(`${ic('check')} Сдача верная!`, 'g'); meter('rep', 1); custOut(c, 'happy'); }
+  else if (s > need) { D.chgBad++; custFace(c, e, 'happy'); toast(`Лишние ${s - need} ${ic('coin')} ушли!`, 'r'); tipLine(`Сдача = оплата − цена: ${paid} − ${price} = ${need}`); Sound.bad(); custOut(c, 'run'); D.moments.push({ t: `${ic('coinsBack')} −${s - need} ${ic('coin')}`, c: 'r' }); }
+  else { D.chgBad++; custFace(c, e, 'angry'); toast(`${ic('angry')} Мало! Надо ${need}`, 'r'); tipLine(`Сдача = оплата − цена: ${paid} − ${price} = ${need}`); meter('rep', -1); Sound.bad(); custOut(c, 'angry'); }
+  await pwait(900);
+}
+
+/* ---------- Ситуации ---------- */
+const NOSTOCK = { i: 'meh', t: 'Нечего дать', fx: { r: -1 }, exit: 'sad', res: () => `${pi(D.prod)} Всё раскупили` };
 function optAvail(o) {
   if (o.costPig && D.piggy < o.costPig) return false;
   if (o.needStock && D.stock < o.needStock) return false;
@@ -1165,15 +1485,15 @@ function optAvail(o) {
   return true;
 }
 function optBadge(o) {
-  if (o.costPig) return `<span class="bdg pig">🐷 ${o.costPig}</span>`;
-  if (o.cost && o.pay && D.piggy >= o.cost) return `<span class="bdg pig">🐷 ${o.cost}</span>`;
-  if (o.cost) return `<span class="bdg">−${o.cost}${coin()}</span>`;
-  if (o.needStock) return `<span class="bdg" style="background:#fff;color:var(--ink);box-shadow:var(--shadow)">−${o.needStock}${prodSVG(D.prod)}</span>`;
+  if (o.costPig) return `<span class="bdg pig">${ic('pig')}${o.costPig}</span>`;
+  if (o.cost && o.pay && D.piggy >= o.cost) return `<span class="bdg pig">${ic('pig')}${o.cost}</span>`;
+  if (o.cost) return `<span class="bdg">−${o.cost}${ic('coin')}</span>`;
+  if (o.needStock) return `<span class="bdg w">−${o.needStock}${pi(D.prod)}</span>`;
   return '';
 }
 function choose(opts) {
   const box = document.createElement('div'); box.className = 'opts';
-  box.innerHTML = opts.map((o, i) => `<button class="op ${optAvail(o) ? '' : 'off'}" data-i="${i}" style="--i:${i}">${optBadge(o)}<b>${o.i}</b><span>${o.t}</span></button>`).join('');
+  box.innerHTML = opts.map((o, i) => `<button class="op ${optAvail(o) ? '' : 'off'}" data-i="${i}" style="--i:${i}">${optBadge(o)}${ic(o.i, 'oi')}<span>${o.t}</span></button>`).join('');
   $('#yard').appendChild(box);
   return new Promise(res => box.querySelectorAll('.op').forEach(b => b.onclick = () => {
     if (D.paused) return;
@@ -1187,12 +1507,14 @@ async function storyEnc(id) {
   const c = custIn(S.art ? S.art() : critter(S.who[0], S.md || 'idle', S.who[1]));
   if (id === 'rain') { $('#rain').classList.add('on'); $('#sky').classList.add('rainy'); }
   await pwait(600); if (D !== me) return;
-  const b = sayB(typeof S.say === 'function' ? S.say(P) : S.say, S.ev ? 'event' : '');
+  const b = sayB(S.say(P), S.ev ? 'event' : '');
   if (firstTime('story')) setTimeout(() => { const op = $('.opts'); if (op && D === me) coachTap(op, 'Что ответишь?'); }, 500);
-  const idx = await choose(S.opts);
+  // если товар кончился и выбрать нечего — запасной вариант, чтобы день не застрял
+  const opts = S.opts.some(optAvail) ? S.opts : [...S.opts, NOSTOCK];
+  const idx = await choose(opts);
   if (D !== me) return;
   coachOff(); b.remove();
-  let o = S.opts[idx];
+  let o = opts[idx];
   if (o.ref) o = ST[o.ref];
   if (o.detect) { const ok = await detective(); if (D !== me) return; o = ST[ok ? 'detOk' : 'detFail']; }
   const f = typeof o.fx === 'function' ? o.fx(D) : { ...(o.fx || {}) };
@@ -1200,14 +1522,15 @@ async function storyEnc(id) {
   if (D !== me) return;
   if (id === 'rain') { $('#rain').classList.remove('on'); $('#sky').classList.remove('rainy'); }
   const bad = o.bad && !f.lucky;
-  const res = typeof o.res === 'function' ? o.res(f) : o.res;
+  const empty = f.scam && !f.m && !f.st;   // жулик пришёл к пустой кассе
+  const res = empty ? `${ic('coin')} Касса пустая — красть нечего!` : typeof o.res === 'function' ? o.res(f) : o.res;
   if (res) toast(res, bad ? 'r' : (f.r > 0 || f.s > 0 ? 'g' : ''));
-  const mm = o.mom && o.mom(f); if (mm) D.moments.push(mm);
+  const mm = !empty && o.mom && o.mom(f); if (mm) D.moments.push(mm);
   if (bad) { Sound.bad(); vibrate('error'); mood('oops', 2200); if (o.tip) setTimeout(() => D === me && tipLine(o.tip), 600); }
   else if (f.r > 0 || f.s > 0) { Sound.good(); mood('happy'); }
   if (!S.ev && !S.art) {
     const md = bad ? (o.exit === 'run' ? 'happy' : 'sly') : (o.exit === 'happy' ? 'happy' : o.exit === 'angry' ? 'angry' : 'sad');
-    c.querySelector('.cw').innerHTML = critter(S.who[0], md, o.exit === 'run' && bad ? [...S.who[1], 'bag'] : S.who[1]);
+    c.querySelector('.cw').innerHTML = critter(S.who[0], md, o.exit === 'run' && bad ? [...S.who[1].filter(a => a !== 'phone'), 'bag'] : S.who[1]);
   }
   await pwait(500); if (D !== me) return;
   custOut(c, S.ev ? 'sad' : (o.exit || 'happy'));
@@ -1215,7 +1538,7 @@ async function storyEnc(id) {
 }
 async function applyFx(f, c) {
   const till = $('#till'), pig = $('#pig'), stock = $('#stock');
-  if (f.pay) { if (D.piggy >= f.pay) { f.p = (f.p || 0) - f.pay; D.moments.push({ t: '🐷 Копилка выручила!', c: 'g' }); } else f.m = (f.m || 0) - f.pay; }
+  if (f.pay) { if (D.piggy >= f.pay) { f.p = (f.p || 0) - f.pay; D.moments.push({ t: `${ic('pig')} Копилка выручила!`, c: 'g' }); } else f.m = (f.m || 0) - f.pay; }
   if (f.st < 0) { const n = Math.min(-f.st, D.stock); f.st = -n; if (n) { D.stock -= n; itemsFly(stock, c, n); bumpEl(stock, 'hurt'); } }
   if (f.st > 0) { D.stock += f.st; itemsFly(c, stock, 6); bumpEl(stock); }
   if (f.m < 0) { const n = Math.min(-f.m, D.wallet); f.m = -n; if (n) { D.wallet -= n; coinsFly(till, c, n); bumpEl(till, 'hurt'); Sound.steal(); } }
@@ -1226,10 +1549,10 @@ async function applyFx(f, c) {
   if (f.s) meter('sh', f.s);
   if (f.scam) D.scammed++;
   if (f.later) D.later.push(f.later);
-  if (f.skip) { let k = f.skip; for (let j = D.i + 1; j < D.q.length && k; j++) if (D.q[j].t === 'b') { D.q.splice(j, 1); j--; k--; D.missed++; } }
+  if (f.skip) { let k = f.skip; for (let j = D.i + 1; j < D.q.length && k; j++) if (D.q[j].t !== 's') { D.q.splice(j, 1); j--; k--; D.missed++; } }
   if (f.sign) {
     D.sign = true; $('#neon').classList.add('on'); Sound.win(); confetti();
-    for (let k = 0; k < 3; k++) { const j = D.i + 2 + Math.floor(Math.random() * (D.q.length - D.i - 1)); D.q.splice(j, 0, { t: 'b', k: pick(BUYERS), n: 2 + (Math.random() * 2 | 0), acc: [] }); }
+    for (let k = 0; k < 3; k++) { const j = D.i + 2 + Math.floor(Math.random() * (D.q.length - D.i - 1)); const kk = pick(BUYERS); D.q.splice(j, 0, { t: pick(['b', 'mix']), k: kk, n: 2 + (Math.random() * 2 | 0), acc: [] }); }
   }
   await pwait(450);
 }
@@ -1237,12 +1560,12 @@ async function applyFx(f, c) {
 /* ================= Мини-детектив: скриншот «перевода» ================= */
 function detective() {
   const sc = $('#scene');
-  const bads = shuffle([['🏦', 'Сбирбанк', 'Опечатка!'], ['🪙', 'Сумма: 3', 'Надо 30!'], ['📅', '32 мая', 'Нет такого дня!'], ['🕐', '25:70', 'Нет такого времени!']]).slice(0, 3);
-  const rows = shuffle([...bads.map(b => ({ e: b[0], t: b[1], lb: b[2], bad: 1 })), { e: '👤', t: 'Енот Е.' }, { e: '💬', t: 'За покупку' }]);
-  sc.innerHTML = `<div class="det"><div class="dh">🔍 Найди 2 подвоха</div><div class="dots"><i></i><i></i></div>
-    <div class="phone"><div class="notch"></div><div class="scr"><div class="okc">${I.check}</div><div class="ph">Перевод выполнен</div>
-    ${rows.map((r, i) => `<button class="prow" data-i="${i}"><i>${r.e}</i>${r.t}</button>`).join('')}</div></div>
-    <button class="btn soft" id="trust">Ладно, верю 🤷</button></div>`;
+  const bads = shuffle([['bank', 'Сбирбанк', 'Опечатка!'], ['coin', 'Сумма: 3', 'Надо 30!'], ['calendar', '32 мая', 'Нет такого дня!'], ['clock', '25:70', 'Нет такого времени!']]).slice(0, 3);
+  const rows = shuffle([...bads.map(b => ({ e: b[0], t: b[1], lb: b[2], bad: 1 })), { e: 'user', t: 'Енот Е.' }, { e: 'chat', t: 'За покупку' }]);
+  sc.innerHTML = `<div class="det"><div class="dh">${ic('magnifier')} Найди 2 подвоха</div><div class="dots"><i></i><i></i></div>
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="okc">${IC.check ? `<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>` : ''}</div><div class="ph">Перевод выполнен</div>
+    ${rows.map((r, i) => `<button class="prow" data-i="${i}">${ic(r.e)}${r.t}</button>`).join('')}</div></div>
+    <button class="btn soft" id="trust">Ладно, верю ${ic('meh')}</button></div>`;
   sc.classList.add('show'); Sound.pop();
   return new Promise(res => {
     let found = 0;
@@ -1263,26 +1586,26 @@ function detective() {
 /* ================= Вечер ================= */
 async function evening() {
   const me = D;
-  setSun(1.08); $('#sky').classList.add('eve'); toast('🌙 Вечер! Закрываемся');
+  setSun(1.08); $('#sky').classList.add('eve'); toast(`${ic('moon')} Вечер! Закрываемся`);
   await pwait(1500); if (D !== me) return;
   for (const L of D.later) {
     if (L === 'loan') {
       const back = Math.random() < .7;
       const c = custIn(critter('kitten', back ? 'happy' : 'sad', ['bow']));
       await pwait(650); if (D !== me) return;
-      const b = sayB(back ? 'Возвращаю долг! И +5 сверху 💛' : 'Ой… я всё потратил 😿');
-      if (back) { coinsFly(c, $('#till'), 25); D.wallet += 25; updAll(); Sound.cash(); D.moments.push({ t: '🐱 Вернул +25', c: 'g' }); }
-      else { Sound.bad(); D.moments.push({ t: '🐱 Не вернул −20', c: 'r' }); }
+      const b = sayB(back ? `Возвращаю долг! И +5 сверху ${ic('heart')}` : `Ой… я всё потратил ${ic('sad')}`);
+      if (back) { coinsFly(c, $('#till'), 25); D.wallet += 25; updAll(); Sound.cash(); D.moments.push({ t: `${mc('kitten', 'happy', ['bow'])} +25 ${ic('coin')}`, c: 'g' }); }
+      else { Sound.bad(); D.moments.push({ t: `${mc('kitten', 'sad', ['bow'])} −20 ${ic('coin')}`, c: 'r' }); }
       await pwait(1700); b.remove(); custOut(c, back ? 'happy' : 'sad'); await pwait(700);
     }
     if (L === 'invest') {
       const c = custIn(critter('beaver', 'happy', ['tie', 'bag']));
-      await pwait(500); custOut(c, 'run'); toast('🦫💨 Бобёр с деньгами не вернулся', 'r');
-      D.moments.push({ t: '🦫 −40 🪙', c: 'r' }); await pwait(1800);
+      await pwait(500); custOut(c, 'run'); toast(`${mc('beaver', 'sly')} Бобёр с деньгами не вернулся`, 'r');
+      D.moments.push({ t: `${mc('beaver')} −40 ${ic('coin')}`, c: 'r' }); await pwait(1800);
     }
     if (D !== me) return;
   }
-  if (D.stock > 0) D.moments.push({ t: `📦 Осталось ${D.stock} ${PRODS[D.prod].unit}`, c: '' });
+  if (D.stock > 0) D.moments.push({ t: `${ic('box')} Осталось ${D.stock} ${pi(D.prod)}`, c: '' });
   showSummary();
 }
 function showSummary() {
@@ -1290,31 +1613,33 @@ function showSummary() {
   const profit = D.wallet + D.piggy - 100;
   const stat = { rep: D.rep, shield: D.shield, profit, scammed: D.scammed, sign: D.sign, piggy: D.piggy };
   const T = TITLES.find(t => t.ok(stat)); SESSION.titles.add(T.id);
-  const P = PRODS[D.prod];
   const sc = $('#scene');
+  const moms = [{ t: `${pi(D.prod)} Продано ${D.sold}`, c: 'g' }];
+  if (D.mixOk + D.mixBad) moms.push({ t: `${ic(RECIPES[D.prod].fl[0][0])} Заказы ${D.mixOk}/${D.mixOk + D.mixBad}`, c: D.mixBad ? '' : 'g' });
+  if (D.chgOk + D.chgBad) moms.push({ t: `${ic('coinsBack')} Сдача ${D.chgOk}/${D.chgOk + D.chgBad}`, c: D.chgBad ? '' : 'g' });
   sc.innerHTML = `<div class="eve">
-    <div class="kick">Лавка закрыта 🌙</div>
+    <div class="kick">Лавка закрыта ${ic('moon')}</div>
     <div class="medal">${medalSVG(T)}</div>
     <div class="etitle">${T.t}</div>
     <div class="estats">
-      <div class="es" style="--i:0">${coin()}<b class="${profit < 0 ? 'neg' : ''}">${profit >= 0 ? '+' : ''}${profit}</b></div>
-      <div class="es" style="--i:1"><svg viewBox="0 0 80 64">${inner(pigSVG())}</svg><b>${D.piggy}</b></div>
-      <div class="es" style="--i:2">${I.heart}<b>${D.rep}/10</b></div>
-      <div class="es" style="--i:3">${D.shield >= 4 ? I.shield : I.shieldX}<b>${D.shield}/10</b></div>
+      <div class="es" style="--i:0">${ic('coin')}<b class="${profit < 0 ? 'neg' : ''}">${profit >= 0 ? '+' : ''}${profit}</b></div>
+      <div class="es" style="--i:1">${ic('pig')}<b>${D.piggy}</b></div>
+      <div class="es" style="--i:2">${ic('heart')}<b>${D.rep}/10</b></div>
+      <div class="es" style="--i:3">${ic(D.shield >= 4 ? 'shield' : 'shieldX')}<b>${D.shield}/10</b></div>
     </div>
-    <div class="moms">${[{ t: `${P.unit} Продано ${D.sold}`, c: 'g' }, ...D.moments].slice(0, 8).map((m, i) => `<span class="mom ${m.c}" style="--i:${i}">${m.t}</span>`).join('')}</div>
+    <div class="moms">${[...moms, ...D.moments].slice(0, 9).map((m, i) => `<span class="mom ${m.c}" style="--i:${i}">${m.t}</span>`).join('')}</div>
     <div class="tcol">${TITLES.map(t => `<span class="${SESSION.titles.has(t.id) ? '' : 'off'}" title="${t.t}">${medalSVG(t, false)}</span>`).join('')}</div>
     <div class="tcap">Титулы: ${SESSION.titles.size} из ${TITLES.length}. Собери все!</div>
-    <div class="btns"><button class="btn big" id="again">Новый день 🔁</button>
+    <div class="btns"><button class="btn big" id="again">Новый день ${ic('repeat')}</button>
       <div class="row2"><button class="btn dark" id="share">Поделиться</button><button class="btn soft" id="done">Готово</button></div></div>
   </div>`;
   sc.classList.add('show');
   Sound.win(); if (profit > 0) setTimeout(confetti, 400);
-  Bridge.send('complete', { title: T.id, profit, piggy: D.piggy, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
+  Bridge.send('complete', { title: T.id, profit, piggy: D.piggy, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, ordersRight: D.mixOk, ordersWrong: D.mixBad, changeRight: D.chgOk, changeWrong: D.chgBad, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
   $('#again').onclick = () => { Sound.tap(); renderPick(); };
   $('#share').onclick = () => {
     Sound.tap();
-    const text = `Я провёл(а) день в «Лавке на один день» ${P.unit} и стал(а) «${T.t}» ${T.i}! Прибыль: ${profit} 🪙. А ты?`;
+    const text = `Я провёл(а) день в «Лавке на один день» и стал(а) «${T.t}»! Прибыль: ${profit} монет. А ты?`;
     Bridge.send('share', { text });
     if (!Bridge.native() && navigator.share) navigator.share({ text }).catch(() => {});
   };
