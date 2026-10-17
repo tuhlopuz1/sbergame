@@ -392,63 +392,14 @@ svg{display:block;overflow:visible}
 .pboom{position:absolute;left:50%;top:42%;z-index:6;transform:translate(-50%,-50%);background:var(--red);color:#fff;font-weight:900;font-size:30px;padding:10px 18px;border-radius:18px;display:flex;align-items:center;gap:6px;pointer-events:none;box-shadow:0 10px 24px rgba(255,61,110,.4);animation:boom 1.3s var(--out) forwards}
 .pboom .ic{width:30px;height:30px}
 @keyframes boom{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-10deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotate(-4deg)}30%{transform:translate(-50%,-50%) scale(1) rotate(-4deg)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-80%) rotate(-4deg)}}
-.prules{position:absolute;inset:12px;border-radius:26px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px 12px;z-index:8;text-align:center;animation:pop .45s var(--spring) both;overflow-y:auto}
-.prules.out{opacity:0;transition:opacity .25s}
-.prules{justify-content:flex-start}
-.prules>:first-child{margin-top:auto}
-.prules>:last-child{margin-bottom:auto}
-.prules>*{flex:none}
-.prules .btn{position:sticky;bottom:0;z-index:2;flex:none;box-shadow:0 -10px 0 8px #fff,0 8px 22px rgba(46,197,255,.28)}
-@media (max-height:720px){
-  .prules{gap:7px;padding:12px 10px}
-  .rhead .rk{width:48px;height:48px}.rhead h3{font-size:20px}
-  .rcard{padding:8px;gap:5px}.rcard small{display:none}
-  .rcard .rt{font-size:15px}.rcard .rt .ic{width:24px;height:24px}
-  .rcard .rtr .ic{width:22px;height:22px}
-  .stk>svg{width:36px;height:36px}
-  .prules .btn{min-height:50px}
-}
-.prules h3{font-weight:900;font-size:24px;margin-bottom:2px}
-.rrow{display:flex;align-items:center;gap:8px;width:100%;background:var(--soft);border-radius:18px;padding:8px}
-.rrow .mini{flex:1;min-width:0;background:#fff;border-radius:14px;padding:6px 8px 8px;text-align:left;font-weight:800;font-size:13.5px;line-height:1.25;box-shadow:0 4px 10px rgba(24,26,40,.08);position:relative;overflow:hidden}
-.rrow .mini .pav{width:22px;height:22px}
-.rrow .mini .pmt b{font-size:12px}
-.rrow .mini.fx .key{background:linear-gradient(transparent 12%,var(--m) 12%,var(--m) 92%,transparent 92%)}
-.rrow .msplat{position:absolute;right:-14px;top:-10px;width:70px;height:70px;mix-blend-mode:multiply;pointer-events:none}
-.rrow .act{width:88px;flex:none;font-weight:900;font-size:13px;line-height:1.15;display:flex;flex-direction:column;align-items:center;gap:3px}
-.rrow .act .ic{width:30px;height:30px}
-.rrow .act.wide{width:auto;flex:1;flex-direction:row;justify-content:center;gap:4px;font-size:16px}
-.rrow .act.wide .ic{width:24px;height:24px}
-.rrow.danger{background:#FFE3EA;border:3px dashed rgba(255,61,110,.5)}
-.rrow .dz{width:56px;height:68px;flex:none}
-.rrow .dz>svg{width:100%;height:100%;display:block}
-.prules .btn{max-width:240px;margin-top:4px}
-.rhead{display:flex;align-items:center;gap:10px;width:100%;margin-bottom:2px}
-.rhead .rk{width:64px;height:64px;flex:none}
-.rhead .rk>svg{width:100%;height:100%;display:block}
-.rhead h3{font-weight:900;font-size:24px;line-height:1.05;text-align:left;letter-spacing:-.02em}
-.rcard{width:100%;border-radius:20px;padding:10px;display:flex;flex-direction:column;gap:7px;text-align:left}
-.rcard.bad{background:#F2FCD3;box-shadow:inset 0 0 0 3px #C6F432}
-.rcard.good{background:#DDF8E8;box-shadow:inset 0 0 0 3px #7EE8A8}
-.rcard.warn{background:#FFE3EA;box-shadow:inset 0 0 0 3px rgba(255,61,110,.45);flex-direction:row;align-items:center;font-weight:800;font-size:15px}
-.rcard .rt{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px;line-height:1.15}
-.rcard .rt b{font-weight:900}
-.rcard .rt .ic{width:30px;height:30px}
-.rcard small{font-weight:700;font-size:12.5px;color:var(--ink2);line-height:1.25}
-.rcard .rtr{display:flex;gap:6px}
-.rcard .rtr .ic{width:26px;height:26px}
-.rcard .mini{background:#fff;border-radius:14px;padding:6px 8px 8px;font-weight:800;font-size:13.5px;line-height:1.25;box-shadow:0 4px 10px rgba(24,26,40,.08);position:relative;overflow:hidden;flex:1;min-width:0}
-.rcard .mini .pav{width:22px;height:22px}
-.rcard .mini .pmt b{font-size:12px}
-.rcard .mini.fx .key{background:linear-gradient(transparent 12%,var(--m) 12%,var(--m) 92%,transparent 92%)}
-.rcard .msplat{position:absolute;right:-10px;top:-14px;width:66px;height:66px;mix-blend-mode:multiply;pointer-events:none}
-.rcard .rfx{width:46px;height:56px;flex:none}
-.rcard .rfx>svg{width:100%;height:100%;display:block}
-.rcard.warn .ic{width:22px;height:22px}
-.rrow2{display:flex;align-items:center;gap:6px}
-.rrow2 .arr{font-weight:900;font-size:20px;color:var(--muted)}
-.stk{display:flex;flex-direction:column;align-items:center;width:70px;flex:none;font-weight:900;font-size:11.5px}
-.stk>svg{width:44px;height:44px;display:block}
+
+.thint{position:absolute;left:50%;z-index:5;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:var(--ink);color:#fff;font-weight:900;font-size:16px;padding:8px 12px;border-radius:14px;white-space:nowrap;pointer-events:none;box-shadow:0 8px 18px rgba(0,0,0,.18);animation:capIn .4s var(--spring) both}
+.thint.r{background:var(--red)}
+.thint.g{background:var(--green);color:var(--ink)}
+.thint .ic{width:22px;height:22px}
+.thint>svg{width:28px;height:28px;display:block}
+.pgo{position:absolute;left:50%;top:40%;z-index:6;transform:translate(-50%,-50%);display:flex;align-items:center;gap:8px;background:var(--m);color:var(--ink);font-weight:900;font-size:24px;padding:12px 20px;border-radius:20px;white-space:nowrap;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.18);animation:boom 1.5s var(--out) forwards}
+.pgo .ic{width:28px;height:28px}
 .buzz .caller{position:absolute;left:50%;top:54%;width:84px;height:103px;margin:-52px 0 0 -42px;pointer-events:none}
 .buzz .caller>svg{width:100%;height:100%;display:block;animation:buzz .5s linear infinite}
 .ptray{display:flex;gap:6px;padding:8px 2px 0}
@@ -1079,6 +1030,11 @@ const ST = {
     opts: [
       { i: 'box', t: 'Беру!', cost: 15, fx: { m: -15, st: 10 }, exit: 'happy', res: () => `${ic('box')} +10 ${U()}`, mom: () => ({ t: `${ic('box')} +10 ${U()}`, c: '' }) },
       { i: 'think', t: 'Не сейчас', fx: {}, exit: 'sad', res: `${mc('beaver')} Ушёл к соседям` }] },
+  restock: { who: ['bear', ['hardhat']], md: 'happy', say: () => `Товар кончился? Привёз ещё! ${ic('box')}`,
+    opts: [
+      { i: 'box', get t() { return `+10 ${U()}`; }, cost: 20, fx: { m: -20, st: 10 }, exit: 'happy', res: () => `${ic('box')} +10 ${U()}` },
+      { i: 'box', get t() { return `+5 ${U()}`; }, cost: 10, fx: { m: -10, st: 5 }, exit: 'happy', res: () => `${ic('box')} +5 ${U()}` },
+      { i: 'handshake', get t() { return `В долг +5 ${U()}`; }, broke: 1, fx: { st: 5, later: 'debt' }, exit: 'happy', res: () => `${ic('handshake')} Вечером вернёшь 15 ${C()}` }] },
   loan: { who: ['kitten', ['bow']], md: 'sad', say: () => `Дай в долг 20 ${C()}? Завтра верну!`,
     opts: [
       { i: 'handshake', t: 'Дать', cost: 20, fx: { m: -20, r: 1, later: 'loan' }, exit: 'happy', res: `${mc('kitten', 'happy', ['bow'])} Котёнок сияет` },
@@ -1362,6 +1318,8 @@ async function runDay() {
     setSun(D.i / D.q.length);
     const e = D.q[D.i];
     if (e.t === 's') await storyEnc(e.id); else if (e.t === 'p') await phoneEnc(e); else await buyerEnc(e);
+    // товар кончился, а покупатели ещё будут — сразу приходит поставщик
+    if (D === me && D.stock < 2 && D.q[D.i + 1]?.id !== 'restock' && D.q.slice(D.i + 1).some(x => x.t !== 's' && x.t !== 'p')) D.q.splice(D.i + 1, 0, { t: 's', id: 'restock' });
   }
   if (D === me) evening();
 }
@@ -1573,24 +1531,6 @@ async function phoneEnc(e) {
   await pwait(250); ph.remove(); if (D !== me) return;
   if (e.who === 'friends') await friendChat(e.n || 0); else await foxChat(e.n || 0);
 }
-/* общая обёртка карточки правил */
-function rulesCard(fp, html) {
-  fp.insertAdjacentHTML('beforeend', `<div class="prules">${html}<button class="btn" id="pgo">Понятно, поехали! ${ic('play')}</button></div>`);
-  const el = fp.querySelector('.prules');
-  return new Promise(r => { el.querySelector('#pgo').onclick = () => { if (D.paused) return; Sound.tap(); el.classList.add('out'); setTimeout(() => { el.remove(); r(); }, 250); }; });
-}
-const miniMsg = (avHtml, n, html, cls = '') => `<div class="mini ${cls}"><div class="pmt"><span class="pav">${avHtml}</span><b>${n}</b></div><div>${html}</div>${cls === 'fx' ? splatSVG('class="msplat"') : ''}</div>`;
-function foxRules(fp) {
-  return rulesCard(fp, `
-    <div class="rhead"><span class="rk">${klyaksik({ can: true })}</span><h3>Лис пишет<br>в чат!</h3></div>
-    <div class="rcard bad"><div class="rt">${ic('spray')}<span>Мошенник? <b>Закрась!</b></span></div>
-      ${miniMsg(avatar('robot'), 'Поддержка', 'Скажи <span class="key">код из СМС</span>', 'fx')}
-      <div class="rtr">${['keypad', 'gift', 'link', 'zip', 'clock'].map(k => ic(k)).join('')}</div>
-      <small>Просят код и деньги, дарят «призы», шлют ссылки, просят секретов, торопят</small></div>
-    <div class="rcard good"><div class="rt">${ic('check')}<span>Свои? <b>Не трогай!</b></span></div>
-      ${miniMsg(avatar('mom'), 'Мама', 'Купи хлеб после школы')}</div>
-    <div class="rcard warn"><span class="rfx">${critter('fox', 'happy', ['bag'])}</span><span>Мошенник долетел вниз — <b>−5</b> ${ic('coin')}</span></div>`);
-}
 
 /* ---------- Ивент «Друзья в чате»: подбери поддержку по настроению ---------- */
 const STICK = {
@@ -1608,13 +1548,24 @@ const FMSG = [
   FM('mouse', 'Мышка', 'Мне сказали обидное слово!', 'angry'), FM('owl', 'Сова', 'Испортили мой рисунок!', 'angry')
 ];
 const stickerSVG = k => `<svg viewBox="0 0 64 64"><path d="${blobPath(32, 32, 29, 10, .06, k.length * 5)}" fill="${k === 'joy' ? '#FFE45C' : k === 'sad' ? '#FFC2E2' : '#B5E9FF'}" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)">${IC[STICK[k].st]}</g></svg>`;
-function friendRules(fp) {
-  const row = (k, n, t, mood) => `<div class="rrow2">${miniMsg(critter(k, STICK[mood].md), n, t)}<span class="arr">→</span><span class="stk">${stickerSVG(mood)}<b>${STICK[mood].t}</b></span></div>`;
-  return rulesCard(fp, `
-    <div class="rhead"><span class="rk">${critter('kitten', 'happy', ['bow'])}</span><h3>Друзья пишут<br>в чат!</h3></div>
-    <div class="rcard good"><div class="rt">${ic('heart')}<span>Пойми настроение — <b>перетащи наклейку!</b></span></div>
-      ${row('bunny', 'Зайка', 'Я победил в забеге!', 'joy')}${row('mouse', 'Мышка', 'Потеряла игрушку…', 'sad')}${row('hamster', 'Хома', 'Брат сломал башню!', 'angry')}</div>
-    <div class="rcard warn"><span class="rfx">${critter('mouse', 'sad', ['tear'])}</span><span>Не ответил — <b>друг грустит</b> ${ic('heartBreak')}</span></div>`);
+/* наглядное обучение в телефоне: сообщение останавливается, рука показывает действие */
+function phoneTut(fp, field, me) {
+  let touch = 0;
+  fp.addEventListener('pointerdown', () => { touch = performance.now(); }, true);
+  return {
+    // подпись над сообщением
+    hint(b, html, cls = '') { const t = document.createElement('div'); t.className = 'thint ' + cls; t.innerHTML = html; t.style.top = Math.max(6, b.y - 48) + 'px'; field.appendChild(t); return t; },
+    slide: async (b, y, ms) => { b.el.style.transition = `transform ${ms}ms ${ms > 1000 ? 'linear' : 'cubic-bezier(.2,.8,.2,1)'}`; b.y = y; b.el.style.transform = `translate(${b.x}px,${b.y}px)`; await pwait(ms); b.el.style.transition = ''; },
+    // держим руку-подсказку, пока ребёнок не сделает действие (после касания — пауза, чтобы не мешать)
+    async show(b, el, toEl) {
+      while (D === me && b.st === 'fall') {
+        if (!fp.querySelector('.coach .ghand') && performance.now() - touch > 1500) coachTap(el, null, fp, toEl);
+        await pwait(300);
+      }
+      coachOff();
+    },
+    async go(html) { const g = document.createElement('div'); g.className = 'pgo'; g.innerHTML = html; field.appendChild(g); Sound.pop(); await pwait(1400); g.remove(); }
+  };
 }
 async function friendChat(round) {
   const me = D, y = $('#yard');
@@ -1627,23 +1578,22 @@ async function friendChat(round) {
     <div class="ptray">${Object.keys(STICK).map(k => `<button class="pst" data-k="${k}">${stickerSVG(k)}<b>${STICK[k].t}</b></button>`).join('')}</div></div>`;
   y.appendChild(ov);
   const field = ov.querySelector('#pfield'), zone = ov.querySelector('#pzone'), fp = ov.querySelector('.pphone');
-  if (tut) await friendRules(fp);
-  if (D !== me) return;
   const S = { live: [], q: q.slice(), ok: 0, bad: 0, miss: 0, since: 9, side: false, sel: null, done: false };
   const T = round ? 7 : 8, gap = 1.9;
   const tag = (b, html, cls = '') => { const t = document.createElement('div'); t.className = 'ptag ' + cls; t.innerHTML = html; t.style.left = clamp(b.x + b.w / 2, 80, field.clientWidth - 80) + 'px'; t.style.top = Math.max(20, b.y) + 'px'; field.appendChild(t); setTimeout(() => t.remove(), 1400); };
   const flash = cls => { zone.classList.remove('hitz', 'okz'); void zone.offsetWidth; zone.classList.add(cls); };
   const face = (b, md) => { b.el.querySelector('.pav').innerHTML = critter(b.it.k, md); };
-  const spawn = it => {
+  const spawn = (it, mid) => {
     const el = document.createElement('div'); el.className = 'pmsg fm';
     el.innerHTML = `<div class="pmt"><span class="pav">${critter(it.k, STICK[it.mood].md)}</span><b>${it.n}</b></div><div class="ptx">${it.t}</div>`;
     field.appendChild(el);
     const W = field.clientWidth, w = el.offsetWidth, h = el.offsetHeight, room = Math.max(0, W - w - 12);
     S.side = !S.side;
-    const b = { it, el, w, h, x: 6 + (S.side ? rnd(0, room * .35) : rnd(room * .65, room)), y: -h - 4, st: 'fall' };
+    const b = { it, el, w, h, x: mid ? (W - w) / 2 : 6 + (S.side ? rnd(0, room * .35) : rnd(room * .65, room)), y: -h - 4, st: 'fall' };
     el.style.transform = `translate(${b.x}px,${b.y}px)`;
     el.addEventListener('pointerdown', ev => { if (S.sel) { ev.preventDefault(); answer(b, S.sel); } });
     S.live.push(b); S.since = 0;
+    return b;
   };
   const answer = (b, k) => {
     if (D.paused || b.st !== 'fall' || S.done) return;
@@ -1679,6 +1629,18 @@ async function friendChat(round) {
     };
     addEventListener('pointermove', mv); addEventListener('pointerup', up); addEventListener('pointercancel', up);
   }));
+  if (tut) { // три примера: по лицу друга понять настроение и дать наклейку
+    const P = phoneTut(fp, field, me), H = field.clientHeight;
+    const say = { joy: 'Радуется', sad: 'Грустит', angry: 'Злится' };
+    for (const it of [FMSG[0], FMSG[5], FMSG[10]]) {
+      const b = spawn(it, true); await P.slide(b, H * .3, 700); if (D !== me) return;
+      const h = P.hint(b, `${say[it.mood]} → ${stickerSVG(it.mood)} ${STICK[it.mood].t}`);
+      await P.show(b, ov.querySelector(`.pst[data-k="${it.mood}"]`), b.el); h.remove();
+      await pwait(1100); if (D !== me) return;
+    }
+    await P.go(`${ic('heart')} Поддержи друзей!`); if (D !== me) return;
+    S.live = []; S.ok = S.bad = 0; S.since = 9; selectSt(null); $('#pvN').textContent = `0/${N}`;
+  }
   const land = b => {
     b.st = 'dead'; S.miss++;
     b.y = field.clientHeight - b.h - 6; b.el.style.transform = `translate(${b.x}px,${b.y}px)`;
@@ -1733,21 +1695,20 @@ async function foxChat(round) {
     <div class="pfield" id="pfield"><div class="pzone" id="pzone"></div></div></div>`;
   y.appendChild(ov);
   const field = ov.querySelector('#pfield'), zone = ov.querySelector('#pzone'), fp = ov.querySelector('.pphone');
-  if (tut) await foxRules(fp);
-  if (D !== me) return;
   const S = { live: [], q, zap: 0, miss: 0, oops: 0, lost: 0, since: 9, side: false, done: false };
   const T = round ? 5.2 : 6.4, gap = round ? 1.15 : 1.4;
   const tag = (b, html, cls = '') => { const t = document.createElement('div'); t.className = 'ptag ' + cls; t.innerHTML = html; t.style.left = clamp(b.x + b.w / 2, 80, field.clientWidth - 80) + 'px'; t.style.top = Math.max(20, b.y) + 'px'; field.appendChild(t); setTimeout(() => t.remove(), 1400); };
-  const spawn = it => {
+  const spawn = (it, mid) => {
     const el = document.createElement('div'); el.className = 'pmsg';
     el.innerHTML = `<div class="pmt"><span class="pav">${avatar(it.av)}</span><b>${it.n}</b></div><div class="ptx">${it.p.length > 1 ? `${it.p[0]}<span class="key">${it.p[1]}</span>${it.p[2]}` : it.p[0]}</div>`;
     field.appendChild(el);
     const W = field.clientWidth, w = el.offsetWidth, h = el.offsetHeight, room = Math.max(0, W - w - 12);
     S.side = !S.side;
-    const b = { it, el, w, h, x: 6 + (S.side ? rnd(0, room * .35) : rnd(room * .65, room)), y: -h - 4, st: 'fall' };
+    const b = { it, el, w, h, x: mid ? (W - w) / 2 : 6 + (S.side ? rnd(0, room * .35) : rnd(room * .65, room)), y: -h - 4, st: 'fall' };
     el.style.transform = `translate(${b.x}px,${b.y}px)`;
     el.addEventListener('pointerdown', ev => { ev.preventDefault(); tapMsg(b); });
     S.live.push(b); S.since = 0;
+    return b;
   };
   const tapMsg = b => {
     if (D.paused || b.st !== 'fall' || S.done) return;
@@ -1761,7 +1722,7 @@ async function foxChat(round) {
       setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => { b.el.remove(); b.st = 'dead'; }, 450); }, 700);
     } else if (!b.oops) {
       b.oops = true; S.oops++; b.el.classList.remove('shake'); void b.el.offsetWidth; b.el.classList.add('shake');
-      tag(b, `${ic('heart')} Это свои!`, 'g'); Sound.bad(); vibrate('error'); meter('rep', -1);
+      tag(b, `${ic('heart')} Это свои!`, 'g'); Sound.bad(); vibrate('error'); if (!S.tut) meter('rep', -1);
     }
   };
   const flash = cls => { zone.classList.remove('hitz', 'okz'); void zone.offsetWidth; zone.classList.add(cls); };
@@ -1789,6 +1750,22 @@ async function foxChat(round) {
     Sound.steal(); vibrate('error'); mood('sad');
     setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => b.el.remove(), 450); }, 600);
   };
+  if (tut) { // пример 1: мошенник — рука показывает «тапни»; пример 2: свои — не трогаем, долетает сам
+    S.tut = true;
+    const P = phoneTut(fp, field, me), H = field.clientHeight;
+    const f1 = spawn(PFOX[0], true); await P.slide(f1, H * .3, 700); if (D !== me) return;
+    const h1 = P.hint(f1, `${ic('keypad')} Просит код? Это Лис!`, 'r');
+    await P.show(f1, f1.el); h1.remove();
+    await pwait(1300); if (D !== me) return;
+    const f2 = spawn(PFRIEND[0], true); await P.slide(f2, H * .3, 700); if (D !== me) return;
+    const h2 = P.hint(f2, `${ic('heart')} Мама — своя. Не трогай!`, 'g');
+    await pwait(1600); h2.remove(); if (D !== me) return;
+    await P.slide(f2, H - f2.h - 6, 1500); if (D !== me) return;
+    if (f2.st === 'fall') land(f2);
+    await pwait(1200); if (D !== me) return;
+    await P.go(`${ic('spray')} Закрашивай Лиса!`); if (D !== me) return;
+    S.tut = false; S.live = []; S.zap = S.oops = 0; S.since = 9; $('#pvN').textContent = `0/${nFox}`;
+  }
   return new Promise(res => {
     let last = performance.now();
     const step = t => {
@@ -1859,7 +1836,8 @@ async function storyEnc(id) {
   await pwait(600); if (D !== me) return;
   const b = sayB(S.say(P), S.ev ? 'event' : '');
   // если товар кончился и выбрать нечего — запасной вариант, чтобы день не застрял
-  const opts = S.opts.some(optAvail) ? S.opts : [...S.opts, NOSTOCK];
+  const own = S.opts.filter(o => !o.broke || money() < 10);   // «в долг» — только когда денег совсем нет
+  const opts = own.some(optAvail) ? own : [...own, NOSTOCK];
   const idx = await choose(opts);
   if (D !== me) return;
   coachOff(); b.remove();
@@ -1950,6 +1928,14 @@ async function evening() {
       if (back) { coinsFly(c, $('#till'), 25); D.wallet += 25; updAll(); Sound.cash(); D.moments.push({ t: `${mc('kitten', 'happy', ['bow'])} +25 ${ic('coin')}`, c: 'g' }); }
       else { Sound.bad(); D.moments.push({ t: `${mc('kitten', 'sad', ['bow'])} −20 ${ic('coin')}`, c: 'r' }); }
       await pwait(1700); b.remove(); custOut(c, back ? 'happy' : 'sad'); await pwait(700);
+    }
+    if (L === 'debt') {
+      const c = custIn(critter('bear', 'idle', ['hardhat']));
+      await pwait(650); if (D !== me) return;
+      const n = Math.min(15, D.wallet), b = sayB(`Должок: 15 ${ic('coin')}`);
+      if (n) { coinsFly($('#till'), c, n); D.wallet -= n; updAll(); bumpEl($('#till'), 'hurt'); Sound.coin(); }
+      D.moments.push({ t: `${ic('handshake')} Долг −${n} ${ic('coin')}`, c: 'r' });
+      await pwait(1500); b.remove(); custOut(c, 'happy'); await pwait(700);
     }
     if (L === 'invest') {
       const c = custIn(critter('beaver', 'happy', ['tie', 'bag']));
