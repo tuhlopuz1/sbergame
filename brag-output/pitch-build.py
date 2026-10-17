@@ -18,6 +18,7 @@ R = {
     'PHONE_ART': A['phone'], 'MEDAL_SM': A['medals'][0],
     'ST_JOY': A['st_joy'], 'ST_SAD': A['st_sad'], 'ST_ANGRY': A['st_angry'],
     'AV_ROBOT': A['av_robot'], 'SPLAT': A['splat'],
+    'QR_REPO': open(ROOT / 'qr-repo.svg').read(), 'QR_GAME': open(ROOT / 'qr-game.svg').read(),
     'IC_LEMONI': f'<svg viewBox="0 0 24 24">{A["IC"]["i_lemon"]}</svg>',
 }
 for n in ['coin', 'shield', 'heart', 'phone', 'clock', 'repeat', 'keypad', 'qr', 'coinsBack', 'hug', 'box', 'spark', 'user',

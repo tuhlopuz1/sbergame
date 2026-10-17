@@ -98,6 +98,10 @@ svg{display:block}
 .ikey{background:linear-gradient(transparent 12%,var(--lime) 12%,var(--lime) 92%,transparent 92%);padding:0 4px}
 .isplat{position:absolute;right:-30px;top:-40px;width:300px;height:300px;mix-blend-mode:multiply;pointer-events:none}
 .isplat svg{width:100%;height:100%}
+.qrs{display:flex;gap:80px;justify-content:center}
+.qr{width:430px;padding:34px 34px 30px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.qr .qi{width:340px;height:340px}.qr .qi svg{width:100%;height:100%;display:block}
+.qr b{font-weight:900;font-size:44px}.qr span{font-weight:700;font-size:26px;color:var(--muted)}
 /* код события */
 .code{font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:31px;line-height:1.45;background:var(--ink);color:#E8EAF2;border-radius:34px;padding:38px 44px;box-shadow:0 20px 50px rgba(17,18,22,.25)}
 .code .k{color:var(--lime)}.code .c{color:#8B8FA0}.code .v{color:var(--cyan2)}
@@ -228,10 +232,10 @@ body:hover .nav{opacity:.9}
   </section>
 
   <!-- 5 -->
-  <section class="slide" data-notes="Задача обучения одной фразой, как просит ТЗ. После игры ребёнок различает уловки мошенников, считает деньги и сдачу и умеет поддержать друга. Дальше покажу, как каждое из этих умений становится действием в игре.">
+  <section class="slide" data-notes="Задача обучения одной фразой, как просит ТЗ. После игры ребёнок различает уловки мошенников, умеет считать деньги и поддержать друга. Дальше покажу, как каждое из этих умений становится действием в игре.">
     <div class="col wide" style="gap:46px">
       <div class="kick" data-a>Задача обучения одной фразой</div>
-      <div class="h" data-a style="--d:.1;font-size:84px">После игры ребёнок <span class="hl">различает уловки мошенников</span>, считает деньги и сдачу и <span class="hl">умеет поддержать друга</span></div>
+      <div class="h" data-a style="--d:.1;font-size:84px">После игры ребёнок <span class="hl">различает уловки мошенников</span>, <span class="hl">умеет считать деньги и поддержать друга</span></div>
       <div class="tags" data-a style="--d:.3"><span class="tag">{{IC_KEYPAD}}«Скажи код из СМС»</span><span class="tag">{{IC_QR}}Чужой QR</span><span class="tag">{{IC_COINSBACK}}Сдача 50 − 15</span><span class="tag">{{IC_HUG}}«Обнимаю»</span></div>
     </div>
     <div class="crit" data-a="pop" style="--d:.45;left:1500px;top:640px;width:260px;height:318px">{{FOX}}</div>
@@ -253,7 +257,7 @@ body:hover .nav{opacity:.9}
   </section>
 
   <!-- 7 -->
-  <section class="slide" data-notes="Финансы — это действия руками. Покупатель платит купюрой — ребёнок сам набирает сдачу монетками: 50 минус 15. Заказ собирается по рецепту из ингредиентов. Кончился товар — приходит поставщик: десять за двадцать монет или в долг, который вечером обойдётся в пятнадцать. Вывеска за сорок — трата на цель.">
+  <section class="slide" data-notes="Финансы — это действия руками. Покупатель платит купюрой — ребёнок сам набирает сдачу монетками: 50 минус 15. Заказ собирается по рецепту из ингредиентов. Кончился товар — приходит поставщик, и можно докупить ещё; если денег нет — в долг, который вечером обойдётся дороже. Вывеска за сорок — трата на цель.">
     <div class="glow" style="left:1140px;top:100px"></div>
     <div class="phone r"><div class="scr"><video poster="media/clip-change.jpg" muted loop playsinline preload="metadata"><source src="media/clip-change.mp4" type="video/mp4"><source src="media/clip-change.webm" type="video/webm"></video></div><div class="notch"></div></div>
     <div class="col">
@@ -262,7 +266,7 @@ body:hover .nav{opacity:.9}
       <div class="pts">
         <div class="pt" data-a style="--d:.25"><span class="ico">{{IC_COINSBACK}}</span><span><b>Дай сдачу:</b> 50 − 15 = ? монетками</span></div>
         <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_LEMONI}}</span><span><b>Собери заказ</b> по рецепту</span></div>
-        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_BOX}}</span><span><b>Поставщик:</b> +10 за 20 или в долг</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_BOX}}</span><span><b>Поставщик:</b> возможность докупить товар</span></div>
         <div class="pt" data-a style="--d:.55"><span class="ico">{{IC_SPARK}}</span><span><b>Вывеска за 40</b> — трата на цель</span></div>
       </div>
     </div>
@@ -312,14 +316,14 @@ body:hover .nav{opacity:.9}
   </section>
 
   <!-- 11 -->
-  <section class="slide" data-notes="Мягкие навыки есть и в самих ситуациях. Конкурент: «кто дешевле — тот победил» — можно сбить цену, подружиться лавками или прогнать. Лягушка дала 50 за один товар — дать сдачу или промолчать. Ещё есть потерявшийся малыш и обронённый кошелёк. У каждого выбора есть последствие.">
+  <section class="slide" data-notes="Мягкие навыки есть и в самих ситуациях. Конкурент: «кто дешевле — тот победил» — можно сбить цену, подружиться лавками или прогнать. Лягушка переплатила — вернуть сдачу или промолчать. Ещё есть потерявшийся малыш и потерянный кошелёк. У каждого выбора есть последствие.">
     <div class="col" style="width:900px">
       <div class="chip cyan" data-a="left">{{IC_HANDSHAKE}}Мягкие навыки</div>
       <div class="h" data-a style="--d:.1">Конфликт и честность — <span class="hl">тоже выбор</span> с последствием</div>
       <div class="pts">
         <div class="pt" data-a style="--d:.25"><span class="ico">{{IC_HANDSHAKE}}</span><span>Конкурент: сбить цену или дружить</span></div>
-        <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_COINSBACK}}</span><span>Переплатили 50 — вернуть сдачу?</span></div>
-        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_WALLET}}</span><span>Обронённый кошелёк, потерянный малыш</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_COINSBACK}}</span><span>Переплатили — вернуть сдачу?</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_WALLET}}</span><span>Потерянный кошелёк, потерянный малыш</span></div>
       </div>
     </div>
     <div class="shot" data-a="pop" style="--d:.3;left:1110px;top:120px;width:360px;height:660px"><img src="img/story6.png" alt="Конкурент"></div>
@@ -387,6 +391,20 @@ body:hover .nav{opacity:.9}
     </div>
     <div class="glow" style="left:1140px;top:100px"></div>
     <div class="phone r" data-a="pop" style="--d:.2"><div class="scr"><iframe data-src="../index.html" title="Игра «Лавка на один день»" loading="lazy"></iframe></div><div class="notch"></div></div>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide" data-notes="Всё открыто: слева репозиторий с кодом, справа сама игра — её можно открыть с телефона прямо сейчас. Спасибо!">
+    <div class="col wide" style="gap:40px;align-items:center;text-align:center">
+      <div class="kick" data-a>Спасибо!</div>
+      <div class="h" data-a style="--d:.1">Наведите камеру — <span class="hl">и сыграйте сами</span></div>
+      <div class="qrs">
+        <div class="card qr" data-a="pop" style="--d:.25"><div class="qi">{{QR_REPO}}</div><b>Репозиторий</b><span>github.com/tuhlopuz1/sbergame</span></div>
+        <div class="card qr" data-a="pop" style="--d:.4"><div class="qi">{{QR_GAME}}</div><b>Игра</b><span>tuhlopuz1.github.io/sbergame</span></div>
+      </div>
+    </div>
+    <div class="crit" data-a="pop" style="--d:.55;left:120px;top:560px;width:300px;height:300px">{{KLX_CAN}}</div>
+    <div class="crit" data-a="pop" style="--d:.65;left:1540px;top:600px;width:240px;height:294px">{{FOX}}</div>
   </section>
 
   <div class="brand"><span class="bk">{{KLX}}</span>Лавка на один день</div>
