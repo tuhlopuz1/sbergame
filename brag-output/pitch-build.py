@@ -17,10 +17,11 @@ R = {
     'LEMON': A['prod_lemon'], 'DONUT': A['prod_donut'], 'SLIME': A['prod_slime'],
     'PHONE_ART': A['phone'], 'MEDAL_SM': A['medals'][0],
     'ST_JOY': A['st_joy'], 'ST_SAD': A['st_sad'], 'ST_ANGRY': A['st_angry'],
+    'AV_ROBOT': A['av_robot'], 'SPLAT': A['splat'],
     'IC_LEMONI': f'<svg viewBox="0 0 24 24">{A["IC"]["i_lemon"]}</svg>',
 }
 for n in ['coin', 'shield', 'heart', 'phone', 'clock', 'repeat', 'keypad', 'qr', 'coinsBack', 'hug', 'box', 'spark', 'user',
-          'cashfly', 'magnifier', 'gift', 'link', 'zip', 'handshake', 'wallet', 'play', 'stop', 'crown', 'check']:
+          'cashfly', 'magnifier', 'gift', 'link', 'zip', 'handshake', 'wallet', 'play', 'stop', 'crown', 'check', 'chat']:
     R['IC_' + n.upper()] = ic(n)
 html = open(ROOT / 'pitch-template.html').read()
 html = re.sub(r'\{\{(\w+)\}\}', lambda m: R[m.group(1)], html)

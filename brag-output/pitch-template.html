@@ -81,7 +81,7 @@ svg{display:block}
 .step .n{width:64px;height:64px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-weight:900;font-size:34px}
 .step h3{font-weight:900;font-size:42px;line-height:1.05}
 .step p{font-weight:700;font-size:32px;line-height:1.25;color:var(--ink2)}
-.step .art{height:150px;display:flex;align-items:flex-end;gap:8px}
+.step .art{height:120px;display:flex;align-items:flex-end;gap:8px}
 .step .art svg{height:100%;width:auto}
 .step:not(:last-child)::after{content:"";position:absolute;right:-26px;top:50%;width:24px;height:24px;margin-top:-12px;border-top:6px solid var(--ink);border-right:6px solid var(--ink);transform:rotate(45deg);opacity:.35}
 
@@ -91,6 +91,13 @@ svg{display:block}
 .cap{position:absolute;background:var(--ink);color:#fff;font-weight:900;font-size:30px;padding:12px 22px;border-radius:20px;white-space:nowrap;box-shadow:0 10px 24px rgba(0,0,0,.2)}
 .cap.lime{background:var(--lime);color:var(--ink)}
 
+.imsg{position:absolute;left:1120px;top:250px;width:640px;padding:30px 34px 36px;overflow:hidden}
+.imt{display:flex;align-items:center;gap:14px;font-weight:800;font-size:30px;color:var(--muted);margin-bottom:12px}
+.iav{width:56px;height:56px}.iav svg{width:100%;height:100%}
+.itx{font-weight:800;font-size:44px;line-height:1.2;position:relative;z-index:1}
+.ikey{background:linear-gradient(transparent 12%,var(--lime) 12%,var(--lime) 92%,transparent 92%);padding:0 4px}
+.isplat{position:absolute;right:-30px;top:-40px;width:300px;height:300px;mix-blend-mode:multiply;pointer-events:none}
+.isplat svg{width:100%;height:100%}
 /* код события */
 .code{font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:31px;line-height:1.45;background:var(--ink);color:#E8EAF2;border-radius:34px;padding:38px 44px;box-shadow:0 20px 50px rgba(17,18,22,.25)}
 .code .k{color:var(--lime)}.code .c{color:#8B8FA0}.code .v{color:var(--cyan2)}
@@ -182,7 +189,7 @@ body:hover .nav{opacity:.9}
   <!-- 2 -->
   <section class="slide" data-notes="Задача трека: в приложении уже есть игры, но нужна игра, которая учит. Три приоритетных домена — финансовая грамотность, безопасность и мягкие навыки. Формат — HTML5-страница внутри приложения, сессия 3–5 минут, звук только по кнопке.">
     <div class="col wide" style="gap:44px">
-      <div class="kick" data-a>Что просили</div>
+      <div class="kick" data-a>Задача хакатона</div>
       <div class="h" data-a style="--d:.1">Детям нужна игра, которая <span class="hl">учит</span>, а не только развлекает</div>
       <div class="cards3">
         <div class="card dom" data-a style="--d:.25"><div class="di" style="background:var(--lime)">{{IC_COIN}}</div><h3>Финансовая грамотность</h3><p>Цена и ценность, копить или потратить, хватит ли денег, кредит</p></div>
@@ -194,6 +201,33 @@ body:hover .nav{opacity:.9}
   </section>
 
   <!-- 3 -->
+  <section class="slide" data-notes="Наша аудитория — дети 7–10 лет, младшая школа. В ТЗ безопасность упомянута для детей 6–7 лет, мы берём чуть шире: именно в эти годы у ребёнка появляется свой телефон, свои карманные деньги и свои чаты с друзьями. Поэтому в игре почти нет текста — иконки и реплики до 10 слов, правила показывает рука, проиграть нельзя, и всё укладывается в 3–5 минут.">
+    <div class="col wide" style="gap:40px">
+      <div class="kick" data-a>Для кого</div>
+      <div class="h" data-a style="--d:.1">Дети 7–10 лет: <span class="hl">первый телефон, первые деньги, первые чаты</span></div>
+      <div class="cards3">
+        <div class="card dom" data-a style="--d:.25"><div class="di" style="background:var(--pink2)">{{IC_PHONE}}</div><h3>Свой телефон</h3><p>Пишут незнакомцы, «поддержка игры», «друг с нового номера»</p></div>
+        <div class="card dom" data-a style="--d:.35"><div class="di" style="background:var(--lime)">{{IC_COIN}}</div><h3>Свои деньги</h3><p>Первые покупки сам: хватит ли, сколько сдачи, стоит ли занимать</p></div>
+        <div class="card dom" data-a style="--d:.45"><div class="di" style="background:var(--cyan2)">{{IC_CHAT}}</div><h3>Свои чаты</h3><p>Друг радуется, грустит или злится — как ответить</p></div>
+      </div>
+      <div class="tags" data-a style="--d:.55"><span class="tag">{{IC_MAGNIFIER}}Почти без текста</span><span class="tag">{{IC_PLAY}}Правила показывает рука</span><span class="tag">{{IC_CLOCK}}3–5 минут, проиграть нельзя</span></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide" data-notes="Инсайт. «Не говори код» дети слышали много раз. Но в настоящем чате мошенник не пишет «я мошенник» — он обещает алмазы, скины и призы, и правило не срабатывает. Ребёнок узнаёт обман по знакомой фразе, если уже встречал её. Поэтому Лис в игре пишет теми же словами, а ребёнок закрашивает их руками. Потребность двойная: ребёнку — интересно и без нотаций, родителю — уверенность, что ребёнок скажет «нет». И всё это не отдельный урок: мошенник — просто ещё один покупатель на ярмарке.">
+    <div class="col" style="width:960px">
+      <div class="kick" data-a>Инсайт</div>
+      <div class="h" data-a style="--d:.1">Мошенника узнают <span class="hl">по знакомой фразе</span>, а не по правилу</div>
+      <div class="lead" data-a style="--d:.25">«Не говори код» дети слышали. Но в чате пишут про алмазы, скины и призы — и правило не срабатывает. Поэтому Лис в игре говорит теми же словами.</div>
+      <div class="tags" data-a style="--d:.4"><span class="tag">{{IC_HEART}}Ребёнку — интересно, без нотаций</span><span class="tag">{{IC_SHIELD}}Родителю — спокойнее</span></div>
+    </div>
+    <div class="card imsg" data-a="pop" style="--d:.35"><div class="imt"><span class="iav">{{AV_ROBOT}}</span><b>Поддержка игры</b></div><div class="itx"><span class="ikey">Скажи код из СМС</span> — дадим 1000 алмазов</div><div class="isplat">{{SPLAT}}</div></div>
+    <div class="crit" data-a="pop" style="--d:.55;left:1480px;top:620px;width:260px;height:318px">{{FOX}}</div>
+    <div class="cap lime" data-a style="--d:.7;left:1130px;top:660px">Закрась Лиса!</div>
+  </section>
+
+  <!-- 5 -->
   <section class="slide" data-notes="Задача обучения одной фразой, как просит ТЗ. После игры ребёнок различает уловки мошенников, считает деньги и сдачу и умеет поддержать друга. Дальше покажу, как каждое из этих умений становится действием в игре.">
     <div class="col wide" style="gap:46px">
       <div class="kick" data-a>Задача обучения одной фразой</div>
@@ -203,34 +237,22 @@ body:hover .nav{opacity:.9}
     <div class="crit" data-a="pop" style="--d:.45;left:1500px;top:640px;width:260px;height:318px">{{FOX}}</div>
   </section>
 
-  <!-- 4 -->
-  <section class="slide" data-notes="Главная идея: финансы, безопасность и мягкие навыки — не три режима, а три стороны одного покупателя. Ребёнок не проходит «урок про мошенников», он думает: «этот енот какой-то странный». Обучение спрятано в торговлю.">
-    <div class="col" style="width:1000px">
-      <div class="kick" data-a>Главная идея</div>
-      <div class="h" data-a style="--d:.1">Три навыка — не три урока, а <span class="hl">три стороны одного покупателя</span></div>
-      <div class="lead" data-a style="--d:.25">Ребёнок не проходит «урок про мошенников». Он думает: «этот енот какой-то странный».</div>
-    </div>
-    <div class="crit" data-a="pop" style="--d:.3;left:1190px;top:250px;width:300px;height:368px">{{RACCOON}}</div>
-    <div class="crit" data-a="pop" style="--d:.42;left:1520px;top:330px;width:270px;height:330px">{{FROG}}</div>
-    <div class="crit" data-a="pop" style="--d:.54;left:1330px;top:600px;width:280px;height:343px">{{BUNNY}}</div>
-    <div class="cap" data-a style="--d:.7;left:1170px;top:200px">Енот: «Отдохни! Я покараулю кассу»</div>
-  </section>
-
-  <!-- 5 -->
-  <section class="slide" data-notes="Один заход — один день на ярмарке, около четырёх минут. Сначала колесо удачи: ребёнок крутит его и видит, что сегодня продаёт — лимонад, пончики или слаймы. Дальше около двадцати гостей: покупатели, заказы, сдача и ситуации. Дважды звонит телефон с мини-играми. Вечером — итоги и титул дня.">
-    <div class="col wide" style="gap:46px">
+  <!-- 6 -->
+  <section class="slide" data-notes="Один заход — один день на ярмарке, около четырёх минут. Сначала колесо удачи: ребёнок крутит его и видит, что сегодня продаёт — лимонад, пончики или слаймы. Дальше около двадцати гостей: покупатели, заказы, сдача и ситуации. Дважды звонит телефон с мини-играми. Вечером — итоги и титул дня. Каждый заход законченный, как требует ТЗ: ничего не сохраняется, проиграть нельзя, а переиграть хочется — новая лавка, новые гости и семь титулов.">
+    <div class="col wide" style="gap:36px">
       <div class="kick" data-a>Как устроен заход</div>
-      <div class="h" data-a style="--d:.1">Один заход — <span class="hl">один день на ярмарке</span>, около 4 минут</div>
+      <div class="h" data-a style="--d:.1">Один заход — <span class="hl">один день на ярмарке</span></div>
       <div class="flow">
         <div class="card step" data-a style="--d:.25"><div class="n">1</div><div class="art">{{LEMON}}{{DONUT}}</div><h3>Колесо удачи</h3><p>Крутишь — выпадает, чем торгуешь</p></div>
         <div class="card step" data-a style="--d:.35"><div class="n">2</div><div class="art">{{FROG}}{{RACCOON}}</div><h3>~20 гостей</h3><p>Покупатели, заказы, сдача, ситуации</p></div>
         <div class="card step" data-a style="--d:.45"><div class="n">3</div><div class="art">{{PHONE_ART}}</div><h3>Звонит телефон</h3><p>Мини-игры: Лис и друзья в чате</p></div>
         <div class="card step" data-a style="--d:.55"><div class="n">4</div><div class="art">{{MEDAL_SM}}</div><h3>Вечер</h3><p>Последствия, итоги и титул дня</p></div>
       </div>
+      <div class="tags" data-a style="--d:.65"><span class="tag">{{IC_CLOCK}}~4 минуты</span><span class="tag">{{IC_REPEAT}}Новая лавка и гости</span><span class="tag">{{IC_CROWN}}7 титулов</span><span class="tag">{{IC_SHIELD}}Проиграть нельзя</span></div>
     </div>
   </section>
 
-  <!-- 6 -->
+  <!-- 7 -->
   <section class="slide" data-notes="Финансы — это действия руками. Покупатель платит купюрой — ребёнок сам набирает сдачу монетками: 50 минус 15. Заказ собирается по рецепту из ингредиентов. Кончился товар — приходит поставщик: десять за двадцать монет или в долг, который вечером обойдётся в пятнадцать. Вывеска за сорок — трата на цель.">
     <div class="glow" style="left:1140px;top:100px"></div>
     <div class="phone r"><div class="scr"><video poster="media/clip-change.jpg" muted loop playsinline preload="metadata"><source src="media/clip-change.mp4" type="video/mp4"><source src="media/clip-change.webm" type="video/webm"></video></div><div class="notch"></div></div>
@@ -246,7 +268,7 @@ body:hover .nav{opacity:.9}
     </div>
   </section>
 
-  <!-- 7 -->
+  <!-- 8 -->
   <section class="slide" data-notes="Безопасность. Мошенник приходит как обычный гость, и ребёнок сам решает, что делать: волк просит отсканировать чужой QR, «друг» пишет с нового номера, бобёр обещает «×3 за день». А в мини-детективе на скриншоте «перевода» нужно найти два подвоха: «Сбирбанк», 32 мая, 25:70.">
     <div class="col" style="width:900px">
       <div class="chip pink" data-a="left">{{IC_SHIELD}}Безопасность</div>
@@ -262,7 +284,7 @@ body:hover .nav{opacity:.9}
     <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/detective.png" alt="Детектив: найди подвохи"></div>
   </section>
 
-  <!-- 8 -->
+  <!-- 9 -->
   <section class="slide" data-notes="Первая мини-игра в телефоне — «Лис в чате». Сообщения падают сверху: мошеннические надо закрасить, своих — не трогать. Приёмы реальные: просит код, халява, странная ссылка, торопит, «маме не говори». Долетел мошенник вниз — Лис уносит пять монет из кассы. Итог меняет шкалу защищённости.">
     <div class="glow" style="left:1140px;top:100px"></div>
     <div class="phone r"><div class="scr"><video poster="media/clip-fox.jpg" muted loop playsinline preload="metadata"><source src="media/clip-fox.mp4" type="video/mp4"><source src="media/clip-fox.webm" type="video/webm"></video></div><div class="notch"></div></div>
@@ -274,7 +296,7 @@ body:hover .nav{opacity:.9}
     </div>
   </section>
 
-  <!-- 9 -->
+  <!-- 10 -->
   <section class="slide" data-notes="Вторая мини-игра — «Друзья в чате», это эмоции. По лицу и словам друга ребёнок понимает настроение и даёт подходящую наклейку: радуется — «Ура!», грустит — «Обнимаю», злится — «Я с тобой». Не ответил — друг остаётся грустным, итог меняет репутацию.">
     <div class="glow" style="left:1140px;top:100px"></div>
     <div class="phone r"><div class="scr"><video poster="media/clip-friends.jpg" muted loop playsinline preload="metadata"><source src="media/clip-friends.mp4" type="video/mp4"><source src="media/clip-friends.webm" type="video/webm"></video></div><div class="notch"></div></div>
@@ -289,7 +311,7 @@ body:hover .nav{opacity:.9}
     </div>
   </section>
 
-  <!-- 10 -->
+  <!-- 11 -->
   <section class="slide" data-notes="Мягкие навыки есть и в самих ситуациях. Конкурент: «кто дешевле — тот победил» — можно сбить цену, подружиться лавками или прогнать. Лягушка дала 50 за один товар — дать сдачу или промолчать. Ещё есть потерявшийся малыш и обронённый кошелёк. У каждого выбора есть последствие.">
     <div class="col" style="width:900px">
       <div class="chip cyan" data-a="left">{{IC_HANDSHAKE}}Мягкие навыки</div>
@@ -304,7 +326,7 @@ body:hover .nav{opacity:.9}
     <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/story2.png" alt="Лягушка переплатила"></div>
   </section>
 
-  <!-- 11 -->
+  <!-- 12 -->
   <section class="slide" data-notes="Правила мы не даём читать — мы их показываем. При первом звонке сообщение останавливается, подпись в три слова, и рука показывает действие: «тапни» или «перетащи наклейку». Ребёнок повторяет сам, и только потом игра стартует. Ошибки в обучении ничего не стоят. Рука-подсказка появляется только при первом знакомстве.">
     <div class="col" style="width:900px">
       <div class="kick" data-a>Обучение</div>
@@ -319,7 +341,7 @@ body:hover .nav{opacity:.9}
     <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/tut-friends.png" alt="Обучение: друзья"></div>
   </section>
 
-  <!-- 12 -->
+  <!-- 13 -->
   <section class="slide" data-notes="Ошибка — это понятное последствие, а не ругань. Пропустил Лиса — он выпрыгивает и уносит монеты, касса «худеет». Тапнул по своему сообщению — перечёркнутый баллончик и «Не трогай — это свои!». После ошибки — одна строка подсказки: «Код из СМС — секрет. Банк его не спрашивает». Ребёнок понимает почему и пробует снова.">
     <div class="col" style="width:900px">
       <div class="kick" data-a>Обратная связь</div>
@@ -334,33 +356,20 @@ body:hover .nav{opacity:.9}
     <div class="shot" data-a="pop" style="--d:.45;left:1500px;top:260px;width:360px;height:660px"><img src="img/oops.png" alt="Тап по своему сообщению"></div>
   </section>
 
-  <!-- 13 -->
-  <section class="slide" data-notes="Каждый заход — законченный день, как требует ТЗ: ничего не сохраняется, и потеря прогресса не расстраивает. Проиграть день полностью нельзя. Зато хочется переиграть: лавка выпадает случайно, гости и события каждый раз новые, а титулов семь — от «Хозяина ярмарки» до «Лёгкой добычи для жуликов».">
-    <div class="col wide" style="gap:44px">
-      <div class="kick" data-a>Реиграбельность</div>
-      <div class="h" data-a style="--d:.1">Каждый заход — <span class="hl">законченный день</span>, и его хочется переиграть</div>
-      <div class="medals">{{MEDALS}}</div>
-      <div class="tags" data-a style="--d:.6"><span class="tag">{{IC_REPEAT}}Случайная лавка и гости</span><span class="tag">{{IC_CROWN}}7 титулов дня</span><span class="tag">{{IC_SHIELD}}Проиграть день нельзя</span></div>
-    </div>
-  </section>
-
   <!-- 14 -->
-  <section class="slide" data-notes="Как понять, что научился: по наблюдаемым действиям. В конце игра отправляет в приложение событие complete: сколько мошенников закрашено и сколько пропущено, верная ли сдача, собраны ли заказы, сколько раз ребёнка обманули, репутация и защищённость. Это можно показывать родителю или использовать в прогрессе курса.">
-    <div class="col" style="width:820px">
+  <section class="slide" data-notes="Как понять, что научился. Мы смотрим не на ответы в тесте, а на то, что ребёнок сделал руками: сколько мошенников закрасил и не тронул ли своих, верную ли дал сдачу, подобрал ли друзьям правильную наклейку. Справа настоящий экран конца дня. Те же числа игра в конце отправляет приложению событием complete — их можно засчитать в прогрессе курса или показать родителю.">
+    <div class="col" style="width:980px">
       <div class="kick" data-a>Как понять, что научился</div>
-      <div class="h" data-a style="--d:.1">Навык виден <span class="hl">по действиям</span> — они уходят в приложение</div>
-      <div class="lead" data-a style="--d:.25">Событие моста <b>complete</b> в конце дня: что ребёнок сделал руками, а не что ответил в тесте.</div>
+      <div class="h" data-a style="--d:.1">Навык виден <span class="hl">по действиям</span>, а не по ответам в тесте</div>
+      <div class="pts">
+        <div class="pt" data-a style="--d:.25"><span class="ico">{{IC_SHIELD}}</span><span><b>Закрасил 5 из 5 мошенников</b>, своих не тронул</span></div>
+        <div class="pt" data-a style="--d:.35"><span class="ico">{{IC_COINSBACK}}</span><span><b>Дал верную сдачу</b> каждому покупателю</span></div>
+        <div class="pt" data-a style="--d:.45"><span class="ico">{{IC_HEART}}</span><span><b>Поддержал 6 из 6 друзей</b> нужной наклейкой</span></div>
+      </div>
+      <div class="lead" data-a style="--d:.55;font-size:34px">Эти числа уходят в приложение в конце дня — их можно засчитать в курсе или показать родителю.</div>
     </div>
-    <pre class="code" data-a="pop" style="--d:.3;position:absolute;left:1040px;top:150px;width:760px">{
-  <span class="k">"title"</span>: <span class="v">"king"</span>,
-  <span class="k">"foxZapped"</span>: <span class="v">5</span>, <span class="k">"foxMissed"</span>: <span class="v">0</span>,
-  <span class="k">"changeRight"</span>: <span class="v">3</span>, <span class="k">"changeWrong"</span>: <span class="v">0</span>,
-  <span class="k">"ordersRight"</span>: <span class="v">4</span>, <span class="k">"ordersWrong"</span>: <span class="v">0</span>,
-  <span class="k">"reputation"</span>: <span class="v">10</span>, <span class="k">"safety"</span>: <span class="v">10</span>,
-  <span class="k">"profit"</span>: <span class="v">137</span>, <span class="k">"sold"</span>: <span class="v">26</span>,
-  <span class="k">"titlesCollected"</span>: [<span class="v">"king"</span>]
-}
-<span class="c">// пример из прогона ботом</span></pre>
+    <div class="glow" style="left:1140px;top:100px"></div>
+    <div class="phone r" data-a="pop" style="--d:.3"><div class="scr"><img src="img/evening.png" alt="Итоги дня в игре" style="object-position:top"></div><div class="notch"></div></div>
   </section>
 
   <!-- 15 -->
