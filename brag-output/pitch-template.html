@@ -116,10 +116,10 @@ svg{display:block}
 #intro.gone{opacity:0;pointer-events:none}
 #intro video{width:100%;height:100%;object-fit:contain;background:#0E0F13}
 #play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(14,15,19,.35);border:0;cursor:pointer}
-#play span{display:flex;align-items:center;gap:18px;background:var(--lime);color:var(--ink);font:900 34px 'Onest',sans-serif;padding:24px 40px 24px 30px;border-radius:60px;box-shadow:0 20px 50px rgba(0,0,0,.35);transition:transform .15s}
+#play span{display:flex;align-items:center;gap:clamp(10px,1.4vw,18px);background:var(--lime);color:var(--ink);font:900 clamp(20px,2.6vw,34px) 'Onest',sans-serif;white-space:nowrap;padding:clamp(14px,1.8vw,24px) clamp(24px,3vw,40px) clamp(14px,1.8vw,24px) clamp(18px,2.2vw,30px);border-radius:60px;box-shadow:0 20px 50px rgba(0,0,0,.35);transition:transform .15s}
 #play:hover span{transform:scale(1.04)}
-#play svg{width:44px;height:44px}
-#skip{position:absolute;right:28px;bottom:28px;z-index:2;background:rgba(255,255,255,.92);color:var(--ink);border:0;border-radius:40px;padding:16px 28px;font:900 22px 'Onest',sans-serif;cursor:pointer}
+#play svg{width:clamp(26px,3.2vw,44px);height:clamp(26px,3.2vw,44px)}
+#skip{position:absolute;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:2;background:rgba(255,255,255,.92);color:var(--ink);border:0;border-radius:40px;padding:16px 28px;font:900 22px 'Onest',sans-serif;cursor:pointer}
 #intro.playing #play{display:none}
 
 /* заметки докладчика */
@@ -132,13 +132,30 @@ svg{display:block}
 body:hover .nav{opacity:.9}
 .nav svg{width:26px;height:26px}
 #prev{left:14px}#next{right:14px}
+/* Кляксик — анимации из игры */
+.klx .k-body{transform-box:fill-box;transform-origin:50% 100%;animation:kBob 2.2s ease-in-out infinite}
+@keyframes kBob{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-4px) scale(.98,1.03)}}
+.klx .k-eyes{transform-box:fill-box;transform-origin:center;animation:kBlink 4.2s infinite}
+@keyframes kBlink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.klx .mo{opacity:0;transition:opacity .15s}
+.klx .mo-smile{opacity:1}
+.klx .k-drip{animation:kDrip 3.4s ease-in infinite;transform-box:fill-box;transform-origin:50% 0}
+@keyframes kDrip{0%,30%{transform:scaleY(0);opacity:1}75%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1) translateY(10px);opacity:0}}
+.spray-can{transform-box:fill-box;transform-origin:50% 100%;animation:canShake 1.4s ease-in-out infinite}
+@keyframes canShake{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(6deg)}}
+
+.klx .mo{opacity:0}.klx .mo-smile{opacity:1}
+@media (prefers-reduced-motion:reduce){.klx *,.spray-can{animation:none!important}}
+#rotate{display:none;position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:45;background:var(--ink);color:#fff;font:800 15px 'Onest',sans-serif;padding:10px 16px;border-radius:14px;white-space:nowrap}
+@media (orientation:portrait) and (max-width:700px){#rotate{display:block}#intro:not(.gone)~#rotate{display:none}}
+@media (hover:none){.nav,.hint{display:none}}
 @media (prefers-reduced-motion:reduce){.slide.on [data-a]{animation:none;opacity:1;transform:none}.garland,.glow{animation:none}}
 </style>
 </head>
 <body>
 
 <div id="intro">
-  <video id="promo" src="media/promo.mp4" poster="media/promo.jpg" playsinline preload="auto"></video>
+  <video id="promo" poster="media/promo.jpg" playsinline preload="auto"><source src="media/promo.mp4" type="video/mp4"><source src="media/promo.webm" type="video/webm"></video>
   <button id="play" aria-label="Смотреть ролик"><span><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z" fill="#111216"/></svg>Смотреть ролик</span></button>
   <button id="skip">К слайдам →</button>
 </div>
@@ -216,7 +233,7 @@ body:hover .nav{opacity:.9}
   <!-- 6 -->
   <section class="slide" data-notes="Финансы — это действия руками. Покупатель платит купюрой — ребёнок сам набирает сдачу монетками: 50 минус 15. Заказ собирается по рецепту из ингредиентов. Кончился товар — приходит поставщик: десять за двадцать монет или в долг, который вечером обойдётся в пятнадцать. Вывеска за сорок — трата на цель.">
     <div class="glow" style="left:1140px;top:100px"></div>
-    <div class="phone r"><div class="scr"><video src="media/clip-change.mp4" poster="media/clip-change.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="phone r"><div class="scr"><video poster="media/clip-change.jpg" muted loop playsinline preload="metadata"><source src="media/clip-change.mp4" type="video/mp4"><source src="media/clip-change.webm" type="video/webm"></video></div><div class="notch"></div></div>
     <div class="col">
       <div class="chip lime" data-a="left">{{IC_COIN}}Финансы</div>
       <div class="h" data-a style="--d:.1">Деньги здесь — <span class="hl">действия руками</span></div>
@@ -248,7 +265,7 @@ body:hover .nav{opacity:.9}
   <!-- 8 -->
   <section class="slide" data-notes="Первая мини-игра в телефоне — «Лис в чате». Сообщения падают сверху: мошеннические надо закрасить, своих — не трогать. Приёмы реальные: просит код, халява, странная ссылка, торопит, «маме не говори». Долетел мошенник вниз — Лис уносит пять монет из кассы. Итог меняет шкалу защищённости.">
     <div class="glow" style="left:1140px;top:100px"></div>
-    <div class="phone r"><div class="scr"><video src="media/clip-fox.mp4" poster="media/clip-fox.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="phone r"><div class="scr"><video poster="media/clip-fox.jpg" muted loop playsinline preload="metadata"><source src="media/clip-fox.mp4" type="video/mp4"><source src="media/clip-fox.webm" type="video/webm"></video></div><div class="notch"></div></div>
     <div class="col">
       <div class="chip pink" data-a="left">{{IC_PHONE}}Мини-игра «Лис в чате»</div>
       <div class="h" data-a style="--d:.1"><span class="hl">Закрась мошенника</span>, своих не трогай</div>
@@ -260,7 +277,7 @@ body:hover .nav{opacity:.9}
   <!-- 9 -->
   <section class="slide" data-notes="Вторая мини-игра — «Друзья в чате», это эмоции. По лицу и словам друга ребёнок понимает настроение и даёт подходящую наклейку: радуется — «Ура!», грустит — «Обнимаю», злится — «Я с тобой». Не ответил — друг остаётся грустным, итог меняет репутацию.">
     <div class="glow" style="left:1140px;top:100px"></div>
-    <div class="phone r"><div class="scr"><video src="media/clip-friends.mp4" poster="media/clip-friends.jpg" muted loop playsinline preload="metadata"></video></div><div class="notch"></div></div>
+    <div class="phone r"><div class="scr"><video poster="media/clip-friends.jpg" muted loop playsinline preload="metadata"><source src="media/clip-friends.mp4" type="video/mp4"><source src="media/clip-friends.webm" type="video/webm"></video></div><div class="notch"></div></div>
     <div class="col">
       <div class="chip cyan" data-a="left">{{IC_HEART}}Мини-игра «Друзья в чате»</div>
       <div class="h" data-a style="--d:.1">Пойми настроение по лицу — <span class="hl">и поддержи</span></div>
@@ -371,6 +388,7 @@ body:hover .nav{opacity:.9}
 <button class="nav" id="prev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="nav" id="next" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <div id="notes"></div>
+<div id="rotate">Поверните телефон горизонтально</div>
 <div class="hint" id="hint">← → слайды · N заметки · F полный экран · V ролик</div>
 
 <script>
