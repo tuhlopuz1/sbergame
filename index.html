@@ -120,7 +120,6 @@ svg{display:block;overflow:visible}
 .quote div{font-weight:700;font-size:15.5px;line-height:1.35}
 .quote .key{background:linear-gradient(transparent 12%,var(--m) 12%,var(--m) 92%,transparent 92%)}
 .mcard .btn+.btn{margin-top:10px}
-.mcard .deco{position:absolute;right:0;top:0;width:110px;height:110px;pointer-events:none}
 
 /* fx */
 #fx{position:fixed;inset:0;pointer-events:none;z-index:100;overflow:hidden}
@@ -727,6 +726,7 @@ function countUp(el) {
   const step = t => { const p = Math.min(1, (t - t0) / dur); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }
+const clearConfetti = () => fx.querySelectorAll('.conf').forEach(e => e.remove());
 function confetti() {
   if (RM) return;
   const cols = ['var(--m)', '#FF5CE6', '#2EC5FF', '#FFDD2E', '#A77BFF', '#111216'];
@@ -1139,14 +1139,14 @@ const TITLES = [
 /* ================= Пауза / модалка ================= */
 function modal(html, onClose) {
   const m = $('#modal'); if (!m) return;
-  $('#mcard').innerHTML = `<svg class="deco" viewBox="0 0 110 110">${DOODLE.starO('var(--m)', 76, 30, 1.3, .1)}${DOODLE.sparkle('#111216', 50, 64, .7, .2)}</svg>` + html;
+  $('#mcard').innerHTML = html;
   m.classList.add('show');
   const b = $('#mOk'); if (b) b.onclick = () => { Sound.tap(); m.classList.remove('show'); onClose && onClose(); };
 }
 const isModal = () => { const m = $('#modal'); return !!(m && m.classList.contains('show')); };
 function pauseMenu() {
   if (!D || D.over || !$('#modal') || isModal()) return;
-  D.paused = true; $('#stage').classList.add('paused');
+  D.paused = true; $('#stage').classList.add('paused'); clearConfetti();
   modal(`<div class="mh"><div class="mm" data-mood="idle">${klyaksik()}</div><h3>Пауза</h3></div>
     <button class="btn" id="mOk">Продолжить ${ic('play')}</button><button class="btn soft" id="mExit">Новый день ${ic('repeat')}</button>`, () => { D.paused = false; $('#stage').classList.remove('paused'); });
   $('#mExit').onclick = () => { Sound.tap(); loopId++; D = null; renderStart(); };
@@ -1329,7 +1329,7 @@ function buildQueue() {
   return q;
 }
 function startDay(prod) {
-  loopId++;
+  loopId++; clearConfetti();
   SESSION.days++;
   D = { prod, wallet: START_MONEY, stock: START_STOCK, rep: 5, shield: 5, sign: false, paused: false, over: false,
     q: buildQueue(), i: 0, moments: [], later: [], scammed: 0, sold: 0, missed: 0, mixOk: 0, mixBad: 0, chgOk: 0, chgBad: 0 };
