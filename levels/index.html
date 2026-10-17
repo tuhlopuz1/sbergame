@@ -1,0 +1,2342 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#F2F3F7">
+<meta name="color-scheme" content="light">
+<title>Кляксик против Лиса</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Стиль по мотивам дизайн-системы СберKids «1dali»:
+   белая «комната» + кислотные спреи, дудлы и блобы с глазками.
+   ============================================================ */
+:root{
+  --bg:#F2F3F7;--card:#fff;--ink:#111216;--ink2:#2B2D35;--muted:#8B8FA0;--line:#E6E8EF;--soft:#EEF0F5;
+  --lime:#C6F432;--green:#1FD16C;--cyan:#2EC5FF;--blue:#1A9BFF;--pink:#FF5CE6;--purple:#A77BFF;--yellow:#FFDD2E;--orange:#FF8A1F;--red:#FF3D6E;--fox:#FF7A1A;
+  --m:#C6F432;
+  --grad:linear-gradient(90deg,#27C4FF 0%,#35DE7B 55%,#C8F535 100%);
+  --shadow:0 10px 30px rgba(24,26,40,.08),0 2px 6px rgba(24,26,40,.05);
+  --font:"Onest","SB Sans Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --hand:"Caveat","Comic Sans MS",cursive;
+  --spring:cubic-bezier(.34,1.56,.64,1);--out:cubic-bezier(.23,1,.32,1);
+  --safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;overscroll-behavior:none;background:var(--bg)}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none}
+#app{height:100vh;height:100dvh;max-width:520px;margin:0 auto;position:relative;overflow:hidden;background:var(--bg)}
+@media (min-width:560px){html,body{background:#E4E6EE}}
+button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+svg{display:block;overflow:visible}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;animation:screenIn .5s var(--out) both}
+@keyframes screenIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+
+/* ---------- spray-фон ---------- */
+.blobs{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.blobs i{position:absolute;border-radius:50%;filter:blur(46px);opacity:.55;animation:blobDrift 12s ease-in-out infinite alternate}
+.blobs i:nth-child(1){width:260px;height:260px;background:var(--lime);top:-60px;right:-70px}
+.blobs i:nth-child(2){width:220px;height:220px;background:var(--pink);top:34%;left:-110px;animation-delay:-4s;opacity:.38}
+.blobs i:nth-child(3){width:240px;height:240px;background:var(--cyan);bottom:-90px;right:-40px;animation-delay:-8s;opacity:.42}
+@keyframes blobDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(24px,30px) scale(1.12)}}
+
+/* ---------- кнопки ---------- */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:58px;padding:14px 20px;border-radius:20px;
+  background:var(--grad);color:var(--ink);font-weight:800;font-size:18px;letter-spacing:-.01em;width:100%;
+  box-shadow:0 8px 22px rgba(46,197,255,.28),inset 0 -3px 0 rgba(0,0,0,.08);transition:transform .14s var(--out),filter .2s}
+.btn:active{transform:scale(.96)}
+.btn.dark{background:var(--ink);color:#fff;box-shadow:0 8px 20px rgba(17,18,22,.2)}
+.btn.soft{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+.ibtn{width:46px;height:46px;border-radius:15px;background:#fff;display:grid;place-items:center;box-shadow:var(--shadow);flex:none;transition:transform .14s var(--out);color:var(--ink)}
+.ibtn:active{transform:scale(.9)}
+.ibtn svg{width:22px;height:22px}
+.sound-btn .wv{opacity:0;transition:opacity .2s}
+.sound-btn.on .wv{opacity:1;animation:wv 1.2s ease-in-out infinite}
+.sound-btn.on .wv2{animation-delay:.2s}
+.sound-btn.on .mute{opacity:0}
+@keyframes wv{0%,100%{opacity:.35}50%{opacity:1}}
+@media (hover:hover) and (pointer:fine){.btn:hover{filter:brightness(1.05)}.ibtn:hover{transform:translateY(-1px)}}
+
+/* ---------- дудлы ---------- */
+.draw path,.draw circle,path.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:drawIn .9s var(--out) forwards;animation-delay:var(--d,0s)}
+@keyframes drawIn{to{stroke-dashoffset:0}}
+.wiggle{animation:wig 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes wig{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg) scale(1.06)}}
+.twinkle{animation:tw 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes tw{0%,100%{transform:scale(.4);opacity:.3}50%{transform:scale(1);opacity:1}}
+@keyframes pop{from{transform:scale(0) rotate(-20deg)}to{transform:none}}
+
+/* ---------- Кляксик ---------- */
+.klx .k-body{transform-box:fill-box;transform-origin:50% 100%;animation:kBob 2.2s ease-in-out infinite}
+@keyframes kBob{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-4px) scale(.98,1.03)}}
+.klx .k-eyes{transform-box:fill-box;transform-origin:center;animation:kBlink 4.2s infinite}
+@keyframes kBlink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.klx .mo{opacity:0;transition:opacity .15s}
+.klx .mo-smile{opacity:1}
+[data-mood=happy] .klx .mo-smile,[data-mood=oops] .klx .mo-smile,[data-mood=sad] .klx .mo-smile{opacity:0}
+[data-mood=happy] .klx .mo-happy{opacity:1}
+[data-mood=oops] .klx .mo-oops{opacity:1}
+[data-mood=sad] .klx .mo-sad{opacity:1}
+[data-mood=happy] .klx .k-body{animation:kJump .5s var(--out) 3}
+@keyframes kJump{0%,100%{transform:translateY(0) scale(1,1)}25%{transform:translateY(0) scale(1.1,.88)}60%{transform:translateY(-16px) scale(.94,1.08)}}
+[data-mood=oops] .klx .k-body{animation:kShake .4s linear 2}
+@keyframes kShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+[data-mood=sad] .klx .k-pupils{transform:translateY(5px)}
+.klx .k-drip{animation:kDrip 3.4s ease-in infinite;transform-box:fill-box;transform-origin:50% 0}
+@keyframes kDrip{0%,30%{transform:scaleY(0);opacity:1}75%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1) translateY(10px);opacity:0}}
+.spray-can{transform-box:fill-box;transform-origin:50% 100%;animation:canShake 1.4s ease-in-out infinite}
+@keyframes canShake{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(6deg)}}
+
+/* ---------- Лис ---------- */
+.fox .f-tail{transform-box:fill-box;transform-origin:0% 90%;animation:swish 1.5s ease-in-out infinite}
+@keyframes swish{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(10deg)}}
+.fox .f-lids{transition:transform .25s var(--out),opacity .2s}
+.fox.caught .f-lids{transform:translateY(-12px);opacity:0}
+.fox .f-mask{transform-box:fill-box;transform-origin:50% 50%}
+.fox.cracking .f-mask{animation:jit .1s linear infinite}
+@keyframes jit{0%,100%{transform:translate(0,0)}25%{transform:translate(2px,-1px)}75%{transform:translate(-2px,1px)}}
+.fox.unmasked .f-mask{animation:maskDrop .8s cubic-bezier(.55,0,.85,.4) forwards}
+@keyframes maskDrop{to{transform:translate(40px,260px) rotate(80deg);opacity:0}}
+.fox .f-leg{transform-box:fill-box;transform-origin:50% 0}
+.fox.running .l1{animation:leg .15s linear infinite}
+.fox.running .l2{animation:leg .15s linear infinite reverse}
+@keyframes leg{0%,100%{transform:rotate(-35deg)}50%{transform:rotate(35deg)}}
+.fox .f-bang{opacity:0;transform-box:fill-box;transform-origin:50% 100%}
+.fox.caught .f-bang{opacity:1;animation:pop .45s var(--spring) both}
+
+/* ---------- Intro ---------- */
+.intro{padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 16px)}
+.intro>*{position:relative;z-index:1}
+.row{display:flex;justify-content:space-between;align-items:center}
+.hero{flex:1;min-height:0;width:100%}
+.ttl{font-weight:900;font-size:clamp(34px,10vw,46px);line-height:.98;letter-spacing:-.03em;margin:4px 0 0;position:relative}
+.ttl .u{position:relative;display:inline-block;z-index:0}
+.ttl .u svg{position:absolute;left:-6%;bottom:-6px;width:112%;height:24px;z-index:-1}
+.lead{font-weight:600;font-size:16.5px;line-height:1.35;color:var(--ink2);margin:12px 0 14px;max-width:360px}
+.hand{font-family:var(--hand);font-weight:700;font-size:24px;line-height:1;color:var(--ink)}
+.pick{display:flex;align-items:center;gap:6px;background:#fff;border-radius:20px;padding:8px 10px 8px 14px;box-shadow:var(--shadow);margin-bottom:14px}
+.pick .hand{font-size:21px;flex:1}
+.sw{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;transition:transform .2s var(--spring),background .2s}
+.sw svg{width:40px;height:40px}
+.sw.on{background:var(--soft);transform:scale(1.12)}
+.sw:active{transform:scale(.9)}
+.best{text-align:center;font-weight:700;font-size:14px;color:var(--muted);margin-top:10px}
+
+/* ---------- HUD / поле ---------- */
+.game{padding-top:var(--safe-t)}
+.hud{display:flex;align-items:center;gap:10px;padding:10px 16px 6px;position:relative;z-index:8}
+.waves{flex:1;display:flex;gap:6px}
+.waves i{flex:1;height:8px;border-radius:9px;background:#DCDFE8;overflow:hidden;position:relative}
+.waves i.boss{flex:.6;background:#F3D9EF}
+.waves i b{position:absolute;inset:0;width:0;background:var(--green);border-radius:9px;transition:width .5s var(--out)}
+.waves i.boss b{background:var(--pink)}
+.score{min-width:64px;height:46px;border-radius:15px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;padding:0 12px;font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
+.score svg{width:18px;height:18px}
+.score.bump{animation:bump .4s var(--spring)}
+@keyframes bump{40%{transform:scale(1.18)}}
+
+.field{position:relative;flex:1;min-height:0;overflow:hidden;z-index:2}
+.field .dim{position:absolute;inset:0;background:rgba(17,18,22,.32);opacity:0;pointer-events:none;transition:opacity .3s;z-index:5}
+.field .dim.show{opacity:1}
+.combo{position:absolute;right:14px;top:6px;z-index:6;pointer-events:none;opacity:0;transform:scale(.4) rotate(-12deg);transition:opacity .2s,transform .35s var(--spring)}
+.combo.show{opacity:1;transform:rotate(-8deg)}
+.combo svg{width:100px;height:56px}
+
+.msg{position:absolute;left:0;top:0;width:min(330px,calc(100% - 24px));background:#fff;border-radius:22px;padding:11px 13px 12px;box-shadow:var(--shadow);cursor:pointer;will-change:transform;z-index:3;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.msg-in{transition:transform .14s var(--out)}
+.msg:active .msg-in{transform:scale(.97)}
+.msg-top{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.msg-av{width:38px;height:38px;flex:none}
+.msg-av svg{width:38px;height:38px}
+.msg-av.flip svg{animation:flip .55s var(--spring)}
+@keyframes flip{from{transform:rotateY(90deg) scale(.5)}to{transform:none}}
+.msg-meta{display:flex;flex-direction:column;min-width:0}
+.msg-meta b{font-weight:800;font-size:15px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-meta b s{color:var(--muted);text-decoration-thickness:2.5px;text-decoration-color:var(--red);margin-right:5px}
+.msg-meta b em{font-style:normal;color:var(--fox)}
+.msg-meta span{font-weight:600;font-size:12.5px;color:var(--muted)}
+.msg-meta span.warn{color:var(--orange)}
+.msg-text{font-weight:700;font-size:17px;line-height:1.32;color:var(--ink);position:relative;z-index:1}
+.msg .key{border-radius:6px;transition:background .25s}
+.msg.hit .key{background:linear-gradient(transparent 12%,var(--m) 12%,var(--m) 92%,transparent 92%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.msg .splat{position:absolute;width:150px;height:150px;left:50%;top:50%;margin:-75px 0 0 -75px;pointer-events:none;mix-blend-mode:multiply;z-index:2}
+.sp{transform-box:fill-box;transform-origin:center;animation:splat .32s var(--out) both}
+@keyframes splat{from{transform:scale(.1)}to{transform:scale(1)}}
+.drip{stroke-dasharray:1;stroke-dashoffset:1;animation:drawIn 1.2s ease-in .2s forwards}
+.tag{position:absolute;right:-6px;top:-14px;background:var(--ink);color:#fff;font-weight:800;font-size:13px;padding:6px 10px;border-radius:12px;transform:rotate(4deg);z-index:4;animation:tagIn .45s var(--spring) both;white-space:nowrap}
+@keyframes tagIn{from{transform:rotate(-14deg) scale(0)}to{transform:rotate(4deg) scale(1)}}
+.msg.gone{transition:transform .5s cubic-bezier(.55,0,.85,.4),opacity .5s;opacity:0}
+.msg.oops{animation:msgShake .4s}
+@keyframes msgShake{0%,100%{margin-left:0}25%{margin-left:-6px}75%{margin-left:6px}}
+.msg.spot{z-index:7;animation:spot 1.1s ease-in-out infinite}
+@keyframes spot{0%,100%{box-shadow:0 0 0 4px var(--m),0 0 0 9px rgba(255,255,255,.7),var(--shadow)}50%{box-shadow:0 0 0 7px var(--m),0 0 0 14px rgba(255,255,255,.5),var(--shadow)}}
+.msg.delivered{transition:transform .45s var(--out),opacity .45s;opacity:0}
+
+/* dock */
+.dock{position:relative;z-index:6;margin:0 12px calc(var(--safe-b) + 10px);background:#fff;border-radius:26px;box-shadow:0 -6px 24px rgba(24,26,40,.06),var(--shadow);display:flex;align-items:center;gap:8px;padding:8px 12px 8px 6px;min-height:76px}
+.dock-m{width:64px;height:64px;flex:none;margin-top:-26px}
+.dock-m svg{width:100%;height:100%}
+.dock-say{flex:1;font-weight:700;font-size:14px;line-height:1.25;min-width:0}
+.dock-say .in{display:block;animation:sayIn .3s var(--out) both}
+@keyframes sayIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.stat{display:flex;align-items:center;gap:4px;font-weight:800;font-size:17px;padding:6px 9px;border-radius:14px;background:var(--soft);font-variant-numeric:tabular-nums}
+.stat svg{width:22px;height:22px}
+.stat.pig svg{width:38px;height:30px}
+.stat.wob{animation:wob .5s}
+@keyframes wob{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+
+/* tip */
+.tip{position:absolute;left:12px;right:12px;bottom:calc(var(--safe-b) + 96px);z-index:9;background:#fff;border-radius:24px;padding:14px 14px 14px 10px;box-shadow:0 16px 40px rgba(17,18,22,.22);display:flex;gap:8px;align-items:flex-start;transform:translateY(30px) scale(.95);opacity:0;pointer-events:none;transition:transform .4s var(--spring),opacity .25s}
+.tip.show{transform:none;opacity:1;pointer-events:auto}
+.tip .tm{width:58px;height:58px;flex:none}
+.tip h4{font-weight:900;font-size:18px;line-height:1.15;margin:6px 0 3px}
+.tip p{font-weight:600;font-size:15px;line-height:1.35;color:var(--ink2)}
+.tip .btn{min-height:46px;font-size:16px;margin-top:10px;border-radius:15px}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--ink);color:#fff;font-weight:800;font-size:13.5px;padding:5px 10px;border-radius:11px}
+.chip.m{background:var(--m);color:var(--ink)}
+
+/* модалка */
+.modal{position:absolute;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;padding:12px 12px calc(var(--safe-b) + 12px);background:rgba(17,18,22,.38);opacity:0;pointer-events:none;transition:opacity .25s}
+.modal.show{opacity:1;pointer-events:auto}
+.mcard{width:100%;background:#fff;border-radius:30px;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.25);transform:translateY(40px);transition:transform .45s var(--spring);position:relative;max-height:92%;overflow-y:auto}
+.modal.show .mcard{transform:none}
+.mcard .mh{display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative;z-index:1}
+.mcard .mh .mm{width:70px;height:70px;flex:none}
+.mcard h3{font-weight:900;font-size:23px;line-height:1.1;letter-spacing:-.02em}
+.mcard p{font-weight:600;font-size:16px;line-height:1.4;color:var(--ink2);margin:10px 0 14px}
+.quote{background:var(--soft);border-radius:18px;padding:10px 12px;display:flex;gap:9px;align-items:flex-start}
+.quote svg{width:34px;height:34px;flex:none}
+.quote b{display:block;font-size:13.5px;font-weight:800;color:var(--muted)}
+.quote div{font-weight:700;font-size:15.5px;line-height:1.35}
+.quote .key{background:linear-gradient(transparent 12%,var(--m) 12%,var(--m) 92%,transparent 92%)}
+.mcard .btn+.btn{margin-top:10px}
+.mcard .deco{position:absolute;right:0;top:0;width:110px;height:110px;pointer-events:none}
+
+/* интро волны */
+.wave-in{position:absolute;inset:0;z-index:15;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:rgba(242,243,247,.95);opacity:0;pointer-events:none;transition:opacity .3s}
+.wave-in.show{opacity:1;pointer-events:auto}
+.wave-in .big{font-weight:900;font-size:60px;line-height:.95;letter-spacing:-.04em;position:relative;z-index:0}
+.wave-in .big svg{position:absolute;left:-8%;bottom:-12px;width:116%;height:30px;z-index:-1}
+.wave-in .hand{font-size:28px;margin:18px 0 12px}
+.wave-in .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px;max-width:340px}
+.wave-in .chips .chip{font-size:15px;padding:8px 12px;border-radius:14px;animation:pop .45s var(--spring) both;animation-delay:calc(.3s + var(--i)*.1s)}
+.wave-in .btn{max-width:320px}
+.wave-in .wk{width:120px;height:120px;margin-bottom:6px}
+.count{position:absolute;inset:0;z-index:16;display:grid;place-items:center;pointer-events:none}
+.count span{font-weight:900;font-size:130px;line-height:1;animation:cnt .7s var(--out) both;position:relative;z-index:0}
+.count svg{position:absolute;width:220px;height:220px;left:50%;top:50%;margin:-110px 0 0 -110px;z-index:-1}
+@keyframes cnt{0%{transform:scale(2.2);opacity:0}30%{transform:scale(1);opacity:1}80%{opacity:1}100%{transform:scale(.7);opacity:0}}
+
+/* ---------- Босс ---------- */
+.bossv{position:absolute;left:0;right:0;bottom:0;top:calc(var(--safe-t) + 62px);z-index:7;display:flex;flex-direction:column;padding:0 14px calc(var(--safe-b) + 12px);background:var(--bg);animation:screenIn .5s var(--out) both}
+.bossv .arena{position:relative;height:clamp(150px,27vh,220px);flex:none;display:flex;flex-direction:column;align-items:center}
+.bossv .bfox{height:calc(100% - 34px);aspect-ratio:160/170;transition:transform .9s cubic-bezier(.55,0,.75,.2)}
+.bossv .bfox.hit{animation:hit .35s}
+@keyframes hit{0%{transform:translateX(0);filter:brightness(1)}20%{transform:translateX(-10px) rotate(-6deg);filter:brightness(2.2)}50%{transform:translateX(8px) rotate(4deg)}100%{transform:none;filter:brightness(1)}}
+.bossv .bfox.gone{transform:translate(70vw,-50vh) rotate(540deg) scale(.2)}
+.bossv .bfox svg{width:100%;height:100%}
+.hp{display:flex;gap:5px;align-items:center;background:#fff;border-radius:14px;padding:6px 10px;box-shadow:var(--shadow);font-weight:800;font-size:13px}
+.hp i{width:30px;height:10px;border-radius:6px;background:var(--pink);transition:transform .3s var(--spring),background .3s}
+.hp i.off{background:var(--line);transform:scaleY(.6)}
+.bossv .bchat{position:relative;flex:1;min-height:0;background:#fff;border-radius:26px;box-shadow:var(--shadow);padding:12px 14px;overflow-y:auto;overscroll-behavior:contain;margin-top:8px}
+.bossv .bchat .msg-top{margin-bottom:10px}
+.bossv .btext{font-weight:700;font-size:18.5px;line-height:1.55}
+.ch{border-radius:7px;cursor:pointer;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background .25s,color .25s}
+.ch.lnk{color:var(--blue);text-decoration:underline;word-break:break-all}
+.bsplat{position:absolute;width:84px;height:84px;pointer-events:none;mix-blend-mode:multiply;opacity:.9;z-index:0}
+.btext{position:relative;z-index:1}
+.ch.hitc{background:linear-gradient(transparent 8%,var(--m) 8%,var(--m) 94%,transparent 94%)}
+.ch.miss{color:#B9BCC8}
+.ch.hint{animation:hintG 1s ease-in-out infinite}
+@keyframes hintG{0%,100%{background:rgba(255,221,46,.35)}50%{background:rgba(255,221,46,.9)}}
+.bossv .bbar{display:flex;gap:10px;align-items:center;margin-top:10px}
+.bossv .bbar .bm{width:58px;height:58px;flex:none}
+.bossv .bbar .dock-say{background:#fff;border-radius:18px;padding:9px 12px;box-shadow:var(--shadow);min-height:52px;display:flex;align-items:center}
+.bossv .bbar .ibtn svg{width:26px;height:26px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border-radius:20px;background:var(--soft);font-weight:700;font-size:16px;line-height:1.3;transition:transform .12s var(--out),opacity .2s;animation:pop .4s var(--spring) both;animation-delay:calc(var(--i)*.07s)}
+.opt:active{transform:scale(.97)}
+.opt .oi{width:42px;height:42px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:24px;background:#fff}
+.opt.no{opacity:.4;text-decoration:line-through;pointer-events:none}
+.victory{position:absolute;inset:0;z-index:30;display:grid;place-items:center;pointer-events:none}
+.victory .vt{font-weight:900;font-size:58px;letter-spacing:-.04em;transform:rotate(-6deg);animation:vIn .6s var(--spring) both;position:relative;z-index:0}
+.victory svg{position:absolute;left:-12%;top:-30%;width:124%;height:160%;z-index:-1}
+@keyframes vIn{from{transform:rotate(-30deg) scale(0)}to{transform:rotate(-6deg) scale(1)}}
+
+/* fx */
+#fx{position:fixed;inset:0;pointer-events:none;z-index:100;overflow:hidden}
+.pts{position:absolute;font-weight:900;font-size:22px;color:var(--ink);text-shadow:2px 2px 0 #fff,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff;animation:ptsUp .9s var(--out) forwards;white-space:nowrap}
+@keyframes ptsUp{0%{opacity:0;transform:translate(-50%,0) scale(.5)}25%{opacity:1;transform:translate(-50%,-14px) scale(1.2)}100%{opacity:0;transform:translate(-50%,-60px)}}
+.runner{position:absolute;width:56px;height:56px;transition:transform 1s cubic-bezier(.5,0,.8,.3)}
+.runner svg{width:100%;height:100%}
+.runner .rc{position:absolute;right:-8px;top:-8px;width:26px;height:26px}
+.flycoin{position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;transition:transform .55s cubic-bezier(.3,.7,.4,1)}
+.flycoin svg{width:28px;height:28px;animation:coinSpin .5s linear infinite}
+@keyframes coinSpin{50%{transform:scaleX(.15)}}
+.heart{position:absolute;width:28px;height:28px;animation:heartUp 1.2s var(--out) forwards}
+.heart svg{width:28px;height:28px}
+@keyframes heartUp{0%{opacity:0;transform:scale(.3)}25%{opacity:1;transform:translateY(-18px) scale(1.15)}100%{opacity:0;transform:translateY(-70px) scale(.8)}}
+.conf{position:absolute;top:-30px;width:26px;height:26px;animation:fall var(--d) cubic-bezier(.25,.6,.45,1) forwards;animation-delay:var(--dl)}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(var(--r))}}
+
+/* ---------- Результат ---------- */
+.result{overflow-y:auto;overscroll-behavior:contain;padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 20px)}
+.result>*{position:relative;z-index:1}
+.r-hero{position:relative;height:200px;margin:4px 0}
+.r-hero>svg{width:100%;height:100%}
+.r-ttl{font-weight:900;font-size:38px;line-height:1;letter-spacing:-.03em}
+.r-sub{font-weight:600;color:var(--ink2);margin:10px 0 16px;line-height:1.35;font-size:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.sc{background:#fff;border-radius:22px;padding:14px;box-shadow:var(--shadow);position:relative;overflow:hidden;animation:pop .5s var(--spring) both;animation-delay:calc(.5s + var(--i)*.08s)}
+.sc .v{font-weight:900;font-size:30px;letter-spacing:-.02em;display:flex;align-items:center;gap:6px;position:relative;z-index:1}
+.sc .v small{font-size:18px;color:var(--muted);font-weight:800}
+.sc .v svg{width:30px;height:30px}
+.sc .l{font-weight:600;font-size:13.5px;color:var(--muted);margin-top:2px;position:relative;z-index:1}
+.sc .bl{position:absolute;right:-18px;bottom:-18px;width:64px;height:64px;border-radius:50%;opacity:.5;filter:blur(2px)}
+.h2{font-weight:900;font-size:22px;letter-spacing:-.02em;margin:0 0 10px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
+.tc{background:#fff;border-radius:20px;padding:14px 6px 10px;text-align:center;box-shadow:var(--shadow);position:relative;animation:pop .45s var(--spring) both;animation-delay:calc(.8s + var(--i)*.05s)}
+.tc .ci{font-size:30px;line-height:1}
+.tc .ct{font-weight:800;font-size:12.5px;line-height:1.15;margin-top:5px}
+.tc .st{position:absolute;top:-8px;right:-4px;font-size:11px;font-weight:800;padding:3px 7px;border-radius:9px;background:var(--m);color:var(--ink);transform:rotate(6deg)}
+.tc.miss .st{background:var(--yellow)}
+.tc.none{opacity:.45}
+.tc.none .st{background:var(--line)}
+.rules{background:var(--ink);color:#fff;border-radius:26px;padding:16px;margin-bottom:20px;display:flex;flex-direction:column;gap:12px}
+.rule{display:flex;gap:12px;align-items:center;font-weight:700;font-size:15.5px;line-height:1.3}
+.rule .rn{width:36px;height:36px;flex:none;border-radius:12px;display:grid;place-items:center;color:var(--ink);font-weight:900;background:var(--c)}
+.btns{display:flex;flex-direction:column;gap:10px}
+
+/* ---------- Карта уровней ---------- */
+.hub{overflow-y:auto;overscroll-behavior:contain;padding:calc(var(--safe-t) + 12px) 16px calc(var(--safe-b) + 24px)}
+.hub>*{position:relative;z-index:1}
+.hub-hero{height:168px;margin:0 0 2px;flex:none}
+.hub-hero svg{width:100%;height:100%}
+.hub .ttl{font-size:clamp(34px,10vw,44px)}
+.hub .lead{margin:10px 0 12px}
+.starpill{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#fff;font-weight:800;font-size:16px;padding:8px 14px;border-radius:14px;font-variant-numeric:tabular-nums}
+.starpill svg{width:20px;height:20px}
+.dom{margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.dom .de{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:var(--c);flex:none}
+.dom h2{font-weight:900;font-size:21px;letter-spacing:-.02em;line-height:1.1}
+.dom span{font-weight:600;font-size:13px;color:var(--muted);display:block;margin-top:2px}
+.lvls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lvl{background:#fff;border-radius:24px;padding:12px;box-shadow:var(--shadow);text-align:left;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;animation:pop .45s var(--spring) both;animation-delay:calc(var(--i)*.05s);transition:transform .14s var(--out)}
+.lvl:active{transform:scale(.96)}
+.lvl .la{width:62px;height:62px;display:grid;place-items:center;font-size:34px;position:relative}
+.lvl .la svg{position:absolute;inset:0;width:100%;height:100%}
+.lvl .la b{position:relative;font-weight:400}
+.lvl .lt{font-weight:900;font-size:16px;line-height:1.12}
+.lvl .ld{font-weight:600;font-size:12.5px;line-height:1.25;color:var(--muted)}
+.lvl .ls{display:flex;gap:2px;margin-top:auto;padding-top:4px}
+.lvl .ls svg{width:20px;height:20px}
+.lvl .new{position:absolute;right:10px;top:10px;background:var(--m);font-weight:900;font-size:11px;padding:4px 8px;border-radius:9px;transform:rotate(6deg)}
+.ls svg path,.stars3 svg path{fill:var(--m);stroke:#111216;stroke-width:1.4;stroke-linejoin:round}
+.ls svg.off path,.stars3 svg.off path{fill:#E3E5EC;stroke:#C9CCD8}
+.stars3{display:flex;gap:8px;justify-content:center;margin:0 0 10px}
+.stars3 svg{width:54px;height:54px;animation:pop .5s var(--spring) both;animation-delay:calc(.35s + var(--i)*.18s)}
+.stars3 svg:nth-child(2){transform:translateY(-10px);animation-name:pop2}
+@keyframes pop2{from{transform:translateY(-10px) scale(0) rotate(-20deg)}to{transform:translateY(-10px)}}
+.row2{display:flex;gap:10px}
+.newrec{text-align:center;font-family:var(--hand);font-size:24px;margin:-8px 0 12px}
+
+/* ---------- общий HUD режимов ---------- */
+.hud-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.hud-t{font-weight:800;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ibtn.q{font-weight:900;font-size:21px}
+.how{display:flex;flex-direction:column;gap:10px;margin:8px 0 16px}
+.how .rule .rn{background:var(--soft);font-size:20px}
+.choice{display:flex;gap:10px;padding:8px 14px 10px;position:relative;z-index:3}
+.choice .btn{flex:1;min-height:54px}
+.btn.no{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+.minichip{display:inline-flex;align-items:center;gap:4px;background:#fff;box-shadow:var(--shadow);font-weight:800;font-size:13px;padding:5px 10px;border-radius:11px;animation:pop .35s var(--spring) both}
+.lessons{background:var(--ink);color:#fff;border-radius:26px;padding:16px;margin-bottom:20px;display:flex;flex-direction:column;gap:12px}
+.lessons .rule .rn{font-size:19px}
+.mlist{display:flex;flex-direction:column;gap:8px;margin:10px 0 14px}
+.mlist div{background:var(--soft);border-radius:16px;padding:9px 12px;font-weight:700;font-size:15px;line-height:1.35}
+.mlist div b{font-weight:900}
+
+/* ---------- Копилка мечты ---------- */
+.pg-top{margin:4px 14px 0;background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:10px 12px;display:flex;align-items:center;gap:10px;position:relative;z-index:3}
+.pg-dream{width:52px;height:52px;border-radius:16px;background:var(--soft);display:grid;place-items:center;font-size:30px;flex:none}
+.pg-info{flex:1;min-width:0}
+.pg-info b{font-weight:900;font-size:15px}
+.pbar{height:12px;border-radius:9px;background:var(--soft);overflow:hidden;margin-top:6px;position:relative}
+.pbar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--grad);border-radius:9px;transition:width .5s var(--out)}
+.pg-nums{display:flex;justify-content:space-between;font-weight:700;font-size:12.5px;color:var(--muted);margin-top:4px}
+.wallet{display:flex;align-items:center;gap:4px;font-weight:900;font-size:20px;background:var(--soft);padding:6px 10px;border-radius:14px;font-variant-numeric:tabular-nums;flex:none}
+.wallet svg{width:24px;height:24px}
+.wallet.wob{animation:wob .5s}
+.pg-chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 14px 0;min-height:28px;position:relative;z-index:3}
+.deck{flex:1;min-height:0;position:relative;z-index:2}
+.card{position:absolute;left:50%;top:50%;width:min(300px,80%);height:min(330px,94%);margin:0;translate:-50% -50%;background:#fff;border-radius:30px;box-shadow:0 18px 40px rgba(24,26,40,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;will-change:transform;animation:cardIn .4s var(--spring) both}
+@keyframes cardIn{from{scale:.85;opacity:0}to{scale:1;opacity:1}}
+.card.back{transform:scale(.92) translateY(20px);opacity:.55;pointer-events:none;animation:none}
+.card .ce{font-size:80px;line-height:1}
+.card h3{font-weight:900;font-size:22px;line-height:1.12;margin-top:12px;letter-spacing:-.02em}
+.card p{font-weight:600;font-size:15px;line-height:1.35;color:var(--ink2);margin-top:6px}
+.card .price{margin-top:12px;font-weight:900;font-size:24px;display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:16px;background:#FFE9EE;color:#C2184B}
+.card .price.plus{background:#DDF8E8;color:#0E8A45}
+.card .price svg{width:26px;height:26px}
+.card .stamp{position:absolute;top:20px;font-weight:900;font-size:22px;padding:4px 12px;border:4px solid;border-radius:14px;opacity:0;pointer-events:none}
+.card .stamp.yes{left:16px;color:var(--green);transform:rotate(-14deg)}
+.card .stamp.no{right:16px;color:var(--red);transform:rotate(14deg)}
+.card.fly{transition:transform .4s var(--out),opacity .4s}
+.card.shake{animation:cardShake .4s}
+@keyframes cardShake{0%,100%{margin-left:0}25%{margin-left:-10px}75%{margin-left:10px}}
+.flyc{position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;transition:transform .6s cubic-bezier(.3,.7,.4,1),opacity .6s}
+.flyc svg{width:28px;height:28px;animation:coinSpin .5s linear infinite}
+
+/* ---------- Хватит ли денег ---------- */
+.ct-top{display:flex;gap:10px;margin:4px 14px 0;position:relative;z-index:3}
+.slist{flex:1;min-width:0;background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:9px 12px}
+.slist .hand{font-size:20px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slist ul{list-style:none;display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.slist li{display:flex;align-items:center;gap:3px;font-weight:800;font-size:13.5px;padding:4px 8px;border-radius:10px;background:var(--soft);transition:background .2s}
+.slist li.ok{background:#DDF8E8;color:#0E8A45}
+.slist.oops{animation:cardShake .4s}
+.budget{width:104px;flex:none;background:var(--ink);color:#fff;border-radius:22px;padding:9px 12px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.budget small{font-weight:700;font-size:11.5px;opacity:.7}
+.budget b{font-weight:900;font-size:21px;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:4px}
+.budget b svg{width:20px;height:20px}
+.budget .left.over{color:#FF8FAB}
+.belt{flex:1;min-height:0;position:relative;overflow:hidden;z-index:2}
+.belt .track{position:absolute;left:0;right:0;top:50%;height:120px;margin-top:-30px;background:repeating-linear-gradient(90deg,#2B2D35 0 22px,#3A3D4A 22px 44px);border-radius:18px;box-shadow:inset 0 6px 0 rgba(255,255,255,.08),inset 0 -6px 0 rgba(0,0,0,.25)}
+.belt .track.run{animation:beltRun 1s linear infinite}
+@keyframes beltRun{to{background-position:-44px 0}}
+.prod{position:absolute;left:0;top:50%;margin-top:-66px;width:96px;height:124px;background:#fff;border-radius:20px;box-shadow:0 8px 18px rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;touch-action:manipulation;will-change:transform;user-select:none;-webkit-user-select:none}
+.prod .pe{font-size:42px;line-height:1}
+.prod .pn{font-weight:800;font-size:12.5px;line-height:1.1;text-align:center;padding:0 4px}
+.prod .pp{font-weight:900;font-size:16px;display:flex;align-items:center;gap:3px}
+.prod .pp svg{width:16px;height:16px}
+.prod .fancy{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-4deg);background:var(--pink);color:#fff;font-weight:800;font-size:10.5px;padding:3px 7px;border-radius:8px;white-space:nowrap}
+.cartbar{margin:0 12px 8px;background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:8px 10px;display:flex;align-items:center;gap:8px;min-height:62px;position:relative;z-index:3}
+.cartbar .cic{font-size:28px;flex:none}
+.incart{flex:1;display:flex;gap:6px;overflow-x:auto;min-width:0;scrollbar-width:none}
+.incart::-webkit-scrollbar{display:none}
+.incart button{flex:none;display:flex;flex-direction:column;align-items:center;background:var(--soft);border-radius:14px;padding:4px 8px;font-size:22px;line-height:1;animation:pop .35s var(--spring)}
+.incart button small{font-size:11px;font-weight:800;margin-top:2px}
+.incart button.warn{background:#FFE3EA;box-shadow:0 0 0 2px var(--red)}
+.incart .empty{font-weight:700;font-size:13px;color:var(--muted)}
+.dock .btn.pay{width:auto;min-height:50px;padding:10px 16px;font-size:16px;border-radius:16px;flex:none}
+
+/* ---------- Ловец эмоций ---------- */
+.emo-top{margin:4px 14px 0;background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:10px 12px;display:flex;gap:12px;align-items:center;position:relative;z-index:4;min-height:86px}
+.emo-av{width:60px;height:60px;flex:none;position:relative}
+.emo-av>svg{width:100%;height:100%}
+.emo-av .face{position:absolute;right:-8px;bottom:-6px;width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:21px;font-weight:900;box-shadow:var(--shadow)}
+.emo-av .face.pop{animation:pop .45s var(--spring)}
+.emo-txt{min-width:0}
+.emo-txt b{display:block;font-weight:800;font-size:13px;color:var(--muted)}
+.emo-txt div{font-weight:800;font-size:16.5px;line-height:1.25}
+.emo-q{font-family:var(--hand);font-size:23px;text-align:center;margin:6px 12px 0;position:relative;z-index:3;line-height:1.05}
+.efield{position:relative;flex:1;min-height:0;overflow:hidden;z-index:2;touch-action:none}
+.drop{position:absolute;left:0;top:0;will-change:transform;pointer-events:none}
+.drop.e{width:86px;height:86px;margin-left:-43px}
+.drop.e svg{position:absolute;inset:0;width:100%;height:100%}
+.drop.e .dfe{position:absolute;inset:0;display:grid;place-items:center;font-size:36px;padding-bottom:10px}
+.drop.e .dl{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);background:var(--ink);color:#fff;font-weight:800;font-size:12px;padding:3px 8px;border-radius:9px;white-space:nowrap}
+.drop.p{width:170px;margin-left:-85px;background:#fff;border-radius:18px;padding:9px 12px;font-weight:800;font-size:14.5px;line-height:1.25;box-shadow:var(--shadow);text-align:center}
+.drop.p::before{content:"💬";position:absolute;left:-8px;top:-10px;font-size:18px}
+.drop.glow{filter:drop-shadow(0 0 10px var(--yellow)) drop-shadow(0 0 4px var(--yellow))}
+.drop.got{transition:opacity .3s,scale .3s;opacity:0;scale:.4}
+.drop.bad{transition:opacity .4s,translate .4s;opacity:0;translate:0 40px}
+.catcher{position:absolute;left:0;bottom:0;width:104px;height:104px;margin-left:-52px;will-change:transform;pointer-events:none;z-index:4}
+.catcher .klx{width:100%;height:100%}
+.catcher .net{position:absolute;left:-6px;right:-6px;top:6px;height:30px}
+.drag-hint{position:absolute;left:50%;bottom:108px;transform:translateX(-50%);font-family:var(--hand);font-size:22px;white-space:nowrap;pointer-events:none;z-index:4;animation:hintB 1.4s ease-in-out infinite}
+@keyframes hintB{0%,100%{translate:-14px 0}50%{translate:14px 0}}
+
+/* ---------- Успей вовремя ---------- */
+.tm-top{margin:4px 14px 0;background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:12px;position:relative;z-index:3}
+.tm-h{display:flex;align-items:center;gap:10px}
+.tm-h .te{font-size:34px;flex:none}
+.tm-h b{font-weight:900;font-size:18px;line-height:1.1;display:block}
+.tm-h span{display:block;font-weight:600;font-size:13.5px;color:var(--ink2);margin-top:2px;line-height:1.3}
+.tl{margin-top:10px;height:44px;border-radius:14px;background:var(--soft);position:relative;overflow:hidden}
+.tl .seg{position:absolute;top:0;bottom:0;display:grid;place-items:center;font-size:19px;border-right:2px solid #fff;background:var(--c);transition:left .3s var(--out),width .3s var(--out);overflow:hidden}
+.tl .lim{position:absolute;top:0;bottom:0;width:4px;margin-left:-2px;background:var(--red);z-index:2;transition:left .3s var(--out)}
+.tl .lim::after{content:"🚌";position:absolute;top:50%;right:6px;transform:translateY(-50%);font-size:16px}
+.tl.over .seg.out{background:repeating-linear-gradient(45deg,#FFB3C4 0 6px,#FFD6DF 6px 12px)}
+.tl-n{display:flex;justify-content:space-between;font-weight:800;font-size:13px;margin-top:6px;color:var(--ink2)}
+.tl-n .over{color:var(--red)}
+.tasks{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:12px 14px;align-content:start;position:relative;z-index:2}
+.task{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:10px;display:flex;align-items:center;gap:8px;text-align:left;transition:transform .14s var(--out),background .2s,color .2s;animation:pop .4s var(--spring) both;animation-delay:calc(var(--i)*.04s);min-height:62px}
+.task:active{transform:scale(.95)}
+.task .te{font-size:27px;flex:none}
+.task b{font-weight:800;font-size:13.5px;line-height:1.15;display:block}
+.task small{font-weight:800;font-size:12.5px;color:var(--muted)}
+.task.on{background:var(--ink);color:#fff}
+.task.on small{color:var(--m)}
+.sim{display:flex;flex-direction:column;align-items:center;gap:6px}
+.sim .clock{width:150px;height:150px}
+.sim .now{font-weight:900;font-size:26px;min-height:34px}
+.sim .mins{font-weight:800;font-size:16px;color:var(--muted)}
+
+/* ---------- Фонарик ---------- */
+.room{flex:1;min-height:0;position:relative;margin:4px 12px 0;border-radius:26px;overflow:hidden;touch-action:none;z-index:2;box-shadow:var(--shadow)}
+.room .rbg{position:absolute;inset:0;width:100%;height:100%}
+.room .obj{position:absolute;width:70px;height:74px;margin:-37px 0 0 -35px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border-radius:22px;transition:background .2s}
+.room .obj .oe{font-size:40px;line-height:1}
+.room .obj .on{font-weight:800;font-size:11px;line-height:1.05;margin-top:3px;background:rgba(255,255,255,.85);padding:2px 6px;border-radius:7px;white-space:nowrap}
+.room .obj .ring{position:absolute;inset:-10px;opacity:0}
+.room .obj.found .ring{opacity:1}
+.room .obj.found{background:rgba(255,61,110,.12)}
+.room .obj.nope{animation:cardShake .4s}
+.room .obj.hint{animation:hintPulse .8s ease-in-out 3}
+@keyframes hintPulse{50%{background:rgba(255,221,46,.6);transform:scale(1.12)}}
+.dark{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--x,50%) var(--y,50%),transparent 0,transparent 66px,rgba(12,14,24,.95) 118px);transition:opacity .8s;z-index:3}
+.dark.off{opacity:0}
+.found-strip{display:flex;gap:6px;margin:8px 14px 8px;justify-content:center;position:relative;z-index:3}
+.found-strip span{width:42px;height:42px;border-radius:14px;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;font-size:23px;animation:pop .4s var(--spring)}
+.found-strip span.empty{background:transparent;box-shadow:none;border:2.5px dashed #C9CCD8;animation:none}
+
+@media (max-height:660px){
+  .msg-text{font-size:15.5px}
+  .bossv .btext{font-size:16.5px}
+  .lead{font-size:15px;margin:8px 0 10px}
+}
+@media (prefers-reduced-motion:reduce){
+  .blobs i,.klx .k-body,.twinkle,.wiggle,.spray-can,.fox .f-tail{animation:none!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="spray" x="-40%" y="-40%" width="180%" height="180%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="rough" x="-10%" y="-30%" width="120%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/>
+    </filter>
+  </defs>
+</svg>
+<div id="app"></div>
+<div id="fx" aria-hidden="true"></div>
+<script>
+(() => {
+'use strict';
+
+/* =========================================================
+   Мост «страница → приложение»: пять событий контракта.
+   Имена — в одном месте, сверить со страницей «Ограничения».
+   ========================================================= */
+const EVENTS = { close: 'close', finish: 'finish', vibrate: 'vibrate', share: 'share', complete: 'complete' };
+const Bridge = {
+  native() { return !!(window.ReactNativeWebView || (window.webkit && window.webkit.messageHandlers) || window.AndroidBridge || window.parent !== window); },
+  send(type, payload = {}) {
+    const msg = { type: EVENTS[type] || type, payload }, json = JSON.stringify(msg);
+    try { window.ReactNativeWebView && window.ReactNativeWebView.postMessage(json); } catch (e) {}
+    try { const h = window.webkit && window.webkit.messageHandlers; h && (h.app || h.bridge) && (h.app || h.bridge).postMessage(msg); } catch (e) {}
+    try { window.AndroidBridge && window.AndroidBridge.postMessage && window.AndroidBridge.postMessage(json); } catch (e) {}
+    try { window.parent !== window && window.parent.postMessage(msg, '*'); } catch (e) {}
+    if (location.protocol === 'file:' || location.hostname === 'localhost') console.log('[bridge]', JSON.stringify(msg));
+  }
+};
+const vibrate = (kind = 'light') => {
+  Bridge.send('vibrate', { style: kind });
+  if (!Bridge.native() && navigator.vibrate) { try { navigator.vibrate(kind === 'error' ? [40, 60, 40] : kind === 'success' ? [20, 40, 60] : 15); } catch (e) {} }
+};
+
+/* ================= Звук (выключен по умолчанию) ================= */
+const Sound = {
+  on: false, ctx: null, noise: null,
+  toggle() {
+    this.on = !this.on;
+    if (this.on && !this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) { this.ctx = new AC(); const len = this.ctx.sampleRate * .4 | 0; this.noise = this.ctx.createBuffer(1, len, this.ctx.sampleRate); const d = this.noise.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1; }
+    }
+    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+    document.querySelectorAll('.sound-btn').forEach(b => { b.classList.toggle('on', this.on); b.setAttribute('aria-pressed', this.on); });
+    if (this.on) this.good();
+  },
+  tone(f, d, type = 'sine', v = .13, when = 0, f2) {
+    if (!this.on || !this.ctx) return;
+    const t = this.ctx.currentTime + when, o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + d);
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(v, t + .015); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+    o.connect(g); g.connect(this.ctx.destination); o.start(t); o.stop(t + d + .05);
+  },
+  spray() {
+    if (!this.on || !this.ctx) return;
+    const s = this.ctx.createBufferSource(), f = this.ctx.createBiquadFilter(), g = this.ctx.createGain(), t = this.ctx.currentTime;
+    s.buffer = this.noise; f.type = 'bandpass'; f.frequency.value = 3800; f.Q.value = .7;
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.35, t + .03); g.gain.exponentialRampToValueAtTime(.0001, t + .32);
+    s.connect(f); f.connect(g); g.connect(this.ctx.destination); s.start(t); s.stop(t + .4);
+    this.tone(880, .12, 'triangle', .08, .05, 1320);
+  },
+  tap() { this.tone(600, .06, 'triangle', .07); },
+  good() { [523, 659, 784, 1046].forEach((f, i) => this.tone(f, .18, 'triangle', .11, i * .07)); },
+  bad() { this.tone(330, .18, 'sine', .12, 0, 260); this.tone(250, .3, 'sine', .1, .14, 200); },
+  deliver() { this.tone(988, .1, 'sine', .07); this.tone(1318, .14, 'sine', .07, .07); },
+  steal() { this.tone(700, .35, 'square', .04, 0, 200); },
+  hit() { this.tone(160, .2, 'square', .08, 0, 80); this.spray(); },
+  win() { [523, 659, 784, 1046, 784, 1046, 1318].forEach((f, i) => this.tone(f, .22, 'triangle', .11, i * .1)); }
+};
+
+/* ================= Утилиты ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const app = $('#app'), fx = $('#fx');
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const rnd = (a, b) => a + Math.random() * (b - a);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.random() * a.length | 0];
+/* localStorage + память: если хранилище недоступно, всё работает в рамках одного захода */
+const mem = {};
+const store = {
+  get(k) { if (k in mem) return mem[k]; try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+  set(k, v) { mem[k] = v; try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+/* обучающие плашки показываются один раз — даже между заходами */
+const SEEN = new Set(store.get('klx_seen') || []);
+const seen = k => SEEN.has(k);
+const markSeen = k => { SEEN.add(k); store.set('klx_seen', [...SEEN]); };
+/* недавно показанные карточки уходят в конец очереди, чтобы контент не повторялся */
+const Recent = {
+  order(key, arr) { const r = new Set(store.get('klx_r_' + key) || []), s = shuffle(arr); return [...s.filter(x => !r.has(x.id)), ...s.filter(x => r.has(x.id))]; },
+  mark(key, items, pool) { const ids = [...new Set([...items.map(x => x.id), ...(store.get('klx_r_' + key) || [])])].slice(0, Math.floor(pool.length * .7)); store.set('klx_r_' + key, ids); }
+};
+const withIds = (key, arr) => { arr.forEach((x, i) => { x.id = key + i; }); return arr; };
+/* звёзды по уровням */
+const PROG = {
+  all() { return store.get('klx_prog') || {}; },
+  get(id) { return this.all()[id] || 0; },
+  set(id, n) { const p = this.all(); if ((p[id] || 0) < n) { p[id] = n; store.set('klx_prog', p); } },
+  total() { return Object.values(this.all()).reduce((a, b) => a + b, 0); }
+};
+function seeded(s) { return () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+/* гладкая замкнутая клякса: Catmull-Rom → кубические Безье (одинаковая структура → можно морфить) */
+function blobPath(cx, cy, r, n, jit, seed, alt = 0) {
+  const R = seeded(seed), p = [];
+  for (let i = 0; i < n; i++) {
+    const a = i / n * Math.PI * 2 - Math.PI / 2;
+    const rr = r * (1 - jit + R() * jit * 2) * (alt && i % 2 ? 1 - alt : 1);
+    p.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
+  }
+  const f = v => v.toFixed(1);
+  let d = `M${f(p[0][0])} ${f(p[0][1])}`;
+  for (let i = 0; i < n; i++) {
+    const p0 = p[(i - 1 + n) % n], p1 = p[i], p2 = p[(i + 1) % n], p3 = p[(i + 2) % n];
+    d += `C${f(p1[0] + (p2[0] - p0[0]) / 6)} ${f(p1[1] + (p2[1] - p0[1]) / 6)} ${f(p2[0] - (p3[0] - p1[0]) / 6)} ${f(p2[1] - (p3[1] - p1[1]) / 6)} ${f(p2[0])} ${f(p2[1])}`;
+  }
+  return d + 'Z';
+}
+
+/* ================= SVG: иконки и дудлы ================= */
+const ICON = {
+  x: `<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+  pause: `<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="2" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="2" fill="currentColor"/></svg>`,
+  sound: `<svg viewBox="0 0 24 24" fill="none"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    <path class="wv" d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path class="wv wv2" d="M18 6.8a7.5 7.5 0 0 1 0 10.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+    <path class="mute" d="M16 10l4 4M20 10l-4 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  bulb: `<svg viewBox="0 0 32 32"><g class="twinkle" stroke="#FFC400" stroke-width="2.4" stroke-linecap="round"><path d="M16 1.5v3M4.5 6l2 2M27.5 6l-2 2"/></g>
+    <path d="M16 7a8 8 0 0 0-4.6 14.5c.8.6 1.1 1.4 1.1 2.3V25h7v-1.2c0-.9.4-1.7 1.1-2.3A8 8 0 0 0 16 7z" fill="#FFDD2E"/><rect x="12.5" y="26" width="7" height="3.6" rx="1.6" fill="#111216"/></svg>`,
+  star: `<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z" style="fill:var(--m)"/></svg>`,
+  coin: `<svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="12" fill="#FFDD2E"/><circle cx="14" cy="14" r="8.5" fill="none" stroke="#F0B400" stroke-width="2"/><path d="M14 9.5l1.4 3 3.2.3-2.4 2.1.7 3.2-2.9-1.7-2.9 1.7.7-3.2-2.4-2.1 3.2-.3z" fill="#F0B400"/></svg>`,
+  heart: c => `<svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z" fill="${c}"/><circle cx="9.5" cy="11" r="1.6" fill="#111"/><circle cx="14.5" cy="11" r="1.6" fill="#111"/></svg>`,
+  inbox: `<svg viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z" fill="#1FD16C"/></svg>`
+};
+/* маркерные дудлы: pathLength=1 → «рисуются» через .draw */
+const DOODLE = {
+  under: c => `<svg viewBox="0 0 200 24" preserveAspectRatio="none" class="draw"><path pathLength="1" d="M4 15C40 5 80 20 120 10s60 2 76 3" style="stroke:${c}" stroke-width="12" fill="none" stroke-linecap="round" filter="url(#rough)"/></svg>`,
+  scribble: c => `<svg viewBox="0 0 200 120" preserveAspectRatio="none" class="draw"><path pathLength="1" d="M30 70C10 30 90 8 150 18s50 50 10 76-150 18-140-20 90-50 150-30" style="stroke:${c}" stroke-width="7" fill="none" stroke-linecap="round" filter="url(#rough)"/></svg>`,
+  starO: (c, x, y, s = 1, d = 0) => `<g transform="translate(${x} ${y}) scale(${s})" class="draw" style="--d:${d}s"><path pathLength="1" d="M0-14l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" style="stroke:${c}" stroke-width="2.6" fill="none" stroke-linejoin="round"/></g>`,
+  zig: (c, x, y, s = 1, d = 0) => `<g transform="translate(${x} ${y}) scale(${s})" class="draw" style="--d:${d}s"><path pathLength="1" d="M0 0l8-10 6 12 8-12 6 12 8-10" style="stroke:${c}" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+  spiral: (c, x, y, s = 1, d = 0) => `<g transform="translate(${x} ${y}) scale(${s})" class="draw" style="--d:${d}s"><path pathLength="1" d="M0 0c4 0 6 4 3 7s-10 1-10-5 8-11 15-8 10 13 3 18-20 3-20-9" style="stroke:${c}" stroke-width="2.6" fill="none" stroke-linecap="round"/></g>`,
+  crown: (c, x, y, s = 1, d = 0) => `<g transform="translate(${x} ${y}) scale(${s})" class="draw" style="--d:${d}s"><path pathLength="1" d="M-16 6l-2-18 9 9 9-14 9 14 9-9-2 18z" style="stroke:${c}" stroke-width="3" fill="none" stroke-linejoin="round"/></g>`,
+  bolt: (c, x, y, s = 1, d = 0) => `<g transform="translate(${x} ${y}) scale(${s})" class="draw" style="--d:${d}s"><path pathLength="1" d="M4-14l-10 14h8l-6 14 12-17h-8z" style="stroke:${c}" stroke-width="2.6" fill="none" stroke-linejoin="round"/></g>`,
+  sparkle: (c, x, y, s = 1, d = 0) => `<g transform="translate(${x} ${y}) scale(${s})"><path class="twinkle" style="animation-delay:${d}s;fill:${c}" d="M0-10C1-3 3-1 10 0 3 1 1 3 0 10-1 3-3 1-10 0-3-1-1-3 0-10z"/></g>`,
+  burst: c => `<svg viewBox="0 0 220 220">${Array.from({ length: 12 }, (_, i) => { const a = i * 30 * Math.PI / 180; return `<path class="draw" style="--d:${i * .02}s;stroke:${c}" pathLength="1" d="M${(110 + Math.cos(a) * 62).toFixed(1)} ${(110 + Math.sin(a) * 62).toFixed(1)}L${(110 + Math.cos(a) * 96).toFixed(1)} ${(110 + Math.sin(a) * 96).toFixed(1)}" stroke-width="6" stroke-linecap="round"/>`; }).join('')}</svg>`
+};
+
+/* ================= SVG: маскот Кляксик ================= */
+const KLX_V = [1, 2, 3].map(s => blobPath(60, 66, 44, 9, .085, s * 17));
+function klyaksik({ can = false, attrs = '' } = {}) {
+  const ks = '.45 0 .55 1;.45 0 .55 1;.45 0 .55 1';
+  return `<svg class="klx" viewBox="0 0 132 132" ${attrs} aria-hidden="true">
+    <ellipse cx="60" cy="124" rx="34" ry="5" fill="#111216" opacity=".08"/>
+    <g class="k-body">
+      <path style="fill:var(--m)" d="${KLX_V[0]}"><animate attributeName="d" dur="3.4s" repeatCount="indefinite" calcMode="spline" keySplines="${ks}" values="${KLX_V[0]};${KLX_V[1]};${KLX_V[2]};${KLX_V[0]}"/></path>
+      <path class="k-drip" style="fill:var(--m)" d="M76 104q4 0 4 6v8a4 4 0 0 1-8 0v-8q0-6 4-6z"/>
+      <ellipse cx="38" cy="40" rx="11" ry="6" fill="#fff" opacity=".4" transform="rotate(-30 38 40)"/>
+      <g class="k-eyes">
+        <circle cx="44" cy="60" r="15" fill="#fff"/><circle cx="78" cy="60" r="15" fill="#fff"/>
+        <g class="k-pupils" style="transition:transform .3s">
+          <g><animateTransform attributeName="transform" type="translate" dur="5.5s" repeatCount="indefinite" values="0 0;-4 1;-4 1;4 -1;4 -1;0 2;0 0" keyTimes="0;.12;.35;.47;.7;.85;1"/>
+            <circle cx="47" cy="62" r="7" fill="#111216"/><circle cx="81" cy="62" r="7" fill="#111216"/>
+            <circle cx="49" cy="59.5" r="2" fill="#fff"/><circle cx="83" cy="59.5" r="2" fill="#fff"/></g>
+        </g>
+      </g>
+      <circle cx="31" cy="80" r="5" fill="#FF5CE6" opacity=".35"/><circle cx="91" cy="80" r="5" fill="#FF5CE6" opacity=".35"/>
+      <path class="mo mo-smile" d="M51 84q10 9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g class="mo mo-happy"><path d="M47 81q14 18 28 0z" fill="#111216"/><path d="M54 89q7 5 14 0q-7-3-14 0z" fill="#FF5C8A"/></g>
+      <ellipse class="mo mo-oops" cx="61" cy="86" rx="5.5" ry="7" fill="#111216"/>
+      <path class="mo mo-sad" d="M51 90q10-9 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+    ${can ? `<g transform="translate(100 64)"><g class="spray-can">
+      <rect x="0" y="10" width="20" height="36" rx="6" fill="#2B2D35"/><rect x="0" y="22" width="20" height="10" style="fill:var(--m)"/>
+      <rect x="5" y="2" width="10" height="10" rx="3" fill="#8B8FA0"/><rect x="8" y="-3" width="8" height="6" rx="2" fill="#111216"/>
+      ${[0, 1, 2, 3, 4, 5].map(i => { const d = (.7 + i * .08).toFixed(2); return `<circle r="${2 + i % 3}" style="fill:var(--m)"><animate attributeName="cx" values="16;${30 + i * 6}" dur="${d}s" begin="${i * .12}s" repeatCount="indefinite"/><animate attributeName="cy" values="-2;${-14 - (i % 3) * 10}" dur="${d}s" begin="${i * .12}s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="${d}s" begin="${i * .12}s" repeatCount="indefinite"/></circle>`; }).join('')}
+    </g></g>` : ''}
+  </svg>`;
+}
+function miniBlob(color, seed) {
+  return `<svg viewBox="0 0 48 48"><path d="${blobPath(24, 25, 19, 8, .1, seed)}" fill="${color}"/><circle cx="18" cy="23" r="5.5" fill="#fff"/><circle cx="30" cy="23" r="5.5" fill="#fff"/><circle cx="19.5" cy="24" r="2.6" fill="#111"/><circle cx="31.5" cy="24" r="2.6" fill="#111"/></svg>`;
+}
+
+/* ================= SVG: аватары контактов (блобы с глазками) ================= */
+const eyes = (x1, x2, y, r = 9, look = 2) => `<circle cx="${x1}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x2}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x1 + look}" cy="${y + 1}" r="${r * .45}" fill="#111216"/><circle cx="${x2 + look}" cy="${y + 1}" r="${r * .45}" fill="#111216"/>`;
+const AV = {
+  mom:      () => `<path d="${blobPath(50, 50, 48, 12, .02, 3, .2)}" fill="#FF5CE6"/>${eyes(38, 62, 48)}`,
+  grandma:  () => `<path d="${blobPath(50, 50, 48, 16, .02, 5, .16)}" fill="#A77BFF"/>${eyes(38, 62, 48)}<path d="M28 47a10 10 0 0 1 20 0M52 47a10 10 0 0 1 20 0" stroke="#111216" stroke-width="3" fill="none"/>`,
+  dad:      () => `<rect x="6" y="6" width="88" height="88" rx="30" fill="#1A9BFF"/>${eyes(37, 63, 46)}<path d="M38 70h24" stroke="#111216" stroke-width="5" stroke-linecap="round"/>`,
+  petya:    () => `<circle cx="50" cy="52" r="44" fill="#C6F432"/><path d="M12 40q38-40 76 0q-38-10-76 0z" fill="#111216"/>${eyes(37, 63, 56)}`,
+  sasha:    () => `<circle cx="50" cy="50" r="45" fill="#1FD16C"/>${eyes(37, 63, 46)}<path d="M40 68q10 8 20 0" stroke="#111216" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+  anya:     () => `<path d="M50 92S8 66 8 36a21 21 0 0 1 42-8 21 21 0 0 1 42 8c0 30-42 56-42 56z" fill="#2EC5FF"/>${eyes(36, 62, 44, 8)}`,
+  klass:    () => `<path d="${blobPath(50, 50, 48, 22, .02, 8, .12)}" fill="#FFDD2E"/>${eyes(38, 62, 48)}`,
+  coach:    () => `<path d="M50 6q6 0 10 7l34 64q4 10-8 12H14q-12-2-8-12L40 13q4-7 10-7z" fill="#FF8A1F"/>${eyes(39, 61, 60, 8)}`,
+  robot:    () => `<rect x="10" y="18" width="80" height="72" rx="24" fill="#2EC5FF"/><path d="M50 18V8" stroke="#111216" stroke-width="4"/><circle cx="50" cy="7" r="6" fill="#FF3D6E"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></circle>${eyes(36, 64, 50, 10, 0)}<rect x="36" y="70" width="28" height="6" rx="3" fill="#111216"/>`,
+  bank:     () => `<rect x="6" y="6" width="88" height="88" rx="28" fill="#111216"/><path d="M24 40L50 24l26 16z" fill="#fff"/><g fill="#fff"><rect x="28" y="44" width="8" height="24" rx="2"/><rect x="46" y="44" width="8" height="24" rx="2"/><rect x="64" y="44" width="8" height="24" rx="2"/></g><rect x="22" y="70" width="56" height="7" rx="3" fill="#fff"/>`,
+  cat:      () => `<path d="M14 40L18 6l26 22zM86 40L82 6 56 28z" fill="#B9BCC8"/><circle cx="50" cy="56" r="40" fill="#B9BCC8"/>${eyes(37, 63, 54, 9, 0)}<path d="M46 68h8l-4 4z" fill="#FF5CE6"/>`,
+  stranger: () => `<circle cx="50" cy="50" r="46" fill="#D9DCE6"/><text x="50" y="67" text-anchor="middle" font-size="48" font-weight="900" font-family="Onest,sans-serif" fill="#8B8FA0">?</text>`,
+  work:     () => `<rect x="10" y="28" width="80" height="58" rx="18" fill="#FF8A1F"/><path d="M36 28v-6a8 8 0 0 1 8-8h12a8 8 0 0 1 8 8v6" stroke="#111216" stroke-width="5" fill="none"/>${eyes(37, 63, 54, 9)}`,
+  gamer:    () => `<circle cx="50" cy="52" r="42" fill="#A77BFF"/><path d="M10 52a40 40 0 0 1 80 0" stroke="#111216" stroke-width="7" fill="none"/><rect x="4" y="46" width="14" height="24" rx="6" fill="#111216"/><rect x="82" y="46" width="14" height="24" rx="6" fill="#111216"/>${eyes(38, 62, 56, 8)}`,
+  prize:    () => `<path d="M50 6l12 25 28 3-21 19 6 28-25-14-25 14 6-28L10 34l28-3z" fill="#FFDD2E" stroke="#FFDD2E" stroke-width="8" stroke-linejoin="round"/>${eyes(40, 60, 50, 7)}`,
+  fox:      () => `<circle cx="50" cy="50" r="50" fill="#FFE2CC"/><g transform="translate(50 54) scale(.56) translate(-80 -64)">${foxHead()}</g>`
+};
+const avatar = k => `<svg viewBox="0 0 100 100">${(AV[k] || AV.stranger)()}</svg>`;
+
+/* ================= SVG: Лис ================= */
+function foxHead() {
+  return `<path d="M46 52L38 10l34 24z" fill="#FF7A1A"/><path d="M50 44l-4-22 17 13z" fill="#111216"/>
+    <path d="M114 52l8-42-34 24z" fill="#FF7A1A"/><path d="M110 44l4-22-17 13z" fill="#111216"/>
+    <path d="M36 64Q80 10 124 64q2 32-44 48Q34 96 36 64z" fill="#FF7A1A"/>
+    <path d="M38 70q18 10 42 42-36-10-42-42zM122 70q-18 10-42 42 36-10 42-42z" fill="#fff"/>
+    <circle cx="64" cy="62" r="11" fill="#fff"/><circle cx="96" cy="62" r="11" fill="#fff"/>
+    <circle cx="66" cy="64" r="5.5" fill="#111216"/><circle cx="98" cy="64" r="5.5" fill="#111216"/>
+    <g class="f-lids"><path d="M52 62a12 12 0 0 1 24 0z" fill="#E0600A"/><path d="M84 62a12 12 0 0 1 24 0z" fill="#E0600A"/></g>
+    <ellipse cx="80" cy="86" rx="7" ry="5" fill="#111216"/><path d="M70 95q10 7 21-2" stroke="#111216" stroke-width="3.4" fill="none" stroke-linecap="round"/>`;
+}
+const foxHeadSVG = (cls = '') => `<svg class="fox ${cls}" viewBox="30 4 100 112">${foxHead()}</svg>`;
+function foxBody(maskAv) {
+  return `<svg class="fox" viewBox="0 0 160 170">
+    <path class="f-tail" d="M106 132q46-6 44-56-6 28-34 32z" fill="#FF7A1A"/><path d="M150 76q-1 18-12 24 7-12 4-22z" fill="#fff"/>
+    <rect class="f-leg l1" x="63" y="146" width="12" height="20" rx="6" fill="#111216"/><rect class="f-leg l2" x="86" y="146" width="12" height="20" rx="6" fill="#111216"/>
+    <ellipse cx="80" cy="130" rx="33" ry="27" fill="#FF7A1A"/><ellipse cx="80" cy="137" rx="17" ry="16" fill="#fff"/>
+    <g>${foxHead()}<g class="f-bang"><path d="M136 8l-6 26" stroke="#FF3D6E" stroke-width="8" stroke-linecap="round"/><circle cx="127" cy="45" r="4.6" fill="#FF3D6E"/></g></g>
+    ${maskAv ? `<g class="f-mask"><path d="M36 60q-16 2-24-8M124 60q16 2 24-8" stroke="#111216" stroke-width="3" fill="none"/>
+      <svg x="34" y="18" width="92" height="92" viewBox="0 0 100 100">${(AV[maskAv] || AV.stranger)()}</svg>
+      <path class="crack" pathLength="1" d="M80 20l-6 16 9 8-8 14 7 10" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray:1;stroke-dashoffset:1"/></g>` : ''}
+  </svg>`;
+}
+function pigSVG() {
+  return `<svg viewBox="0 0 80 64">
+    <path d="M18 20L16 6l13 9zM54 15l11-9 1 14z" fill="#E7DDFF"/>
+    <rect x="22" y="48" width="9" height="12" rx="4" fill="#E7DDFF"/><rect x="46" y="48" width="9" height="12" rx="4" fill="#E7DDFF"/>
+    <ellipse cx="38" cy="36" rx="30" ry="22" fill="#F5F0FF"/><rect x="30" y="15" width="16" height="3.6" rx="1.8" fill="#C7B8F5"/>
+    <ellipse cx="66" cy="38" rx="9" ry="8" fill="#E7DDFF"/><circle cx="63.5" cy="38" r="1.8" fill="#9B88D6"/><circle cx="68.5" cy="38" r="1.8" fill="#9B88D6"/>
+    <circle cx="46" cy="30" r="5.5" fill="#fff"/><circle cx="46.5" cy="31" r="2.6" fill="#111216"/><path d="M40 29a6 6 0 0 1 12 0z" fill="#E7DDFF"/>
+  </svg>`;
+}
+/* splat-клякса из баллончика: шумовой фильтр + брызги + потёки */
+function splatSVG(style = 'class="splat"') {
+  const s = Math.random() * 1000 | 0, R = seeded(s);
+  let dots = '';
+  for (let i = 0; i < 16; i++) { const a = R() * Math.PI * 2, r = 42 + R() * 22; dots += `<circle cx="${(75 + Math.cos(a) * r).toFixed(1)}" cy="${(70 + Math.sin(a) * r * .8).toFixed(1)}" r="${(1 + R() * 3.4).toFixed(1)}"/>`; }
+  let drips = '';
+  for (let i = 0; i < 3; i++) { const x = 55 + R() * 40, l = 18 + R() * 30; drips += `<path class="drip" pathLength="1" d="M${x.toFixed(1)} 96v${l.toFixed(1)}" stroke-width="${(5 + R() * 4).toFixed(1)}" stroke-linecap="round" style="stroke:var(--m)"/>`; }
+  return `<svg ${style} viewBox="0 0 150 150"><g class="sp" style="fill:var(--m)" filter="url(#spray)"><path d="${blobPath(75, 70, 36, 11, .28, s)}"/>${dots}</g>${drips}</svg>`;
+}
+
+/* ================= Контент ================= */
+const TRICKS = {
+  code:     { i: '🔐', t: 'Секретный код',     d: 'Коды из СМС и пароли — как ключи от дома. Их не говорят никому: ни «поддержке», ни «маме» в переписке.' },
+  gift:     { i: '🎁', t: 'Слишком щедро',     d: 'Призы и подарки «просто так» — приманка. Бесплатный сыр бывает только в мышеловке!' },
+  personal: { i: '🏠', t: 'Выпытывает личное', d: 'Адрес, школа, фото — это личное. Незнакомцам в интернете это не рассказывают.' },
+  newnum:   { i: '📵', t: 'Чужой номер',       d: 'Пишут с незнакомого номера и называют себя родными. Проверь: позвони на старый, знакомый номер.' },
+  link:     { i: '🔗', t: 'Странная ссылка',   d: 'Непонятные буквы в ссылке — ловушка. Даже если ссылку прислал друг: его могли взломать.' },
+  urgent:   { i: '⏰', t: 'Торопилка',         d: 'Лис торопит, чтобы ты не успел подумать и спросить взрослых. Торопят — остановись!' },
+  secret:   { i: '🤫', t: 'Никому не говори',  d: 'Просят скрыть от родителей? Самый тревожный знак. Хорошие секреты от мамы и папы не прячут.' },
+  fear:     { i: '😱', t: 'Пугалка',           d: 'Пугают бедой — «всё взломали, всё пропадёт», — чтобы ты действовал не думая.' },
+  dropper:  { i: '💳', t: 'Чужие деньги',      d: 'Принять чужие деньги и переслать дальше — ловушка для «дропперов». За это отвечают по закону.' }
+};
+const F = (k, av, name, sub, p, warn = true) => ({ fox: true, k, av, name, sub, p, warn });
+const H = (av, name, text, why, sub = 'в контактах') => ({ fox: false, av, name, sub, p: [text], why, warn: false });
+const FOXPOOL = withIds('f', [
+  F('code', 'robot', 'Поддержка «КубоМир»', 'новый контакт', ['', 'Скажи код из СМС', ' — дадим 1000 алмазов 💎']),
+  F('code', 'gamer', 'Max_Pro_2000', 'игровой чат', ['', 'Дай логин и пароль', ' — подарю дракона 🐉']),
+  F('code', 'robot', 'Чат-бот школы', 'новый контакт', ['Для электронного дневника ', 'пришли код, который пришёл маме', ' 📲']),
+  F('code', 'stranger', 'Курьер', '+7 9•• ••• 55 12', ['Посылка приехала! ', 'Продиктуй цифры из СМС', ' 📦']),
+  F('code', 'gamer', 'Nik_Lucky', 'игровой чат', ['Прокачаю твоего героя! ', 'Скинь пароль от аккаунта', ' 🚀']),
+  F('gift', 'prize', 'Розыгрыш 🎁', 'новый контакт', ['', 'Ты выиграл новый телефон!', ' Оплати доставку 📦']),
+  F('gift', 'robot', 'Магазин скинов', 'новый контакт', ['', '5000 монет бесплатно', ' — всем, кто напишет 🤑']),
+  F('gift', 'prize', 'Блогер Супер-Макс', 'не в контактах', ['', 'Дарю планшет первым 10 подписчикам!', ' Пиши адрес']),
+  F('gift', 'robot', 'Кубо-лотерея', 'новый контакт', ['🎉 ', 'Ты миллионный гость — забери приз!', '']),
+  F('gift', 'prize', 'Супер-акция', 'реклама', ['', 'Кроссовки за 0 ₽ — только для тебя!', ' 👟']),
+  F('personal', 'cat', 'Котик_Даша 🐱', 'не в контактах', ['Давай дружить! ', 'Где ты живёшь?', ' 🏠']),
+  F('personal', 'stranger', 'Незнакомец', 'не в контактах', ['Привет! ', 'Скинь фото и номер школы', ' 📸']),
+  F('personal', 'gamer', 'Pro_Gamer', 'игровой чат', ['Ты крутой игрок! ', 'Во сколько ты дома один?', ' 🙂']),
+  F('personal', 'stranger', 'Новый друг', 'не в контактах', ['Расскажи, ', 'как зовут родителей и где они работают?', '']),
+  F('personal', 'cat', 'Пушистик', 'не в контактах', ['Пришли ', 'фото своей квартиры', ', хочу посмотреть 🏡']),
+  F('newnum', 'mom', 'Мама?', '+7 9•• ••• 41 17', ['', 'Это мама, пишу с чужого номера.', ' Ответь скорее']),
+  F('newnum', 'grandma', 'Бабушка?', '+7 9•• ••• 02 60', ['', 'У меня новый номер!', ' Переведи денежку 💸']),
+  F('newnum', 'dad', 'Папа?', '+7 9•• ••• 88 30', ['', 'Телефон сел, пишу с номера друга.', ' Скинь код']),
+  F('newnum', 'mom', 'Мама?', '+7 9•• ••• 19 04', ['Солнышко, ', 'это мой новый номер,', ' старый удали']),
+  F('newnum', 'grandma', 'Тётя Оля?', '+7 9•• ••• 63 21', ['Привет! ', 'Я поменяла номер,', ' займи 500 ₽ до завтра']),
+  F('link', 'petya', 'Петя', 'в контактах', ['Смотри, скины! ', 'skinz-free.xyz/gift', ' 😍'], false),
+  F('link', 'anya', 'Аня', 'в контактах', ['Проголосуй за меня ', 'по ссылке vote-top.click', ' 🙏'], false),
+  F('link', 'sasha', 'Саша', 'в контактах', ['Это ты на видео?! ', 'video-tvoe.ru.cc', ' 😱'], false),
+  F('link', 'klass', 'Класс 3 «Б»', 'чат класса', ['Оценки за четверть тут: ', 'shkola-ocenki.top', ''], false),
+  F('link', 'robot', 'Кубо-новости', 'новый контакт', ['Новая версия игры! ', 'Скачай тут: kubo-mod.apk', ' ⬇️']),
+  F('urgent', 'stranger', 'Неизвестный', '+7 9•• ••• 77 01', ['', 'СРОЧНО! Ответь за 1 минуту,', ' иначе удалим аккаунт']),
+  F('urgent', 'robot', 'Поддержка игры', 'новый контакт', ['Акция ', 'закончится через 30 секунд!', ' Жми скорее']),
+  F('urgent', 'bank', 'Банк', '+7 9•• ••• 40 40', ['', 'Действуй немедленно!', ' Иначе деньги пропадут']),
+  F('urgent', 'gamer', 'Max_Pro_2000', 'игровой чат', ['Скорее, ', 'в клане осталось 2 места!', ' Плати сейчас']),
+  F('urgent', 'prize', 'Розыгрыш 🎁', 'новый контакт', ['', 'Приз сгорит через 10 минут!', ' ⏳']),
+  F('secret', 'stranger', 'Новый друг', 'не в контактах', ['Пришлю подарок, ', 'только родителям не говори', ' 🤫']),
+  F('secret', 'cat', 'Котик_Даша 🐱', 'не в контактах', ['Это будет ', 'наш секрет от мамы и папы', ', ок? 😉']),
+  F('secret', 'gamer', 'Pro_Gamer', 'игровой чат', ['', 'Удали нашу переписку,', ' чтобы никто не видел']),
+  F('secret', 'stranger', 'Незнакомец', 'не в контактах', ['Давай встретимся в парке, ', 'но взрослым ни слова', ' 🤐']),
+  F('secret', 'robot', 'Поддержка', 'новый контакт', ['', 'Это тайная проверка — взрослым не рассказывай', '']),
+  F('fear', 'bank', 'Банк', '+7 9•• ••• 03 88', ['', 'Карта родителей заблокирована!', ' Назови цифры с карты']),
+  F('fear', 'robot', 'Служба безопасности', 'новый контакт', ['', 'Твой аккаунт взломали!', ' Скажи пароль, мы спасём']),
+  F('fear', 'stranger', 'Полиция?', '+7 9•• ••• 02 02', ['', 'Твои родители в беде!', ' Срочно скажи код']),
+  F('fear', 'robot', 'Антивирус', 'реклама', ['', 'В телефоне 5 вирусов!', ' Скачай чистилку']),
+  F('fear', 'gamer', 'Модератор', 'игровой чат', ['', 'Тебя забанят навсегда!', ' Пришли пароль для проверки']),
+  F('dropper', 'work', 'Подработка 💼', 'не в контактах', ['', 'Прими деньги и переведи дальше', ' — 1000 ₽ твои!']),
+  F('dropper', 'gamer', 'Max_Pro_2000', 'игровой чат', ['Дам 500 ₽, ', 'если перешлёшь чужие деньги', ' на мою карту']),
+  F('dropper', 'work', 'Лёгкие деньги', 'не в контактах', ['', 'Дай свою карту на денёк', ' — заплачу 300 ₽']),
+  F('dropper', 'stranger', 'Незнакомец', 'не в контактах', ['Тебе случайно пришли мои деньги. ', 'Переведи их вот сюда', ' 🙏']),
+  F('dropper', 'work', 'Работа для школьников', 'реклама', ['', 'Оформи карту и отдай её нам', ' — получишь приз'])
+]);
+const HONPOOL = withIds('h', [
+  H('mom', 'Мама', 'Купи хлеб после школы 🍞', 'Мама пишет со своего номера и ничего не просит.'),
+  H('dad', 'Папа', 'Заберу тебя в 17:00 🚗', 'Папа просто предупреждает. Ни кодов, ни секретов.'),
+  H('grandma', 'Бабушка', 'Испекла сырники, приходи в субботу 😋', 'Бабушка зовёт в гости со своего номера.'),
+  H('klass', 'Класс 3 «Б»', 'Завтра экскурсия в зоопарк 🦒', 'Обычное объявление в чате класса.', 'чат класса'),
+  H('petya', 'Петя', 'Го в футбол после уроков? ⚽', 'Друг зовёт играть: без ссылок и паролей.'),
+  H('coach', 'Тренер', 'Тренировка в 16:00, не опаздывай 🏀', 'Тренер напоминает о тренировке. Всё честно.'),
+  H('anya', 'Аня', 'С днём рождения!!! 🎂🎉', 'Подруга поздравляет и ничего не просит.'),
+  H('mom', 'Мама', 'Горжусь тобой, ты молодец! ❤️', 'Мама просто радуется за тебя.'),
+  H('sasha', 'Саша', 'Смотри, какой смешной кот 😹', 'Друг делится картинкой: без ссылок и просьб.'),
+  H('grandma', 'Бабушка', 'Позвони мне вечером ☎️', 'Бабушка просит позвонить ей — это безопасно.'),
+  H('dad', 'Папа', 'Не забудь шапку, на улице холодно 🧢', 'Папа заботится. Никаких уловок.'),
+  H('klass', 'Класс 3 «Б»', 'Домашку на завтра не задали 🎉', 'Хорошая новость в чате класса!', 'чат класса'),
+  H('sasha', 'Саша', 'Я во дворе, выходи гулять! 🛝', 'Друг зовёт гулять — без ссылок и просьб.'),
+  H('coach', 'Тренер', 'Ты сегодня отлично играл! 💪', 'Тренер хвалит и ничего не просит.'),
+  H('klass', 'Класс 3 «Б»', 'Не забудьте форму на физкультуру 👟', 'Обычное напоминание в чате класса.', 'чат класса'),
+  H('anya', 'Аня', 'Смотри, я нарисовала дракона 🐉', 'Подруга делится рисунком. Ничего не просит.'),
+  H('mom', 'Мама', 'Я задержусь, обед в холодильнике 🍲', 'Мама пишет со своего номера — всё как обычно.'),
+  H('dad', 'Папа', 'Вечером идём в кино? 🍿', 'Папа зовёт в кино. Ни кодов, ни денег.'),
+  H('grandma', 'Бабушка', 'Как дела в школе? Скучаю 🌸', 'Бабушка просто скучает по тебе.'),
+  H('petya', 'Петя', 'Завтра возьму мяч, не забудь кроссовки ⚽', 'Друг договаривается об игре. Всё честно.'),
+  H('bank', 'Банк', 'Напоминаем: мы никогда не спрашиваем коды 🔒', 'Настоящий банк ничего не просит — только предупреждает.', 'официальный чат'),
+  H('sasha', 'Саша', 'Спасибо, что помог с домашкой! 🙌', 'Друг говорит спасибо. Никаких просьб.'),
+  H('mom', 'Мама', 'Напиши, когда придёшь домой 🏡', 'Мама волнуется и пишет со своего номера.'),
+  H('dad', 'Папа', 'Купил тебе новые краски 🎨', 'Папа делает приятное. Ничего не просит.'),
+  H('klass', 'Класс 3 «Б»', 'В пятницу ярмарка поделок 🧶', 'Обычное объявление для всего класса.', 'чат класса'),
+  H('coach', 'Тренер', 'Завтра тренировки не будет ☔', 'Тренер предупреждает об отмене.'),
+  H('anya', 'Аня', 'Пойдём завтра в библиотеку? 📚', 'Подруга зовёт в библиотеку — это безопасно.'),
+  H('petya', 'Петя', 'Ха-ха, мой пёс съел мою тетрадку 🐶', 'Друг шутит. Ни ссылок, ни секретов.'),
+  H('grandma', 'Бабушка', 'Связала тебе тёплый шарф 🧣', 'Бабушка делает подарок и ничего не просит взамен.'),
+  H('sasha', 'Саша', 'У моей кошки родились котята! 🐈', 'Друг делится новостью. Всё честно.'),
+  H('mom', 'Мама', 'Не забудь покормить рыбок 🐠', 'Обычная мамина просьба по дому.'),
+  H('dad', 'Папа', 'Сегодня пицца на ужин 🍕', 'Хорошая новость от папы!'),
+  H('klass', 'Учительница', 'Молодцы, все написали диктант! ✍️', 'Учительница хвалит класс в общем чате.', 'чат класса')
+]);
+const WAVES = [
+  { tricks: ['code', 'gift', 'personal'], fox: 4, hon: 3, T: 10.5, gap: 1.5 },
+  { tricks: ['newnum', 'link', 'urgent'], fox: 5, hon: 4, T: 8.6, gap: 1.2 },
+  { tricks: ['secret', 'fear', 'dropper'], fox: 6, hon: 4, T: 7.4, gap: 1.0 }
+];
+const C = (t, k) => ({ t, k });
+const BOSSES = withIds('b', [
+  { av: 'bank', name: 'Служба безопасности 🏦', sub: '+7 9•• ••• 03 88',
+    parts: ['Здравствуй! ', C('Твою карту взломали!', 'fear'), ' Чтобы спасти деньги, ', C('назови код из СМС', 'code'), '. ', C('У тебя только 2 минуты!', 'urgent'), ' ', C('Родителям не говори — они расстроятся.', 'secret')],
+    acts: [
+      { e: '👨‍👩‍👧', t: 'Отдать телефон родителям', ok: 1, w: 'Точно! Родители сами позвонят в банк по номеру с карты, и Лис останется ни с чем.' },
+      { e: '🔢', t: 'Быстро назвать код, чтобы спасти деньги', w: 'Код — как ключ от денег. Именно его Лис и хочет украсть.' },
+      { e: '🤐', t: 'Разобраться самому и никому не говорить', w: 'Лис специально просит молчать. С бедой всегда идут к взрослым.' }] },
+  { av: 'mom', name: 'Мама?', sub: '+7 9•• ••• 41 17',
+    parts: ['Привет, это мама! ', C('Пишу с нового номера.', 'newnum'), ' ', C('Перейди по ссылке mama-pay.xyz', 'link'), ' и ', C('введи код из СМС', 'code'), '. ', C('Только папе не говори!', 'secret')],
+    acts: [
+      { e: '📞', t: 'Позвонить маме на её обычный номер', ok: 1, w: 'Супер! Один звонок — и сразу ясно, что мама ничего не писала.' },
+      { e: '👆', t: 'Перейти по ссылке — это же мама', w: 'Ссылка ведёт к Лису. Любой может написать «это мама».' },
+      { e: '❓', t: 'Спросить в чате: «Ты точно мама?»', w: 'Лис легко соврёт в переписке. Проверять надо звонком на знакомый номер.' }] },
+  { av: 'prize', name: 'Розыгрыш 🎁', sub: 'новый контакт',
+    parts: [C('Ты выиграл новый телефон!', 'gift'), ' Осталось ', C('оплатить доставку по ссылке prize-free.xyz', 'link'), '. ', C('Приз сгорит через 5 минут!', 'urgent'), ' ', C('Пришли фото маминой карты.', 'code')],
+    acts: [
+      { e: '🙈', t: 'Не отвечать и показать взрослым', ok: 1, w: 'Правильно! Никакого приза нет — только ловушка за деньгами с карты.' },
+      { e: '📸', t: 'Сфотографировать карту — телефон же!', w: 'По фото карты Лис потратит деньги семьи.' },
+      { e: '⏳', t: 'Попросить отложить приз до завтра', w: 'С Лисом не договариваются. Лучше не отвечать вовсе.' }] },
+  { av: 'gamer', name: 'Модератор игры 🎮', sub: 'игровой чат',
+    parts: ['Привет! ', C('Твой аккаунт заблокируют сегодня!', 'fear'), ' Чтобы спасти скины, ', C('скинь логин и пароль', 'code'), '. ', C('Ответь за 5 минут!', 'urgent'), ' И ', C('не говори родителям — это тайная проверка.', 'secret')],
+    acts: [
+      { e: '🛡️', t: 'Закрыть чат и показать взрослым', ok: 1, w: 'Верно! Настоящие модераторы никогда не просят пароль.' },
+      { e: '🔑', t: 'Отправить пароль, чтобы не забанили', w: 'С паролем Лис заберёт весь аккаунт и все скины.' },
+      { e: '😢', t: 'Удалить игру от страха', w: 'Пугаться не нужно: просто не отвечай и расскажи взрослым.' }] },
+  { av: 'work', name: 'Подработка 💼', sub: 'не в контактах',
+    parts: [C('Хочешь 2000 ₽ за 5 минут?', 'gift'), ' ', C('Тебе придут чужие деньги — переведи их дальше.', 'dropper'), ' ', C('Напиши, в какой школе учишься.', 'personal'), ' ', C('И это наш секрет!', 'secret')],
+    acts: [
+      { e: '🙅', t: 'Отказаться и рассказать родителям', ok: 1, w: 'Правильно! Пересылать чужие деньги — значит помогать мошенникам.' },
+      { e: '💸', t: 'Согласиться — деньги же лёгкие', w: 'Лёгкие деньги — приманка. Отвечать потом придётся тебе.' },
+      { e: '🏫', t: 'Сказать школу, но деньги не брать', w: 'Личное тоже нельзя рассказывать. Лучше вообще не отвечать.' }] },
+  { av: 'petya', name: 'Петя', sub: 'в контактах',
+    parts: ['Привет! ', C('Срочно проголосуй за меня!', 'urgent'), ' ', C('Ссылка: petya-vote.xyz', 'link'), ' Там ', C('введи код из СМС', 'code'), ', ', C('и не рассказывай никому, ок?', 'secret')],
+    acts: [
+      { e: '📞', t: 'Позвонить Пете и спросить', ok: 1, w: 'Супер! Петю могли взломать — звонок всё прояснит.' },
+      { e: '👆', t: 'Голосовать — Петя же друг', w: 'Аккаунт Пети мог захватить Лис. Ссылка с кодом — ловушка.' },
+      { e: '🔢', t: 'Ввести код, но только один раз', w: 'Даже один раз — это ключ от аккаунта для Лиса.' }] }
+]);
+
+/* ================= Состояние ================= */
+let G = null, loopId = 0, ACTIVE = null;
+const TOTAL_COINS = 10;
+/* остановить текущий режим: циклы, таймеры-гварды и паузу */
+function stopAll() { loopId++; if (G) G.running = false; ACTIVE = null; }
+function newGame() {
+  stopAll();
+  const used = new Set(), foxOrder = Recent.order('fox', FOXPOOL), honOrder = Recent.order('hon', HONPOOL);
+  const waves = WAVES.map((w, wi) => {
+    const known = WAVES.slice(0, wi + 1).flatMap(x => x.tricks);
+    const foxes = [];
+    w.tricks.forEach(k => { const f = foxOrder.find(x => x.k === k && !used.has(x)); if (f) { used.add(f); foxes.push(f); } });
+    while (foxes.length < w.fox) {
+      const f = foxOrder.find(x => known.includes(x.k) && !used.has(x)) || pick(FOXPOOL.filter(x => known.includes(x.k)));
+      used.add(f); foxes.push(f);
+    }
+    const hon = honOrder.filter(x => !used.has(x)).slice(0, w.hon); hon.forEach(h => used.add(h));
+    let q = shuffle([...foxes, ...hon]);
+    if (wi === 0) { // обучение: первым идёт Лис с кодом, вторым — друг
+      const f0 = q.find(x => x.fox && x.k === 'code'), h0 = q.find(x => !x.fox);
+      q = [f0, h0, ...q.filter(x => x !== f0 && x !== h0)];
+    }
+    return q.map(item => ({ item, retry: false }));
+  });
+  const items = waves.flat().map(x => x.item);
+  Recent.mark('fox', items.filter(x => x.fox), FOXPOOL); Recent.mark('hon', items.filter(x => !x.fox), HONPOOL);
+  G = ACTIVE = {
+    id: 'fox', waves, wi: 0, queue: [], resolved: 0, waveTotal: 1, live: [], paused: true, running: false, last: 0, sinceSpawn: 99, side: false, waveEnding: false,
+    score: 0, combo: 0, maxCombo: 0, coins: TOTAL_COINS, okFriends: 0, zapped: 0, wrong: 0, missed: 0, hit: {}, miss: {},
+    spot: null, boss: null
+  };
+  G.foxTotal = waves.flat().filter(x => x.item.fox).length;
+}
+
+/* ================= Общие куски ================= */
+const soundBtn = () => `<button class="ibtn sound-btn ${Sound.on ? 'on' : ''}" data-sound aria-label="Звук" aria-pressed="${Sound.on}">${ICON.sound}</button>`;
+const blobsBg = () => `<div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>`;
+const MASCOT_COLORS = ['#C6F432', '#FF5CE6', '#2EC5FF', '#A77BFF'];
+function setMascotColor(c) { document.documentElement.style.setProperty('--m', c); store.set('klx_color', c); }
+setMascotColor(MASCOT_COLORS.includes(store.get('klx_color')) ? store.get('klx_color') : MASCOT_COLORS[0]);
+const curColor = () => getComputedStyle(document.documentElement).getPropertyValue('--m').trim().toUpperCase();
+
+/* ================= Карта уровней ================= */
+const DOMAINS = {
+  safe:  { t: 'Безопасность', s: 'Не попадись на уловки', e: '🛡️', c: '#FFC2F4' },
+  money: { t: 'Деньги', s: 'Копить, тратить, планировать', e: '💰', c: '#E4FA9C' },
+  soft:  { t: 'Дружба и я', s: 'Эмоции, друзья и время', e: '🤝', c: '#B5E9FF' }
+};
+const LEVELS = [
+  { id: 'fox',   dom: 'safe',  e: '🦊', t: 'Кляксик против Лиса', d: 'Закрашивай сообщения мошенников', c: '#FFD9BF', start: () => { newGame(); renderGame(); } },
+  { id: 'home',  dom: 'safe',  e: '🔦', t: 'Фонарик в тёмном доме', d: 'Свети и находи опасные вещи', c: '#D9D2FF', start: () => startHome() },
+  { id: 'piggy', dom: 'money', e: '🐷', t: 'Копилка мечты', d: 'Свайпай: купить или накопить?', c: '#FFE0F4', start: () => startPiggy() },
+  { id: 'cart',  dom: 'money', e: '🛒', t: 'Хватит ли денег?', d: 'Хватай покупки с ленты по бюджету', c: '#FFF2B3', start: () => startCart() },
+  { id: 'emo',   dom: 'soft',  e: '💛', t: 'Ловец эмоций', d: 'Лови, что чувствует друг', c: '#FFF2B3', start: () => startEmo() },
+  { id: 'time',  dom: 'soft',  e: '⏰', t: 'Успей вовремя', d: 'Собери план и не опоздай', c: '#C9F3DA', start: () => startTime() }
+];
+const STAR_P = 'M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z';
+const starRow = n => [0, 1, 2].map(i => `<svg viewBox="0 0 24 24" class="${i < n ? '' : 'off'}" style="--i:${i}"><path d="${STAR_P}"/></svg>`).join('');
+
+function hubHero() {
+  const isl = (x, y, c, e, seed, d) => `<g transform="translate(${x} ${y})"><g class="wiggle" style="animation-delay:${d}s"><path d="${blobPath(0, 0, 30, 9, .12, seed)}" fill="${c}"/><text y="12" text-anchor="middle" font-size="30">${e}</text></g></g>`;
+  return `<svg viewBox="0 0 360 168" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    ${DOODLE.starO('#111216', 30, 28, 1.1, .2)}${DOODLE.zig('#FF5CE6', 150, 14, 1, .4)}${DOODLE.spiral('#2EC5FF', 336, 128, .9, .6)}${DOODLE.sparkle('#FFDD2E', 214, 22, 1.1, 0)}${DOODLE.sparkle('#A77BFF', 24, 136, .8, .6)}
+    ${isl(62, 92, '#FFC2F4', '🛡️', 21, 0)}${isl(292, 52, '#E4FA9C', '💰', 33, -.8)}${isl(274, 132, '#B5E9FF', '🤝', 45, -1.6)}
+    ${klyaksik({ attrs: 'x="112" y="22" width="146" height="146"' })}
+  </svg>`;
+}
+function renderHub() {
+  stopAll();
+  const total = PROG.total();
+  app.innerHTML = `<section class="screen hub">${blobsBg()}
+    <div class="row"><button class="ibtn" data-close aria-label="Закрыть">${ICON.x}</button><span class="starpill">${ICON.star}${total} / ${LEVELS.length * 3}</span>${soundBtn()}</div>
+    <div class="hub-hero klx-wrap" data-mood="idle">${hubHero()}</div>
+    <h1 class="ttl">Мир <span class="u">Кляксика${DOODLE.under('var(--m)')}</span></h1>
+    <p class="lead">Три острова — три суперсилы: не попадаться Лису, дружить с деньгами и понимать людей. Собирай звёзды!</p>
+    ${Object.entries(DOMAINS).map(([k, D]) => `<div class="dom"><span class="de" style="--c:${D.c}">${D.e}</span><div><h2>${D.t}</h2><span>${D.s}</span></div></div>
+      <div class="lvls">${LEVELS.filter(l => l.dom === k).map((l, i) => { const st = PROG.get(l.id); return `<button class="lvl" data-lvl="${l.id}" style="--i:${i}">
+        ${st ? '' : '<span class="new">НОВОЕ</span>'}
+        <span class="la"><svg viewBox="0 0 62 62"><path d="${blobPath(31, 31, 28, 8, .1, l.id.length * 7 + i)}" fill="${l.c}"/></svg><b>${l.e}</b></span>
+        <span class="lt">${l.t}</span><span class="ld">${l.d}</span><span class="ls">${starRow(st)}</span></button>`; }).join('')}</div>`).join('')}
+    <div class="pick" style="margin-top:22px"><span class="hand">Цвет Кляксика</span>${MASCOT_COLORS.map((c, i) => `<button class="sw ${c === curColor() ? 'on' : ''}" data-c="${c}" aria-label="Цвет ${i + 1}">${miniBlob(c, 11 + i)}</button>`).join('')}</div>
+  </section>`;
+  app.querySelectorAll('.sw').forEach(b => b.onclick = () => {
+    setMascotColor(b.dataset.c); Sound.tap(); vibrate();
+    app.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === b));
+    const w = $('.klx-wrap'); w.dataset.mood = 'happy'; clearTimeout(w._t); w._t = setTimeout(() => w.dataset.mood = 'idle', 1400);
+  });
+  app.querySelectorAll('[data-lvl]').forEach(b => b.onclick = () => { Sound.tap(); vibrate(); LEVELS.find(l => l.id === b.dataset.lvl).start(); });
+}
+
+/* ================= Экран: Игра ================= */
+function renderGame() {
+  app.innerHTML = `<section class="screen game">${blobsBg()}
+    <header class="hud">
+      <button class="ibtn" data-pause aria-label="Пауза">${ICON.pause}</button>
+      <div class="waves" aria-label="Прогресс"><i><b></b></i><i><b></b></i><i><b></b></i><i class="boss"><b></b></i></div>
+      <div class="score" id="score">${ICON.star}<span>0</span></div>
+      ${soundBtn()}
+    </header>
+    <div class="field" id="field"><div class="dim" id="dim"></div><div class="combo" id="combo"></div></div>
+    <footer class="dock">
+      <div class="dock-m" id="dockM" data-mood="idle">${klyaksik()}</div>
+      <div class="dock-say" id="say"></div>
+      <div class="stat" id="okStat" aria-label="Друзья">${ICON.inbox}<b id="okN">0</b></div>
+      <div class="stat pig" id="bank" aria-label="Монеты">${pigSVG()}<b id="coinN">${G.coins}</b></div>
+    </footer>
+    <div class="tip" id="tip"></div>
+    <div class="wave-in" id="waveIn"></div>
+    <div class="modal" id="modal"><div class="mcard" id="mcard"></div></div>
+  </section>`;
+  startWave(0);
+}
+
+const say = html => { const s = $('#say'); if (s) s.innerHTML = `<span class="in">${html}</span>`; };
+function mood(m, ms = 1200) {
+  document.querySelectorAll('#dockM, .bm').forEach(el => el.dataset.mood = m);
+  clearTimeout(mood.t);
+  if (m !== 'idle') mood.t = setTimeout(() => document.querySelectorAll('#dockM, .bm').forEach(el => el.dataset.mood = 'idle'), ms);
+}
+function floatAt(el, html, cls) {
+  const r = el.getBoundingClientRect(), d = document.createElement('div');
+  d.className = cls; d.innerHTML = html; d.style.left = (r.left + r.width / 2) + 'px'; d.style.top = (r.top + r.height / 3) + 'px';
+  fx.appendChild(d); setTimeout(() => d.remove(), 1300); return d;
+}
+function setScore(add, el) {
+  if (!ACTIVE) return;
+  ACTIVE.score += add;
+  const s = $('#score'); if (s) { s.querySelector('span').textContent = ACTIVE.score; s.classList.remove('bump'); void s.offsetWidth; s.classList.add('bump'); }
+  if (el) floatAt(el, `+${add}`, 'pts');
+}
+function setProgress() {
+  document.querySelectorAll('.waves b').forEach((b, i) => {
+    let p = 0;
+    if (i < 3) p = i < G.wi ? 100 : i === G.wi ? Math.min(100, G.resolved / G.waveTotal * 100) : 0;
+    else if (G.boss) p = G.boss.found / G.boss.total * 100;
+    b.style.width = p + '%';
+  });
+}
+const mult = () => G.combo >= 6 ? 3 : G.combo >= 3 ? 2 : 1;
+function showCombo() {
+  const c = $('#combo'); if (!c) return;
+  const m = mult();
+  if (m < 2) { c.classList.remove('show'); return; }
+  c.innerHTML = `<svg viewBox="0 0 100 56"><path d="${blobPath(50, 28, 26, 12, .1, m * 5, .16)}" fill="#111216" transform="translate(50 28) scale(1.75 1) translate(-50 -28)"/><text x="50" y="37" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="25" style="fill:var(--m)">x${m} 🔥</text></svg>`;
+  c.classList.remove('show'); void c.offsetWidth; c.classList.add('show');
+}
+
+/* ---------- волны ---------- */
+async function startWave(wi) {
+  G.wi = wi; G.queue = G.waves[wi].slice(); G.resolved = 0; G.waveTotal = G.queue.length; G.paused = true; setProgress();
+  const w = WAVES[wi], el = $('#waveIn');
+  el.innerHTML = `${wi === 0 ? `<div class="wk" data-mood="happy">${klyaksik({ can: true })}</div>` : ''}
+    <div class="big">Волна ${wi + 1}${DOODLE.under('var(--m)')}</div>
+    <div class="hand">${wi === 0 ? 'Лис уже пишет тебе! Его уловки:' : 'Лис выучил новые уловки:'}</div>
+    <div class="chips">${w.tricks.map((k, i) => `<span class="chip" style="--i:${i}">${TRICKS[k].i} ${TRICKS[k].t}</span>`).join('')}</div>
+    <button class="btn" id="go">${wi === 0 ? 'Погнали!' : 'В бой!'}</button>`;
+  el.classList.add('show');
+  say(wi === 0 ? 'Я Кляксик! Помоги закрасить Лиса 🎨' : `Волна ${wi + 1}: Лис стал быстрее!`);
+  await new Promise(r => $('#go').onclick = r);
+  Sound.tap(); el.classList.remove('show');
+  const me = G;
+  await countdown();
+  if (ACTIVE !== me) return;
+  say(wi === 0 ? 'Сообщения уже летят! Смотри внимательно 👀' : 'Погнали! 🎨');
+  G.sinceSpawn = 99; G.paused = false;
+  if (!G.running) { G.running = true; G.last = performance.now(); const id = ++loopId; requestAnimationFrame(t => loop(t, id)); }
+}
+async function countdown() {
+  const field = $('#field');
+  for (const n of ['3', '2', '1']) {
+    const c = document.createElement('div'); c.className = 'count';
+    c.innerHTML = `<span>${n}${DOODLE.burst('var(--m)')}</span>`; field.appendChild(c);
+    Sound.tone(n === '1' ? 880 : 520, .12, 'triangle', .1);
+    await wait(RM ? 200 : 620); c.remove();
+  }
+}
+
+/* ---------- игровой цикл ---------- */
+function loop(t, id) {
+  if (!G || !G.running || id !== loopId) return;
+  const dt = Math.min(.05, (t - G.last) / 1000); G.last = t;
+  if (!G.paused) update(dt);
+  requestAnimationFrame(tt => loop(tt, id));
+}
+function update(dt) {
+  const field = $('#field'); if (!field) return;
+  const H = field.clientHeight, W = field.clientWidth, w = WAVES[G.wi];
+  G.sinceSpawn += dt;
+  const topY = G.live.filter(b => b.state === 'fall').reduce((m, b) => Math.min(m, b.y), Infinity);
+  if (G.queue.length && G.sinceSpawn > w.gap && topY > 28) spawn(G.queue.shift(), field, W);
+  for (const b of G.live) {
+    if (b.state !== 'fall') continue;
+    b.y += H / w.T * dt; place(b);
+    if (b.y > H * .2 && !b.tipped) { // подсказки «в моменте»: новая уловка или первый друг
+      // каждая плашка показывается один раз за всё время, а не в каждой игре
+      if (b.entry.item.fox && !seen('trick:' + b.entry.item.k)) { b.tipped = true; markSeen('trick:' + b.entry.item.k); newTrickTip(b); return; }
+      if (!b.entry.item.fox && !seen('honest')) { b.tipped = true; markSeen('honest'); honestTip(b); return; }
+    }
+    if (b.y + b.h * .5 > H) arrive(b);
+  }
+  G.live = G.live.filter(b => b.state !== 'dead');
+  if (!G.queue.length && !G.live.length && !G.waveEnding) waveDone();
+}
+function spawn(entry, field, W) {
+  const it = entry.item, el = document.createElement('div');
+  el.className = 'msg'; el.setAttribute('role', 'button'); el.tabIndex = 0;
+  el.innerHTML = `<div class="msg-in"><div class="msg-top"><div class="msg-av">${avatar(it.av)}</div><div class="msg-meta"><b>${it.name}</b><span class="${it.warn ? 'warn' : ''}">${it.sub}</span></div></div>
+    <div class="msg-text">${it.p.length > 1 ? `${it.p[0]}<span class="key">${it.p[1]}</span>${it.p[2]}` : it.p[0]}</div></div>`;
+  field.appendChild(el);
+  const w = el.offsetWidth, h = el.offsetHeight, room = Math.max(0, W - w - 16);
+  G.side = !G.side;
+  const b = { entry, el, w, h, y: -h - 6, x: 8 + (G.side ? rnd(0, room * .3) : rnd(room * .7, room)), rot: rnd(-2.5, 2.5), state: 'fall' };
+  place(b); G.live.push(b); G.sinceSpawn = 0;
+  el.addEventListener('pointerdown', e => { e.preventDefault(); tapMsg(b); });
+  el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tapMsg(b); } });
+}
+const place = b => { b.el.style.transform = `translate(${b.x}px,${b.y}px) rotate(${b.rot}deg)`; };
+
+function tapMsg(b) {
+  if (b.state !== 'fall') return;
+  if (G.paused) {
+    if (G.spot !== b) return;
+    if (!b.entry.item.fox) { b.el.classList.remove('oops'); void b.el.offsetWidth; b.el.classList.add('oops'); Sound.tap(); return; }
+  }
+  if (b.entry.item.fox) zap(b); else wrongZap(b);
+}
+function foxify(b) {
+  const it = b.entry.item, av = b.el.querySelector('.msg-av');
+  av.innerHTML = avatar('fox'); av.classList.add('flip');
+  b.el.querySelector('.msg-meta b').innerHTML = `<s>${it.name}</s><em>Лис</em>`;
+  b.el.classList.add('hit');
+}
+
+function zap(b) {
+  const it = b.entry.item;
+  b.state = 'zapped';
+  if (G.spot === b) closeTip();
+  G.combo++; G.maxCombo = Math.max(G.maxCombo, G.combo); G.zapped++; G.hit[it.k] = (G.hit[it.k] || 0) + 1;
+  foxify(b);
+  b.el.insertAdjacentHTML('beforeend', splatSVG() + `<div class="tag">${TRICKS[it.k].i} ${TRICKS[it.k].t}</div>`);
+  setScore(10 * mult(), b.el); showCombo();
+  Sound.spray(); vibrate('light');
+  mood('happy'); say(mult() > 1 ? `Комбо x${mult()}! Не останавливайся 🔥` : pick(['Есть! Закрашено 🎨', 'Бах! Лис раскрыт!', 'Отличный выстрел!', 'Так его!']));
+  resolved();
+  setTimeout(() => {
+    const r = b.el.getBoundingClientRect();
+    runFox(r.left + 30, r.top + 4, false);
+    b.el.classList.add('gone'); b.el.style.transform += ' scale(.6) rotate(18deg)';
+    setTimeout(() => { b.el.remove(); b.state = 'dead'; }, 520);
+  }, 850);
+}
+function runFox(x, y, withCoin) {
+  const f = document.createElement('div'); f.className = 'runner';
+  f.innerHTML = foxHeadSVG('caught') + (withCoin ? `<div class="rc">${ICON.coin}</div>` : '');
+  f.style.left = x + 'px'; f.style.top = y + 'px'; fx.appendChild(f);
+  requestAnimationFrame(() => requestAnimationFrame(() => { f.style.transform = `translate(${innerWidth - x + 80}px,-30px) rotate(20deg)`; }));
+  setTimeout(() => f.remove(), 1200);
+}
+
+function wrongZap(b) {
+  b.state = 'hold'; G.combo = 0; G.wrong++; showCombo();
+  b.el.classList.add('oops'); Sound.bad(); vibrate('error'); mood('oops', 2500);
+  G.paused = true;
+  const it = b.entry.item;
+  modal(`<div class="mh"><div class="mm" data-mood="oops">${klyaksik()}</div><h3>Ой! Это был друг 💚</h3></div>
+    <div class="quote">${avatar(it.av)}<div><b>${it.name} · ${it.sub}</b>${it.p[0]}</div></div>
+    <p>${it.why} Друзей закрашивать не надо — пусть их сообщения долетают.</p>
+    <button class="btn" id="mOk">Понятно!</button>`, () => {
+    b.el.classList.add('gone'); setTimeout(() => { b.el.remove(); b.state = 'dead'; }, 500);
+    requeue(b.entry); G.paused = false; say('Лиса выдают уловки, а не имя 😉');
+  });
+}
+
+async function arrive(b) {
+  const it = b.entry.item;
+  if (!it.fox) {
+    b.state = 'done'; G.okFriends++;
+    const ok = $('#okStat');
+    b.el.classList.add('delivered'); b.el.style.transform = `translate(${b.x}px,${b.y + 50}px) scale(.3)`;
+    floatAt(ok, ICON.heart('#1FD16C'), 'heart').style.marginLeft = '-14px';
+    $('#okN').textContent = G.okFriends; ok.classList.remove('wob'); void ok.offsetWidth; ok.classList.add('wob');
+    setScore(5); Sound.deliver(); say(pick(['Друг на связи 💚', 'Это свои — пропускаем!', 'Сообщение доставлено 💌']));
+    resolved();
+    setTimeout(() => { b.el.remove(); b.state = 'dead'; }, 460);
+    return;
+  }
+  // Лис проскочил в телефон
+  b.state = 'hold'; G.paused = true; G.combo = 0; G.missed++; G.miss[it.k] = (G.miss[it.k] || 0) + 1; showCombo();
+  foxify(b); vibrate('error'); mood('oops', 3000);
+  await stealCoin(b);
+  modal(`<div class="mh"><div class="mm" data-mood="sad">${klyaksik()}</div><h3>Лис пробрался и стащил монетку!</h3></div>
+    <div class="quote">${avatar(it.av)}<div><b>${it.name} · ${it.sub}</b>${it.p[0]}<span class="key">${it.p[1]}</span>${it.p[2]}</div></div>
+    <p><span class="chip">${TRICKS[it.k].i} ${TRICKS[it.k].t}</span><br><br>${TRICKS[it.k].d}</p>
+    <button class="btn" id="mOk">Понятно! Поймаю в следующий раз</button>`, () => {
+    b.el.classList.add('gone'); setTimeout(() => { b.el.remove(); b.state = 'dead'; }, 500);
+    requeue(b.entry); G.paused = false; say('Этот Лис ещё вернётся — будь начеку!');
+  });
+}
+async function stealCoin(b) {
+  const bank = $('#bank'), pr = bank.getBoundingClientRect(), br = b.el.getBoundingClientRect();
+  const coin = document.createElement('div'); coin.className = 'flycoin'; coin.innerHTML = ICON.coin;
+  coin.style.left = (pr.left + 22) + 'px'; coin.style.top = (pr.top + 10) + 'px'; fx.appendChild(coin);
+  G.coins = Math.max(0, G.coins - 1); $('#coinN').textContent = G.coins;
+  bank.classList.remove('wob'); void bank.offsetWidth; bank.classList.add('wob');
+  Sound.steal();
+  await wait(30);
+  coin.style.transform = `translate(${br.left + 40 - pr.left - 22}px,${br.top + 20 - pr.top - 10}px)`;
+  await wait(560); coin.remove();
+  runFox(br.left + 16, br.top - 6, true);
+  await wait(650);
+}
+function requeue(entry) {
+  if (!entry.retry) { G.queue.push({ item: entry.item, retry: true }); G.waveTotal++; }
+  resolved();
+}
+function resolved() { G.resolved++; setProgress(); }
+
+/* ---------- подсказки «в моменте» ---------- */
+function showTip(html, b) {
+  G.paused = true; G.spot = b;
+  b.el.classList.add('spot');
+  $('#dim').classList.add('show');
+  const t = $('#tip'); t.innerHTML = html; t.classList.add('show');
+}
+function closeTip() {
+  $('#tip').classList.remove('show'); $('#dim').classList.remove('show');
+  if (G.spot) G.spot.el.classList.remove('spot');
+  G.spot = null; G.paused = false;
+}
+function newTrickTip(b) {
+  const k = b.entry.item.k, first = G.zapped === 0 && G.wi === 0;
+  showTip(`<div class="tm" data-mood="oops">${klyaksik()}</div><div>
+    <span class="chip m">Новая уловка · ${TRICKS[k].i} ${TRICKS[k].t}</span>
+    <h4>${first ? 'Это Лис в маске!' : 'Осторожно, Лис!'}</h4>
+    <p>${TRICKS[k].d}</p>
+    <p style="margin-top:6px;font-weight:800;color:var(--ink)">👆 Тапни по сообщению — закрась его!</p></div>`, b);
+  Sound.tone(660, .1, 'triangle', .1); Sound.tone(990, .14, 'triangle', .1, .08);
+}
+function honestTip(b) {
+  showTip(`<div class="tm" data-mood="happy">${klyaksik()}</div><div>
+    <span class="chip" style="background:var(--green);color:var(--ink)">💚 Это друг</span>
+    <h4>А вот это — свои!</h4>
+    <p>${b.entry.item.why} Друзей не трогай: пусть сообщение долетит до телефона.</p>
+    <button class="btn" id="tOk">Понятно, пропускаю</button></div>`, b);
+  $('#tOk').onclick = () => { Sound.tap(); closeTip(); };
+}
+
+/* ---------- модалка ---------- */
+function modal(html, onClose) {
+  const m = $('#modal'); if (!m) return;
+  $('#mcard').innerHTML = `<svg class="deco" viewBox="0 0 110 110">${DOODLE.starO('var(--m)', 76, 30, 1.3, .1)}${DOODLE.sparkle('#111216', 50, 64, .7, .2)}</svg>` + html;
+  m.classList.add('show');
+  const b = $('#mOk'); if (b) b.onclick = () => { Sound.tap(); m.classList.remove('show'); onClose && onClose(); };
+}
+const modalP = html => new Promise(r => modal(html, r));
+const isModal = () => { const m = $('#modal'); return !!(m && m.classList.contains('show')); };
+
+async function waveDone() {
+  G.waveEnding = true; G.paused = true;
+  Sound.good(); vibrate('success'); mood('happy', 2000);
+  say(`Волна ${G.wi + 1} отбита! 🎉`);
+  const me = G;
+  await wait(1000);
+  if (ACTIVE !== me) return;
+  G.waveEnding = false;
+  if (G.wi + 1 < WAVES.length) startWave(G.wi + 1);
+  else { G.wi = 3; setProgress(); startBoss(); }
+}
+
+/* ================= Босс ================= */
+async function startBoss() {
+  G.running = false;
+  const B = pick(BOSSES), total = B.parts.filter(p => typeof p !== 'string').length;
+  G.boss = { B, total, found: 0, chunks: [], firstAct: true };
+  const el = $('#waveIn');
+  el.innerHTML = `<div class="wk">${foxHeadSVG()}</div><div class="hand" style="margin:0 0 8px">Финал</div><div class="big">Лис-главарь${DOODLE.under('var(--pink)')}</div>
+    <div class="hand" style="font-size:25px;max-width:320px">Найди и закрась все ${total} уловки в его сообщении — так ты собьёшь с него маску!</div>
+    <button class="btn" id="go">На босса!</button>`;
+  el.classList.add('show');
+  await new Promise(r => $('#go').onclick = r);
+  Sound.tap(); el.classList.remove('show');
+  const box = document.createElement('div'); box.className = 'bossv'; box.id = 'boss';
+  box.innerHTML = `<div class="arena"><div class="bfox" id="bfox">${foxBody(B.av)}</div>
+      <div class="hp" id="hp">Лис-главарь ${Array.from({ length: total }, () => '<i></i>').join('')}</div></div>
+    <div class="bchat"><div class="msg-top"><div class="msg-av">${avatar(B.av)}</div><div class="msg-meta"><b>${B.name}</b><span class="warn">${B.sub}</span></div></div>
+      <div class="btext" id="btext">${B.parts.map((p, i) => { const c = typeof p === 'string' ? { t: p, k: null } : p; G.boss.chunks.push({ ...c, done: false }); return `<span class="ch ${c.k === 'link' ? 'lnk' : ''}" data-i="${i}" role="button" tabindex="0">${c.t}</span>`; }).join('')}</div></div>
+    <div class="bbar"><div class="bm" data-mood="idle">${klyaksik()}</div><div class="dock-say" id="bsay" style="flex:1"><span class="in">Тапай по хитрым фразам — закрашивай уловки!</span></div><button class="ibtn" id="bhint" aria-label="Подсказка">${ICON.bulb}</button></div>`;
+  $('.game').appendChild(box);
+  setProgress();
+  $('#btext').addEventListener('click', e => { const s = e.target.closest('.ch'); if (s) bossTap(s); });
+  $('#bhint').onclick = bossHint;
+}
+const bsay = html => { const s = $('#bsay'); if (s) s.innerHTML = `<span class="in">${html}</span>`; };
+function bossTap(el) {
+  const Bs = G.boss; if (!Bs || Bs.over) return;
+  const c = Bs.chunks[+el.dataset.i]; if (c.done) return;
+  c.done = true;
+  if (c.k) {
+    el.classList.remove('hint'); el.classList.add('hitc');
+    Bs.found++; G.hit[c.k] = (G.hit[c.k] || 0) + 1;
+    const chat = $('.bchat'), cr = chat.getBoundingClientRect(), r = el.getClientRects()[0] || el.getBoundingClientRect(), s = document.createElement('div');
+    s.className = 'bsplat';
+    s.style.left = (r.left - cr.left + chat.scrollLeft + Math.min(r.width, 160) / 2 - 42) + 'px'; s.style.top = (r.top - cr.top + chat.scrollTop + r.height / 2 - 42) + 'px';
+    s.innerHTML = splatSVG('style="width:100%;height:100%"'); chat.appendChild(s);
+    const f = $('#bfox'); f.classList.remove('hit'); void f.offsetWidth; f.classList.add('hit');
+    const segs = document.querySelectorAll('#hp i'); segs[Bs.found - 1] && segs[Bs.found - 1].classList.add('off');
+    setScore(20, el); Sound.hit(); vibrate('light'); mood('happy');
+    bsay(`<span><b>${TRICKS[c.k].i} ${TRICKS[c.k].t}!</b> ${TRICKS[c.k].d}</span>`);
+    setProgress();
+    if (Bs.found === Bs.total) { Bs.over = true; setTimeout(() => bossFinal([]), 1700); }
+  } else {
+    el.classList.add('miss'); Sound.tap(); mood('oops', 700);
+    bsay(pick(['Мимо! Тут обычные слова 🙂', 'Здесь хитрости нет — ищи дальше!', 'Хм, это просто слова.']));
+  }
+}
+function bossHint() {
+  const Bs = G.boss; if (!Bs || Bs.over) return;
+  const i = Bs.chunks.findIndex(c => c.k && !c.done); if (i < 0) return;
+  $(`#btext [data-i="${i}"]`).classList.add('hint'); Sound.tap();
+  bsay('Посмотри на жёлтую фразу 👀');
+}
+function bossFinal(disabled) {
+  const Bs = G.boss, B = Bs.B;
+  if (!Bs.order) Bs.order = shuffle(B.acts.map((_, i) => i));
+  bsay('Маска трещит! Нанеси последний удар 💥');
+  modal(`<div class="mh"><div class="mm" data-mood="happy">${klyaksik({ can: true })}</div><h3>Последний удар! Что ты сделаешь?</h3></div>
+    <div class="opts">${Bs.order.map((idx, n) => `<button class="opt ${disabled.includes(idx) ? 'no' : ''}" data-a="${idx}" style="--i:${n}"><span class="oi">${B.acts[idx].e}</span><span>${B.acts[idx].t}</span></button>`).join('')}</div>`);
+  document.querySelectorAll('.opt').forEach(o => o.onclick = () => bossAct(+o.dataset.a, disabled));
+}
+async function bossAct(idx, disabled) {
+  const Bs = G.boss, a = Bs.B.acts[idx];
+  $('#modal').classList.remove('show'); Sound.tap();
+  await wait(250);
+  if (!a.ok) {
+    Bs.firstAct = false; G.wrong++; Sound.bad(); vibrate('error'); mood('oops', 2500);
+    modal(`<div class="mh"><div class="mm" data-mood="sad">${klyaksik()}</div><h3>Лис хихикает… Так не стоит</h3></div><p>${a.w}</p><button class="btn" id="mOk">Выбрать другое</button>`, () => setTimeout(() => bossFinal([...disabled, idx]), 200));
+    return;
+  }
+  if (Bs.firstAct) setScore(50, $('#bfox'));
+  const fox = $('#bfox .fox'), bf = $('#bfox');
+  fox.classList.add('cracking'); const cr = fox.querySelector('.crack'); if (cr) cr.style.animation = 'drawIn .4s forwards';
+  Sound.spray(); vibrate('success');
+  await wait(550);
+  fox.classList.remove('cracking'); fox.classList.add('unmasked', 'caught'); Sound.hit();
+  await wait(900);
+  fox.classList.add('running'); bf.classList.add('gone'); Sound.win(); mood('happy', 3000);
+  const v = document.createElement('div'); v.className = 'victory';
+  v.innerHTML = `<div class="vt">${DOODLE.scribble('var(--m)')}Победа!</div>`; $('.game').appendChild(v);
+  confetti();
+  await wait(1700);
+  v.remove();
+  modal(`<div class="mh"><div class="mm" data-mood="happy">${klyaksik({ can: true })}</div><h3>Лис-главарь повержен!</h3></div><p>${a.w}</p><button class="btn" id="mOk">Смотреть результат</button>`, renderResult);
+}
+
+/* ---------- пауза / выход ---------- */
+function pauseMenu() {
+  const S = ACTIVE;
+  if (!S || !$('#modal') || isModal()) return;
+  const wasPaused = S.paused; S.paused = true;
+  modal(`<div class="mh"><div class="mm" data-mood="idle">${klyaksik()}</div><h3>Пауза</h3></div>
+    <p>Игра подождёт. А если уйдёшь — не страшно: сыграть заново можно в любой момент.</p>
+    <button class="btn" id="mOk">Продолжить</button><button class="btn soft" id="mExit">К другим уровням</button>`, () => { S.paused = wasPaused; });
+  $('#mExit').onclick = () => { Sound.tap(); renderHub(); };
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden && ACTIVE && !ACTIVE.paused) pauseMenu(); });
+
+/* ================= Результат (общий для всех уровней) ================= */
+function modeResult(o) {
+  const lv = LEVELS.find(l => l.id === o.id), prev = PROG.get(o.id);
+  stopAll(); PROG.set(o.id, o.stars);
+  app.innerHTML = `<section class="screen result">${blobsBg()}
+    <div class="row"><button class="ibtn" data-hub aria-label="К уровням">${ICON.x}</button>${soundBtn()}</div>
+    <div class="r-hero" data-mood="happy" style="height:170px"><svg viewBox="0 0 360 170">
+      ${DOODLE.crown('#111216', 182, 18, 1.4, .3)}${DOODLE.starO('#FF5CE6', 56, 50, 1.2, .5)}${DOODLE.zig('#2EC5FF', 282, 30, 1.1, .7)}${DOODLE.sparkle('#FFDD2E', 306, 150, 1.2, 0)}${DOODLE.spiral('#111216', 44, 132, .9, .9)}
+      <g transform="translate(286 108)"><g class="wiggle"><text text-anchor="middle" font-size="48">${lv.e}</text></g></g>
+      ${klyaksik({ can: true, attrs: 'x="108" y="26" width="144" height="144"' })}
+    </svg></div>
+    <div class="stars3">${starRow(o.stars)}</div>
+    <div class="r-ttl" style="text-align:center">${o.title}</div>
+    <p class="r-sub" style="text-align:center">${o.sub}</p>
+    ${prev && o.stars > prev ? '<p class="newrec">Новый рекорд звёзд! ✨</p>' : ''}
+    <div class="grid2">${o.stats.map((s, i) => `<div class="sc" style="--i:${i}"><div class="v">${s.icon || ''}<span data-count="${s.v}">0</span>${s.suf ? `<small>${s.suf}</small>` : ''}</div><div class="l">${s.l}</div><span class="bl" style="background:${s.c}"></span></div>`).join('')}</div>
+    ${o.extra || ''}
+    <div class="btns">
+      <button class="btn" id="again">Играть ещё раз</button>
+      <button class="btn dark" id="toHub">Другие уровни</button>
+      <div class="row2"><button class="btn soft" id="share">Поделиться</button><button class="btn soft" id="done">Готово</button></div>
+    </div>
+  </section>`;
+  if (o.stars === 3) setTimeout(confetti, 500);
+  setTimeout(() => app.querySelectorAll('[data-count]').forEach(countUp), 600);
+  Bridge.send('complete', { level: o.id, domain: lv.dom, stars: o.stars, starsTotal: PROG.total(), ...o.payload });
+  $('#again').onclick = () => { Sound.tap(); lv.start(); };
+  $('#toHub').onclick = () => { Sound.tap(); renderHub(); };
+  $('#share').onclick = () => {
+    Sound.tap();
+    const text = `Я прошёл(ла) уровень «${lv.t}» в игре «Мир Кляксика» ${lv.e} и получил(а) ${'⭐'.repeat(o.stars)}!${o.shareLine ? '\n' + o.shareLine : ''}`;
+    Bridge.send('share', { text });
+    if (!Bridge.native() && navigator.share) navigator.share({ text }).catch(() => {});
+  };
+  $('#done').onclick = () => { Sound.tap(); Bridge.send('finish', { level: o.id, stars: o.stars, score: o.payload.score }); };
+}
+const rulesBlock = (title, rules) => `<div class="h2">${title}</div><div class="lessons">${rules.map((r, i) => `<div class="rule"><span class="rn" style="--c:${['var(--m)', 'var(--pink)', 'var(--cyan)', 'var(--yellow)'][i % 4]}">${r[0]}</span>${r[1]}</div>`).join('')}</div>`;
+
+function renderResult() {
+  G.running = false;
+  const decisions = G.zapped + G.okFriends + G.wrong + G.missed;
+  const acc = decisions ? Math.round((G.zapped + G.okFriends) / decisions * 100) : 100;
+  const rank = acc >= 90 ? ['Легенда защиты!', 'Лис даже не понял, что произошло. Ни одна маска тебя не обманула!']
+    : acc >= 70 ? ['Профи-защитник!', 'Почти все ловушки Лиса закрашены. Ещё раунд — и станешь легендой!']
+    : ['Юный защитник!', 'Ты узнал главные уловки Лиса. Сыграй ещё — Лис придумает новые сообщения!'];
+  const keys = Object.keys(TRICKS), weak = keys.filter(k => G.miss[k]);
+  modeResult({
+    id: 'fox', stars: acc >= 90 ? 3 : acc >= 70 ? 2 : 1, title: rank[0], sub: rank[1],
+    stats: [
+      { icon: ICON.coin, v: G.coins, suf: '/' + TOTAL_COINS, l: 'монет спасено в копилке', c: 'var(--yellow)' },
+      { icon: foxHeadSVG(), v: G.zapped, l: 'лисов закрашено', c: 'var(--orange)' },
+      { icon: ICON.inbox, v: G.okFriends, l: 'сообщений друзей дошло', c: 'var(--green)' },
+      { v: acc, suf: '%', l: `точность · ${G.score} очков`, c: 'var(--m)' }
+    ],
+    extra: `<div class="h2">Коллекция уловок</div>
+      <div class="cards">${keys.map((k, i) => { const h = G.hit[k] || 0, m = G.miss[k] || 0; const cls = m ? 'miss' : h ? '' : 'none'; const st = m ? 'потренируйся' : h ? '✓ закрашено' : 'не встретил'; return `<div class="tc ${cls}" style="--i:${i}"><span class="st">${st}</span><div class="ci">${TRICKS[k].i}</div><div class="ct">${TRICKS[k].t}</div></div>`; }).join('')}</div>
+      ${weak.length ? `<p class="r-sub" style="margin-top:-12px">Лис чаще проскакивал с уловками: <b>${weak.map(k => TRICKS[k].t).join(', ')}</b>. В следующий раз ты их точно заметишь!</p>` : ''}
+      ${rulesBlock('3 правила Кляксика', [['1', 'Коды и пароли — никому. Даже «маме» в переписке.'], ['2', 'Торопят, пугают или просят секрет — стоп!'], ['3', 'Сомневаешься — покажи взрослому или позвони сам.']])}`,
+    payload: { score: G.score, coinsSaved: G.coins, coinsTotal: TOTAL_COINS, foxesZapped: G.zapped, wrongZaps: G.wrong, missedFoxes: G.missed, friendsDelivered: G.okFriends, accuracy: acc, maxCombo: G.maxCombo, tricksMissed: weak },
+    shareLine: `Закрашено лисов: ${G.zapped}, точность ${acc}% 🎨🦊`
+  });
+}
+function countUp(el) {
+  const to = +el.dataset.count, t0 = performance.now(), dur = RM ? 1 : 900;
+  const step = t => { const p = Math.min(1, (t - t0) / dur); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function confetti() {
+  if (RM) return;
+  const cols = ['var(--m)', '#FF5CE6', '#2EC5FF', '#FFDD2E', '#A77BFF', '#111216'];
+  const shapes = [
+    c => `<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z" style="fill:${c}"/></svg>`,
+    c => `<svg viewBox="0 0 24 24"><path d="M2 14l5-8 5 10 5-10 5 8" style="stroke:${c}" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    c => `<svg viewBox="0 0 24 24"><path d="${blobPath(12, 12, 9, 7, .2, Math.random() * 99 | 0)}" style="fill:${c}"/></svg>`,
+    c => `<svg viewBox="0 0 24 24"><path d="M12 2C13 9 15 11 22 12 15 13 13 15 12 22 11 15 9 13 2 12 9 11 11 9 12 2z" style="fill:${c}"/></svg>`
+  ];
+  for (let i = 0; i < 60; i++) {
+    const d = document.createElement('div'); d.className = 'conf';
+    d.innerHTML = pick(shapes)(pick(cols));
+    d.style.left = rnd(0, 100) + 'vw';
+    d.style.setProperty('--d', rnd(2.2, 4) + 's'); d.style.setProperty('--dl', rnd(0, .7) + 's');
+    d.style.setProperty('--dx', rnd(-90, 90) + 'px'); d.style.setProperty('--r', rnd(-500, 500) + 'deg');
+    fx.appendChild(d); setTimeout(() => d.remove(), 5000);
+  }
+}
+
+/* =========================================================
+   Общее для новых режимов: каркас экрана, «Как играть», оверлеи
+   ========================================================= */
+function shell(id, hudMid, body, dockExtra = '') {
+  app.innerHTML = `<section class="screen game m-${id}">${blobsBg()}
+    <header class="hud">
+      <button class="ibtn" data-pause aria-label="Пауза">${ICON.pause}</button>
+      <div class="hud-mid">${hudMid}</div>
+      <div class="score" id="score">${ICON.star}<span>0</span></div>
+      ${soundBtn()}
+    </header>
+    ${body}
+    <footer class="dock">
+      <div class="dock-m" id="dockM" data-mood="idle">${klyaksik()}</div>
+      <div class="dock-say" id="say"></div>
+      ${dockExtra}
+      <button class="ibtn q" data-help aria-label="Как играть">?</button>
+    </footer>
+    <div class="wave-in" id="waveIn"></div>
+    <div class="modal" id="modal"><div class="mcard" id="mcard"></div></div>
+  </section>`;
+}
+const hudSegs = n => `<div class="waves">${'<i><b></b></i>'.repeat(n)}</div>`;
+function setSegs(done, part = 0) { document.querySelectorAll('.hud .waves b').forEach((b, i) => { b.style.width = (i < done ? 100 : i === done ? part * 100 : 0) + '%'; }); }
+function overlay(html) {
+  const el = $('#waveIn'); if (!el) return new Promise(() => {});
+  el.innerHTML = html; el.classList.add('show');
+  return new Promise(r => { $('#go').onclick = () => { Sound.tap(); el.classList.remove('show'); r(); }; });
+}
+const bigEmoji = e => `<div class="wk" style="font-size:88px;line-height:1;display:grid;place-items:center">${e}</div>`;
+const lesson = (m, title, text, btn = 'Понятно!') => modalP(`<div class="mh"><div class="mm" data-mood="${m}">${klyaksik()}</div><h3>${title}</h3></div><p>${text}</p><button class="btn" id="mOk">${btn}</button>`);
+const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
+
+const HOWTO = {
+  home:  { t: 'Фонарик в тёмном доме', r: [['🔦', 'Води пальцем по экрану — там светит фонарик.'], ['👆', 'Нажми на опасную вещь, когда она в свете.'], ['💡', 'Застрял? Лампочка внизу подскажет.']] },
+  piggy: { t: 'Копилка мечты', r: [['🐷', 'Выбери мечту — она стоит 120 монет.'], ['👉', 'Карточку вправо — «Да», влево — «Нет».'], ['🤔', 'Это нужно или просто хочется? Подумай, прежде чем тратить.']] },
+  cart:  { t: 'Хватит ли денег?', r: [['📝', 'Купи всё из списка — тапай по товарам на ленте.'], ['🔍', 'Сравнивай цены: одинаковый товар бывает дороже из-за упаковки.'], ['💰', 'Уложись в бюджет и нажми «На кассу».']] },
+  emo:   { t: 'Ловец эмоций', r: [['👀', 'Прочитай, что случилось с другом.'], ['👆', 'Двигай Кляксика пальцем и лови нужную эмоцию.'], ['💛', 'Потом поймай добрые слова для друга.']] },
+  time:  { t: 'Успей вовремя', r: [['👆', 'Нажимай на дела — они встанут в план.'], ['🚌', 'План должен поместиться до красной черты.'], ['⭐', 'Сначала важное. Осталось время — добавь приятное!']] }
+};
+/* «Как играть» — один раз на уровень; повторно только по кнопке «?» */
+function howTo(S, force) {
+  const H = HOWTO[S.id];
+  if (!H || (!force && seen('how:' + S.id))) return Promise.resolve();
+  markSeen('how:' + S.id);
+  const was = S.paused; S.paused = true;
+  return modalP(`<div class="mh"><div class="mm" data-mood="happy">${klyaksik()}</div><h3>${H.t}</h3></div>
+    <div class="how">${H.r.map(r => `<div class="rule"><span class="rn">${r[0]}</span>${r[1]}</div>`).join('')}</div>
+    <button class="btn" id="mOk">${force ? 'Продолжить' : 'Играть!'}</button>`).then(() => { S.paused = was; });
+}
+
+/* =========================================================
+   БЕЗОПАСНОСТЬ · «Фонарик в тёмном доме»
+   ========================================================= */
+const HOME_SCENES = withIds('hs', [
+  { t: 'Кухня', e: '🍳', wall: '#FFF1D6', floor: '#F2D7AE',
+    danger: [['🔪', 'Нож', 'Острый нож на краю стола может упасть и поранить. Ножи берут только вместе со взрослыми.'], ['🔥', 'Плита', 'Горячая плита обжигает. Включать её можно только со взрослыми.'], ['🫖', 'Чайник', 'В чайнике кипяток. Наливать горячее — работа для взрослых.'], ['🧴', 'Средство', 'Бытовую химию не нюхают и не пробуют — это яд.'], ['💊', 'Таблетки', 'Таблетки — не конфеты! Их даёт только взрослый.'], ['🕯️', 'Свеча', 'Огонь может перекинуться на шторы и скатерть.'], ['🔌', 'Провод', 'Провод у раковины: вода и электричество — опасная пара.']],
+    safe: [['🍎', 'Яблоко'], ['🥛', 'Молоко'], ['🍞', 'Хлеб'], ['🥄', 'Ложка'], ['🍪', 'Печенье'], ['🍌', 'Банан'], ['🧁', 'Кекс'], ['🍽️', 'Тарелка'], ['🫐', 'Черника'], ['🧃', 'Сок']] },
+  { t: 'Ванная', e: '🛁', wall: '#DDF3FF', floor: '#BFE3F5',
+    danger: [['💊', 'Лекарства', 'Лекарства из аптечки берут только взрослые.'], ['🧪', 'Флакон', 'Непонятную жидкость не трогают и не нюхают.'], ['🪒', 'Бритва', 'Бритва очень острая — это не игрушка.'], ['🔌', 'Фен', 'Фен рядом с водой может ударить током.'], ['💦', 'Лужа', 'На мокром полу легко поскользнуться — позови взрослого вытереть.'], ['🧴', 'Отбеливатель', 'Химия для уборки — яд. Её не открывают без взрослых.'], ['♨️', 'Кипяток', 'Из крана может литься очень горячая вода. Сначала проверь со взрослым.']],
+    safe: [['🪥', 'Щётка'], ['🧼', 'Мыло'], ['🧽', 'Губка'], ['🦆', 'Уточка'], ['🧻', 'Бумага'], ['🧺', 'Корзина'], ['🚿', 'Душ'], ['🪞', 'Зеркало'], ['🧸', 'Мишка'], ['🫧', 'Пена']] },
+  { t: 'Гостиная', e: '🛋️', wall: '#EEE8FF', floor: '#D6CCF2',
+    danger: [['🔌', 'Розетка', 'В розетку ничего не суют — может ударить током.'], ['🪟', 'Окно', 'К открытому окну не подходят и на подоконник не залезают.'], ['🔋', 'Батарейка', 'Маленькие батарейки нельзя брать в рот — это очень опасно.'], ['🛍️', 'Пакет', 'Пакет не надевают на голову — в нём нечем дышать.'], ['🪜', 'Стремянка', 'На стремянку без взрослых не залезают — можно упасть.'], ['🧲', 'Магнитики', 'Мелкие магниты нельзя глотать и брать в рот.'], ['🕯️', 'Свеча', 'Горящую свечу не оставляют рядом со шторами.']],
+    safe: [['📚', 'Книги'], ['🧩', 'Пазл'], ['🎨', 'Краски'], ['🪀', 'Йо-йо'], ['🪴', 'Цветок'], ['🎲', 'Кубик'], ['🖼️', 'Картина'], ['🧸', 'Мишка'], ['🕰️', 'Часы'], ['🎸', 'Гитара']] },
+  { t: 'Двор', e: '🌳', wall: '#D8F4FF', floor: '#BFE8A6',
+    danger: [['🐕', 'Чужая собака', 'Чужих собак не гладят — даже если они кажутся добрыми.'], ['🚗', 'Машина', 'Рядом с дорогой не играют. Переходи только по зебре.'], ['🍬', 'Конфета от незнакомца', 'Угощения у незнакомых не берут.'], ['🕳️', 'Люк', 'Открытые люки и ямы обходят стороной.'], ['🧊', 'Тонкий лёд', 'На лёд без взрослых выходить нельзя.'], ['⚡', 'Будка', 'Знак молнии значит: высокое напряжение! Не подходи.'], ['🚧', 'Стройка', 'На стройке может упасть что-то тяжёлое. Туда нельзя.']],
+    safe: [['🛝', 'Горка'], ['⚽', 'Мяч'], ['🌳', 'Дерево'], ['🪁', 'Змей'], ['🌼', 'Цветы'], ['🐦', 'Птичка'], ['🏀', 'Мяч'], ['🪣', 'Ведёрко'], ['🚲', 'Велосипед'], ['🐿️', 'Белка']] }
+]);
+const RING = `<svg class="ring" viewBox="0 0 100 100"><path class="draw" pathLength="1" d="M50 6C78 4 96 24 94 50s-22 44-46 44S4 74 6 48 26 4 54 8" stroke="#FF3D6E" stroke-width="6" fill="none" stroke-linecap="round"/></svg>`;
+
+async function startHome() {
+  stopAll();
+  const scenes = Recent.order('home', HOME_SCENES).slice(0, 3); Recent.mark('home', scenes, HOME_SCENES);
+  const S = ACTIVE = { id: 'home', paused: false, score: 0, scenes, si: 0, mistakes: 0, hints: 0, found: 0, busy: false };
+  shell('home', `<div class="hud-t" id="hudT">Комната 1 из 3</div>${hudSegs(3)}`,
+    `<div class="found-strip" id="strip"></div><div class="room" id="room"></div>`,
+    `<button class="ibtn" id="hintB" aria-label="Подсказка">${ICON.bulb}</button>`);
+  await howTo(S);
+  for (S.si = 0; S.si < scenes.length; S.si++) {
+    if (ACTIVE !== S) return;
+    await homeScene(S, scenes[S.si]);
+  }
+  if (ACTIVE === S) homeResult(S);
+}
+function homeScene(S, sc) {
+  return new Promise(async res => {
+    const dangers = shuffle(sc.danger).slice(0, 5).map(d => ({ e: d[0], t: d[1], why: d[2], bad: true }));
+    const objs = shuffle([...dangers, ...shuffle(sc.safe).slice(0, 7).map(d => ({ e: d[0], t: d[1] }))]);
+    $('#hudT').textContent = `${sc.e} ${sc.t} · комната ${S.si + 1} из ${S.scenes.length}`; setSegs(S.si);
+    const room = $('#room'), strip = $('#strip');
+    room.innerHTML = `<svg class="rbg" viewBox="0 0 100 100" preserveAspectRatio="none"><rect width="100" height="60" fill="${sc.wall}"/><rect y="60" width="100" height="40" fill="${sc.floor}"/><rect y="59.4" width="100" height="1.4" fill="rgba(0,0,0,.08)"/></svg>`
+      + objs.map((o, i) => `<div class="obj" data-i="${i}" style="left:${(17 + (i % 3) * 33 + rnd(-5, 5)).toFixed(1)}%;top:${(12 + (i / 3 | 0) * 25 + rnd(-3, 3)).toFixed(1)}%"><span class="oe">${o.e}</span><span class="on">${o.t}</span></div>`).join('')
+      + `<div class="dark" id="dark"></div>`;
+    strip.innerHTML = dangers.map(() => '<span class="empty"></span>').join('');
+    await overlay(`${bigEmoji(sc.e)}<div class="big" style="font-size:48px">${sc.t}${DOODLE.under('var(--m)')}</div><div class="hand">В темноте прячутся 5 опасных вещей. Найди их все!</div><button class="btn" id="go">Включить фонарик 🔦</button>`);
+    if (ACTIVE !== S) return;
+    say(S.si === 0 ? 'Води пальцем — светит фонарик. Нажми на опасную вещь!' : `${sc.e} ${sc.t}. Что тут опасно? 🔦`);
+    const dark = $('#dark');
+    let found = 0, down = false;
+    const light = (x, y) => { S.lx = x; S.ly = y; dark.style.setProperty('--x', x + 'px'); dark.style.setProperty('--y', y + 'px'); };
+    const center = el => { const r = room.getBoundingClientRect(), e = el.getBoundingClientRect(); return [e.left + e.width / 2 - r.left, e.top + e.height / 2 - r.top]; };
+    light(room.clientWidth / 2, room.clientHeight / 2);
+    const finish = async () => {
+      S.busy = true; setSegs(S.si + 1); dark.classList.add('off');
+      Sound.win(); vibrate('success'); mood('happy', 2500); say('Свет включён — все опасности найдены! 💡');
+      await wait(1300); if (ACTIVE !== S) return;
+      await modalP(`<div class="mh"><div class="mm" data-mood="happy">${klyaksik()}</div><h3>${sc.t}: все опасности найдены!</h3></div>
+        <div class="mlist">${dangers.map(d => `<div><b>${d.e} ${d.t}.</b> ${d.why}</div>`).join('')}</div>
+        <button class="btn" id="mOk">${S.si + 1 < S.scenes.length ? 'Следующая комната' : 'Смотреть итог'}</button>`);
+      S.busy = false; res();
+    };
+    const tap = el => {
+      const o = objs[+el.dataset.i]; if (o.done) return;
+      if (o.bad) {
+        o.done = true; found++; S.found++;
+        el.classList.add('found'); el.insertAdjacentHTML('afterbegin', RING);
+        strip.children[found - 1].outerHTML = `<span>${o.e}</span>`;
+        setScore(20, el); Sound.spray(); vibrate('light'); mood('happy');
+        say(`<b>${o.e} ${o.t}!</b> ${o.why}`);
+        if (found === dangers.length) finish();
+      } else {
+        S.mistakes++; el.classList.remove('nope'); void el.offsetWidth; el.classList.add('nope');
+        Sound.tap(); mood('oops'); say(`${o.e} ${o.t} — это не опасно 👍 Ищи дальше!`);
+      }
+    };
+    room.onpointerdown = e => {
+      if (S.paused || S.busy) return;
+      const r = room.getBoundingClientRect(), el = e.target.closest('.obj');
+      // выбрать можно только то, что уже освещено фонариком
+      if (el) { const [cx, cy] = center(el); if (Math.hypot(cx - S.lx, cy - S.ly) < 90) tap(el); }
+      down = true; light(e.clientX - r.left, e.clientY - r.top);
+    };
+    room.onpointermove = e => { if (!down && e.pointerType !== 'mouse') return; const r = room.getBoundingClientRect(); light(e.clientX - r.left, e.clientY - r.top); };
+    room.onpointerup = room.onpointercancel = () => { down = false; };
+    $('#hintB').onclick = () => {
+      if (S.paused || S.busy) return;
+      const i = objs.findIndex(o => o.bad && !o.done); if (i < 0) return;
+      const el = room.querySelector(`[data-i="${i}"]`), [cx, cy] = center(el);
+      light(cx, cy); S.hints++; Sound.tap();
+      el.classList.remove('hint'); void el.offsetWidth; el.classList.add('hint');
+      say('Посмотри сюда 👀 Это опасно?');
+    };
+  });
+}
+function homeResult(S) {
+  const err = S.mistakes + S.hints, stars = err <= 1 ? 3 : err <= 4 ? 2 : 1;
+  modeResult({
+    id: 'home', stars,
+    title: ['', 'Юный спасатель!', 'Внимательный спасатель!', 'Зоркий спасатель!'][stars],
+    sub: `Ты нашёл(ла) ${S.found} опасных вещей в ${S.scenes.length} местах. Теперь ты знаешь, что нельзя трогать без взрослых.`,
+    stats: [
+      { icon: '<span style="font-size:26px">🔦</span>', v: S.found, l: 'опасностей найдено', c: 'var(--pink)' },
+      { icon: '<span style="font-size:26px">🙈</span>', v: S.mistakes, l: 'лишних нажатий', c: 'var(--cyan)' },
+      { icon: '<span style="font-size:26px">💡</span>', v: S.hints, l: 'подсказок', c: 'var(--yellow)' },
+      { icon: ICON.star, v: S.score, l: 'очков', c: 'var(--m)' }
+    ],
+    extra: rulesBlock('Правила безопасного дома', [['🔥', 'Огонь, плита и кипяток — только со взрослыми.'], ['💊', 'Таблетки и химия — не еда и не игрушка.'], ['🔌', 'Розетки и провода не трогаем, особенно мокрыми руками.'], ['🐕', 'На улице держись подальше от чужих собак, дороги и незнакомцев.']]),
+    payload: { score: S.score, found: S.found, mistakes: S.mistakes, hints: S.hints },
+    shareLine: `Нашёл(ла) ${S.found} опасностей с фонариком 🔦`
+  });
+}
+
+/* =========================================================
+   ДЕНЬГИ · «Копилка мечты»: 5 недель, свайп-карточки
+   ========================================================= */
+const PG = (kind, e, t, s, n, x = {}) => ({ kind, e, t, s, n, ...x });
+const PG_KIND = { need: '✅ Нужная вещь', want: '🍭 Хотелка', deposit: '🏦 Вклад', credit: '💳 Долг', trap: '🦊 Ловушка', earn: '💪 Заработок' };
+const PIGGY = {
+  need: withIds('pn', [
+    PG('need', '📓', 'Тетрадь для школы', 'Завтра контрольная, а тетрадь закончилась.', 10, { why: 'Без тетради не напишешь контрольную.' }),
+    PG('need', '✏️', 'Ручка и карандаши', 'Старая ручка совсем не пишет.', 8, { why: 'Без ручки на уроке никак.' }),
+    PG('need', '🧤', 'Тёплые варежки', 'На улице мороз, а варежки порвались.', 15, { why: 'Зимой без варежек мёрзнут руки.' }),
+    PG('need', '🎒', 'Молния для рюкзака', 'Рюкзак порвался — учебники выпадают.', 12, { why: 'Без рюкзака не донесёшь учебники.' }),
+    PG('need', '🚌', 'Проездной на автобус', 'Чтобы ездить на тренировку.', 20, { why: 'Без проездного не доберёшься до тренировки.' }),
+    PG('need', '🧦', 'Носки для физкультуры', 'Старые совсем протёрлись.', 10, { why: 'На физкультуру нужна форма.' }),
+    PG('need', '📐', 'Линейка для урока', 'Учительница попросила принести.', 5, { why: 'Без линейки не начертишь задание.' }),
+    PG('need', '🪥', 'Новая зубная щётка', 'Старая уже совсем лохматая.', 6, { why: 'Чистые зубы — это здоровье.' }),
+    PG('need', '💧', 'Бутылка для воды', 'На тренировке очень хочется пить.', 10, { why: 'Пить воду на тренировке важно.' }),
+    PG('need', '📘', 'Рабочая тетрадь', 'Её попросили купить к уроку чтения.', 18, { why: 'Без неё не сделаешь задание на уроке.' }),
+    PG('need', '🩹', 'Пластыри в аптечку', 'Коленки после самоката просят защиты.', 5, { why: 'Аптечка должна быть под рукой.' })
+  ]),
+  want: withIds('pw', [
+    PG('want', '🍦', 'Мороженое с посыпкой', 'Ммм, так и тает!', 12),
+    PG('want', '🃏', 'Наклейки с котиками', 'Такие есть у всех в классе.', 10),
+    PG('want', '🧸', 'Ещё одна мягкая игрушка', 'Дома их уже двенадцать…', 25),
+    PG('want', '🍭', 'Огромный леденец', 'Размером с ладошку!', 8),
+    PG('want', '🎮', 'Скин для героя в игре', 'Золотой плащ, как у блогера.', 30),
+    PG('want', '🎈', 'Шарик-единорог', 'Светится в темноте.', 15),
+    PG('want', '🥤', 'Газировка', 'Шипит и щиплет язык.', 10),
+    PG('want', '💍', 'Кольцо-светяшка', 'Мигает семью цветами.', 18),
+    PG('want', '🎡', 'Колесо обозрения', 'Прокатиться ещё разок.', 20),
+    PG('want', '🪀', 'Модный йо-йо', 'Все в школе с ним ходят.', 22),
+    PG('want', '📱', 'Чехол с блёстками', 'Твой старый ещё целый.', 25),
+    PG('want', '🍫', 'Шоколадное яйцо', 'Вдруг там редкая фигурка?', 14),
+    PG('want', '🐱', 'Ободок с ушками', 'С котиковыми ушками.', 16),
+    PG('want', '🧃', 'Сок с трубочкой-зигзагом', 'Трубочка как американские горки.', 9),
+    PG('want', '🏷️', 'Фирменный пенал', 'Твой обычный тоже хорошо служит.', 28)
+  ]),
+  deposit: withIds('pd', [
+    PG('deposit', '🏦', 'Вклад в банке', 'Положи 30 монет. Банк их сбережёт и в конце игры вернёт 36!', 30, { ret: 36 }),
+    PG('deposit', '⛄', 'Вклад «Снеговик»', 'Отложи 20 монет — в конце получишь 24.', 20, { ret: 24 }),
+    PG('deposit', '🌱', 'Вклад «Росток»', 'Посади 40 монет — к концу игры вырастут до 48.', 40, { ret: 48 }),
+    PG('deposit', '🐿️', 'Вклад «Белочка»', 'Спрячь 25 монет в банке — вернётся 30.', 25, { ret: 30 })
+  ]),
+  credit: withIds('pc', [
+    PG('credit', '💳', 'Займи у банка', 'Дадим 30 монет сейчас. Через неделю вернёшь 40.', 30, { back: 40 }),
+    PG('credit', '🏪', 'Купи сейчас — плати потом', 'Получи 25 монет. На следующей неделе отдашь 35.', 25, { back: 35 }),
+    PG('credit', '🤝', 'Вася даёт в долг', 'Даёт 20 монет, а потом просит вернуть 26.', 20, { back: 26 }),
+    PG('credit', '⚡', 'Быстрый заём', 'Бери 40 монет сразу! Вернёшь «всего» 55.', 40, { back: 55 })
+  ]),
+  trap: withIds('pt', [
+    PG('trap', '🎰', 'Лотерея «Миллион»', 'Билет за 20 монет. Вдруг выиграешь миллион?', 20, { why: 'Почти все билеты проигрывают. Деньги уходят, а миллион не приходит.' }),
+    PG('trap', '🦊', '«Удвою твои монеты!»', 'Незнакомец в чате: «Отправь 30 — верну 60».', 30, { why: 'Это Лис-мошенник! Деньги уйдут и не вернутся.' }),
+    PG('trap', '📦', 'Коробка-сюрприз', '25 монет — а вдруг внутри телефон?', 25, { why: 'В таких коробках почти всегда мелочь, которая стоит дешевле самой коробки.' }),
+    PG('trap', '💎', 'Сундук с алмазами', '30 монет за шанс выбить легендарку в игре.', 30, { why: 'Шанс очень маленький, а платить можно бесконечно. Это ловушка.' }),
+    PG('trap', '🎲', 'Спор на монетки', 'Вова: «Ставь 15, что я не допрыгну!»', 15, { why: 'Спор на деньги — это азартная игра. Чаще проигрываешь.' })
+  ]),
+  earn: withIds('pe', [
+    PG('earn', '🌻', 'Помочь бабушке в саду', 'Бабушка заплатит за прополку грядок.', 15),
+    PG('earn', '🧶', 'Продать поделку', 'Твой браслет понравился на школьной ярмарке!', 20),
+    PG('earn', '🐕', 'Выгулять соседскую собаку', 'С разрешения родителей.', 10),
+    PG('earn', '📚', 'Сдать старые книги', 'Их возьмут в букинистический магазин.', 12),
+    PG('earn', '🍋', 'Лимонад с другом', 'Сделать лимонад и продать на ярмарке.', 18),
+    PG('earn', '♻️', 'Сдать макулатуру', 'Собрать старые газеты и сдать.', 10)
+  ])
+};
+const DREAMS = [{ e: '🛴', t: 'Самокат' }, { e: '🎨', t: 'Набор художника' }, { e: '🎧', t: 'Наушники' }, { e: '🏀', t: 'Баскетбольный мяч' }];
+const DREAM = 120, ALLOW = 40, WEEKS = 5;
+const pgGain = c => c.kind === 'earn' || c.kind === 'credit';
+const pgCost = c => pgGain(c) ? 0 : c.n;
+
+async function startPiggy() {
+  stopAll();
+  const take = {}, used = [];
+  Object.keys(PIGGY).forEach(k => { take[k] = Recent.order('pg_' + k, PIGGY[k]); });
+  const draw = k => { const c = take[k].shift() || pick(PIGGY[k]); used.push(c); return c; };
+  const specials = shuffle(['deposit', 'credit', 'trap', 'earn', pick(['earn', 'trap', 'deposit'])]);
+  const weeks = specials.map(sp => shuffle([draw('need'), draw('want'), draw('want'), draw(sp)]));
+  Object.keys(PIGGY).forEach(k => Recent.mark('pg_' + k, used.filter(c => c.kind === k), PIGGY[k]));
+  const S = ACTIVE = { id: 'piggy', paused: false, score: 0, wallet: 0, dep: [], debt: 0, needMiss: 0, traps: 0, credits: 0, wants: 0, wantSpent: 0, earned: 0, saved: 0, dream: null };
+  shell('piggy', `<div class="hud-t" id="hudT">Неделя 1 из ${WEEKS}</div>${hudSegs(WEEKS)}`,
+    `<div class="pg-top"><div class="pg-dream" id="dreamE">❔</div><div class="pg-info"><b id="dreamT">Мечта</b><div class="pbar"><i id="pgBar"></i></div><div class="pg-nums"><span id="pgHave">0 из ${DREAM}</span><span id="pgLeft"></span></div></div><div class="wallet" id="wallet">${ICON.coin}<b id="walletN">0</b></div></div>
+    <div class="pg-chips" id="pgChips"></div>
+    <div class="deck" id="deck"></div>
+    <div class="choice"><button class="btn no" id="bNo">👈 Нет</button><button class="btn" id="bYes">Да 👉</button></div>`);
+  await howTo(S); if (ACTIVE !== S) return;
+  S.dream = await pickDream(); if (ACTIVE !== S) return;
+  $('#dreamE').textContent = S.dream.e; $('#dreamT').textContent = `Мечта: ${S.dream.t}`; pgMoney(S, 0);
+  for (let w = 0; w < WEEKS; w++) {
+    $('#hudT').textContent = `Неделя ${w + 1} из ${WEEKS}`; setSegs(w);
+    await overlay(`<div class="wk">${pigSVG()}</div><div class="big">Неделя ${w + 1}${DOODLE.under('var(--m)')}</div>
+      <div class="hand">Карманные деньги: +${ALLOW} монет${S.debt ? `<br>Но сначала вернём долг: −${Math.min(S.debt, S.wallet + ALLOW)}` : ''}</div><button class="btn" id="go">Получить монетки</button>`);
+    if (ACTIVE !== S) return;
+    pgMoney(S, ALLOW); Sound.deliver();
+    if (S.debt) { await wait(600); const pay = Math.min(S.debt, S.wallet); S.debt -= pay; pgMoney(S, -pay); pgChips(S); say(`Вернули долг: −${pay} монет 💳`); }
+    else say(w === 0 ? 'Карманные пришли! На что потратить? 🤔' : pick(['Новая неделя — новые соблазны! 🤔', 'Монетки в кошельке. Думай, прежде чем тратить 🐷', 'Помни про мечту! ✨']));
+    const q = weeks[w].slice(), n0 = q.length;
+    let k = 0;
+    while (q.length) {
+      const c = q.shift();
+      setSegs(w, k++ / (n0 + (q.some(x => x.retry) ? 1 : 0)));
+      const yes = await pgCard(S, c, q[0]);
+      if (ACTIVE !== S) return;
+      await pgApply(S, c, yes, q);
+      if (ACTIVE !== S) return;
+    }
+    setSegs(w + 1);
+  }
+  pgFinale(S);
+}
+function pickDream() {
+  const el = $('#waveIn');
+  el.innerHTML = `<div class="hand" style="margin:0 0 4px">Копим на мечту!</div><div class="big" style="font-size:46px">Выбери мечту${DOODLE.under('var(--m)')}</div>
+    <div class="hand" style="font-size:22px">Она стоит ${DREAM} монет. Успеешь накопить за ${WEEKS} недель?</div>
+    <div class="opts" style="width:100%;max-width:340px">${DREAMS.map((d, i) => `<button class="opt" data-d="${i}" style="--i:${i};background:#fff;box-shadow:var(--shadow)"><span class="oi" style="background:var(--soft)">${d.e}</span><span>${d.t}</span></button>`).join('')}</div>`;
+  el.classList.add('show');
+  return new Promise(r => el.querySelectorAll('[data-d]').forEach(b => b.onclick = () => { Sound.tap(); vibrate(); el.classList.remove('show'); r(DREAMS[+b.dataset.d]); }));
+}
+function pgMoney(S, d) {
+  S.wallet += d;
+  const n = $('#walletN'); if (!n) return;
+  n.textContent = S.wallet;
+  $('#pgBar').style.width = clamp(S.wallet / DREAM * 100, 0, 100) + '%';
+  $('#pgHave').textContent = `${S.wallet} из ${DREAM}`;
+  $('#pgLeft').textContent = S.wallet >= DREAM ? 'хватает! 🎉' : `ещё ${DREAM - S.wallet}`;
+  if (d) { const w = $('#wallet'); w.classList.remove('wob'); void w.offsetWidth; w.classList.add('wob'); floatAt(w, (d > 0 ? '+' : '') + d, 'pts'); }
+}
+function pgChips(S) {
+  const dep = sum(S.dep, x => x), c = $('#pgChips'); if (!c) return;
+  c.innerHTML = (dep ? `<span class="minichip">🏦 Во вкладе: вернётся ${dep}</span>` : '') + (S.debt ? `<span class="minichip" style="color:#C2184B">💳 Долг: ${S.debt}</span>` : '');
+}
+const pgInner = c => `<div class="ce">${c.e}</div><h3>${c.t}</h3><p>${c.s}</p><div class="price ${pgGain(c) ? 'plus' : ''}">${ICON.coin}${pgGain(c) ? '+' : '−'}${c.n}</div>`;
+function pgCard(S, c, next) {
+  const deck = $('#deck');
+  deck.innerHTML = (next ? `<div class="card back">${pgInner(next)}</div>` : '') + `<div class="card" id="card">${pgInner(c)}<div class="stamp yes">Да</div><div class="stamp no">Нет</div></div>`;
+  const el = $('#card'), sy = el.querySelector('.stamp.yes'), sn = el.querySelector('.stamp.no');
+  return new Promise(res => {
+    let x0 = null, y0 = 0, dx = 0, dy = 0, done = false;
+    const setT = () => { el.style.transform = `translate(${dx}px,${dy * .3}px) rotate(${dx / 14}deg)`; sy.style.opacity = clamp(dx / 90, 0, 1); sn.style.opacity = clamp(-dx / 90, 0, 1); };
+    const reset = () => { dx = dy = 0; el.style.transition = 'transform .3s var(--spring)'; setT(); };
+    const decide = yes => {
+      if (done || S.paused || isModal()) return reset();
+      if (yes && pgCost(c) > S.wallet) {
+        reset(); el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
+        Sound.bad(); vibrate('error'); mood('oops', 1600);
+        say(`Не хватает монет: нужно ${pgCost(c)}, а у тебя ${S.wallet}. Придётся сказать «нет» 🙅`);
+        return;
+      }
+      done = true; S.onKey = null; Sound.tap();
+      el.style.transition = ''; el.classList.add('fly');
+      el.style.transform = `translate(${yes ? innerWidth : -innerWidth}px,40px) rotate(${yes ? 30 : -30}deg)`; el.style.opacity = 0;
+      setTimeout(() => res(yes), 260);
+    };
+    el.addEventListener('pointerdown', e => { if (done) return; x0 = e.clientX; y0 = e.clientY; el.setPointerCapture(e.pointerId); el.style.transition = 'none'; });
+    el.addEventListener('pointermove', e => { if (x0 === null) return; dx = e.clientX - x0; dy = e.clientY - y0; setT(); });
+    const end = () => { if (x0 === null) return; x0 = null; if (Math.abs(dx) > 80) decide(dx > 0); else reset(); };
+    el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+    $('#bYes').onclick = () => decide(true); $('#bNo').onclick = () => decide(false);
+    S.onKey = e => { if (e.key === 'ArrowRight') decide(true); if (e.key === 'ArrowLeft') decide(false); };
+  });
+}
+async function pgApply(S, c, yes, q) {
+  const tag = `<span class="chip">${PG_KIND[c.kind]}</span> `, w = $('#wallet');
+  if (c.kind === 'need') {
+    if (yes) { pgMoney(S, -c.n); setScore(10, w); mood('happy'); say(tag + 'Сначала нужное — потом хотелки 👍'); }
+    else if (!c.retry) {
+      S.needMiss++; mood('oops', 2000);
+      q.push({ ...c, retry: true, n: c.n + 5, t: c.t + ' — срочно!', s: 'Всё-таки понадобилось! Срочная покупка обходится дороже.' });
+      if (!seen('pg:need')) { markSeen('pg:need'); await lesson('oops', 'Это была нужная вещь!', `${c.why} Нужные вещи покупают в первую очередь. Иначе потом придётся покупать срочно — и дороже.`); }
+      say(tag + `${c.why} Она ещё вернётся — уже дороже 😕`);
+    } else { mood('sad', 2000); say(tag + 'Без нужных вещей бывает трудно. В следующий раз оставь на них монетки!'); }
+  } else if (c.kind === 'want') {
+    if (yes) { pgMoney(S, -c.n); S.wants++; S.wantSpent += c.n; mood('happy'); say(tag + `Приятно! Но до мечты стало дальше на ${c.n} 🙂`); }
+    else { S.saved += c.n; setScore(5, w); mood('happy'); say(tag + `Сэкономлено ${c.n} — мечта ближе! 🐷`); }
+  } else if (c.kind === 'deposit') {
+    if (yes) {
+      pgMoney(S, -c.n); S.dep.push(c.ret); setScore(15, w); mood('happy', 1800);
+      if (!seen('pg:deposit')) { markSeen('pg:deposit'); await lesson('happy', 'Ты открыл(а) вклад! 🏦', `Вклад — это когда деньги лежат в банке, а банк добавляет к ним немного сверху. Положил(а) ${c.n} — в конце получишь ${c.ret}. Такая прибавка называется «проценты».`); }
+      say(tag + `Монетки растут: ${c.n} → ${c.ret} 🌱`);
+    } else say(tag + `Можно и так. А вклад вернул бы ${c.ret} вместо ${c.n}.`);
+  } else if (c.kind === 'credit') {
+    if (yes) {
+      pgMoney(S, c.n); S.debt += c.back; S.credits++; mood('oops', 2000);
+      if (!seen('pg:credit')) { markSeen('pg:credit'); await lesson('oops', 'Это кредит — деньги в долг 💳', `Взял(а) ${c.n}, а вернуть придётся ${c.back}. Лишние ${c.back - c.n} — это переплата. Долг заберут из следующих карманных денег.`); }
+      say(tag + `Вернуть придётся ${c.back}. Переплата ${c.back - c.n} 😬`);
+    } else { setScore(10, w); mood('happy'); say(tag + `Верно! Взять ${c.n}, а отдать ${c.back} — невыгодно.`); }
+  } else if (c.kind === 'trap') {
+    if (yes) {
+      pgMoney(S, -c.n); S.traps++; mood('sad', 2200); Sound.bad(); vibrate('error');
+      if (!seen('pg:trap')) { markSeen('pg:trap'); await lesson('sad', 'Ой, это была ловушка!', `${c.why} Если обещают много денег за чуть-чуть — это почти всегда обман.`); }
+      say(tag + c.why);
+    } else { setScore(15, w); mood('happy'); say(tag + 'Ловко! Ты не попался на удочку 🦊'); }
+  } else if (c.kind === 'earn') {
+    if (yes) { pgMoney(S, c.n); S.earned += c.n; setScore(10, w); Sound.deliver(); mood('happy'); say(tag + `+${c.n} — честно заработано 💪`); }
+    else say(tag + 'Можно и отдохнуть. Но монетки не помешали бы!');
+  }
+  pgChips(S);
+  await wait(300);
+}
+async function pgFinale(S) {
+  $('#deck').innerHTML = '';
+  const dep = sum(S.dep, x => x);
+  if (dep) { pgMoney(S, dep); S.dep = []; pgChips(S); Sound.deliver(); say(`Вклады вернулись с процентами: +${dep} 🏦`); await wait(1300); }
+  if (S.debt) { const pay = Math.min(S.debt, S.wallet); pgMoney(S, -pay); S.debt -= pay; pgChips(S); say(`Вернули долг: −${pay} 💳`); await wait(1100); }
+  if (ACTIVE !== S) return;
+  const ok = S.wallet >= DREAM;
+  if (ok) { Sound.win(); confetti(); } else Sound.tap();
+  await overlay(`${bigEmoji(S.dream.e)}<div class="big" style="font-size:46px">${ok ? 'Мечта твоя!' : 'Почти получилось!'}${DOODLE.under('var(--m)')}</div>
+    <div class="hand">${ok ? `Накоплено ${S.wallet} из ${DREAM} — ${S.dream.t.toLowerCase()} уже у тебя!` : `Накоплено ${S.wallet} из ${DREAM}. Не хватило ${DREAM - S.wallet}.`}</div><button class="btn" id="go">Смотреть итог</button>`);
+  if (ACTIVE !== S) return;
+  const stars = Math.max(1, (ok ? 1 : 0) + (S.needMiss ? 0 : 1) + (S.traps + S.credits ? 0 : 1));
+  modeResult({
+    id: 'piggy', stars,
+    title: ok ? (stars === 3 ? 'Финансовый гений!' : 'Мечта сбылась!') : 'Почти накопил(а)!',
+    sub: ok ? `Ты накопил(а) на ${S.dream.t.toLowerCase()} ${S.dream.e} и даже осталось ${S.wallet - DREAM} монет.` : `Хотелки забрали ${S.wantSpent} монет${S.traps ? ', а ловушки — ещё немного' : ''}. Пропусти пару соблазнов — и мечта твоя!`,
+    stats: [
+      { icon: ICON.coin, v: S.wallet, suf: '/' + DREAM, l: 'монет накоплено', c: 'var(--yellow)' },
+      { icon: '<span style="font-size:26px">🍭</span>', v: S.wants, l: `хотелок куплено (−${S.wantSpent})`, c: 'var(--pink)' },
+      { icon: '<span style="font-size:26px">💪</span>', v: S.earned, l: 'монет заработано', c: 'var(--green)' },
+      { icon: ICON.star, v: S.score, l: 'очков', c: 'var(--m)' }
+    ],
+    extra: rulesBlock('Что знают финансовые гении', [['✅', 'Сначала нужное, потом хотелки.'], ['🏦', 'Вклад: деньги лежат в банке и понемногу растут.'], ['💳', 'Кредит: вернуть придётся больше, чем взял.'], ['🦊', 'Обещают много и сразу — это ловушка.']]),
+    payload: { score: S.score, saved: S.wallet, goal: DREAM, dreamReached: ok, wantsBought: S.wants, needsSkipped: S.needMiss, trapsFallen: S.traps, creditsTaken: S.credits, earned: S.earned },
+    shareLine: ok ? `Накопил(а) на мечту ${S.dream.e} за 5 недель!` : `Накопил(а) ${S.wallet} из ${DREAM} монет 🐷`
+  });
+}
+
+/* =========================================================
+   ДЕНЬГИ · «Хватит ли денег?»: лента в магазине
+   ========================================================= */
+const PRODS = {
+  milk: ['🥛', 'Молоко', 12], bread: ['🍞', 'Хлеб', 6], eggs: ['🥚', 'Яйца', 14], flour: ['🌾', 'Мука', 9], honey: ['🍯', 'Мёд', 16],
+  potato: ['🥔', 'Картошка', 8], carrot: ['🥕', 'Морковь', 5], onion: ['🧅', 'Лук', 3], pasta: ['🍝', 'Макароны', 8], cucumber: ['🥒', 'Огурцы', 7],
+  tomato: ['🍅', 'Помидоры', 9], lemon: ['🍋', 'Лимон', 4], cheese: ['🧀', 'Сыр', 18], juice: ['🧃', 'Сок', 9], apple: ['🍎', 'Яблоки', 10],
+  tea: ['🍵', 'Чай', 11], cookie: ['🍪', 'Печенье', 10], banana: ['🍌', 'Бананы', 11], straw: ['🍓', 'Клубника', 15], notebook: ['📓', 'Тетрадь', 5],
+  pencil: ['✏️', 'Карандаш', 3], fish: ['🐟', 'Рыба', 20], rice: ['🍚', 'Рис', 9], broc: ['🥦', 'Брокколи', 9], butter: ['🧈', 'Масло', 13],
+  soap: ['🧼', 'Мыло', 6], paste: ['🪥', 'Зубная паста', 10], napkin: ['🧻', 'Салфетки', 6], sponge: ['🧽', 'Губка', 4], sausage: ['🌭', 'Сосиски', 15],
+  corn: ['🌽', 'Кукуруза', 6], pear: ['🍐', 'Груши', 10]
+};
+const SHOPLISTS = withIds('sl', [
+  { t: 'Блинчики к завтраку 🥞', i: ['milk', 'eggs', 'flour', 'honey'] },
+  { t: 'Суп для всей семьи 🍲', i: ['potato', 'carrot', 'onion', 'pasta'] },
+  { t: 'Салат к ужину 🥗', i: ['cucumber', 'tomato', 'onion', 'lemon'] },
+  { t: 'Пикник в парке 🧺', i: ['bread', 'cheese', 'juice', 'apple'] },
+  { t: 'Чай с бабушкой 🫖', i: ['tea', 'cookie', 'honey', 'lemon'] },
+  { t: 'Фруктовый день 🍉', i: ['banana', 'apple', 'straw', 'pear'] },
+  { t: 'Сборы в школу 🎒', i: ['notebook', 'pencil', 'juice', 'apple'] },
+  { t: 'Ужин с папой 🍽️', i: ['fish', 'rice', 'broc', 'butter'] },
+  { t: 'Чистюля 🫧', i: ['soap', 'paste', 'napkin', 'sponge'] },
+  { t: 'Хот-доги на даче 🌭', i: ['sausage', 'bread', 'tomato', 'cucumber'] },
+  { t: 'Каша на завтрак 🥣', i: ['rice', 'milk', 'butter', 'banana'] },
+  { t: 'Овощи на гриле 🔥', i: ['corn', 'potato', 'tomato', 'onion'] }
+]);
+const EXTRAS = [['🍭', 'Леденец', 7], ['🧸', 'Мишка', 25], ['🎈', 'Шарик', 9], ['🍩', 'Пончик', 8], ['🥤', 'Газировка', 10], ['🍫', 'Шоколадка', 11], ['🪀', 'Йо-йо', 15], ['🍦', 'Мороженое', 12], ['🃏', 'Наклейки', 6], ['🚀', 'Ракета', 20]];
+const FANCY = ['✨ блестящая', '📺 из рекламы', '🦄 с единорогом', '⭐ премиум', '🎀 с бантиком', '🦸 с героем'];
+const CART_R = [{ n: 2, m: 8, v: 58 }, { n: 3, m: 6, v: 72 }, { n: 4, m: 4, v: 86 }];
+
+async function startCart() {
+  stopAll();
+  const lists = Recent.order('cart', SHOPLISTS).slice(0, 3); Recent.mark('cart', lists, SHOPLISTS);
+  const S = ACTIVE = { id: 'cart', paused: false, score: 0, lists, ri: 0, perfect: 0, change: 0, overs: 0, fancy: 0, extras: 0, tiles: [], cart: [] };
+  shell('cart', `<div class="hud-t" id="hudT">Покупка 1 из 3</div>${hudSegs(3)}`,
+    `<div class="ct-top"><div class="slist" id="slist"></div><div class="budget"><small>Есть денег</small><b>${ICON.coin}<span id="bud">0</span></b><small>Останется</small><b class="left" id="left">0</b></div></div>
+    <div class="belt" id="belt"><div class="track run"></div></div>
+    <div class="cartbar"><span class="cic">🛒</span><div class="incart" id="incart"></div></div>`,
+    `<button class="btn pay" id="pay">На кассу</button>`);
+  await howTo(S); if (ACTIVE !== S) return;
+  for (S.ri = 0; S.ri < CART_R.length; S.ri++) { await cartRound(S); if (ACTIVE !== S) return; }
+  cartResult(S);
+}
+const cartTotal = S => sum(S.cart, c => c.price);
+function cartExtras(S) { const ks = new Set(); return S.cart.filter(c => { if (c.extra || ks.has(c.k)) return true; ks.add(c.k); return false; }); }
+function cartRound(S) {
+  return new Promise(async res => {
+    const R = CART_R[S.ri], L = S.lists[S.ri];
+    S.paused = true;
+    S.list = L.i.slice(0, R.n).map(k => ({ k, e: PRODS[k][0], t: PRODS[k][1], p: PRODS[k][2] }));
+    S.cart = []; S.showWarn = false; S.roundOver = false; S.queue = [];
+    S.budget = sum(S.list, x => x.p) + R.m;
+    S.variants = [];
+    S.list.forEach(it => {
+      S.variants.push({ ...it, fancy: false, price: it.p });
+      S.variants.push({ ...it, fancy: pick(FANCY), price: it.p + Math.max(3, Math.round(it.p * rnd(.5, .9))) });
+    });
+    shuffle(EXTRAS).slice(0, 3).forEach(x => S.variants.push({ k: 'x' + x[1], e: x[0], t: x[1], p: x[2], price: x[2], fancy: false, extra: true }));
+    $('#hudT').textContent = `Покупка ${S.ri + 1} из ${CART_R.length}`; setSegs(S.ri);
+    S.tiles.forEach(t => t.el.remove()); S.tiles = [];
+    cartRender(S);
+    await overlay(`${bigEmoji('🛒')}<div class="big" style="font-size:38px">${L.t}${DOODLE.under('var(--m)')}</div>
+      <div class="hand">Купи: ${S.list.map(x => x.e + ' ' + x.t.toLowerCase()).join(', ')}.<br>У тебя ${S.budget} монет.</div><button class="btn" id="go">К ленте!</button>`);
+    if (ACTIVE !== S) return;
+    say(S.ri === 0 ? 'Тапай по товарам из списка — они прыгнут в тележку!' : 'Лента поехала быстрее! Смотри на цены 🔍');
+    const belt = $('#belt');
+    for (let x = 16; x < belt.clientWidth; x += 124) cartSpawn(S, belt, x);
+    S.paused = false; S.done = res;
+    $('#pay').onclick = () => cartPay(S);
+    const id = ++loopId; let last = performance.now();
+    const step = t => { if (id !== loopId) return; const dt = Math.min(.05, (t - last) / 1000); last = t; if (!S.paused) cartUpdate(S, dt, R.v); requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+}
+function cartUpdate(S, dt, v) {
+  const belt = $('#belt'); if (!belt) return;
+  const W = belt.clientWidth, maxX = S.tiles.reduce((m, t) => Math.max(m, t.x), -999);
+  if (maxX < W - 124) cartSpawn(S, belt, Math.max(W + 10, maxX + 124));
+  for (const t of S.tiles) { t.x -= v * dt; t.el.style.transform = `translateX(${t.x}px) rotate(${t.rot}deg)`; }
+  S.tiles = S.tiles.filter(t => { if (t.x < -110) { t.el.remove(); return false; } return true; });
+}
+function cartSpawn(S, belt, x) {
+  // что уже лежит в тележке, на ленту больше не выезжает (кроме «хотелок»)
+  let it = null;
+  for (let n = 0; n < S.variants.length * 2 && !it; n++) {
+    if (!S.queue.length) S.queue = shuffle(S.variants);
+    const c = S.queue.shift();
+    if (c.extra || !S.cart.some(x => x.k === c.k)) it = c;
+  }
+  if (!it) return;
+  const el = document.createElement('div'); el.className = 'prod'; el.setAttribute('role', 'button');
+  el.innerHTML = `${it.fancy ? `<span class="fancy">${it.fancy}</span>` : ''}<span class="pe">${it.e}</span><span class="pn">${it.t}</span><span class="pp">${ICON.coin}${it.price}</span>`;
+  belt.appendChild(el);
+  const t = { it, el, x, rot: rnd(-3, 3) };
+  el.style.transform = `translateX(${x}px) rotate(${t.rot}deg)`; S.tiles.push(t);
+  el.addEventListener('pointerdown', e => { e.preventDefault(); cartGrab(S, t); });
+}
+function cartGrab(S, t) {
+  if (S.paused || S.checking || !S.tiles.includes(t)) return;
+  const it = t.it, r = t.el.getBoundingClientRect(), cr = $('#incart').getBoundingClientRect();
+  S.tiles = S.tiles.filter(x => x !== t); t.el.remove();
+  const f = document.createElement('div'); f.className = 'flyc'; f.style.cssText = `left:${r.left + r.width / 2}px;top:${r.top + r.height / 2}px;font-size:36px;line-height:28px;text-align:center`; f.textContent = it.e; fx.appendChild(f);
+  requestAnimationFrame(() => requestAnimationFrame(() => { f.style.transform = `translate(${cr.left + 30 - r.left - r.width / 2}px,${cr.top + 18 - r.top - r.height / 2}px) scale(.6)`; }));
+  setTimeout(() => f.remove(), 650);
+  const dup = S.cart.some(x => x.k === it.k);
+  S.cart.push(it); Sound.tap(); vibrate('light');
+  if (it.extra) { mood('oops'); say(`${it.e} ${it.t} — этого нет в списке. Это хотелка 🙂`); }
+  else if (dup) say(`${it.e} уже лежит в тележке!`);
+  else if (it.fancy) say(`${it.e} в тележке. А цена на ленте была самая выгодная? 🤔`);
+  else { mood('happy'); say(pick(['В тележку! 🛒', 'Есть! Ещё пункт из списка ✓', 'Отличный выбор 👍'])); }
+  cartRender(S);
+}
+function cartRender(S) {
+  const total = cartTotal(S), left = S.budget - total, warn = new Set(cartExtras(S));
+  $('#slist').innerHTML = `<span class="hand">${S.lists[S.ri].t}</span><ul>${S.list.map(x => `<li class="${S.cart.some(c => c.k === x.k) ? 'ok' : ''}">${x.e} ${x.t}</li>`).join('')}</ul>`;
+  $('#bud').textContent = S.budget;
+  const l = $('#left'); l.textContent = left; l.classList.toggle('over', left < 0);
+  const ic = $('#incart');
+  ic.innerHTML = S.cart.length ? S.cart.map((c, i) => `<button data-c="${i}" class="${S.showWarn && (c.fancy || warn.has(c)) ? 'warn' : ''}" aria-label="Убрать ${c.t}">${c.e}<small>${c.price}</small></button>`).join('') : '<span class="empty">Пока пусто. Тапни товар на ленте!</span>';
+  ic.querySelectorAll('[data-c]').forEach(b => b.onclick = () => {
+    if (S.paused || S.checking) return;
+    const c = S.cart.splice(+b.dataset.c, 1)[0]; Sound.tap();
+    say(`${c.e} вернули на полку ↩️`); cartRender(S);
+  });
+}
+async function cartPay(S) {
+  if (S.paused || S.checking) return;
+  Sound.tap();
+  const missing = S.list.filter(x => !S.cart.some(c => c.k === x.k));
+  if (missing.length) {
+    mood('oops'); say(`В списке ещё: ${missing.map(x => x.e + ' ' + x.t.toLowerCase()).join(', ')}`);
+    const l = $('#slist'); l.classList.remove('oops'); void l.offsetWidth; l.classList.add('oops'); return;
+  }
+  const total = cartTotal(S);
+  if (total > S.budget) {
+    S.roundOver = true; S.overs++; S.showWarn = true; S.paused = true; cartRender(S);
+    Sound.bad(); vibrate('error'); mood('oops', 2500);
+    await modalP(`<div class="mh"><div class="mm" data-mood="oops">${klyaksik()}</div><h3>Не хватает ${total - S.budget} монет!</h3></div>
+      <p>На кассе платят только теми деньгами, что есть. Убери лишнее — нажми на товар в тележке. Красным подсвечены дорогие упаковки и вещи не из списка.</p>
+      <button class="btn" id="mOk">Убрать лишнее</button>`);
+    S.paused = false; say('Тапни по красным товарам в тележке, чтобы убрать их 👇'); return;
+  }
+  S.checking = true; S.paused = true;
+  const fancy = S.cart.filter(c => c.fancy), extra = cartExtras(S).filter(c => !c.fancy);
+  const perfect = !fancy.length && !extra.length && !S.roundOver, change = S.budget - total;
+  if (perfect) S.perfect++;
+  S.fancy += fancy.length; S.extras += extra.length; S.change += change;
+  setScore(change * 2 + (perfect ? 30 : 10), $('#pay'));
+  Sound.good(); vibrate('success'); mood('happy', 2000);
+  const lines = [
+    ...fancy.map(c => { const plain = S.variants.find(v => v.k === c.k && !v.fancy); return `<div><b>${c.e} ${c.t} «${c.fancy}»</b> — ${c.price}, а обычные — ${plain.price}. Внутри то же самое! Переплата ${c.price - plain.price}.</div>`; }),
+    ...extra.map(c => `<div><b>${c.e} ${c.t}</b> — не из списка. Хотелка за ${c.price}.</div>`)
+  ];
+  await modalP(`<div class="mh"><div class="mm" data-mood="happy">${klyaksik()}</div><h3>${perfect ? 'Идеальная покупка! 🏆' : 'Покупка оплачена!'}</h3></div>
+    <p>Сдача: <b>${change} монет</b>${change ? ' — кладём в копилку 🐷' : ''}</p>
+    ${lines.length ? `<div class="mlist">${lines.join('')}</div>` : '<p>Всё по списку и по самой честной цене. Так покупают настоящие профи!</p>'}
+    <button class="btn" id="mOk">${S.ri + 1 < CART_R.length ? 'Следующая покупка' : 'Смотреть итог'}</button>`);
+  S.checking = false; setSegs(S.ri + 1); S.done();
+}
+function cartResult(S) {
+  const stars = Math.max(1, S.perfect);
+  modeResult({
+    id: 'cart', stars,
+    title: ['', 'Начинающий покупатель!', 'Умелый покупатель!', 'Король скидок!'][stars],
+    sub: stars === 3 ? 'Все покупки по списку и по лучшей цене. Ни одной монеты мимо!' : 'Ты уложился(ась) в бюджет. В следующий раз сравни цены на ленте — и сдачи будет больше!',
+    stats: [
+      { icon: ICON.coin, v: S.change, l: 'монет сдачи в копилке', c: 'var(--yellow)' },
+      { icon: '<span style="font-size:26px">🏆</span>', v: S.perfect, suf: '/' + CART_R.length, l: 'идеальных покупок', c: 'var(--green)' },
+      { icon: '<span style="font-size:26px">✨</span>', v: S.fancy, l: 'дорогих упаковок', c: 'var(--pink)' },
+      { icon: ICON.star, v: S.score, l: 'очков', c: 'var(--m)' }
+    ],
+    extra: rulesBlock('Правила умного покупателя', [['📝', 'Покупай по списку — так деньги не разбегутся.'], ['🔍', 'Сравнивай цены: дороже — не значит лучше.'], ['🧮', 'Перед кассой посчитай: хватит ли денег?']]),
+    payload: { score: S.score, change: S.change, perfectRounds: S.perfect, fancyBought: S.fancy, extrasBought: S.extras, overBudget: S.overs },
+    shareLine: `Сдача в копилке: ${S.change} монет 🛒`
+  });
+}
+
+/* =========================================================
+   ДРУЖБА И Я · «Ловец эмоций»: кетчер
+   ========================================================= */
+const EMOS = {
+  joy:   { e: '😄', t: 'Радость',   c: '#FFE45C', d: 'бывает, когда случилось что-то хорошее' },
+  sad:   { e: '😢', t: 'Грусть',    c: '#8FD8FF', d: 'бывает, когда что-то потерял или не получилось' },
+  angry: { e: '😠', t: 'Злость',    c: '#FF8FAB', d: 'бывает, когда мешают или поступают нечестно' },
+  fear:  { e: '😨', t: 'Страх',     c: '#C9B0FF', d: 'бывает, когда опасно или непонятно, что будет' },
+  wow:   { e: '😲', t: 'Удивление', c: '#D4F76A', d: 'бывает, когда случилось что-то неожиданное' },
+  hurt:  { e: '😣', t: 'Обида',     c: '#FFBE7D', d: 'бывает, когда тебя не позвали или сказали обидное' }
+};
+const SIT = (av, name, text, emo, good, b1, b2) => ({ av, name, text, emo, good, bad: [b1, b2] });
+const SITUATIONS = withIds('s', [
+  SIT('anya', 'Аня', 'Ане подарили щенка!', 'joy', 'Ура! Покажешь мне его?', 'Подумаешь, щенок.', 'А у меня кот лучше.'),
+  SIT('petya', 'Петя', 'У Пети сломалась любимая машинка', 'sad', 'Давай попробуем починить её вместе', 'Сам виноват!', 'Ха-ха, сломал!'),
+  SIT('sasha', 'Саша', 'Сашу толкнули в очереди, и он упал', 'angry', 'Ты в порядке? Давай расскажем учителю', 'Не ной!', 'Толкни его в ответ!'),
+  SIT('klass', 'Митя', 'Мите приснился страшный сон', 'fear', 'Это был только сон. Ты в безопасности', 'Трусишка!', 'Сны всегда сбываются!'),
+  SIT('anya', 'Лиза', 'Лизе устроили праздник-сюрприз', 'wow', 'Сюрприз! Мы тебя любим!', 'Ничего особенного.', 'Мне такого не делали.'),
+  SIT('gamer', 'Вова', 'Вову не позвали играть в футбол', 'hurt', 'Пойдём к нам в команду!', 'Ты всё равно плохо играешь.', 'Иди отсюда.'),
+  SIT('cat', 'Катя', 'Кате поставили пятёрку за рисунок', 'joy', 'Круто! Ты молодец!', 'Я рисую лучше.', 'Просто повезло.'),
+  SIT('sasha', 'Рома', 'У Ромы потерялся кот', 'sad', 'Давай вместе повесим объявления', 'Заведёшь нового.', 'Не плачь, это же просто кот.'),
+  SIT('petya', 'Миша', 'Мишу дразнят из-за очков', 'hurt', 'Очки тебе идут! Не слушай их', 'Ну правда смешно.', 'Сними их тогда.'),
+  SIT('anya', 'Оля', 'Младший брат разлил сок на Олин рисунок', 'angry', 'Обидно! Давай нарисуем новый вместе', 'Подумаешь, рисунок.', 'Накажи его!'),
+  SIT('coach', 'Даня', 'Даня первый раз прыгает с вышки в бассейне', 'fear', 'Я рядом! Можно начать с бортика', 'Трус, прыгай уже!', 'Все прыгают, а ты нет.'),
+  SIT('cat', 'Женя', 'Из коробки вдруг выпрыгнул котёнок!', 'wow', 'Ого! Вот это сюрприз!', 'Фу, кот.', 'И что тут такого?'),
+  SIT('sasha', 'Тимур', 'Лучший друг Тимура переезжает в другой город', 'sad', 'Будете созваниваться каждую неделю!', 'Найдёшь другого.', 'Ну и ладно.'),
+  SIT('gamer', 'Тима', 'Брат забрал у Тимы планшет без спроса', 'angry', 'Скажи ему: «Мне неприятно, верни, пожалуйста»', 'Забери силой!', 'Да ладно, не жадничай.'),
+  SIT('klass', 'Нина', 'Нина осталась одна в тёмной комнате', 'fear', 'Давай включим свет — и страх уйдёт', 'Бу-у-у!', 'Темноты боятся только малыши.'),
+  SIT('petya', 'Лёва', 'Лёва выиграл школьный забег', 'joy', 'Ура! Ты самый быстрый!', 'Просто повезло.', 'Я бы тебя обогнал.'),
+  SIT('anya', 'Света', 'Свете сказали, что её поделка некрасивая', 'hurt', 'А мне нравится! Особенно цвета', 'Правда некрасивая.', 'Ну и выброси её.'),
+  SIT('coach', 'Гоша', 'Гоша увидел большую собаку без поводка', 'fear', 'Давай спокойно отойдём и позовём взрослого', 'Да ладно, погладь её!', 'Кричи на неё!'),
+  SIT('cat', 'Алиса', 'У Алисы день рождения, а все забыли поздравить', 'hurt', 'С днём рождения! Прости, что поздно', 'Ну и что?', 'Дни рождения у всех бывают.'),
+  SIT('sasha', 'Костя', 'Костя порвал куртку и боится сказать маме', 'fear', 'Давай вместе расскажем — мама поймёт', 'Спрячь куртку!', 'Ну всё, тебе влетит!'),
+  SIT('anya', 'Маша', 'Маша нашла в лесу гриб размером с её голову!', 'wow', 'Вот это да! Покажи!', 'Подумаешь, гриб.', 'Врёшь ты всё!'),
+  SIT('klass', 'Рома', 'Малыш сломал Ромину башню из кубиков', 'angry', 'Давай построим ещё выше!', 'Сломай ему что-нибудь тоже!', 'Сам виноват — надо было прятать.'),
+  SIT('cat', 'Соня', 'Бабушка Сони заболела', 'sad', 'Хочешь, нарисуем для неё открытку?', 'Не грусти, это ерунда.', 'Все болеют.'),
+  SIT('gamer', 'Вася', 'Вася наконец научился кататься на велосипеде!', 'joy', 'Ура! Поехали кататься вместе!', 'Я давно умею.', 'Всё равно упадёшь.'),
+  SIT('klass', 'Кира', 'Ночью за окном громко ударил гром', 'fear', 'Гром громкий, но дома мы в безопасности', 'Сейчас как бабахнет!', 'Не будь трусихой.'),
+  SIT('petya', 'Женя', 'Женя открыл шкаф, а оттуда — гора воздушных шариков!', 'wow', 'Ого! Кто же это придумал?', 'Скукота.', 'Убери это.'),
+  SIT('anya', 'Злата', 'Злата проиграла в настолку, и все смеются', 'hurt', 'Проигрывать обидно. Сыграем ещё?', 'Ха-ха, проиграла!', 'Не умеешь — не садись.'),
+  SIT('sasha', 'Тёма', 'Тёме в игре третий раз не дают сказать слово', 'angry', 'Давайте послушаем Тёму!', 'Помолчи.', 'Ты всегда мешаешь.'),
+  SIT('cat', 'Полина', 'У Полины уснула навсегда рыбка', 'sad', 'Мне очень жаль. Хочешь, посидим вместе?', 'Купишь новую.', 'Это всего лишь рыбка.'),
+  SIT('coach', 'Артём', 'Артёму пришло письмо от друга из другой страны', 'joy', 'Здорово! Что он пишет?', 'Кому нужны письма?', 'Ну и что.'),
+  SIT('sasha', 'Саша', 'Вы с Сашей хотите покачаться на одних качелях', 'angry', 'Давай по очереди: сначала ты, потом я!', 'Уйди, они мои!', 'Не дам — и всё!'),
+  SIT('anya', 'Аня', 'Аня хотела в куклы, а все выбрали прятки', 'hurt', 'Давай сначала в прятки, а потом в куклы!', 'Куклы — для малышей.', 'Не хочешь — не играй.'),
+  SIT('gamer', 'Федя', 'Федю ругают за чужую шалость', 'hurt', 'Я скажу учителю, что это был не ты', 'Так тебе и надо.', 'Молчи, а то и мне попадёт.'),
+  SIT('petya', 'Петя', 'Петя впервые выступает на сцене', 'fear', 'У тебя получится! Я буду хлопать громче всех', 'Вдруг ты забудешь слова?', 'Все будут смеяться.'),
+  SIT('cat', 'Даша', 'Даше подарили билеты в цирк!', 'joy', 'Ура! Расскажешь потом, как было?', 'Цирк — это скучно.', 'Лучше бы мне подарили.'),
+  SIT('coach', 'Ваня', 'Ваня забил свой первый гол!', 'joy', 'Гооол! Ты супер!', 'Вратарь просто поскользнулся.', 'Случайно получилось.'),
+  SIT('sasha', 'Илья', 'Илья открыл подарок, а там — живая черепашка!', 'wow', 'Ничего себе! Как назовёшь?', 'Черепахи скучные.', 'Фу.'),
+  SIT('klass', 'Лена', 'Лена потеряла варежку на прогулке', 'sad', 'Давай поищем вместе!', 'Растеряша!', 'Сама виновата.'),
+  SIT('anya', 'Ксюша', 'Ксюшин рисунок порвали и не извинились', 'angry', 'Это нечестно. Пусть извинятся — я с тобой', 'Порви их рисунок тоже!', 'Не злись, это ерунда.')
+]);
+const KIND_OK = ['Так поступают настоящие друзья 💛', 'Другу сразу стало легче 💛', 'Добрые слова — суперсила! 💛', 'Вот это поддержка! 🤗'];
+
+async function startEmo() {
+  stopAll();
+  const list = Recent.order('emo', SITUATIONS).slice(0, 8); Recent.mark('emo', list, SITUATIONS);
+  const S = ACTIVE = { id: 'emo', paused: true, score: 0, list, i: -1, phase: 'wait', drops: [], seq: [], opts: [], cx: 0, tx: 0, right: 0, wrong: 0, kind: 0, unkind: 0, wrongHere: 0, combo: 0, got: {}, since: 9, speedK: 1 };
+  shell('emo', `<div class="hud-t" id="hudT">Друг 1 из ${list.length}</div>${hudSegs(list.length)}`,
+    `<div class="emo-top" id="emoTop"></div><div class="emo-q" id="emoQ"></div>
+    <div class="efield" id="efield"><div class="catcher bm" id="catcher" data-mood="idle"><svg class="net" viewBox="0 0 120 30"><path d="M6 6Q60 46 114 6" stroke="#111216" stroke-width="5" fill="rgba(255,255,255,.8)" stroke-linecap="round"/></svg>${klyaksik()}</div>${seen('emo:drag') ? '' : '<div class="drag-hint" id="dragHint">👈 двигай Кляксика 👉</div>'}</div>`);
+  $('.m-emo .dock-m').style.display = 'none';
+  const field = $('#efield');
+  S.cx = S.tx = field.clientWidth / 2;
+  const setT = e => { const r = field.getBoundingClientRect(); S.tx = clamp(e.clientX - r.left, 50, r.width - 50); const h = $('#dragHint'); if (h) { h.remove(); markSeen('emo:drag'); } };
+  field.addEventListener('pointerdown', e => { try { field.setPointerCapture(e.pointerId); } catch (er) {} setT(e); });
+  field.addEventListener('pointermove', e => { if (e.buttons || e.pointerType === 'mouse') setT(e); });
+  S.onKey = e => { const W = field.clientWidth; if (e.key === 'ArrowLeft') S.tx = clamp(S.tx - 70, 50, W - 50); if (e.key === 'ArrowRight') S.tx = clamp(S.tx + 70, 50, W - 50); };
+  await howTo(S); if (ACTIVE !== S) return;
+  const id = ++loopId; let last = performance.now();
+  const step = t => { if (id !== loopId) return; const dt = Math.min(.05, (t - last) / 1000); last = t; if (!S.paused) emoUpdate(S, dt); requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+  emoNext(S);
+}
+function emoNext(S) {
+  S.i++;
+  if (S.i >= S.list.length) return emoEnd(S);
+  const s = S.cur = S.list[S.i];
+  S.phase = 'emo'; S.wrongHere = 0; S.seq = []; S.since = 9; S.speedK = 1 + S.i * .07;
+  $('#hudT').textContent = `Друг ${S.i + 1} из ${S.list.length}`; setSegs(S.i);
+  $('#emoTop').innerHTML = `<div class="emo-av">${avatar(s.av)}<span class="face" id="face">?</span></div><div class="emo-txt"><b>${s.name}</b><div>${s.text}</div></div>`;
+  $('#emoQ').textContent = `Что чувствует ${s.name}? Лови!`;
+  S.opts = [s.emo, ...shuffle(Object.keys(EMOS).filter(k => k !== s.emo)).slice(0, 3)].map(k => ({ type: 'e', k, ok: k === s.emo }));
+  if (S.i === 0) say('Лови эмоцию, которая подходит другу 💛');
+  S.paused = false;
+}
+function emoUpdate(S, dt) {
+  const f = $('#efield'); if (!f) return;
+  const W = f.clientWidth, H = f.clientHeight;
+  S.cx += (S.tx - S.cx) * Math.min(1, dt * 12);
+  $('#catcher').style.transform = `translateX(${S.cx}px)`;
+  if (S.phase === 'wait') return;
+  S.since += dt;
+  const gap = (S.phase === 'emo' ? 1.1 : 1.5) / S.speedK;
+  if (S.since > gap && S.drops.filter(d => !d.done).length < 3) emoSpawn(S, f, W);
+  const catchY = H - 92, speed = (H + 60) / (4.6 / S.speedK);
+  for (const d of S.drops) {
+    if (d.done) continue;
+    d.y += speed * dt; d.el.style.transform = `translate(${d.x}px,${d.y}px)`;
+    const bottom = d.y + d.h;
+    if (bottom > catchY && bottom < catchY + 46 && Math.abs(d.x - S.cx) < 64) emoCatch(S, d);
+    else if (d.y > H + 10) { d.done = true; d.el.remove(); }
+  }
+  S.drops = S.drops.filter(d => !d.done || d.el.isConnected);
+}
+function emoSpawn(S, f, W) {
+  if (!S.seq.length) S.seq = shuffle(S.opts);
+  const o = S.seq.shift(), el = document.createElement('div');
+  if (o.type === 'e') { const E = EMOS[o.k]; el.className = 'drop e'; el.innerHTML = `<svg viewBox="0 0 86 86"><path d="${blobPath(43, 40, 36, 9, .1, Math.random() * 99 | 0)}" fill="${E.c}"/></svg><span class="dfe">${E.e}</span><span class="dl">${E.t}</span>`; }
+  else { el.className = 'drop p'; el.textContent = o.t; }
+  if (o.ok && S.wrongHere >= 2) el.classList.add('glow');
+  f.appendChild(el);
+  const w = o.type === 'e' ? 86 : 170, h = el.offsetHeight;
+  let x = W / 2;
+  for (let k = 0; k < 8; k++) { x = rnd(w / 2 + 6, W - w / 2 - 6); if (S.lastX == null || Math.abs(x - S.lastX) > w * .8) break; }
+  S.lastX = x;
+  const d = { o, el, x, y: -h - 6, h, done: false };
+  el.style.transform = `translate(${x}px,${d.y}px)`;
+  S.drops.push(d); S.since = 0;
+}
+function emoClear(S) { S.drops.forEach(d => { if (!d.done) { d.done = true; d.el.classList.add('got'); setTimeout(() => d.el.remove(), 320); } }); }
+function emoCatch(S, d) {
+  d.done = true;
+  const c = $('#catcher');
+  if (d.o.ok) {
+    d.el.classList.add('got'); setTimeout(() => d.el.remove(), 320);
+    S.combo++;
+    if (S.phase === 'emo') {
+      const E = EMOS[S.cur.emo], face = $('#face');
+      S.right++; S.got[S.cur.emo] = (S.got[S.cur.emo] || 0) + 1;
+      face.textContent = E.e; face.classList.add('pop');
+      setScore(10 * (S.combo >= 4 ? 2 : 1), c); Sound.good(); vibrate('light'); mood('happy');
+      say(`Да! ${E.e} ${E.t} ${E.d}.`);
+      S.phase = 'wait'; emoClear(S);
+      setTimeout(() => {
+        if (ACTIVE !== S) return;
+        S.phase = 'react'; S.wrongHere = 0; S.seq = []; S.since = 9;
+        S.opts = [{ type: 'p', t: S.cur.good, ok: true }, ...S.cur.bad.map(t => ({ type: 'p', t, ok: false }))];
+        $('#emoQ').textContent = 'А что ты скажешь? Лови добрые слова 💛';
+      }, 1200);
+    } else {
+      S.kind++; setScore(15 * (S.combo >= 4 ? 2 : 1), c); Sound.deliver(); vibrate('success'); mood('happy');
+      floatAt(c, ICON.heart('#FF5CE6'), 'heart');
+      say(`«${S.cur.good}» — ${pick(KIND_OK)}`);
+      S.phase = 'wait'; emoClear(S); setSegs(S.i + 1);
+      setTimeout(() => { if (ACTIVE === S) emoNext(S); }, 1500);
+    }
+  } else {
+    d.el.classList.add('bad'); setTimeout(() => d.el.remove(), 420);
+    S.combo = 0; S.wrongHere++; Sound.bad(); vibrate('error'); mood('oops', 1500);
+    if (S.phase === 'emo') { S.wrong++; const E = EMOS[d.o.k]; say(`${E.e} ${E.t} ${E.d}. А что случилось у друга? Подумай ещё 🤔`); }
+    else { S.unkind++; say('От таких слов другу станет только хуже 😔 Найди добрые слова.'); }
+    if (S.wrongHere >= 2) S.drops.forEach(x => { if (!x.done && x.o.ok) x.el.classList.add('glow'); });
+  }
+}
+function emoEnd(S) {
+  const tot = S.right + S.wrong + S.kind + S.unkind, acc = tot ? Math.round((S.right + S.kind) / tot * 100) : 100;
+  const stars = acc >= 90 ? 3 : acc >= 70 ? 2 : 1;
+  modeResult({
+    id: 'emo', stars,
+    title: ['', 'Добрый друг!', 'Чуткий друг!', 'Мастер эмоций!'][stars],
+    sub: 'Ты угадывал(а), что чувствуют друзья, и находил(а) для них добрые слова. Это и есть суперсила дружбы!',
+    stats: [
+      { icon: '<span style="font-size:26px">🎯</span>', v: S.right, suf: '/' + S.list.length, l: 'эмоций угадано', c: 'var(--yellow)' },
+      { icon: ICON.heart('#FF5CE6'), v: S.kind, l: 'раз поддержал(а) друга', c: 'var(--pink)' },
+      { v: acc, suf: '%', l: 'точность', c: 'var(--cyan)' },
+      { icon: ICON.star, v: S.score, l: 'очков', c: 'var(--m)' }
+    ],
+    extra: `<div class="h2">Коллекция эмоций</div><div class="cards">${Object.entries(EMOS).map(([k, E], i) => `<div class="tc ${S.got[k] ? '' : 'none'}" style="--i:${i}"><span class="st">${S.got[k] ? '✓ ×' + S.got[k] : 'не встретил'}</span><div class="ci">${E.e}</div><div class="ct">${E.t}</div></div>`).join('')}</div>
+      ${rulesBlock('Секреты дружбы', [['👀', 'Смотри, что случилось, — так понятно, что чувствует друг.'], ['💬', 'Назови чувство: «Тебе грустно?» — другу станет легче.'], ['🤝', 'Поссорились? Предложи по очереди или вместе.']])}`,
+    payload: { score: S.score, emotionsRight: S.right, emotionsWrong: S.wrong, kindWords: S.kind, unkindCaught: S.unkind, accuracy: acc },
+    shareLine: `Угадал(а) ${S.right} эмоций друзей 💛`
+  });
+}
+
+/* =========================================================
+   ДРУЖБА И Я · «Успей вовремя»: тайм-менеджмент
+   ========================================================= */
+const TT = (e, t, m, imp, why = '') => ({ e, t, m, imp: !!imp, why });
+const SEGC = ['#C6F432', '#FF9CEF', '#8FD8FF', '#FFE45C', '#C9B0FF', '#7EF0B0', '#FFBE7D', '#FFC2F4'];
+const SCEN = withIds('tm', [
+  { e: '🚌', t: 'Утро перед школой', goal: 'Автобус придёт через 30 минут!', lim: 30, late: '🚌💨 Автобус уехал!', win: 'Ты сел(а) в автобус вовремя!',
+    tasks: [TT('🪥', 'Почистить зубы', 5, 1, 'Зубы надо чистить каждое утро.'), TT('🥣', 'Позавтракать', 10, 1, 'Без завтрака не хватит сил до обеда.'), TT('👕', 'Одеться', 5, 1, 'В пижаме в школу не ходят 😄'), TT('🎒', 'Собрать рюкзак', 5, 1, 'Без учебников на уроках трудно.'), TT('📺', 'Посмотреть мультик', 15), TT('🎮', 'Поиграть на планшете', 10), TT('🐱', 'Погладить кота', 3), TT('🤗', 'Обнять маму', 2)] },
+  { e: '🏊', t: 'Сборы в бассейн', goal: 'Тренировка начнётся через 25 минут.', lim: 25, late: '🏊 Тренировка началась без тебя!', win: 'Ты пришёл(ла) на тренировку вовремя!',
+    tasks: [TT('🩱', 'Сложить купальник', 5, 1, 'Без купальника в бассейн не пустят.'), TT('🧢', 'Шапочка и полотенце', 3, 1, 'Без шапочки плавать нельзя.'), TT('🍌', 'Перекусить', 5, 1, 'Плавать на голодный живот тяжело.'), TT('🚶', 'Дойти до бассейна', 10, 1, 'Дорога тоже занимает время!'), TT('🖍️', 'Раскрасить раскраску', 15), TT('📱', 'Посмотреть видео', 10), TT('💧', 'Выпить воды', 2)] },
+  { e: '📺', t: 'Уроки до мультика', goal: 'Любимый мультик начнётся через 60 минут. Сначала — дела!', lim: 60, late: '📺 Мультик уже закончился…', win: 'Уроки сделаны — и ты успел(а) к мультику!',
+    tasks: [TT('✏️', 'Решить математику', 20, 1, 'Домашка — главное дело на вечер.'), TT('📖', 'Почитать', 15, 1, 'Чтение тоже задали на завтра.'), TT('🎒', 'Собрать портфель', 5, 1, 'Утром собираться некогда.'), TT('🍽️', 'Поужинать', 15, 1, 'Без ужина не будет сил.'), TT('📱', 'Играть в телефон', 20), TT('🧱', 'Строить из конструктора', 25), TT('🪴', 'Полить цветок', 3)] },
+  { e: '⛺', t: 'Сборы в поход', goal: 'Папа выходит в поход через 40 минут.', lim: 40, late: '⛺ Папа ушёл без тебя…', win: 'Ты в походе вместе с папой!',
+    tasks: [TT('🎒', 'Собрать рюкзак', 10, 1, 'В поход без рюкзака — никак.'), TT('🥾', 'Надеть удобную обувь', 5, 1, 'В неудобной обуви натрёшь ноги.'), TT('🥪', 'Взять воду и бутерброды', 10, 1, 'В походе захочется есть и пить.'), TT('🔦', 'Зарядить фонарик', 5, 1, 'Вечером в лесу темно.'), TT('🧴', 'Крем от солнца', 5, 1, 'Солнце может обжечь кожу.'), TT('📺', 'Посмотреть мультик', 15), TT('🏷️', 'Перебрать наклейки', 20), TT('📸', 'Сфоткать собаку', 3)] },
+  { e: '🎂', t: 'На день рождения к другу', goal: 'Праздник начнётся через 45 минут.', lim: 45, late: '🎂 Торт съели без тебя!', win: 'Ты пришёл(ла) на праздник с подарком!',
+    tasks: [TT('🖍️', 'Нарисовать открытку', 15, 1, 'Открытка от тебя — лучший подарок.'), TT('🎁', 'Упаковать подарок', 10, 1, 'Без подарка будет неловко.'), TT('👔', 'Надеть праздничное', 5, 1, 'На праздник одеваются красиво.'), TT('🚗', 'Доехать до друга', 10, 1, 'Дорога тоже занимает время.'), TT('📱', 'Смотреть видео', 20), TT('👗', 'Мерить все костюмы', 15), TT('📞', 'Позвонить и поздравить', 3)] },
+  { e: '🧹', t: 'Уборка до прогулки', goal: 'Друзья ждут во дворе через 30 минут. Но сначала — порядок!', lim: 30, late: '🛝 Друзья ушли гулять без тебя.', win: 'В комнате чисто, а ты уже во дворе!',
+    tasks: [TT('🧸', 'Убрать игрушки', 10, 1, 'Мама просила навести порядок.'), TT('🛏️', 'Заправить кровать', 5, 1, 'Это тоже часть уборки.'), TT('🗑️', 'Вынести мусор', 5, 1, 'Мусор сам не уйдёт!'), TT('🧥', 'Одеться на улицу', 5, 1, 'На улице прохладно.'), TT('📺', 'Посмотреть мультик', 20), TT('🃏', 'Перебрать карточки', 15), TT('🐠', 'Покормить рыбок', 2)] },
+  { e: '🌙', t: 'Вечер перед сном', goal: 'Через 35 минут — спать.', lim: 35, late: '🌙 Уже ночь, а дела не сделаны…', win: 'Ты лёг(ла) спать вовремя — завтра будешь бодрым!',
+    tasks: [TT('🚿', 'Принять душ', 10, 1, 'Перед сном важно помыться.'), TT('🪥', 'Почистить зубы', 5, 1, 'Зубы чистят и вечером.'), TT('👕', 'Одежда на завтра', 5, 1, 'Утром не придётся искать носки.'), TT('📖', 'Почитать сказку', 10, 1, 'Сказка помогает спокойно уснуть.'), TT('📱', 'Играть в телефоне', 15), TT('🤸', 'Прыгать на кровати', 10), TT('😘', 'Пожелать спокойной ночи', 2)] },
+  { e: '☀️', t: 'Утро в летнем лагере', goal: 'Зарядка начнётся через 20 минут!', lim: 20, late: '☀️ Зарядка прошла без тебя.', win: 'Ты успел(а) на зарядку первым!',
+    tasks: [TT('💦', 'Умыться', 3, 1, 'Умыться — первое дело утром.'), TT('👕', 'Одеться', 5, 1, 'На зарядку — в спортивной форме.'), TT('🍳', 'Позавтракать', 7, 1, 'Нужны силы на весь день.'), TT('🧢', 'Взять кепку', 1, 1, 'Без кепки голову напечёт.'), TT('📺', 'Посмотреть мультик', 10), TT('🧩', 'Собрать пазл', 15), TT('👋', 'Помахать другу', 2)] }
+]);
+
+async function startTime() {
+  stopAll();
+  const list = Recent.order('time', SCEN).slice(0, 3); Recent.mark('time', list, SCEN);
+  const S = ACTIVE = { id: 'time', paused: false, score: 0, list, i: 0, perfect: 0, tries: 0, fun: 0, busy: false };
+  shell('time', `<div class="hud-t" id="hudT">План 1 из 3</div>${hudSegs(3)}`,
+    `<div class="tm-top" id="tmTop"></div><div class="tasks" id="tasks"></div><div class="choice"><button class="btn" id="goPlan">Поехали! 🚀</button></div>`);
+  await howTo(S); if (ACTIVE !== S) return;
+  for (S.i = 0; S.i < list.length; S.i++) { await timeScenario(S, list[S.i]); if (ACTIVE !== S) return; }
+  timeResult(S);
+}
+function timeScenario(S, sc) {
+  return new Promise(async res => {
+    $('#hudT').textContent = `План ${S.i + 1} из ${S.list.length}`; setSegs(S.i);
+    const tasks = shuffle(sc.tasks), plan = [];
+    let tries = 0;
+    const used = () => sum(plan, t => t.m);
+    const drawTop = () => {
+      const u = used(), max = Math.max(sc.lim, u), over = u > sc.lim;
+      let acc = 0;
+      $('#tmTop').innerHTML = `<div class="tm-h"><span class="te">${sc.e}</span><div><b>${sc.t}</b><span>${sc.goal}</span></div></div>
+        <div class="tl ${over ? 'over' : ''}">${plan.map((t, i) => { const l = acc / max * 100, w = t.m / max * 100, out = acc + t.m > sc.lim; acc += t.m; return `<span class="seg ${out ? 'out' : ''}" style="left:${l}%;width:${w}%;--c:${SEGC[i % SEGC.length]}">${w > 8 ? t.e : ''}</span>`; }).join('')}<span class="lim" style="left:${sc.lim / max * 100}%"></span></div>
+        <div class="tl-n"><span class="${over ? 'over' : ''}">В плане: ${u} мин</span><span>Есть: ${sc.lim} мин</span></div>`;
+    };
+    drawTop(); $('#tasks').innerHTML = '';
+    await overlay(`${bigEmoji(sc.e)}<div class="big" style="font-size:40px">${sc.t}${DOODLE.under('var(--m)')}</div><div class="hand">${sc.goal}</div><button class="btn" id="go">Составить план</button>`);
+    if (ACTIVE !== S) return;
+    $('#tasks').innerHTML = tasks.map((t, i) => `<button class="task" data-t="${i}" style="--i:${i}"><span class="te">${t.e}</span><span><b>${t.t}</b><small>${t.m} мин</small></span></button>`).join('');
+    say(S.i === 0 ? 'Нажимай на дела — они встанут в план. Что важнее всего?' : 'Новый план! Что тут самое важное? 🤔');
+    $('#tasks').querySelectorAll('.task').forEach(b => b.onclick = () => {
+      if (S.paused || S.busy) return;
+      const t = tasks[+b.dataset.t], k = plan.indexOf(t);
+      if (k >= 0) plan.splice(k, 1); else plan.push(t);
+      b.classList.toggle('on', k < 0); Sound.tap(); vibrate('light');
+      const u = used();
+      if (u > sc.lim) { mood('oops'); say(`Не влезает! В плане ${u} мин, а есть только ${sc.lim} ⏰`); }
+      else if (k < 0) say(`${t.e} +${t.m} мин. Свободно ещё ${sc.lim - u} мин`);
+      else say(`Убрали. Свободно ${sc.lim - u} мин`);
+      drawTop();
+    });
+    $('#goPlan').onclick = async () => {
+      if (S.paused || S.busy) return;
+      if (!plan.length) { mood('oops'); say('Сначала добавь дела в план 👆'); return; }
+      S.busy = true; Sound.tap();
+      const u = used(), over = u > sc.lim, miss = sc.tasks.filter(t => t.imp && !plan.includes(t)), fun = plan.filter(t => !t.imp);
+      await timeSim(S, sc, plan);
+      if (ACTIVE !== S) return;
+      if (over) {
+        tries++; S.tries++; Sound.bad(); vibrate('error'); mood('sad', 2000);
+        await lesson('sad', `Не успели! ${sc.late}`, `План занял ${u} мин, а было только ${sc.lim}. ${fun.length ? `Может, это подождёт: ${fun.map(t => t.e + ' ' + t.t.toLowerCase()).join(', ')}?` : 'Подумай, что можно убрать.'}`, 'Исправить план');
+      } else if (miss.length) {
+        tries++; S.tries++; Sound.bad(); mood('oops', 2000);
+        await modalP(`<div class="mh"><div class="mm" data-mood="oops">${klyaksik()}</div><h3>Успели… но кое-что забыли!</h3></div>
+          <div class="mlist">${miss.map(t => `<div><b>${t.e} ${t.t}.</b> ${t.why}</div>`).join('')}</div>
+          <p>Важные дела ставим в план первыми.</p><button class="btn" id="mOk">Исправить план</button>`);
+      } else {
+        if (!tries) S.perfect++;
+        S.fun += fun.length;
+        setScore((tries ? 20 : 40) + fun.length * 5, $('#goPlan')); Sound.win(); vibrate('success'); mood('happy', 2500);
+        await modalP(`<div class="mh"><div class="mm" data-mood="happy">${klyaksik({ can: true })}</div><h3>Успели! ${sc.win}</h3></div>
+          <p>${fun.length ? `И даже хватило времени на: ${fun.map(t => t.e + ' ' + t.t.toLowerCase()).join(', ')}. Отдыхать тоже важно — когда главное сделано 😊` : `Все важные дела сделаны.${sc.lim - u > 0 ? ` Осталось ${sc.lim - u} мин — можно было добавить что-то приятное!` : ''}`}</p>
+          <button class="btn" id="mOk">${S.i + 1 < S.list.length ? 'Следующий план' : 'Смотреть итог'}</button>`);
+        S.busy = false; setSegs(S.i + 1); res(); return;
+      }
+      S.busy = false; say('Поменяй план: нажми на дело, чтобы добавить или убрать его');
+    };
+  });
+}
+async function timeSim(S, sc, plan) {
+  const el = $('#waveIn');
+  el.innerHTML = `<div class="sim"><svg class="clock" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#fff" stroke="#111216" stroke-width="5"/>
+    ${Array.from({ length: 12 }, (_, i) => { const a = i * Math.PI / 6; return `<circle cx="${(50 + Math.sin(a) * 35).toFixed(1)}" cy="${(50 - Math.cos(a) * 35).toFixed(1)}" r="2.4" fill="#111216"/>`; }).join('')}
+    <line id="simHand" x1="50" y1="50" x2="50" y2="17" stroke="var(--red)" stroke-width="5" stroke-linecap="round" style="transform-origin:50px 50px;transition:transform .45s var(--out)"/><circle cx="50" cy="50" r="5" fill="#111216"/></svg>
+    <div class="now" id="simNow">${sc.e} Поехали!</div><div class="mins" id="simMin">0 из ${sc.lim} мин</div></div>`;
+  el.classList.add('show');
+  await wait(RM ? 200 : 500);
+  let acc = 0;
+  for (const t of plan) {
+    if (ACTIVE !== S) return;
+    acc += t.m;
+    $('#simNow').textContent = `${t.e} ${t.t}`;
+    $('#simMin').textContent = `${acc} из ${sc.lim} мин`;
+    $('#simHand').style.transform = `rotate(${acc / sc.lim * 360}deg)`;
+    Sound.tone(520 + acc * 6, .08, 'triangle', .08);
+    await wait(RM ? 200 : 620);
+    if (acc > sc.lim) { $('#simNow').textContent = sc.late; await wait(1000); break; }
+  }
+  if (ACTIVE !== S) return;
+  if (acc <= sc.lim) { $('#simNow').textContent = `${sc.e} Успели!`; await wait(700); }
+  el.classList.remove('show');
+}
+function timeResult(S) {
+  const stars = Math.max(1, S.perfect);
+  modeResult({
+    id: 'time', stars,
+    title: ['', 'Учусь успевать!', 'Хозяин времени!', 'Повелитель времени!'][stars],
+    sub: stars === 3 ? 'Все планы с первой попытки! Ты знаешь, что важно, и умеешь считать минуты.' : 'Все дела успели! Ещё немного практики — и планы будут получаться с первого раза.',
+    stats: [
+      { icon: '<span style="font-size:26px">✅</span>', v: S.list.length, l: 'планов выполнено', c: 'var(--green)' },
+      { icon: '<span style="font-size:26px">🏆</span>', v: S.perfect, suf: '/' + S.list.length, l: 'с первой попытки', c: 'var(--yellow)' },
+      { icon: '<span style="font-size:26px">😊</span>', v: S.fun, l: 'приятных дел успели', c: 'var(--pink)' },
+      { icon: ICON.star, v: S.score, l: 'очков', c: 'var(--m)' }
+    ],
+    extra: rulesBlock('Секреты успевания', [['⭐', 'Сначала важные дела — потом приятные.'], ['⏱️', 'Знай, сколько минут занимает каждое дело.'], ['🧩', 'Осталось время? Добавь что-то для радости!']]),
+    payload: { score: S.score, plans: S.list.length, firstTry: S.perfect, retries: S.tries, funAdded: S.fun },
+    shareLine: `${S.perfect} из ${S.list.length} планов с первой попытки ⏰`
+  });
+}
+
+/* ================= Глобальные обработчики ================= */
+document.addEventListener('click', e => {
+  if (e.target.closest('[data-sound]')) { Sound.toggle(); return; }
+  if (e.target.closest('[data-close]')) { Bridge.send('close'); return; }
+  if (e.target.closest('[data-pause]')) { Sound.tap(); pauseMenu(); return; }
+  if (e.target.closest('[data-hub]')) { Sound.tap(); renderHub(); return; }
+  if (e.target.closest('[data-help]')) { if (ACTIVE && !isModal()) { Sound.tap(); howTo(ACTIVE, true); } }
+});
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('ch')) { e.preventDefault(); bossTap(e.target); return; }
+  if (ACTIVE && ACTIVE.onKey && !ACTIVE.paused && !isModal()) ACTIVE.onKey(e);
+});
+
+renderHub();
+})();
+</script>
+</body>
+</html>
