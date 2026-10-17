@@ -179,35 +179,6 @@ svg{display:block;overflow:visible}
 .stall span{display:block;font-weight:700;font-size:14px;color:var(--muted);margin-top:2px}
 
 /* ================= Утро ================= */
-.morning{overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;padding:calc(var(--safe-t) + 12px) 14px calc(var(--safe-b) + 16px);background:linear-gradient(#FFE9C7,#F2F3F7 45%)}
-.morning>*{position:relative;z-index:1}
-.mhead{display:flex;align-items:center;gap:10px;margin:6px 0 12px}
-.mhead svg{width:56px;height:56px;flex:none}
-.mhead .ttl{font-size:34px}
-.wallet{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:#fff;border-radius:20px;padding:10px 16px;font-weight:900;font-size:28px;font-variant-numeric:tabular-nums;margin-bottom:12px}
-.wallet svg{width:32px;height:32px}
-.wallet small{font-size:14px;opacity:.7;font-weight:700}
-.wallet.bump{animation:bump .4s var(--spring)}
-.mpanels{display:flex;flex-direction:column;gap:10px;flex:1 0 auto;min-width:0;justify-content:center}
-.mp{background:#fff;border-radius:26px;box-shadow:var(--shadow);padding:10px 12px;display:flex;align-items:center;gap:10px;min-width:0;flex:none}
-.mp .art{width:36%;max-width:150px;flex:none;align-self:stretch;display:grid;place-items:center;min-height:0;min-width:0}
-.mp .art>svg{width:100%;height:auto;max-height:130px;display:block}
-.mpb{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
-.mp h3{font-weight:900;font-size:20px;line-height:1.1}
-.mp .eq{display:flex;flex-wrap:wrap;align-items:center;gap:3px;font-weight:800;font-size:13px;background:var(--soft);border-radius:12px;padding:5px 8px;align-self:flex-start;max-width:100%}
-.perks{display:flex;flex-wrap:wrap;gap:4px}
-.perks span{display:inline-flex;align-items:center;gap:3px;font-weight:800;font-size:12.5px;background:#E3F6FF;border-radius:10px;padding:3px 8px}
-.perks .ic{width:18px;height:18px}
-.step{display:flex;align-items:center;gap:6px;min-width:0}
-.step button{width:44px;height:44px;flex:none;border-radius:15px;background:var(--soft);font-weight:900;font-size:26px;display:grid;place-items:center;transition:transform .12s}
-.step button:active{transform:scale(.88)}
-.step button.plus{background:var(--m)}
-.step button[disabled]{opacity:.3}
-.step b{flex:1;min-width:0;text-align:center;font-weight:900;font-size:22px;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;gap:3px}
-.goal{width:100%;display:flex;align-items:center;gap:6px;min-width:0}
-.goal .gbar{flex:1;min-width:0;height:10px;border-radius:6px;background:var(--soft);overflow:hidden}
-.goal .gbar i{display:block;height:100%;background:linear-gradient(90deg,#FF5CE6,#2EC5FF);border-radius:6px;transition:width .35s var(--out)}
-.morning .btn.big{margin-top:12px}
 
 /* ================= День: сцена ================= */
 .stage{background:#DDF3FF}
@@ -281,7 +252,6 @@ svg{display:block;overflow:visible}
 .op span{font-weight:800;font-size:13.5px;line-height:1.1;text-align:center}
 .op.off{opacity:.42;filter:grayscale(.8);pointer-events:none}
 .op .bdg{position:absolute;right:-6px;top:-8px;background:var(--ink);color:#fff;font-weight:900;font-size:12px;padding:3px 7px;border-radius:9px;display:flex;align-items:center;gap:2px}
-.op .bdg.pig{background:#FFB3D9;color:var(--ink)}
 .op .bdg svg{width:14px;height:14px}
 .op.pick{transform:scale(1.08);box-shadow:0 0 0 4px var(--m),0 10px 24px rgba(24,26,40,.16)}
 .op.glow{animation:glowP 1s ease-in-out infinite}
@@ -310,9 +280,6 @@ svg{display:block;overflow:visible}
 .ci.stock.low b{color:var(--red)}
 .ci.stock.empty .ic2{filter:grayscale(1);opacity:.4}
 .ci.till .ic2>svg{width:92px;height:66px;display:block}
-.ci.pig{font:inherit;color:inherit}
-.pigadd{position:absolute;right:-6px;top:-10px;z-index:2;background:var(--m);color:var(--ink);font-weight:900;font-size:12px;padding:3px 7px;border-radius:9px;box-shadow:0 2px 6px rgba(0,0,0,.12)}
-.ci.pig .ic2>svg{width:70px;height:56px;display:block}
 .ci.bump{animation:bump .4s var(--spring)}
 .ci.hurt{animation:wob .45s}
 .scene{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--safe-t) + 16px) 16px calc(var(--safe-b) + 16px);background:rgba(242,243,247,.97);opacity:0;pointer-events:none;transition:opacity .35s;overflow-y:auto}
@@ -372,7 +339,6 @@ svg{display:block;overflow:visible}
 }
 
 .start .hero>svg{width:100%;height:100%;display:block}
-.cnew{animation:pop .45s var(--spring) both;transform-box:fill-box;transform-origin:50% 100%}
 .stage.paused *{animation-play-state:paused!important}
 .toast{white-space:normal;max-width:calc(100% - 24px);text-align:center;width:max-content}
 .buzz{position:absolute;left:50%;top:50%;width:140px;height:198px;margin:-110px 0 0 -70px;z-index:6;animation:buzzIn .45s var(--spring) both}
@@ -518,9 +484,6 @@ svg{display:block;overflow:visible}
 .heart .ic.fh{width:28px;height:28px}
 .stall .ings{display:flex;gap:4px;margin-top:6px}
 .stall .ings .ic{width:26px;height:26px}
-.mp .eq .ic{width:19px;height:19px}
-.step b .ic{width:22px;height:22px}
-.wallet .ic{width:32px;height:32px}
 .es .ic{width:28px;height:28px}
 .prow .ic{width:24px;height:24px}
 .det .dh .ic{width:28px;height:28px}
@@ -550,8 +513,8 @@ svg{display:block;overflow:visible}
 .bench.chg{grid-template-columns:minmax(0,1fr);gap:8px}
 .eqn{display:flex;align-items:center;justify-content:center;gap:6px;font-weight:900;font-size:24px}
 .eqn .note{width:70px;height:40px;display:block}
-.eqn .pr{display:flex;align-items:center;gap:2px;background:var(--soft);border-radius:12px;padding:4px 8px;font-size:16px}
-.eqn .pr .ic{width:24px;height:24px}
+.eqn .pr{display:flex;align-items:center;gap:3px;background:var(--soft);border-radius:12px;padding:4px 10px}
+.eqn .pr .ic{width:26px;height:26px}
 .eqn .pr small{font-size:18px;font-weight:900;margin-left:4px;color:var(--ink)}
 .eqn .q{min-width:52px;height:44px;border-radius:14px;background:var(--ink);color:#C6F432;display:grid;place-items:center;padding:0 8px}
 .tray{min-height:40px;display:flex;flex-wrap:wrap;gap:3px;justify-content:center;align-items:center;background:var(--soft);border-radius:14px;padding:4px}
@@ -777,15 +740,6 @@ function foxBody(maskAv) {
       <path class="crack" pathLength="1" d="M80 20l-6 16 9 8-8 14 7 10" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray:1;stroke-dashoffset:1"/></g>` : ''}
   </svg>`;
 }
-function pigSVG() {
-  return `<svg viewBox="0 0 80 64">
-    <path d="M18 20L16 6l13 9zM54 15l11-9 1 14z" fill="#E7DDFF"/>
-    <rect x="22" y="48" width="9" height="12" rx="4" fill="#E7DDFF"/><rect x="46" y="48" width="9" height="12" rx="4" fill="#E7DDFF"/>
-    <ellipse cx="38" cy="36" rx="30" ry="22" fill="#F5F0FF"/><rect x="30" y="15" width="16" height="3.6" rx="1.8" fill="#C7B8F5"/>
-    <ellipse cx="66" cy="38" rx="9" ry="8" fill="#E7DDFF"/><circle cx="63.5" cy="38" r="1.8" fill="#9B88D6"/><circle cx="68.5" cy="38" r="1.8" fill="#9B88D6"/>
-    <circle cx="46" cy="30" r="5.5" fill="#fff"/><circle cx="46.5" cy="31" r="2.6" fill="#111216"/><path d="M40 29a6 6 0 0 1 12 0z" fill="#E7DDFF"/>
-  </svg>`;
-}
 /* splat-клякса из баллончика: шумовой фильтр + брызги + потёки */
 function splatSVG(style = 'class="splat"') {
   const s = Math.random() * 1000 | 0, R = seeded(s);
@@ -862,9 +816,6 @@ const I = {
   bulb: ICON.bulb
 };
 const coin = () => ICON.coin;
-function crateSVG(prod) {
-  return `<svg viewBox="0 0 64 56"><rect x="4" y="12" width="56" height="40" rx="7" fill="#F2B866" stroke="#111216" stroke-width="2.5"/><path d="M4 26h56M4 39h56" stroke="#C98A3A" stroke-width="3"/><path d="M18 12v40M46 12v40" stroke="#C98A3A" stroke-width="2.5" opacity=".6"/>${prod ? `<g transform="translate(20 14) scale(.38)">${PRODS[prod].art}</g>` : ''}</svg>`;
-}
 function tillSVG() {
   return `<svg viewBox="0 0 100 72"><rect x="6" y="26" width="88" height="42" rx="10" fill="#A77BFF" stroke="#111216" stroke-width="2.5"/><rect x="18" y="4" width="64" height="26" rx="7" fill="#111216"/><rect x="23" y="9" width="54" height="16" rx="4" fill="#C6F432"/>
     <g fill="#fff" opacity=".9"><rect x="16" y="36" width="12" height="7" rx="2"/><rect x="32" y="36" width="12" height="7" rx="2"/><rect x="48" y="36" width="12" height="7" rx="2"/><rect x="16" y="47" width="12" height="7" rx="2"/><rect x="32" y="47" width="12" height="7" rx="2"/><rect x="48" y="47" width="12" height="7" rx="2"/></g>
@@ -1093,7 +1044,7 @@ const coinG = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})">
 const C = () => ic('coin'), U = () => pi(D.prod);
 
 /* ================= Ситуации ================= */
-const PRICE = 5, CRATE = 10, PER_CRATE = 5, SIGN_COST = 40;
+const PRICE = 5, START_MONEY = 50, START_STOCK = 20, SIGN_COST = 40;
 const ST = {
   bank: { who: ['fox', ['glasses']], md: 'sly', say: () => `Я из банка! ${ic('bank')} Скажи код из СМС — дам 1000 ${C()}`,
     opts: [
@@ -1170,7 +1121,7 @@ const ST = {
   sign: { art: () => mascotCust(), say: () => `Купим светящуюся вывеску? ${ic('spark')} Будет больше покупателей!`,
     opts: [
       { i: 'spark', t: 'Купить', cost: SIGN_COST, pay: 1, fx: { pay: SIGN_COST, sign: 1, r: 1 }, exit: 'happy', res: `${ic('spark')} Вывеска горит!`, mom: () => ({ t: `${ic('spark')} Вывеска`, c: 'g' }) },
-      { i: 'pig', t: 'Копить', fx: {}, exit: 'happy', res: `${ic('pig')} Копим дальше` }] },
+      { i: 'coin', t: 'Не надо', fx: {}, exit: 'happy', res: `${ic('coin')} Монеты целы` }] },
   rain: { ev: 1, art: () => eventArt('rain'), say: () => `Дождь! ${ic('rain')} Покупатели убегают`,
     opts: [
       { i: 'umbrella', t: 'Купить навес', cost: 20, pay: 1, fx: { pay: 20 }, exit: 'sad', res: `${ic('umbrella')} Сухо! Торгуем!` },
@@ -1186,7 +1137,7 @@ const TITLES = [
   { id: 'prey', ic: 'dash', t: 'Лёгкая добыча для жуликов', c: '#FF9A4D', ok: S => S.scammed >= 2 || S.shield <= 2 },
   { id: 'friend', ic: 'heart', t: 'Друг всего района', c: '#FF9CEF', ok: S => S.rep >= 9 },
   { id: 'shark', ic: 'shark', t: 'Акула бизнеса', c: '#7FD4FF', ok: S => S.profit >= 60 && S.rep <= 6 },
-  { id: 'piggy', ic: 'pig', t: 'Мастер копилки', c: '#FFC2E2', ok: S => S.sign || S.piggy >= 60 },
+  { id: 'bright', ic: 'spark', t: 'Самая яркая лавка', c: '#FFC2E2', ok: S => S.sign && S.profit >= 20 },
   { id: 'honest', ic: 'handshake', t: 'Честный торговец', c: '#C6F432', ok: S => S.shield >= 6 && S.rep >= 6 },
   { id: 'newbie', ic: 'sprout', t: 'Начинающий торговец', c: '#9BF0BE', ok: () => true }
 ];
@@ -1234,7 +1185,7 @@ function renderStart() {
     <div class="row"><button class="ibtn" data-close aria-label="Закрыть">${ICON.x}</button>${soundBtn()}</div>
     <div class="hero" data-mood="idle">${startHero()}</div>
     <h1 class="ttl">Лавка на <span class="u">один день${DOODLE.under('var(--m)')}</span></h1>
-    <p class="lead">Открой лавку на ярмарке. Готовь заказы, копи и не попадись хитрецам!</p>
+    <p class="lead">Открой лавку на ярмарке. Готовь заказы, считай сдачу и не попадись хитрецам!</p>
     <button class="btn big" id="play">Открыть лавку ${ic('play')}</button>
   </section>`;
   $('#play').onclick = () => { Sound.tap(); vibrate(); randomStall(); };
@@ -1243,52 +1194,7 @@ function renderStart() {
 function randomStall() {
   const ks = Object.keys(PRODS).filter(k => k !== SESSION.lastProd);
   SESSION.lastProd = pick(ks);
-  renderMorning(SESSION.lastProd);
-}
-
-/* ================= Утро: бюджет ================= */
-function cratesArt(n, prod) {
-  const pos = [[8, 74], [52, 74], [96, 74], [30, 38], [74, 38], [52, 2], [8, 2], [96, 2]];
-  return `<svg viewBox="0 0 160 120">${pos.slice(0, n).map(([x, y], i) => `<g transform="translate(${x} ${y})"><g class="${i === n - 1 ? 'cnew' : ''}">${inner(crateSVG(prod))}</g></g>`).join('')}${n ? '' : `<g transform="translate(56 36) scale(2)" opacity=".3">${IC.box}</g>`}</svg>`;
-}
-function piggyArt(pg) {
-  const k = pg / 10;
-  return `<svg viewBox="0 0 160 120"><g transform="translate(22 46) scale(1.45)">${inner(pigSVG())}</g>
-    ${Array.from({ length: k }, (_, i) => coinG(108 + (i % 2) * 6, 70 - i * 9, .9)).join('')}
-    <g transform="translate(6 6)">${Array.from({ length: 5 }, (_, i) => `<rect x="${i * 16}" y="0" width="16" height="12" fill="${i % 2 ? '#fff' : '#FF9CEF'}"/><circle cx="${i * 16 + 8}" cy="12" r="8" fill="${i % 2 ? '#fff' : '#FF9CEF'}"/>`).join('')}${Array.from({ length: 5 }, (_, i) => `<circle cx="${i * 16 + 8}" cy="22" r="4" fill="#FFE14D" stroke="#111216" stroke-width="1.6"/>`).join('')}</g></svg>`;
-}
-function renderMorning(prod) {
-  const M = { cr: 4, pg: 20 };
-  app.innerHTML = `<section class="screen morning">${blobsBg()}
-    <div class="row"><button class="ibtn" data-home aria-label="Назад">${ICON.x}</button>${soundBtn()}</div>
-    <div class="mhead"><svg viewBox="-40 -40 80 80"><g class="sunr"><circle r="34" fill="#FFDD2E" opacity=".35"/>${Array.from({ length: 8 }, (_, i) => `<path d="M0 -28v-9" transform="rotate(${i * 45})" stroke="#FFC400" stroke-width="5" stroke-linecap="round"/>`).join('')}</g><circle r="21" fill="#FFDD2E"/><circle cx="-7" cy="-3" r="2.5" fill="#111216"/><circle cx="7" cy="-3" r="2.5" fill="#111216"/><path d="M-6 6q6 5 12 0" stroke="#111216" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
-      <div><div class="kick">Утро на ярмарке</div><div class="ttl">Готовим лавку</div></div></div>
-    <div class="wallet" id="mw">${ic('coin')}<span id="mwN">100</span><small>в кассе</small></div>
-    <div class="mpanels">
-      <div class="mp"><div class="art" id="crArt"></div><div class="mpb"><h3>Закупка</h3>
-        <div class="eq">${ic('box')} = 5 ${pi(prod)} · ${pi(prod)} = 5 ${ic('coin')}</div>
-        <div class="step"><button data-d="cr" data-v="-1" aria-label="Меньше">−</button><b id="crN"></b><button class="plus" data-d="cr" data-v="1" aria-label="Больше">+</button></div></div></div>
-      <div class="mp"><div class="art" id="pgArt"></div><div class="mpb"><h3>Копилка</h3>
-        <div class="perks"><span>${ic('shield')} не украдут</span><span>${ic('pig')} +10% вечером</span></div>
-        <div class="goal"><div class="gbar"><i id="pgBar"></i></div><b style="font-weight:900;font-size:14px;white-space:nowrap">${ic('spark')} ${SIGN_COST}</b></div>
-        <div class="step"><button data-d="pg" data-v="-10" aria-label="Меньше">−</button><b id="pgN"></b><button class="plus" data-d="pg" data-v="10" aria-label="Больше">+</button></div></div></div>
-    </div>
-    <button class="btn big" id="open">Открыть лавку ${ic('sun')}</button>
-  </section>`;
-  const upd = bump => {
-    const wal = 100 - M.cr * CRATE - M.pg;
-    $('#mwN').textContent = wal;
-    $('#crN').innerHTML = `${M.cr}${ic('box')}`;
-    $('#pgN').innerHTML = `${M.pg}${ic('coin')}`;
-    $('#crArt').innerHTML = cratesArt(M.cr, prod); $('#pgArt').innerHTML = piggyArt(M.pg);
-    $('#pgBar').style.width = Math.min(100, M.pg / SIGN_COST * 100) + '%';
-    app.querySelectorAll('.step button').forEach(b => { const d = b.dataset.d, v = +b.dataset.v; b.disabled = d === 'cr' ? (M.cr + v < 0 || M.cr + v > 8 || (v > 0 && wal < CRATE)) : (M.pg + v < 0 || (v > 0 && wal < 10)); });
-    $('#open').disabled = M.cr < 1;
-    if (bump) { const w = $('#mw'); w.classList.remove('bump'); void w.offsetWidth; w.classList.add('bump'); }
-  };
-  app.querySelectorAll('.step button').forEach(b => b.onclick = () => { M[b.dataset.d] += +b.dataset.v; Sound.coin(); vibrate(); upd(true); });
-  upd(false);
-  $('#open').onclick = () => { Sound.tap(); vibrate(); startDay(prod, M.cr, M.pg); };
+  startDay(SESSION.lastProd);
 }
 
 /* ================= Подсказки рукой ================= */
@@ -1371,10 +1277,10 @@ function buildQueue() {
   });
   return q;
 }
-function startDay(prod, cr, pg) {
+function startDay(prod) {
   loopId++;
   SESSION.days++;
-  D = { prod, wallet: 100 - cr * CRATE - pg, piggy: pg, stock: cr * PER_CRATE, rep: 5, shield: 5, sign: false, paused: false, over: false,
+  D = { prod, wallet: START_MONEY, stock: START_STOCK, rep: 5, shield: 5, sign: false, paused: false, over: false,
     q: buildQueue(), i: 0, moments: [], later: [], scammed: 0, sold: 0, missed: 0, mixOk: 0, mixBad: 0, chgOk: 0, chgBad: 0 };
   const P = PRODS[prod];
   app.innerHTML = `<section class="screen stage" id="stage" style="--aw1:${P.aw[0]};--aw2:${P.aw[1] === '#FFFFFF' ? '#F2F3F7' : P.aw[1]}">
@@ -1390,23 +1296,17 @@ function startDay(prod, cr, pg) {
       <div class="ci kx" data-mood="idle">${klyaksik()}</div>
       <div class="ci stock" id="stock"><span class="ic2">${prodSVG(prod)}${prodSVG(prod)}</span><b id="stockN"></b></div>
       <div class="ci till" id="till"><span class="ic2">${tillSVG()}</span><b>${ic('coin')}<span id="walletN"></span></b></div>
-      <button class="ci pig" id="pig" aria-label="Отложить 10 монет в копилку"><span class="pigadd">+10</span><span class="ic2">${pigSVG()}</span><b>${ic('coin')}<span id="pigN"></span></b></button>
     </div>
     <div class="coach"></div>
     <div class="scene" id="scene"></div>
     <div class="modal" id="modal"><div class="mcard" id="mcard"></div></div>
   </section>`;
   updAll(); setSun(0);
-  $('#pig').onclick = () => {
-    if (!D || D.paused || D.over) return;
-    if (D.wallet < 10) { toast(`${ic('coin')} В кассе меньше 10`); return; }
-    D.wallet -= 10; D.piggy += 10; coinsFly($('#till'), $('#pig'), 10); updAll(); bumpEl($('#pig')); Sound.coin(); vibrate('light');
-  };
   runDay();
 }
 const bumpEl = (el, cls = 'bump') => { if (!el) return; el.classList.remove('bump', 'hurt', 'up', 'down'); void el.offsetWidth; el.classList.add(cls); };
 function updAll() {
-  $('#walletN').textContent = D.wallet; $('#pigN').textContent = D.piggy; $('#stockN').textContent = D.stock;
+  $('#walletN').textContent = D.wallet; $('#stockN').textContent = D.stock;
   const st = $('#stock'); st.classList.toggle('low', D.stock > 0 && D.stock <= 3); st.classList.toggle('empty', D.stock === 0);
   $('#mRep .mb i').style.width = D.rep * 10 + '%'; $('#mSh .mb i').style.width = D.shield * 10 + '%';
 }
@@ -1604,7 +1504,7 @@ async function chgEnc(e, c) {
   const need = paid - price, tray = [];
   const y = $('#yard'); y.classList.add('busy');
   const bench = document.createElement('div'); bench.className = 'bench chg';
-  bench.innerHTML = `<div class="eqn"><span>${noteSVG(paid)}</span><b>−</b><span class="pr">${pi(D.prod)}×${n}<small>${price}</small></span><b>=</b><span class="q" id="trayN">?</span></div>
+  bench.innerHTML = `<div class="eqn"><span>${noteSVG(paid)}</span><b>−</b><span class="pr">${price}${ic('coin')}</span><b>=</b><span class="q" id="trayN">?</span></div>
     <div class="tray" id="tray"></div>
     <div class="coinsel">${[5, 10, 20].map(v => `<button class="cb" data-v="${v}" aria-label="${v}">${coinBtn(v)}</button>`).join('')}<button class="ing pour" id="pour" aria-label="Убрать">${ic('trash')}</button></div>
     <button class="btn give" id="give">Отдать сдачу ${ic('check')}</button>`;
@@ -1930,15 +1830,13 @@ async function foxChat(round) {
 
 /* ---------- Ситуации ---------- */
 const NOSTOCK = { i: 'meh', t: 'Нечего дать', fx: { r: -1 }, exit: 'sad', res: () => `${pi(D.prod)} Всё раскупили` };
-/* все деньги общие: касса + копилка. Жулики крадут только из кассы */
-const money = () => D.wallet + D.piggy;
+const money = () => D.wallet;
 function optAvail(o) {
   if (o.needStock && D.stock < o.needStock) return false;
   if (o.cost) return money() >= o.cost;
   return true;
 }
 function optBadge(o) {
-  if (o.cost && o.pay && D.piggy > 0) return `<span class="bdg pig">${ic('pig')}${o.cost}</span>`;
   if (o.cost) return `<span class="bdg">−${o.cost}${ic('coin')}</span>`;
   if (o.needStock) return `<span class="bdg w">−${o.needStock}${pi(D.prod)}</span>`;
   return '';
@@ -1988,21 +1886,17 @@ async function storyEnc(id) {
   await pwait(bad ? 2600 : 1100);
 }
 async function applyFx(f, c) {
-  const till = $('#till'), pig = $('#pig'), stock = $('#stock');
-  // покупки на цель и поломки — сначала из копилки, остальное добираем из кассы
-  if (f.pay) { const fromP = Math.min(D.piggy, f.pay), fromW = f.pay - fromP; if (fromP) { f.p = (f.p || 0) - fromP; if (!f.sign) D.moments.push({ t: `${ic('pig')} Копилка выручила!`, c: 'g' }); } if (fromW) f.m = (f.m || 0) - fromW; }
+  const till = $('#till'), stock = $('#stock');
+  if (f.pay) f.m = (f.m || 0) - f.pay;
   if (f.st < 0) { const n = Math.min(-f.st, D.stock); f.st = -n; if (n) { D.stock -= n; itemsFly(stock, c, n); bumpEl(stock, 'hurt'); } }
   if (f.st > 0) { D.stock += f.st; itemsFly(c, stock, 6); bumpEl(stock); }
   if (f.m < 0 && f.scam) { const n = Math.min(-f.m, D.wallet); f.m = -n; if (n) { D.wallet -= n; coinsFly(till, c, n); bumpEl(till, 'hurt'); Sound.steal(); } }
-  else if (f.m < 0) { // обычная покупка: из кассы, а если не хватает — из копилки
-    const w = Math.min(-f.m, D.wallet), pg = Math.min(-f.m - w, D.piggy);
-    D.wallet -= w; D.piggy -= pg; f.m = -(w + pg);
+  else if (f.m < 0) {
+    const w = Math.min(-f.m, D.wallet); D.wallet -= w; f.m = -w;
     if (w) { coinsFly(till, c, w); bumpEl(till, 'hurt'); }
-    if (pg) { coinsFly(pig, c, pg); bumpEl(pig, 'hurt'); }
     Sound.coin();
   }
   if (f.m > 0) { D.wallet += f.m; coinsFly(c, till, f.m); bumpEl(till); Sound.cash(); }
-  if (f.p) { D.piggy = Math.max(0, D.piggy + f.p); if (f.p < 0) coinsFly(pig, c, -f.p); bumpEl(pig, f.p < 0 ? 'hurt' : 'bump'); }
   updAll();
   if (f.r) meter('rep', f.r);
   if (f.s) meter('sh', f.s);
@@ -2064,21 +1958,13 @@ async function evening() {
     }
     if (D !== me) return;
   }
-  if (D.piggy > 0) {
-    const bonus = Math.max(1, Math.round(D.piggy * .1)), pig = $('#pig');
-    toast(`${ic('pig')} Копилка подросла: +${bonus} ${ic('coin')}`, 'g'); flyTo($('#sun'), pig, 3, ICON.coin);
-    await pwait(700); if (D !== me) return;
-    D.piggy += bonus; updAll(); bumpEl(pig); Sound.cash();
-    D.moments.push({ t: `${ic('pig')} +${bonus} ${ic('coin')}`, c: 'g' });
-    await pwait(1400); if (D !== me) return;
-  }
   if (D.stock > 0) D.moments.push({ t: `${ic('box')} Осталось ${D.stock} ${pi(D.prod)}`, c: '' });
   showSummary();
 }
 function showSummary() {
   D.over = true;
-  const profit = D.wallet + D.piggy - 100;
-  const stat = { rep: D.rep, shield: D.shield, profit, scammed: D.scammed, sign: D.sign, piggy: D.piggy };
+  const profit = D.wallet - START_MONEY;
+  const stat = { rep: D.rep, shield: D.shield, profit, scammed: D.scammed, sign: D.sign };
   const T = TITLES.find(t => t.ok(stat)); SESSION.titles.add(T.id);
   const sc = $('#scene');
   const moms = [{ t: `${pi(D.prod)} Продано ${D.sold}`, c: 'g' }];
@@ -2090,7 +1976,6 @@ function showSummary() {
     <div class="etitle">${T.t}</div>
     <div class="estats">
       <div class="es" style="--i:0">${ic('coin')}<b class="${profit < 0 ? 'neg' : ''}">${profit >= 0 ? '+' : ''}${profit}</b></div>
-      <div class="es" style="--i:1">${ic('pig')}<b>${D.piggy}</b></div>
       <div class="es" style="--i:2">${ic('heart')}<b>${D.rep}/10</b></div>
       <div class="es" style="--i:3">${ic(D.shield >= 4 ? 'shield' : 'shieldX')}<b>${D.shield}/10</b></div>
     </div>
@@ -2102,7 +1987,7 @@ function showSummary() {
   </div>`;
   sc.classList.add('show');
   Sound.win(); if (profit > 0) setTimeout(confetti, 400);
-  Bridge.send('complete', { title: T.id, profit, piggy: D.piggy, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, foxZapped: D.foxZap || 0, foxMissed: D.foxMiss || 0, ordersRight: D.mixOk, ordersWrong: D.mixBad, changeRight: D.chgOk, changeWrong: D.chgBad, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
+  Bridge.send('complete', { title: T.id, profit, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, foxZapped: D.foxZap || 0, foxMissed: D.foxMiss || 0, ordersRight: D.mixOk, ordersWrong: D.mixBad, changeRight: D.chgOk, changeWrong: D.chgBad, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
   $('#again').onclick = () => { Sound.tap(); randomStall(); };
   $('#share').onclick = () => {
     Sound.tap();
