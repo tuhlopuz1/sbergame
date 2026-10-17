@@ -409,6 +409,40 @@ svg{display:block;overflow:visible}
 .ptag.r{background:var(--red)}
 .ptag .ic{width:18px;height:18px}
 @keyframes ptag{0%{opacity:0;transform:translate(-50%,-80%) scale(.5)}15%{opacity:1;transform:translate(-50%,-110%) scale(1.05)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-150%)}}
+.pzone{position:absolute;left:0;right:0;bottom:0;height:58px;background:linear-gradient(rgba(255,61,110,0),rgba(255,61,110,.16));border-top:3px dashed rgba(255,61,110,.5);pointer-events:none;z-index:0}
+.pzone.hitz{animation:zoneHit .7s}
+.pzone.okz{animation:zoneOk .7s}
+@keyframes zoneHit{30%{background:rgba(255,61,110,.6);border-top-color:#FF3D6E}}
+@keyframes zoneOk{30%{background:rgba(31,209,108,.45);border-top-color:#1FD16C}}
+.pphone.quake{animation:quake .45s}
+@keyframes quake{20%{transform:translateX(-9px) rotate(-1.2deg)}40%{transform:translateX(9px) rotate(1.2deg)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.pmsg.deliv{box-shadow:0 0 0 4px #1FD16C,0 8px 18px rgba(24,26,40,.12)}
+.pmsg .dv{position:absolute;right:-8px;top:-10px;width:30px;height:30px;z-index:3;animation:pop .35s var(--spring)}
+.pmsg .dv .ic{width:30px;height:30px}
+.pmsg.stolen{box-shadow:0 0 0 4px #FF3D6E,0 8px 18px rgba(24,26,40,.12)}
+.pthief{position:absolute;width:80px;height:98px;z-index:6;pointer-events:none;animation:thief 1.15s var(--out) forwards}
+.pthief>svg{width:100%;height:100%;display:block}
+@keyframes thief{0%{transform:translateY(40px) scale(.3);opacity:0}25%{transform:translateY(-30px) scale(1.15);opacity:1}50%{transform:translateY(-20px) scale(1)}100%{transform:translate(240px,-140px) rotate(25deg);opacity:0}}
+.pboom{position:absolute;left:50%;top:42%;z-index:6;transform:translate(-50%,-50%);background:var(--red);color:#fff;font-weight:900;font-size:30px;padding:10px 18px;border-radius:18px;display:flex;align-items:center;gap:6px;pointer-events:none;box-shadow:0 10px 24px rgba(255,61,110,.4);animation:boom 1.3s var(--out) forwards}
+.pboom .ic{width:30px;height:30px}
+@keyframes boom{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-10deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotate(-4deg)}30%{transform:translate(-50%,-50%) scale(1) rotate(-4deg)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-80%) rotate(-4deg)}}
+.prules{position:absolute;inset:12px;border-radius:26px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px 12px;z-index:8;text-align:center;animation:pop .45s var(--spring) both;overflow-y:auto}
+.prules.out{opacity:0;transition:opacity .25s}
+.prules h3{font-weight:900;font-size:24px;margin-bottom:2px}
+.rrow{display:flex;align-items:center;gap:8px;width:100%;background:var(--soft);border-radius:18px;padding:8px}
+.rrow .mini{flex:1;min-width:0;background:#fff;border-radius:14px;padding:6px 8px 8px;text-align:left;font-weight:800;font-size:13.5px;line-height:1.25;box-shadow:0 4px 10px rgba(24,26,40,.08);position:relative;overflow:hidden}
+.rrow .mini .pav{width:22px;height:22px}
+.rrow .mini .pmt b{font-size:12px}
+.rrow .mini.fx .key{background:linear-gradient(transparent 12%,var(--m) 12%,var(--m) 92%,transparent 92%)}
+.rrow .msplat{position:absolute;right:-14px;top:-10px;width:70px;height:70px;mix-blend-mode:multiply;pointer-events:none}
+.rrow .act{width:88px;flex:none;font-weight:900;font-size:13px;line-height:1.15;display:flex;flex-direction:column;align-items:center;gap:3px}
+.rrow .act .ic{width:30px;height:30px}
+.rrow .act.wide{width:auto;flex:1;flex-direction:row;justify-content:center;gap:4px;font-size:16px}
+.rrow .act.wide .ic{width:24px;height:24px}
+.rrow.danger{background:#FFE3EA;border:3px dashed rgba(255,61,110,.5)}
+.rrow .dz{width:56px;height:68px;flex:none}
+.rrow .dz>svg{width:100%;height:100%;display:block}
+.prules .btn{max-width:240px;margin-top:4px}
 .pcap{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:#fff;font-weight:900;font-size:17px;padding:10px 16px;border-radius:16px;white-space:nowrap;z-index:6;box-shadow:0 0 0 3px #fff;animation:capIn .4s var(--spring) both}
 .pres{position:absolute;inset:12px;border-radius:26px;background:rgba(255,255,255,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;z-index:7;animation:pop .45s var(--spring) both}
 .pres .ic.icc{width:90px;height:110px}
@@ -973,6 +1007,7 @@ const IC = {
   trash: `<path d="M5 7h14l-1.2 12.5a2 2 0 0 1-2 1.5H8.2a2 2 0 0 1-2-1.5z" fill="#E3E5EC" ${K}/><rect x="3.5" y="4.5" width="17" height="3" rx="1.5" fill="#B9BCC8" ${K}/><path d="M10 10.5v7M14 10.5v7" stroke="#111216" stroke-width="1.5" stroke-linecap="round"/>`,
   note: `<rect x="2" y="5.5" width="20" height="13" rx="2.5" fill="#7EE8A8" ${K}/><circle cx="12" cy="12" r="3.4" fill="#1FD16C" stroke="#111216" stroke-width="1.3"/><path d="M5 8.5h2M17 15.5h2" stroke="#111216" stroke-width="1.4" stroke-linecap="round"/>`,
   dash: `<path d="M2 9h9M4 13h8M3 17h6" stroke="#111216" stroke-width="2" stroke-linecap="round"/><path d="${blobPath(17, 12, 5.5, 7, .25, 6)}" fill="#E3E5EC" ${K}/>`,
+  spray: `<rect x="5" y="9" width="9" height="13" rx="2.5" fill="#2B2D35" ${K}/><rect x="5" y="13" width="9" height="4" fill="#C6F432"/><rect x="7" y="5" width="5" height="4.5" rx="1" fill="#B9BCC8" ${K}/><rect x="9" y="2.5" width="4" height="3" rx="1" fill="#111216"/><g fill="#C6F432" stroke="#111216" stroke-width=".8"><circle cx="17" cy="3.5" r="1.6"/><circle cx="20.5" cy="6" r="1.3"/><circle cx="17.5" cy="8.5" r="1.8"/><circle cx="21" cy="11" r="1.1"/></g>`,
   link: `<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2" stroke="#2EC5FF" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2" stroke="#111216" stroke-width="3" fill="none" stroke-linecap="round"/>`,
   star: `<path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z" fill="#FFDD2E" ${K}/>`,
   lost: `<circle cx="12" cy="12" r="10" fill="#E7DDFF" ${K}/><path d="M9.5 9a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.1.9-1.1 1.8v.6" stroke="#111216" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.3" fill="#111216"/>`,
@@ -1569,26 +1604,47 @@ async function phoneEnc(e) {
   ph.innerHTML = phoneSVG(); y.appendChild(ph);
   let ringing = true;
   (async () => { while (ringing && D === me) { if (!D.paused) { vibrate('error'); Sound.tone(880, .08, 'square', .05); Sound.tone(1175, .08, 'square', .05, .12); } await pwait(1300); } })();
-  await new Promise(r => { ph.onclick = () => { if (!D.paused) r(); }; });
+  await new Promise(r => {
+    const st = $('#stage');
+    const h = ev => {
+      if (D !== me) { st.removeEventListener('click', h, true); return; }
+      if (D.paused || ev.target.closest('[data-pause],[data-sound],.modal')) return;
+      ev.stopPropagation(); ev.preventDefault();
+      st.removeEventListener('click', h, true); r();
+    };
+    st.addEventListener('click', h, true);
+  });
   ringing = false;
   if (D !== me) return;
   Sound.pop(); ph.classList.add('open');
   await pwait(250); ph.remove(); if (D !== me) return;
   await foxChat(e.n || 0);
 }
-function foxChat(round) {
+function foxRules(fp) {
+  const mini = (av, n, html, fox) => `<div class="mini ${fox ? 'fx' : ''}"><div class="pmt"><span class="pav">${avatar(av)}</span><b>${n}</b></div><div>${html}</div>${fox ? splatSVG('class="msplat"') : ''}</div>`;
+  fp.insertAdjacentHTML('beforeend', `<div class="prules">
+    <h3>Лис пишет в чат!</h3>
+    <div class="rrow">${mini('robot', 'Поддержка', 'Скажи <span class="key">код из СМС</span>', 1)}<div class="act">${ic('spray')}Тапни — закрась</div></div>
+    <div class="rrow">${mini('mom', 'Мама', 'Купи хлеб после школы', 0)}<div class="act">${ic('check')}Своих пропусти</div></div>
+    <div class="rrow danger"><div class="dz">${critter('fox', 'happy', ['bag'])}</div><div class="act wide">Долетел вниз — <b>−5</b> ${ic('coin')}</div></div>
+    <button class="btn" id="pgo">Поехали! ${ic('play')}</button></div>`);
+  const el = fp.querySelector('.prules');
+  return new Promise(r => { el.querySelector('#pgo').onclick = () => { if (D.paused) return; Sound.tap(); el.classList.add('out'); setTimeout(() => { el.remove(); r(); }, 250); }; });
+}
+async function foxChat(round) {
   const me = D, y = $('#yard');
   const tut = firstTime('foxchat');
   const nFox = 5, nFr = 3;
   let q = shuffle([...fresh('pfox', PFOX, nFox), ...fresh('pfr', PFRIEND, nFr)]);
-  if (tut) { const f = q.find(x => x.fox); q = [f, ...q.filter(x => x !== f)]; }
   const ov = document.createElement('div'); ov.className = 'pov';
   ov.innerHTML = `<div class="pphone"><div class="pnotch"></div>
     <div class="phead">${mc('fox', 'sly', ['glasses'])}<b>Лис в чате ярмарки!</b><span id="pvN">0/${nFox}</span></div>
-    <div class="pfield" id="pfield"></div></div>`;
+    <div class="pfield" id="pfield"><div class="pzone" id="pzone"></div></div></div>`;
   y.appendChild(ov);
-  const field = ov.querySelector('#pfield');
-  const S = { live: [], q, zap: 0, miss: 0, oops: 0, lost: 0, since: 9, side: false, hold: null, done: false };
+  const field = ov.querySelector('#pfield'), zone = ov.querySelector('#pzone'), fp = ov.querySelector('.pphone');
+  if (tut) await foxRules(fp);
+  if (D !== me) return;
+  const S = { live: [], q, zap: 0, miss: 0, oops: 0, lost: 0, since: 9, side: false, done: false };
   const T = round ? 5.2 : 6.4, gap = round ? 1.15 : 1.4;
   const tag = (b, html, cls = '') => { const t = document.createElement('div'); t.className = 'ptag ' + cls; t.innerHTML = html; t.style.left = clamp(b.x + b.w / 2, 80, field.clientWidth - 80) + 'px'; t.style.top = Math.max(20, b.y) + 'px'; field.appendChild(t); setTimeout(() => t.remove(), 1400); };
   const spawn = it => {
@@ -1601,14 +1657,11 @@ function foxChat(round) {
     el.style.transform = `translate(${b.x}px,${b.y}px)`;
     el.addEventListener('pointerdown', ev => { ev.preventDefault(); tapMsg(b); });
     S.live.push(b); S.since = 0;
-    if (tut && it.fox && !S.taught) b.teach = true;
   };
   const tapMsg = b => {
     if (D.paused || b.st !== 'fall' || S.done) return;
-    if (S.hold && S.hold !== b) return;
     if (b.it.fox) {
       b.st = 'hit'; S.zap++; $('#pvN').textContent = `${S.zap}/${nFox}`;
-      if (S.hold === b) { S.hold = null; coachOff(); }
       b.el.classList.add('hit'); b.el.querySelector('.pav').innerHTML = avatar('fox');
       b.el.querySelector('.pmt b').innerHTML = `<s>${b.it.n}</s> Лис`;
       b.el.insertAdjacentHTML('beforeend', splatSVG());
@@ -1620,16 +1673,30 @@ function foxChat(round) {
       tag(b, `${ic('heart')} Это свои!`, 'g'); Sound.bad(); vibrate('error'); meter('rep', -1);
     }
   };
+  const flash = cls => { zone.classList.remove('hitz', 'okz'); void zone.offsetWidth; zone.classList.add(cls); };
   const land = b => {
     b.st = 'dead';
-    if (!b.it.fox) { b.el.classList.add('gone'); setTimeout(() => b.el.remove(), 450); Sound.deliver(); return; }
-    // Лис проскочил — утаскивает монеты прямо из кассы
+    const H = field.clientHeight;
+    b.y = H - b.h - 6; b.el.style.transform = `translate(${b.x}px,${b.y}px)`;
+    if (!b.it.fox) { // своё сообщение доставлено
+      b.el.classList.add('deliv'); b.el.insertAdjacentHTML('beforeend', `<span class="dv">${ic('check')}</span>`);
+      flash('okz'); Sound.deliver(); floatAt(b.el, ic('heart', 'fh'), 'heart');
+      setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => b.el.remove(), 450); }, 700);
+      return;
+    }
+    // Лис долетел до низа: вспышка, тряска, Лис выпрыгивает и уносит монеты из кассы
     S.miss++; const n = Math.min(5, D.wallet); S.lost += n;
-    b.el.classList.add('hit'); b.el.querySelector('.pav').innerHTML = avatar('fox');
-    const [ik, tt] = PTRICK[b.it.k]; tag({ x: b.x, w: b.w, y: field.clientHeight - 60 }, `${mc('fox', 'sly')} ${ic(ik)} ${tt}`, 'r');
-    if (n) { D.wallet -= n; updAll(); coinsFly($('#till'), field, n); bumpEl($('#till'), 'hurt'); }
+    b.el.classList.add('hit', 'stolen'); b.el.querySelector('.pav').innerHTML = avatar('fox');
+    b.el.querySelector('.pmt b').innerHTML = `<s>${b.it.n}</s> Лис`;
+    flash('hitz'); fp.classList.remove('quake'); void fp.offsetWidth; fp.classList.add('quake');
+    const th = document.createElement('div'); th.className = 'pthief'; th.innerHTML = critter('fox', 'happy', ['bag']);
+    th.style.left = (b.x + b.w / 2 - 40) + 'px'; th.style.top = (b.y - 70) + 'px'; field.appendChild(th); setTimeout(() => th.remove(), 1200);
+    const [ik, tt] = PTRICK[b.it.k];
+    tag({ x: b.x, w: b.w, y: b.y - 6 }, `${ic(ik)} ${tt}`, 'r');
+    const big = document.createElement('div'); big.className = 'pboom'; big.innerHTML = `−${n} ${ic('coin')}`; field.appendChild(big); setTimeout(() => big.remove(), 1300);
+    if (n) { D.wallet -= n; updAll(); setTimeout(() => coinsFly($('#till'), th, n), 150); bumpEl($('#till'), 'hurt'); }
     Sound.steal(); vibrate('error'); mood('sad');
-    setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => b.el.remove(), 450); }, 500);
+    setTimeout(() => { b.el.classList.add('gone'); setTimeout(() => b.el.remove(), 450); }, 600);
   };
   return new Promise(res => {
     let last = performance.now();
@@ -1640,13 +1707,11 @@ function foxChat(round) {
         const H = field.clientHeight;
         S.since += dt;
         const topY = S.live.filter(b => b.st === 'fall').reduce((m, b) => Math.min(m, b.y), Infinity);
-        if (!S.hold && S.q.length && S.since > gap && topY > 30) spawn(S.q.shift());
+        if (S.q.length && S.since > gap && topY > 30) spawn(S.q.shift());
         for (const b of S.live) {
-          if (b.st !== 'fall' || S.hold === b) continue;
-          if (S.hold) continue;
+          if (b.st !== 'fall') continue;
           b.y += (H + b.h) / T * dt; b.el.style.transform = `translate(${b.x}px,${b.y}px)`;
-          if (b.teach && b.y > H * .22) { b.teach = false; S.taught = true; S.hold = b; b.el.classList.add('tapme'); coach('Это Лис! Тапни — закрась!', b.el); }
-          if (b.y > H - b.h * .4) land(b);
+          if (b.y > H - b.h - 6) land(b);
         }
         S.live = S.live.filter(b => b.st !== 'dead');
         if (!S.q.length && !S.live.length) { S.done = true; finish(); return; }
@@ -1654,11 +1719,6 @@ function foxChat(round) {
       requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
-    const coach = (cap, el) => {
-      const c = ov.querySelector('.pphone'); const cp = document.createElement('div'); cp.className = 'pcap'; cp.textContent = cap; c.appendChild(cp);
-      const off = () => { cp.remove(); el.classList.remove('tapme'); };
-      el.addEventListener('pointerdown', off, { once: true });
-    };
     const finish = async () => {
       const all = S.zap === nFox && !S.oops;
       const ds = all ? 2 : S.zap >= S.miss ? 1 : -S.miss;
