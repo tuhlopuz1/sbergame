@@ -351,8 +351,8 @@ svg{display:block;overflow:visible}
 .pk.go{animation:wWon .5s var(--spring)}
 .pk .pa{flex:none;width:84px;height:84px;border-radius:20px;display:grid;place-items:center}
 .pk .pa>svg{width:68px;height:68px}
-.pk b{display:block;font-size:24px;font-weight:900;line-height:1.1}
-.pk span{display:block;font-size:16px;font-weight:700;opacity:.6;margin-top:4px}
+.pk b{display:block;color:var(--ink);font-size:24px;font-weight:900;line-height:1.1}
+.pk .pd{display:block;font-size:16px;font-weight:700;color:var(--ink);margin-top:4px}
 .pk .go-ic{margin-left:auto;flex:none;width:44px;height:44px;border-radius:50%;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center}
 .pk .go-ic svg{width:22px;height:22px}
 @keyframes pkIn{from{opacity:0;transform:translateY(18px) scale(.94)}}
@@ -1208,7 +1208,7 @@ function chooseStall() {
     <div class="sphead"><h1 class="ttl">Что продаём сегодня?</h1><p class="lead">Выбери свою лавку</p></div>
     <div class="picks">${ks.map((k, i) => `<button class="pk" data-k="${k}" style="--i:${i}">
       <span class="pa" style="background:${PRODS[k].bg}">${prodSVG(k)}</span>
-      <span><b>${PRODS[k].t}</b><span>${PRODS[k].d}</span></span>
+      <span><b>${PRODS[k].t}</b><span class="pd">${PRODS[k].d}</span></span>
       <span class="go-ic">${ic('play')}</span></button>`).join('')}</div>
   </section>`;
   const cards = [...app.querySelectorAll('.pk')];
