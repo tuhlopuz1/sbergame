@@ -240,7 +240,7 @@ body:hover .nav{opacity:.9}
   <section class="slide" data-notes="Наша аудитория — дети 7–10 лет, младшая школа. В ТЗ безопасность упомянута для детей 6–7 лет, мы берём чуть шире: именно в эти годы у ребёнка появляется свой телефон, свои карманные деньги и свои чаты с друзьями. Поэтому в игре почти нет текста — иконки и реплики до 10 слов, правила показывает рука, проиграть нельзя, и всё укладывается в 3–5 минут.">
     <div class="col wide" style="gap:40px">
       <div class="kick" data-a>Для кого</div>
-      <div class="h" data-a style="--d:.1">Дети 7–10 лет: <span class="hl">первый телефон, первые деньги, первые чаты</span></div>
+      <div class="h" data-a style="--d:.1">Дети 7–12 лет: <span class="hl">первый телефон, первые деньги, первые чаты</span></div>
       <div class="cards3">
         <div class="card dom" data-a style="--d:.25"><div class="di" style="background:var(--pink2)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 3.2l3.2.6 1.2 4-2 1.6c1 2.3 2.8 4.1 5.1 5.1l1.6-2 4 1.2.6 3.2-2.4 2.6C10.6 19.6 4.4 13.4 3.6 5.6z" fill="#1FD16C" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h3>Свой телефон</h3><p>Пишут незнакомцы, «поддержка игры», «друг с нового номера»</p></div>
         <div class="card dom" data-a style="--d:.35"><div class="di" style="background:var(--lime)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFDD2E" stroke="#111216" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="6.4" fill="none" stroke="#E6A800" stroke-width="1.8"/><path d="M12 8.6l1 2.1 2.3.2-1.7 1.5.5 2.3-2.1-1.2-2.1 1.2.5-2.3-1.7-1.5 2.3-.2z" fill="#E6A800"/></svg></div><h3>Свои деньги</h3><p>Первые покупки сам: хватит ли, сколько сдачи, стоит ли занимать</p></div>
@@ -674,10 +674,11 @@ body:hover .nav{opacity:.9}
   function toIntro() {
     inIntro = true; intro.classList.remove('gone', 'playing'); promo.currentTime = 0;
   }
-  const next = () => inIntro ? toSlides(0) : show(i + 1);
+  const startVideo = () => { intro.classList.add('playing'); promo.muted = false; promo.play().catch(() => { promo.muted = true; promo.play(); }); };
+  const next = () => inIntro ? (promo.paused ? startVideo() : toSlides(0)) : show(i + 1);
   const prev = () => inIntro ? null : (i === 0 ? toIntro() : show(i - 1));
 
-  document.getElementById('play').onclick = () => { intro.classList.add('playing'); promo.muted = false; promo.play().catch(() => { promo.muted = true; promo.play(); }); };
+  document.getElementById('play').onclick = startVideo;
   document.getElementById('skip').onclick = () => toSlides(0);
   promo.addEventListener('ended', () => toSlides(0));
   promo.addEventListener('click', () => { if (promo.paused) promo.play(); else promo.pause(); });
