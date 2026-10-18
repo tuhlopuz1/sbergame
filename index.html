@@ -345,17 +345,18 @@ svg{display:block;overflow:visible}
 
 .start .hero>svg{width:100%;height:100%;display:block}
 .spin .sphead{margin:14px 0 6px}
-.spin .lead{min-height:24px}
-.wheelw{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:26px 0 14px}
-.fwheel{position:relative;width:min(84vw,46vh,340px);aspect-ratio:1;cursor:pointer;filter:drop-shadow(0 14px 22px rgba(17,18,22,.18))}
-.fwheel>svg{width:100%;height:100%;display:block}
-.fwheel.won{animation:wWon .6s var(--spring)}
-@keyframes wWon{40%{transform:scale(1.06)}}
-.wpin{position:absolute;left:50%;top:-22px;width:44px;height:50px;margin-left:-22px;z-index:2;transform-origin:50% 30%;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
-.wpin>svg{width:100%;height:100%;display:block}
-.wpin.tick{animation:pinTick .12s ease-out}
-@keyframes pinTick{40%{transform:rotate(-14deg)}}
-.spin .btn[disabled]{opacity:.6;animation:none}
+.picks{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:16px 0 20px}
+.pk{display:flex;align-items:center;gap:16px;width:100%;padding:12px 18px 12px 12px;border-radius:26px;background:#fff;border:3px solid var(--ink);box-shadow:0 6px 0 var(--ink);text-align:left;animation:pkIn .45s var(--spring) both;animation-delay:calc(var(--i)*.08s);transition:transform .15s}
+.pk:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.pk.go{animation:wWon .5s var(--spring)}
+.pk .pa{flex:none;width:84px;height:84px;border-radius:20px;display:grid;place-items:center}
+.pk .pa>svg{width:68px;height:68px}
+.pk b{display:block;font-size:24px;font-weight:900;line-height:1.1}
+.pk span{display:block;font-size:16px;font-weight:700;opacity:.6;margin-top:4px}
+.pk .go-ic{margin-left:auto;flex:none;width:44px;height:44px;border-radius:50%;background:var(--lime);border:3px solid var(--ink);display:grid;place-items:center}
+.pk .go-ic svg{width:22px;height:22px}
+@keyframes pkIn{from{opacity:0;transform:translateY(18px) scale(.94)}}
+@keyframes wWon{40%{transform:scale(1.05)}}
 .stage.paused *{animation-play-state:paused!important}
 .toast{white-space:normal;max-width:calc(100% - 24px);text-align:center;width:max-content}
 .buzz{position:absolute;left:50%;top:50%;width:140px;height:198px;margin:-110px 0 0 -70px;z-index:6;animation:buzzIn .45s var(--spring) both}
@@ -529,23 +530,18 @@ svg{display:block;overflow:visible}
 (() => {
 'use strict';
 
-/* Мост «страница → приложение»: пять событий контракта. */
-const EVENTS = { close: 'close', finish: 'finish', vibrate: 'vibrate', share: 'share', complete: 'complete' };
+/* Мост «страница → приложение»: контракт хакатона, обычный window.postMessage в плоском формате.
+   Канал односторонний; вибрация и шаринг — только через него, без браузерных API. */
+const EVENTS = { close: 'CLOSE_EVENT', finish: 'FINISH_EVENT', complete: 'COMPLETED_EVENT', vibrate: 'VIBRATION_EVENT', share: 'SHARING_EVENT' };
 const Bridge = {
-  native() { return !!(window.ReactNativeWebView || (window.webkit && window.webkit.messageHandlers) || window.AndroidBridge || window.parent !== window); },
-  send(type, payload = {}) {
-    const msg = { type: EVENTS[type] || type, payload }, json = JSON.stringify(msg);
-    try { window.ReactNativeWebView && window.ReactNativeWebView.postMessage(json); } catch (e) {}
-    try { const h = window.webkit && window.webkit.messageHandlers; h && (h.app || h.bridge) && (h.app || h.bridge).postMessage(msg); } catch (e) {}
-    try { window.AndroidBridge && window.AndroidBridge.postMessage && window.AndroidBridge.postMessage(json); } catch (e) {}
-    try { window.parent !== window && window.parent.postMessage(msg, '*'); } catch (e) {}
-    if (location.protocol === 'file:' || location.hostname === 'localhost') console.log('[bridge]', JSON.stringify(msg));
+  completed: false,
+  send(type, fields = {}) {
+    if (type === 'complete') { if (this.completed) return; this.completed = true; } // засчитываем прогресс один раз за открытие
+    try { window.postMessage({ type: EVENTS[type], ...fields }, '*'); } catch (e) {}
   }
 };
-const vibrate = (kind = 'light') => {
-  Bridge.send('vibrate', { style: kind });
-  if (!Bridge.native() && navigator.vibrate) { try { navigator.vibrate(kind === 'error' ? [40, 60, 40] : kind === 'success' ? [20, 40, 60] : 15); } catch (e) {} }
-};
+let lastVib = 0;
+const vibrate = () => { const t = Date.now(); if (t - lastVib < 120) return; lastVib = t; Bridge.send('vibrate'); };
 
 /* ================= Звук (выключен по умолчанию) ================= */
 const Sound = {
@@ -1057,7 +1053,7 @@ const ST = {
       { i: 'keypad', t: 'Сказать код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `${mc('fox', 'sly')} Утащила ${-f.m} ${C()}`, tip: 'Код из СМС — секрет. Банк его не спрашивает.', mom: f => ({ t: `${mc('fox')} −${-f.m} ${C()}`, c: 'r' }) },
       { i: 'stop', t: 'Не скажу', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Лиса ушла ни с чем` },
       { i: 'phone', t: 'Позвоню в банк', fx: { s: 3 }, exit: 'run', res: `${ic('bank')} «Это не мы!»`, mom: () => ({ t: `${mc('fox')} Раскрыта!`, c: 'g' }) }] },
-  qr: { who: ['wolf', ['cap']], md: 'sly', say: () => `Сканируй ${ic('qr')} — выиграешь самокат!`,
+  qr: { who: ['wolf', ['cap']], md: 'sly', say: () => `Сканируй ${ic('qr')} — получишь самокат!`,
     opts: [
       { i: 'qr', t: 'Сканировать', bad: 1, fx: D => ({ m: -Math.min(30, D.wallet), s: -2, scam: 1 }), exit: 'run', res: f => `${ic('qr')} Код украл ${-f.m} ${C()}`, tip: 'Чужие QR-коды могут вести к жуликам.', mom: f => ({ t: `${mc('wolf')} −${-f.m} ${C()}`, c: 'r' }) },
       { i: 'stop', t: 'Не надо', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Волк ушёл` }] },
@@ -1069,10 +1065,10 @@ const ST = {
     opts: [
       { i: 'keypad', t: 'Скинуть код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `${mc('bunny', 'sly')} Это был не друг! −${-f.m} ${C()}`, tip: 'Друга проверяют звонком на старый номер.', mom: f => ({ t: `${mc('bunny')} −${-f.m} ${C()}`, c: 'r' }) },
       { i: 'phone', t: 'Позвоню другу', fx: { s: 3 }, exit: 'run', res: `${ic('phone')} «Это не я!»`, mom: () => ({ t: `${mc('bunny')} Раскрыт!`, c: 'g' }) }] },
-  lottery: { who: ['hamster', ['bow']], md: 'happy', say: () => `Лотерея! Билет 20 ${C()} — шанс выиграть 100!`,
+  prize: { who: ['hamster', ['bow']], md: 'happy', say: () => `Тебе подарок ${ic('gift')} Только оплати доставку 20 ${C()}`,
     opts: [
-      { i: 'ticket', t: 'Купить', cost: 20, bad: 1, fx: () => Math.random() < .1 ? { m: 80, lucky: 1 } : { m: -20 }, exit: 'happy', res: f => f.lucky ? `${ic('star')} Выигрыш 100 ${C()}! Так везёт 1 раз из 10` : `${ic('ticket')} Билет пустой`, tip: 'В лотерее почти всегда проигрывают.', mom: f => f.lucky ? null : { t: `${ic('ticket')} −20 ${C()}`, c: 'r' } },
-      { i: 'stop', t: 'Не буду', fx: { s: 1 }, exit: 'sad', res: `${C()} Монеты целы` }] },
+      { i: 'cashfly', t: 'Оплатить', cost: 20, bad: 1, fx: { m: -20, s: -2, scam: 1 }, exit: 'run', res: `${ic('gift')} Подарка нет, монеты пропали`, tip: 'Настоящий подарок не просит заплатить.', mom: () => ({ t: `${mc('hamster')} −20 ${C()}`, c: 'r' }) },
+      { i: 'stop', t: 'Не буду', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Монеты целы` }] },
   invest: { who: ['beaver', ['tie']], md: 'sly', say: () => `Дай 40 ${C()} — к вечеру будет ×3! ${ic('rocket')}`,
     opts: [
       { i: 'cashfly', t: 'Вложить', cost: 40, bad: 1, fx: { m: -40, s: -2, scam: 1, later: 'invest' }, exit: 'run', res: `${mc('beaver', 'sly')} Бобёр убежал…`, tip: '«×3 за день» обещают только жулики.' },
@@ -1142,7 +1138,7 @@ const ST = {
       { i: 'wrench', t: 'Починить', cost: 30, pay: 1, fx: { pay: 30 }, exit: 'sad', res: `${ic('wrench')} Как новенький!` },
       { i: 'meh', t: 'Так сойдёт', fx: D => ({ st: -Math.ceil(D.stock / 2) }), exit: 'sad', res: f => `${ic('bolt')} Пропало ${-f.st} ${U()}`, mom: f => ({ t: `${ic('bolt')} −${-f.st} ${U()}`, c: 'r' }) }] }
 };
-const SAFE = ['bank', 'qr', 'guard', 'fakefriend', 'lottery', 'invest'], SOFT = ['sour', 'rival', 'chick', 'lost', 'owl', 'wallet', 'overpaid'];
+const SAFE = ['bank', 'qr', 'guard', 'fakefriend', 'prize', 'invest'], SOFT = ['sour', 'rival', 'chick', 'lost', 'owl', 'wallet', 'overpaid'];
 const TITLES = [
   { id: 'king', ic: 'crown', t: 'Хозяин ярмарки', c: '#FFDD2E', ok: S => S.rep >= 8 && S.shield >= 7 && S.profit >= 40 },
   { id: 'prey', ic: 'dash', t: 'Лёгкая добыча для жуликов', c: '#FF9A4D', ok: S => S.scammed >= 2 || S.shield <= 2 },
@@ -1201,70 +1197,29 @@ function renderStart() {
     <p class="lead">Открой лавку на ярмарке. Готовь заказы, считай сдачу и не попадись хитрецам!</p>
     <button class="btn big" id="play">Открыть лавку ${ic('play')}</button>
   </section>`;
-  $('#play').onclick = () => { Sound.tap(); vibrate(); randomStall(); };
+  $('#play').onclick = () => { Sound.tap(); vibrate(); chooseStall(); };
 }
-/* колесо удачи: ребёнок сам крутит и видит, какая лавка выпала (подряд одна и та же не выпадает) */
-function wheelSVG(ks) {
-  const R = 96, pt = (a, r) => `${(Math.sin(a * Math.PI / 180) * r).toFixed(2)} ${(-Math.cos(a * Math.PI / 180) * r).toFixed(2)}`;
-  const col = { lemon: '#FFE45C', donut: '#FF9CEF', slime: '#C6F432' };
-  const sec = ks.map((k, i) => { const c = i * 120, a0 = c - 60, a1 = c + 60;
-    return `<path d="M0 0L${pt(a0, R)}A${R} ${R} 0 0 1 ${pt(a1, R)}Z" fill="${col[k] || '#fff'}" stroke="#fff" stroke-width="4"/>
-      <g transform="rotate(${c})"><text y="-72" text-anchor="middle" font-family="Onest,sans-serif" font-weight="900" font-size="15" fill="#111216">${PRODS[k].t}</text>
-      <g transform="translate(-23 -68) scale(.72)">${PRODS[k].art}</g></g>`; }).join('');
-  const pegs = Array.from({ length: 9 }, (_, i) => `<circle cx="${pt(i * 40 + 20, 103).split(' ')[0]}" cy="${pt(i * 40 + 20, 103).split(' ')[1]}" r="4" fill="#fff" stroke="#111216" stroke-width="2"/>`).join('');
-  return `<svg viewBox="-114 -114 228 228" aria-hidden="true"><circle r="110" fill="#111216"/><circle r="99" fill="#fff"/>
-    <g id="wheelRot">${sec}${pegs}</g>
-    <circle r="15" fill="#fff" stroke="#111216" stroke-width="3"/><circle r="7" fill="var(--m)"/></svg>`;
-}
-function randomStall() {
+/* выбор лавки: три карточки, ребёнок сам решает, что продавать */
+function chooseStall() {
   loopId++; D = null;
-  const ks = Object.keys(PRODS), prev = SESSION.lastProd;
+  const ks = Object.keys(PRODS);
   app.innerHTML = `<section class="screen start spin">${blobsBg()}
     <div class="row"><button class="ibtn" data-home aria-label="Назад">${ICON.x}</button>${soundBtn()}</div>
-    <div class="sphead"><h1 class="ttl" id="spT">Что продаём сегодня?</h1><p class="lead" id="spL">Крути колесо — где остановится стрелка, то и продаёшь</p></div>
-    <div class="wheelw"><div class="fwheel" id="wheel">${wheelSVG(ks)}
-      <div class="wpin" id="wpin"><svg viewBox="0 0 40 46"><path d="M20 44L4 10a16 16 0 1 1 32 0z" fill="#FF3D6E" stroke="#111216" stroke-width="3" stroke-linejoin="round"/><circle cx="20" cy="15" r="6" fill="#fff"/></svg></div></div></div>
-    <button class="btn big" id="spin">Крутить колесо! ${ic('repeat')}</button>
+    <div class="sphead"><h1 class="ttl">Что продаём сегодня?</h1><p class="lead">Выбери свою лавку</p></div>
+    <div class="picks">${ks.map((k, i) => `<button class="pk" data-k="${k}" style="--i:${i}">
+      <span class="pa" style="background:${PRODS[k].bg}">${prodSVG(k)}</span>
+      <span><b>${PRODS[k].t}</b><span>${PRODS[k].d}</span></span>
+      <span class="go-ic">${ic('play')}</span></button>`).join('')}</div>
   </section>`;
-  const btn = $('#spin'), rot = $('#wheelRot'), pin = $('#wpin'), wheel = $('#wheel');
-  const win = pick(ks.filter(k => k !== prev)), wi = ks.indexOf(win);
-  if (firstTime('spin')) setTimeout(() => coachTap(btn, null, app.querySelector('.spin')), 500);
-  let busy = false, ang = 0, idle = true, last = performance.now();
-  // пока не нажали — диск медленно вращается сам; стрелка всегда стоит на месте
-  const idleStep = now => {
-    if (!idle || !app.contains(wheel)) return;
-    if (!RM) { ang = (ang + (now - last) * .012) % 360; rot.setAttribute('transform', `rotate(${ang.toFixed(2)})`); }
-    last = now; requestAnimationFrame(idleStep);
-  };
-  requestAnimationFrame(idleStep);
-  const go = async () => {
-    if (btn.dataset.done) { Sound.tap(); vibrate(); SESSION.lastProd = win; startDay(win); return; }
-    if (busy) return;
-    busy = true; btn.disabled = true; coachOff(); Sound.tap();
-    $('#spL').textContent = 'Крутится…';
-    // сектор wi должен встать под стрелку: поворот −wi·120° плюс несколько полных оборотов и небольшой сдвиг внутри сектора
-    idle = false;
-    const a0 = ang, target = -wi * 120 + (Math.random() * 60 - 30);
-    const end = a0 + 360 * 4 + (((target - a0) % 360) + 360) % 360, T = RM ? 1 : 3600, t0 = performance.now();
-    let lastPeg = 0;
-    await new Promise(res => {
-      const step = now => {
-        if (!app.contains(wheel)) return res();
-        const t = Math.min(1, (now - t0) / T), a = a0 + (end - a0) * (1 - Math.pow(1 - t, 4));
-        rot.setAttribute('transform', `rotate(${a.toFixed(2)})`);
-        const peg = Math.floor((a + 20) / 40);   // штырьки каждые 40°
-        if (peg !== lastPeg) { lastPeg = peg; Sound.tone(700, .03, 'triangle', .05); pin.classList.remove('tick'); void pin.offsetWidth; pin.classList.add('tick'); }
-        if (t < 1) requestAnimationFrame(step); else res();
-      };
-      requestAnimationFrame(step);
-    });
-    if (!app.contains(wheel)) return;
-    wheel.classList.add('won'); Sound.win(); vibrate(); confetti();
-    $('#spT').innerHTML = `Выпало: <span class="u">${PRODS[win].t}!${DOODLE.under('var(--m)')}</span>`;
-    $('#spL').textContent = `Сегодня ты продаёшь ${PRODS[win].t.toLowerCase()}`;
-    btn.disabled = false; btn.dataset.done = 1; btn.innerHTML = `Открыть лавку ${ic('play')}`;
-  };
-  btn.onclick = go; wheel.onclick = () => { if (!btn.dataset.done) go(); };
+  const cards = [...app.querySelectorAll('.pk')];
+  if (firstTime('pick')) setTimeout(() => app.contains(cards[0]) && coachTap(cards[0], null, app.querySelector('.spin')), 600);
+  let busy = false;
+  cards.forEach(c => c.onclick = async () => {
+    if (busy) return; busy = true; coachOff();
+    Sound.tap(); vibrate(); c.classList.add('go');
+    await new Promise(r => setTimeout(r, RM ? 0 : 380));
+    if (app.contains(c)) startDay(c.dataset.k);
+  });
 }
 
 /* ================= Подсказки рукой ================= */
@@ -1604,10 +1559,10 @@ const PF = (k, av, n, p) => ({ fox: true, k, av, n, p });
 const PH = (av, n, t) => ({ fox: false, av, n, p: [t] });
 const PFOX = [
   PF('code', 'robot', 'Поддержка игры', ['', 'Скажи код из СМС', ' — дадим 1000 алмазов']), PF('code', 'gamer', 'Max_Pro', ['', 'Дай пароль', ' — подарю скин']),
-  PF('gift', 'prize', 'Розыгрыш', ['', 'Ты выиграл телефон!', ' Оплати доставку']), PF('gift', 'robot', 'Магазин скинов', ['', '5000 монет бесплатно', ' — жми сюда']),
+  PF('gift', 'prize', 'Подарки', ['', 'Тебе подарок — телефон!', ' Оплати доставку']), PF('gift', 'robot', 'Магазин скинов', ['', '5000 монет бесплатно', ' — жми сюда']),
   PF('personal', 'cat', 'Котик_Даша', ['Давай дружить! ', 'Где ты живёшь?', '']), PF('personal', 'stranger', 'Незнакомец', ['', 'Скинь фото и адрес школы', '']),
   PF('newnum', 'mom', 'Мама?', ['', 'Пишу с чужого номера.', ' Скинь код']), PF('newnum', 'grandma', 'Бабушка?', ['', 'У меня новый номер!', ' Переведи денежку']),
-  PF('link', 'petya', 'Петя', ['Смотри! ', 'skin-free.xyz', '']), PF('link', 'anya', 'Аня', ['Голосуй за меня: ', 'top-vote.click', '']),
+  PF('link', 'petya', 'Петя', ['Смотри! ', 'skin-free.zz', '']), PF('link', 'anya', 'Аня', ['Голосуй за меня: ', 'top-vote.zz', '']),
   PF('urgent', 'stranger', 'Неизвестный', ['', 'Ответь за 1 минуту,', ' иначе удалим аккаунт']), PF('secret', 'stranger', 'Новый друг', ['Пришлю подарок, ', 'только маме не говори', '']),
   PF('fear', 'bank', 'Банк?', ['', 'Карту родителей заблокировали!', ' Назови цифры']), PF('fear', 'robot', 'Антивирус', ['', 'В телефоне 5 вирусов!', ' Скачай чистилку']),
   PF('dropper', 'work', 'Подработка', ['', 'Прими деньги и переведи дальше', ' — 500 твои']), PF('dropper', 'gamer', 'Max_Pro', ['', 'Дай свою карту на денёк', ''])
@@ -1966,7 +1921,7 @@ async function storyEnc(id) {
   await applyFx(f, c);
   if (D !== me) return;
   if (id === 'rain') { $('#rain').classList.remove('on'); $('#sky').classList.remove('rainy'); }
-  const bad = o.bad && !f.lucky;
+  const bad = o.bad;
   const empty = f.scam && !f.m && !f.st;   // жулик пришёл к пустой кассе
   const res = empty ? `${ic('coin')} Касса пустая — красть нечего!` : typeof o.res === 'function' ? o.res(f) : o.res;
   if (res) toast(res, bad ? 'r' : (f.r > 0 || f.s > 0 ? 'g' : ''));
@@ -2039,7 +1994,7 @@ async function evening() {
   await pwait(1500); if (D !== me) return;
   for (const L of D.later) {
     if (L === 'loan') {
-      const back = Math.random() < .7;
+      const back = D.rep >= 5; // без случайности: друг, с которым ты по-доброму, долг возвращает
       const c = custIn(critter('kitten', back ? 'happy' : 'sad', ['bow']));
       await pwait(650); if (D !== me) return;
       const b = sayB(back ? `Возвращаю долг! И +5 сверху ${ic('heart')}` : `Ой… я всё потратил ${ic('sad')}`);
@@ -2064,6 +2019,30 @@ async function evening() {
   }
   if (D.stock > 0) D.moments.push({ t: `${ic('box')} Осталось ${D.stock} ${pi(D.prod)}`, c: '' });
   showSummary();
+}
+/* Картинка для шаринга: рисуем на canvas, отдаём data URL (работает без сети) */
+function shareCard(T, profit) {
+  return new Promise(res => {
+    try {
+      const W = 720, cv = document.createElement('canvas'); cv.width = cv.height = W;
+      const x = cv.getContext('2d'), img = new Image();
+      x.fillStyle = '#BFE8FF'; x.fillRect(0, 0, W, W);
+      const cols = ['#FF5CE6', '#fff'];
+      for (let i = 0; i < 9; i++) { x.fillStyle = cols[i % 2]; x.beginPath(); x.moveTo(i * 80, 0); x.lineTo(i * 80 + 80, 0); x.lineTo(i * 80 + 80, 70); x.arc(i * 80 + 40, 70, 40, 0, Math.PI); x.fill(); }
+      x.fillStyle = '#F2F3F7'; x.beginPath(); x.roundRect ? x.roundRect(40, 150, 640, 530, 40) : x.rect(40, 150, 640, 530); x.fill();
+      x.strokeStyle = '#111216'; x.lineWidth = 5; x.stroke();
+      x.textAlign = 'center'; x.fillStyle = '#111216';
+      x.font = "900 46px Onest, sans-serif"; x.fillText('Лавка на один день', W / 2, 225);
+      const done = () => {
+        x.font = "800 38px Onest, sans-serif"; x.fillText(`«${T.t}»`, W / 2, 575, 600);
+        x.font = "700 40px Caveat, cursive"; x.fillStyle = '#FF5CE6'; x.fillText(`Прибыль ${profit >= 0 ? '+' : ''}${profit} монет · А ты?`, W / 2, 635, 600);
+        try { res(cv.toDataURL('image/png')); } catch (e) { res(null); }
+      };
+      img.onload = () => { x.drawImage(img, W / 2 - 120, 248, 240, 275); done(); };
+      img.onerror = done;
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(medalSVG(T).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="344" '));
+    } catch (e) { res(null); }
+  });
 }
 function showSummary() {
   D.over = true;
@@ -2091,15 +2070,14 @@ function showSummary() {
   </div>`;
   sc.classList.add('show');
   Sound.win(); if (profit > 0) setTimeout(confetti, 400);
-  Bridge.send('complete', { title: T.id, profit, reputation: D.rep, safety: D.shield, scammed: D.scammed, sold: D.sold, missedBuyers: D.missed, foxZapped: D.foxZap || 0, foxMissed: D.foxMiss || 0, ordersRight: D.mixOk, ordersWrong: D.mixBad, changeRight: D.chgOk, changeWrong: D.chgBad, signBought: D.sign, product: D.prod, titlesCollected: [...SESSION.titles] });
-  $('#again').onclick = () => { Sound.tap(); randomStall(); };
+  Bridge.send('finish'); Bridge.send('complete');
+  $('#again').onclick = () => { Sound.tap(); chooseStall(); };
   $('#share').onclick = () => {
     Sound.tap();
     const text = `Я провёл(а) день в «Лавке на один день» и стал(а) «${T.t}»! Прибыль: ${profit} монет. А ты?`;
-    Bridge.send('share', { text });
-    if (!Bridge.native() && navigator.share) navigator.share({ text }).catch(() => {});
+    shareCard(T, profit).then(image => Bridge.send('share', image ? { text, image } : { text }));
   };
-  $('#done').onclick = () => { Sound.tap(); Bridge.send('finish', { title: T.id, profit }); };
+  $('#done').onclick = () => { Sound.tap(); Bridge.send('close'); };
 }
 
 /* ================= Глобальные обработчики ================= */
