@@ -1,0 +1,1233 @@
+{
+  "version": 1,
+  "economy": {
+    "price": 5,
+    "startMoney": 50,
+    "startStock": 20
+  },
+  "products": {
+    "lemon": {
+      "t": "Лимонад",
+      "d": "Холодный и кислый",
+      "sour": "Фу! Кислятина!",
+      "broke": "Холодильник сломался!"
+    },
+    "donut": {
+      "t": "Пончики",
+      "d": "С розовой глазурью",
+      "sour": "Фу! Чёрствый!",
+      "broke": "Печка сломалась!"
+    },
+    "slime": {
+      "t": "Слаймы",
+      "d": "Тянутся и светятся",
+      "sour": "Фу! Не тянется!",
+      "broke": "Банки треснули!"
+    }
+  },
+  "situations": {
+    "bank": {
+      "who": [
+        "fox",
+        [
+          "glasses"
+        ]
+      ],
+      "md": "sly",
+      "say": "Я из банка! {ic:bank} Скажи код из СМС — дам 1000 {coin}",
+      "opts": [
+        {
+          "i": "keypad",
+          "t": "Сказать код",
+          "bad": 1,
+          "fx": {
+            "m": -40,
+            "s": -3,
+            "scam": 1
+          },
+          "exit": "run",
+          "tip": "Код из СМС — секрет. Банк его не спрашивает.",
+          "mom": {
+            "t": "{who:fox} −{m} {coin}",
+            "c": "r"
+          },
+          "res": "{who:fox:sly} Утащила {m} {coin}"
+        },
+        {
+          "i": "stop",
+          "t": "Не скажу",
+          "fx": {
+            "s": 2
+          },
+          "exit": "sad",
+          "res": "{ic:shield} Лиса ушла ни с чем"
+        },
+        {
+          "i": "phone",
+          "t": "Позвоню в банк",
+          "fx": {
+            "s": 3
+          },
+          "exit": "run",
+          "mom": {
+            "t": "{who:fox} Раскрыта!",
+            "c": "g"
+          },
+          "res": "{ic:bank} «Это не мы!»"
+        }
+      ]
+    },
+    "qr": {
+      "who": [
+        "wolf",
+        [
+          "cap"
+        ]
+      ],
+      "md": "sly",
+      "say": "Сканируй {ic:qr} — получишь самокат!",
+      "opts": [
+        {
+          "i": "qr",
+          "t": "Сканировать",
+          "bad": 1,
+          "fx": {
+            "m": -30,
+            "s": -2,
+            "scam": 1
+          },
+          "exit": "run",
+          "tip": "Чужие QR-коды могут вести к жуликам.",
+          "mom": {
+            "t": "{who:wolf} −{m} {coin}",
+            "c": "r"
+          },
+          "res": "{ic:qr} Код украл {m} {coin}"
+        },
+        {
+          "i": "stop",
+          "t": "Не надо",
+          "fx": {
+            "s": 2
+          },
+          "exit": "sad",
+          "res": "{ic:shield} Волк ушёл"
+        }
+      ]
+    },
+    "guard": {
+      "who": [
+        "raccoon",
+        [
+          "cap"
+        ]
+      ],
+      "md": "sly",
+      "say": "Отдохни! Я покараулю кассу {ic:zzz}",
+      "opts": [
+        {
+          "i": "zzz",
+          "t": "Спасибо!",
+          "bad": 1,
+          "fx": {
+            "m": "-50%",
+            "s": -2,
+            "scam": 1
+          },
+          "exit": "run",
+          "tip": "Кассу и вещи не оставляют незнакомцам.",
+          "mom": {
+            "t": "{who:raccoon} −{m} {coin}",
+            "c": "r"
+          },
+          "res": "{ic:dash} Касса похудела на {m} {coin}"
+        },
+        {
+          "i": "shield",
+          "t": "Сам справлюсь",
+          "fx": {
+            "s": 2
+          },
+          "exit": "sad",
+          "res": "{ic:shield} Касса под присмотром"
+        }
+      ]
+    },
+    "fakefriend": {
+      "who": [
+        "bunny",
+        []
+      ],
+      "md": "idle",
+      "say": "Это я, твой друг! Новый номер. Скинь код {ic:keypad}",
+      "opts": [
+        {
+          "i": "keypad",
+          "t": "Скинуть код",
+          "bad": 1,
+          "fx": {
+            "m": -40,
+            "s": -3,
+            "scam": 1
+          },
+          "exit": "run",
+          "tip": "Друга проверяют звонком на старый номер.",
+          "mom": {
+            "t": "{who:bunny} −{m} {coin}",
+            "c": "r"
+          },
+          "res": "{who:bunny:sly} Это был не друг! −{m} {coin}"
+        },
+        {
+          "i": "phone",
+          "t": "Позвоню другу",
+          "fx": {
+            "s": 3
+          },
+          "exit": "run",
+          "mom": {
+            "t": "{who:bunny} Раскрыт!",
+            "c": "g"
+          },
+          "res": "{ic:phone} «Это не я!»"
+        }
+      ]
+    },
+    "prize": {
+      "who": [
+        "hamster",
+        [
+          "bow"
+        ]
+      ],
+      "md": "happy",
+      "say": "Тебе подарок {ic:gift} Только оплати доставку 20 {coin}",
+      "opts": [
+        {
+          "i": "cashfly",
+          "t": "Оплатить",
+          "cost": 20,
+          "bad": 1,
+          "fx": {
+            "m": -20,
+            "s": -2,
+            "scam": 1
+          },
+          "exit": "run",
+          "tip": "Настоящий подарок не просит заплатить.",
+          "mom": {
+            "t": "{who:hamster} −20 {coin}",
+            "c": "r"
+          },
+          "res": "{ic:gift} Подарка нет, монеты пропали"
+        },
+        {
+          "i": "stop",
+          "t": "Не буду",
+          "fx": {
+            "s": 2
+          },
+          "exit": "sad",
+          "res": "{ic:shield} Монеты целы"
+        }
+      ]
+    },
+    "invest": {
+      "who": [
+        "beaver",
+        [
+          "tie"
+        ]
+      ],
+      "md": "sly",
+      "say": "Дай 40 {coin} — к вечеру будет ×3! {ic:rocket}",
+      "opts": [
+        {
+          "i": "cashfly",
+          "t": "Вложить",
+          "cost": 40,
+          "bad": 1,
+          "fx": {
+            "m": -40,
+            "s": -2,
+            "scam": 1,
+            "later": "invest"
+          },
+          "exit": "run",
+          "tip": "«×3 за день» обещают только жулики.",
+          "res": "{who:beaver:sly} Бобёр убежал…"
+        },
+        {
+          "i": "stop",
+          "t": "Не верю",
+          "fx": {
+            "s": 2
+          },
+          "exit": "sad",
+          "res": "{ic:shield} Хитрый бобёр ушёл"
+        }
+      ]
+    },
+    "screenshot": {
+      "who": [
+        "raccoon",
+        [
+          "phone"
+        ]
+      ],
+      "md": "sly",
+      "say": "Беру 6 {item}! Я уже перевёл, смотри",
+      "opts": [
+        {
+          "i": "give",
+          "t": "Отдать",
+          "ref": "detFail"
+        },
+        {
+          "i": "magnifier",
+          "t": "Проверить",
+          "detect": 1
+        }
+      ]
+    },
+    "supplier": {
+      "who": [
+        "beaver",
+        [
+          "hardhat"
+        ]
+      ],
+      "md": "happy",
+      "say": "10 {item} за 15 {coin}! Только сейчас! {ic:clock}",
+      "opts": [
+        {
+          "i": "box",
+          "t": "Беру!",
+          "cost": 15,
+          "fx": {
+            "m": -15,
+            "st": 10
+          },
+          "exit": "happy",
+          "mom": {
+            "t": "{ic:box} +10 {item}",
+            "c": ""
+          },
+          "res": "{ic:box} +10 {item}"
+        },
+        {
+          "i": "think",
+          "t": "Не сейчас",
+          "fx": {},
+          "exit": "sad",
+          "res": "{who:beaver} Ушёл к соседям"
+        }
+      ]
+    },
+    "restock": {
+      "who": [
+        "bear",
+        [
+          "hardhat"
+        ]
+      ],
+      "md": "happy",
+      "say": "Товар кончился? Привёз ещё! {ic:box}",
+      "opts": [
+        {
+          "i": "box",
+          "t": "+10 {item}",
+          "cost": 20,
+          "fx": {
+            "m": -20,
+            "st": 10
+          },
+          "exit": "happy",
+          "res": "{ic:box} +10 {item}"
+        },
+        {
+          "i": "box",
+          "t": "+5 {item}",
+          "cost": 10,
+          "fx": {
+            "m": -10,
+            "st": 5
+          },
+          "exit": "happy",
+          "res": "{ic:box} +5 {item}"
+        },
+        {
+          "i": "handshake",
+          "t": "В долг +5 {item}",
+          "broke": 1,
+          "fx": {
+            "st": 5,
+            "later": "debt"
+          },
+          "exit": "happy",
+          "res": "{ic:handshake} Вечером вернёшь 15 {coin}"
+        }
+      ]
+    },
+    "loan": {
+      "who": [
+        "kitten",
+        [
+          "bow"
+        ]
+      ],
+      "md": "sad",
+      "say": "Дай в долг 20 {coin}? Завтра верну!",
+      "opts": [
+        {
+          "i": "handshake",
+          "t": "Дать",
+          "cost": 20,
+          "fx": {
+            "m": -20,
+            "r": 1,
+            "later": "loan"
+          },
+          "exit": "happy",
+          "res": "{who:kitten:happy:bow} Котёнок сияет"
+        },
+        {
+          "i": "stop",
+          "t": "Не дам",
+          "fx": {
+            "r": -1
+          },
+          "exit": "sad",
+          "res": "{who:kitten:sad:bow} Котёнок грустит"
+        },
+        {
+          "i": "gift",
+          "t": "Угощу",
+          "needStock": 1,
+          "fx": {
+            "st": -1,
+            "r": 2
+          },
+          "exit": "happy",
+          "res": "{who:kitten:happy:bow} Мур! Вкусно!"
+        }
+      ]
+    },
+    "sour": {
+      "who": [
+        "hedgehog",
+        []
+      ],
+      "md": "angry",
+      "say": "{sour} {ic:angry}",
+      "opts": [
+        {
+          "i": "angry",
+          "t": "Сам такой!",
+          "bad": 1,
+          "fx": {
+            "r": -2
+          },
+          "exit": "angry",
+          "tip": "Спокойный ответ гасит ссору.",
+          "mom": {
+            "t": "{who:hedgehog} −2 {ic:heart}",
+            "c": "r"
+          },
+          "res": "{who:hedgehog:angry} Расскажет всем!"
+        },
+        {
+          "i": "coinsBack",
+          "t": "Вернуть деньги",
+          "cost": 5,
+          "fx": {
+            "m": -5,
+            "r": 1
+          },
+          "exit": "happy",
+          "res": "{who:hedgehog} Ну ладно…"
+        },
+        {
+          "i": "flower",
+          "t": "Извиниться",
+          "needStock": 1,
+          "fx": {
+            "st": -1,
+            "r": 2
+          },
+          "exit": "happy",
+          "res": "{who:hedgehog:happy} Вот это сервис!"
+        }
+      ]
+    },
+    "rival": {
+      "who": [
+        "bear",
+        [
+          "chef"
+        ]
+      ],
+      "md": "sly",
+      "say": "Я торгую рядом. Кто дешевле — тот победил!",
+      "opts": [
+        {
+          "i": "chartDown",
+          "t": "Скинуть цену",
+          "fx": {
+            "m": -15
+          },
+          "exit": "angry",
+          "mom": {
+            "t": "{ic:chartDown} −15 {coin}",
+            "c": "r"
+          },
+          "res": "{ic:chartDown} Оба заработали меньше"
+        },
+        {
+          "i": "handshake",
+          "t": "Дружить лавками",
+          "fx": {
+            "m": 15,
+            "r": 2
+          },
+          "exit": "happy",
+          "mom": {
+            "t": "{who:bear} {ic:handshake} +15",
+            "c": "g"
+          },
+          "res": "{ic:handshake} Набор вдвоём — хит!"
+        },
+        {
+          "i": "angry",
+          "t": "Уходи!",
+          "fx": {
+            "r": -1
+          },
+          "exit": "angry",
+          "res": "{who:bear:angry} Обиделся"
+        }
+      ]
+    },
+    "chick": {
+      "who": [
+        "chick",
+        [
+          "tear"
+        ]
+      ],
+      "md": "sad",
+      "say": "Я уронил свой {item}…",
+      "opts": [
+        {
+          "i": "gift",
+          "t": "Дать новый",
+          "needStock": 1,
+          "fx": {
+            "st": -1,
+            "r": 2
+          },
+          "exit": "happy",
+          "res": "{who:chick:happy} Цып-цып!"
+        },
+        {
+          "i": "coin",
+          "t": "Купи ещё",
+          "fx": {
+            "r": -1
+          },
+          "exit": "sad",
+          "res": "{who:chick:sad} Ушёл грустный"
+        }
+      ]
+    },
+    "lost": {
+      "who": [
+        "mouse",
+        [
+          "tear"
+        ]
+      ],
+      "md": "sad",
+      "say": "Я потерялся… Где мама? {ic:lost}",
+      "opts": [
+        {
+          "i": "guard",
+          "t": "Позвать охрану",
+          "fx": {
+            "r": 2,
+            "s": 2
+          },
+          "exit": "happy",
+          "mom": {
+            "t": "{who:mouse} Мама нашлась",
+            "c": "g"
+          },
+          "res": "{who:mouse:happy} Мама нашлась!"
+        },
+        {
+          "i": "steps",
+          "t": "Искать сам",
+          "bad": 1,
+          "fx": {
+            "m": -10,
+            "r": 1
+          },
+          "exit": "happy",
+          "tip": "Потерялся малыш — зови взрослого рядом.",
+          "res": "Нашлась! Но лавка пустовала −{m} {coin}"
+        },
+        {
+          "i": "meh",
+          "t": "Не моё дело",
+          "fx": {
+            "r": -2
+          },
+          "exit": "sad",
+          "res": "{who:mouse:sad} Плачет дальше"
+        }
+      ]
+    },
+    "owl": {
+      "who": [
+        "owl",
+        [
+          "rglasses"
+        ]
+      ],
+      "md": "idle",
+      "say": "Я тут каждый день! Скидку дашь? {ic:tag}",
+      "opts": [
+        {
+          "i": "tag",
+          "t": "Скидка",
+          "needStock": 2,
+          "fx": {
+            "st": -2,
+            "m": 8,
+            "r": 1
+          },
+          "exit": "happy",
+          "res": "{who:owl:happy} Приду ещё!"
+        },
+        {
+          "i": "gift",
+          "t": "Полцены",
+          "needStock": 2,
+          "fx": {
+            "st": -2,
+            "m": 5,
+            "r": 2
+          },
+          "exit": "happy",
+          "res": "{who:owl:happy} Ух, щедро!"
+        },
+        {
+          "i": "coin",
+          "t": "Без скидок",
+          "needStock": 2,
+          "fx": {
+            "st": -2,
+            "m": 10
+          },
+          "exit": "sad",
+          "res": "{who:owl} Ну ладно…"
+        }
+      ]
+    },
+    "wallet": {
+      "who": [
+        "bunny",
+        [
+          "bag"
+        ]
+      ],
+      "md": "idle",
+      "say": "{ic:wallet} Ой! Зайчик обронил кошелёк!",
+      "opts": [
+        {
+          "i": "run",
+          "t": "Догнать",
+          "fx": {
+            "r": 2,
+            "m": 5
+          },
+          "exit": "happy",
+          "mom": {
+            "t": "{ic:wallet} Вернул",
+            "c": "g"
+          },
+          "res": "{who:bunny:happy} Спасибо! Держи 5 {coin}"
+        },
+        {
+          "i": "wallet",
+          "t": "Оставить",
+          "fx": {
+            "m": 30,
+            "r": -2
+          },
+          "exit": "sad",
+          "res": "{who:bunny:sad} Ищет кошелёк…"
+        }
+      ]
+    },
+    "overpaid": {
+      "who": [
+        "frog",
+        []
+      ],
+      "md": "happy",
+      "say": "Держи 50 {coin} за один {item}!",
+      "opts": [
+        {
+          "i": "coinsBack",
+          "t": "Дать сдачу",
+          "needStock": 1,
+          "fx": {
+            "st": -1,
+            "m": 5,
+            "r": 2
+          },
+          "exit": "happy",
+          "res": "{who:frog:happy} Ква! Честно!"
+        },
+        {
+          "i": "zip",
+          "t": "Промолчать",
+          "needStock": 1,
+          "fx": {
+            "st": -1,
+            "m": 50,
+            "r": -2
+          },
+          "exit": "happy",
+          "res": "{who:frog:sad} Его мама ищет 45 {coin}…"
+        }
+      ]
+    },
+    "detFail": {
+      "bad": 1,
+      "fx": {
+        "st": -6,
+        "s": -2,
+        "scam": 1
+      },
+      "exit": "run",
+      "res": "{who:raccoon:sly} Унёс {st} {item}!",
+      "tip": "Деньги проверяют в кассе, а не на картинке.",
+      "mom": {
+        "t": "{who:raccoon} −{st} {item}",
+        "c": "r"
+      }
+    },
+    "detOk": {
+      "fx": {
+        "s": 3
+      },
+      "exit": "run",
+      "res": "{who:raccoon:sad} Попался!",
+      "mom": {
+        "t": "{who:raccoon} Пойман!",
+        "c": "g"
+      }
+    },
+    "sign": {
+      "art": "mascot",
+      "say": "Купим светящуюся вывеску? {ic:spark} Будет больше покупателей!",
+      "opts": [
+        {
+          "i": "spark",
+          "t": "Купить",
+          "cost": 40,
+          "fx": {
+            "pay": 40,
+            "sign": 1,
+            "r": 1
+          },
+          "exit": "happy",
+          "mom": {
+            "t": "{ic:spark} Вывеска",
+            "c": "g"
+          },
+          "res": "{ic:spark} Вывеска горит!"
+        },
+        {
+          "i": "coin",
+          "t": "Не надо",
+          "fx": {},
+          "exit": "happy",
+          "res": "{ic:coin} Монеты целы"
+        }
+      ]
+    },
+    "rain": {
+      "art": "rain",
+      "say": "Дождь! {ic:rain} Покупатели убегают",
+      "opts": [
+        {
+          "i": "umbrella",
+          "t": "Купить навес",
+          "cost": 20,
+          "fx": {
+            "pay": 20
+          },
+          "exit": "sad",
+          "res": "{ic:umbrella} Сухо! Торгуем!"
+        },
+        {
+          "i": "run",
+          "t": "Переждать",
+          "fx": {
+            "skip": 2
+          },
+          "exit": "sad",
+          "mom": {
+            "t": "{ic:rain} −2 покупателя",
+            "c": "r"
+          },
+          "res": "{ic:rain} Двое ушли без покупки"
+        }
+      ]
+    },
+    "broke": {
+      "art": "broke",
+      "say": "{broke} {ic:bolt}",
+      "opts": [
+        {
+          "i": "wrench",
+          "t": "Починить",
+          "cost": 30,
+          "fx": {
+            "pay": 30
+          },
+          "exit": "sad",
+          "res": "{ic:wrench} Как новенький!"
+        },
+        {
+          "i": "meh",
+          "t": "Так сойдёт",
+          "fx": {
+            "st": "-50%"
+          },
+          "exit": "sad",
+          "mom": {
+            "t": "{ic:bolt} −{st} {item}",
+            "c": "r"
+          },
+          "res": "{ic:bolt} Пропало {st} {item}"
+        }
+      ]
+    }
+  },
+  "safe": [
+    "bank",
+    "qr",
+    "guard",
+    "fakefriend",
+    "prize",
+    "invest"
+  ],
+  "soft": [
+    "sour",
+    "rival",
+    "chick",
+    "lost",
+    "owl",
+    "wallet",
+    "overpaid"
+  ],
+  "titles": [
+    {
+      "id": "king",
+      "ic": "crown",
+      "t": "Хозяин ярмарки",
+      "c": "#FFDD2E",
+      "all": {
+        "rep": ">=8",
+        "shield": ">=7",
+        "profit": ">=40"
+      }
+    },
+    {
+      "id": "prey",
+      "ic": "dash",
+      "t": "Лёгкая добыча для жуликов",
+      "c": "#FF9A4D",
+      "any": {
+        "scammed": ">=2",
+        "shield": "<=2"
+      }
+    },
+    {
+      "id": "friend",
+      "ic": "heart",
+      "t": "Друг всего района",
+      "c": "#FF9CEF",
+      "all": {
+        "rep": ">=9"
+      }
+    },
+    {
+      "id": "shark",
+      "ic": "shark",
+      "t": "Акула бизнеса",
+      "c": "#7FD4FF",
+      "all": {
+        "profit": ">=60",
+        "rep": "<=6"
+      }
+    },
+    {
+      "id": "bright",
+      "ic": "spark",
+      "t": "Самая яркая лавка",
+      "c": "#FFC2E2",
+      "all": {
+        "sign": true,
+        "profit": ">=20"
+      }
+    },
+    {
+      "id": "honest",
+      "ic": "handshake",
+      "t": "Честный торговец",
+      "c": "#C6F432",
+      "all": {
+        "shield": ">=6",
+        "rep": ">=6"
+      }
+    },
+    {
+      "id": "newbie",
+      "ic": "sprout",
+      "t": "Начинающий торговец",
+      "c": "#9BF0BE"
+    }
+  ],
+  "foxTricks": {
+    "code": {
+      "ic": "keypad",
+      "t": "Просит код"
+    },
+    "gift": {
+      "ic": "gift",
+      "t": "Халява"
+    },
+    "personal": {
+      "ic": "user",
+      "t": "Выпытывает"
+    },
+    "newnum": {
+      "ic": "phone",
+      "t": "Чужой номер"
+    },
+    "link": {
+      "ic": "link",
+      "t": "Странная ссылка"
+    },
+    "urgent": {
+      "ic": "clock",
+      "t": "Торопит"
+    },
+    "secret": {
+      "ic": "zip",
+      "t": "Секрет от мамы"
+    },
+    "fear": {
+      "ic": "bolt",
+      "t": "Пугает"
+    },
+    "dropper": {
+      "ic": "cashfly",
+      "t": "Чужие деньги"
+    }
+  },
+  "foxMessages": [
+    {
+      "trick": "code",
+      "av": "robot",
+      "name": "Поддержка игры",
+      "before": "",
+      "key": "Скажи код из СМС",
+      "after": " — дадим 1000 алмазов"
+    },
+    {
+      "trick": "code",
+      "av": "gamer",
+      "name": "Max_Pro",
+      "before": "",
+      "key": "Дай пароль",
+      "after": " — подарю скин"
+    },
+    {
+      "trick": "gift",
+      "av": "prize",
+      "name": "Подарки",
+      "before": "",
+      "key": "Тебе подарок — телефон!",
+      "after": " Оплати доставку"
+    },
+    {
+      "trick": "gift",
+      "av": "robot",
+      "name": "Магазин скинов",
+      "before": "",
+      "key": "5000 монет бесплатно",
+      "after": " — жми сюда"
+    },
+    {
+      "trick": "personal",
+      "av": "cat",
+      "name": "Котик_Даша",
+      "before": "Давай дружить! ",
+      "key": "Где ты живёшь?",
+      "after": ""
+    },
+    {
+      "trick": "personal",
+      "av": "stranger",
+      "name": "Незнакомец",
+      "before": "",
+      "key": "Скинь фото и адрес школы",
+      "after": ""
+    },
+    {
+      "trick": "newnum",
+      "av": "mom",
+      "name": "Мама?",
+      "before": "",
+      "key": "Пишу с чужого номера.",
+      "after": " Скинь код"
+    },
+    {
+      "trick": "newnum",
+      "av": "grandma",
+      "name": "Бабушка?",
+      "before": "",
+      "key": "У меня новый номер!",
+      "after": " Переведи денежку"
+    },
+    {
+      "trick": "link",
+      "av": "petya",
+      "name": "Петя",
+      "before": "Смотри! ",
+      "key": "skin-free.zz",
+      "after": ""
+    },
+    {
+      "trick": "link",
+      "av": "anya",
+      "name": "Аня",
+      "before": "Голосуй за меня: ",
+      "key": "top-vote.zz",
+      "after": ""
+    },
+    {
+      "trick": "urgent",
+      "av": "stranger",
+      "name": "Неизвестный",
+      "before": "",
+      "key": "Ответь за 1 минуту,",
+      "after": " иначе удалим аккаунт"
+    },
+    {
+      "trick": "secret",
+      "av": "stranger",
+      "name": "Новый друг",
+      "before": "Пришлю подарок, ",
+      "key": "только маме не говори",
+      "after": ""
+    },
+    {
+      "trick": "fear",
+      "av": "bank",
+      "name": "Банк?",
+      "before": "",
+      "key": "Карту родителей заблокировали!",
+      "after": " Назови цифры"
+    },
+    {
+      "trick": "fear",
+      "av": "robot",
+      "name": "Антивирус",
+      "before": "",
+      "key": "В телефоне 5 вирусов!",
+      "after": " Скачай чистилку"
+    },
+    {
+      "trick": "dropper",
+      "av": "work",
+      "name": "Подработка",
+      "before": "",
+      "key": "Прими деньги и переведи дальше",
+      "after": " — 500 твои"
+    },
+    {
+      "trick": "dropper",
+      "av": "gamer",
+      "name": "Max_Pro",
+      "before": "",
+      "key": "Дай свою карту на денёк",
+      "after": ""
+    }
+  ],
+  "friendMessages": [
+    {
+      "av": "mom",
+      "name": "Мама",
+      "text": "Купи хлеб после школы"
+    },
+    {
+      "av": "dad",
+      "name": "Папа",
+      "text": "Заберу тебя в 17:00"
+    },
+    {
+      "av": "grandma",
+      "name": "Бабушка",
+      "text": "Испекла блинчики, приходи!"
+    },
+    {
+      "av": "petya",
+      "name": "Петя",
+      "text": "Го в футбол после уроков?"
+    },
+    {
+      "av": "anya",
+      "name": "Аня",
+      "text": "С днём рождения!!!"
+    },
+    {
+      "av": "sasha",
+      "name": "Саша",
+      "text": "Выходи гулять!"
+    },
+    {
+      "av": "coach",
+      "name": "Тренер",
+      "text": "Тренировка в 16:00"
+    },
+    {
+      "av": "klass",
+      "name": "Класс",
+      "text": "Завтра экскурсия в зоопарк"
+    },
+    {
+      "av": "mom",
+      "name": "Мама",
+      "text": "Горжусь тобой!"
+    },
+    {
+      "av": "dad",
+      "name": "Папа",
+      "text": "Вечером пицца"
+    },
+    {
+      "av": "bank",
+      "name": "Банк",
+      "text": "Мы никогда не просим коды"
+    },
+    {
+      "av": "sasha",
+      "name": "Саша",
+      "text": "У меня котята родились!"
+    }
+  ],
+  "stickers": {
+    "joy": "Ура!",
+    "sad": "Обнимаю",
+    "angry": "Я с тобой"
+  },
+  "moodMessages": [
+    {
+      "who": "bunny",
+      "name": "Зайка",
+      "text": "Я победил в забеге!",
+      "mood": "joy"
+    },
+    {
+      "who": "frog",
+      "name": "Квакс",
+      "text": "Мне подарили щенка!",
+      "mood": "joy"
+    },
+    {
+      "who": "chick",
+      "name": "Цыпа",
+      "text": "Я научилась кататься!",
+      "mood": "joy"
+    },
+    {
+      "who": "hamster",
+      "name": "Хома",
+      "text": "Сам испёк торт!",
+      "mood": "joy"
+    },
+    {
+      "who": "owl",
+      "name": "Сова",
+      "text": "Пятёрка за диктант!",
+      "mood": "joy"
+    },
+    {
+      "who": "mouse",
+      "name": "Мышка",
+      "text": "Потеряла любимую игрушку…",
+      "mood": "sad"
+    },
+    {
+      "who": "bunny",
+      "name": "Зайка",
+      "text": "Меня не взяли в команду…",
+      "mood": "sad"
+    },
+    {
+      "who": "bear",
+      "name": "Мишка",
+      "text": "Друг уехал в другой город…",
+      "mood": "sad"
+    },
+    {
+      "who": "chick",
+      "name": "Цыпа",
+      "text": "Уронила мороженое…",
+      "mood": "sad"
+    },
+    {
+      "who": "kitten",
+      "name": "Мурка",
+      "text": "Заболела, не приду на ярмарку…",
+      "mood": "sad"
+    },
+    {
+      "who": "hamster",
+      "name": "Хома",
+      "text": "Брат сломал мою башню!",
+      "mood": "angry"
+    },
+    {
+      "who": "frog",
+      "name": "Квакс",
+      "text": "Меня толкнули в очереди!",
+      "mood": "angry"
+    },
+    {
+      "who": "bear",
+      "name": "Мишка",
+      "text": "Забрали мой мяч без спроса!",
+      "mood": "angry"
+    },
+    {
+      "who": "mouse",
+      "name": "Мышка",
+      "text": "Мне сказали обидное слово!",
+      "mood": "angry"
+    },
+    {
+      "who": "owl",
+      "name": "Сова",
+      "text": "Испортили мой рисунок!",
+      "mood": "angry"
+    }
+  ]
+}

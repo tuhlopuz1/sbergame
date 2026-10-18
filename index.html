@@ -524,6 +524,7 @@ svg{display:block;overflow:visible}
     </filter>
   </defs>
 </svg>
+<script type="application/json" id="content-default">{"version":1,"economy":{"price":5,"startMoney":50,"startStock":20},"products":{"lemon":{"t":"Лимонад","d":"Холодный и кислый","sour":"Фу! Кислятина!","broke":"Холодильник сломался!"},"donut":{"t":"Пончики","d":"С розовой глазурью","sour":"Фу! Чёрствый!","broke":"Печка сломалась!"},"slime":{"t":"Слаймы","d":"Тянутся и светятся","sour":"Фу! Не тянется!","broke":"Банки треснули!"}},"situations":{"bank":{"who":["fox",["glasses"]],"md":"sly","say":"Я из банка! {ic:bank} Скажи код из СМС — дам 1000 {coin}","opts":[{"i":"keypad","t":"Сказать код","bad":1,"fx":{"m":-40,"s":-3,"scam":1},"exit":"run","tip":"Код из СМС — секрет. Банк его не спрашивает.","mom":{"t":"{who:fox} −{m} {coin}","c":"r"},"res":"{who:fox:sly} Утащила {m} {coin}"},{"i":"stop","t":"Не скажу","fx":{"s":2},"exit":"sad","res":"{ic:shield} Лиса ушла ни с чем"},{"i":"phone","t":"Позвоню в банк","fx":{"s":3},"exit":"run","mom":{"t":"{who:fox} Раскрыта!","c":"g"},"res":"{ic:bank} «Это не мы!»"}]},"qr":{"who":["wolf",["cap"]],"md":"sly","say":"Сканируй {ic:qr} — получишь самокат!","opts":[{"i":"qr","t":"Сканировать","bad":1,"fx":{"m":-30,"s":-2,"scam":1},"exit":"run","tip":"Чужие QR-коды могут вести к жуликам.","mom":{"t":"{who:wolf} −{m} {coin}","c":"r"},"res":"{ic:qr} Код украл {m} {coin}"},{"i":"stop","t":"Не надо","fx":{"s":2},"exit":"sad","res":"{ic:shield} Волк ушёл"}]},"guard":{"who":["raccoon",["cap"]],"md":"sly","say":"Отдохни! Я покараулю кассу {ic:zzz}","opts":[{"i":"zzz","t":"Спасибо!","bad":1,"fx":{"m":"-50%","s":-2,"scam":1},"exit":"run","tip":"Кассу и вещи не оставляют незнакомцам.","mom":{"t":"{who:raccoon} −{m} {coin}","c":"r"},"res":"{ic:dash} Касса похудела на {m} {coin}"},{"i":"shield","t":"Сам справлюсь","fx":{"s":2},"exit":"sad","res":"{ic:shield} Касса под присмотром"}]},"fakefriend":{"who":["bunny",[]],"md":"idle","say":"Это я, твой друг! Новый номер. Скинь код {ic:keypad}","opts":[{"i":"keypad","t":"Скинуть код","bad":1,"fx":{"m":-40,"s":-3,"scam":1},"exit":"run","tip":"Друга проверяют звонком на старый номер.","mom":{"t":"{who:bunny} −{m} {coin}","c":"r"},"res":"{who:bunny:sly} Это был не друг! −{m} {coin}"},{"i":"phone","t":"Позвоню другу","fx":{"s":3},"exit":"run","mom":{"t":"{who:bunny} Раскрыт!","c":"g"},"res":"{ic:phone} «Это не я!»"}]},"prize":{"who":["hamster",["bow"]],"md":"happy","say":"Тебе подарок {ic:gift} Только оплати доставку 20 {coin}","opts":[{"i":"cashfly","t":"Оплатить","cost":20,"bad":1,"fx":{"m":-20,"s":-2,"scam":1},"exit":"run","tip":"Настоящий подарок не просит заплатить.","mom":{"t":"{who:hamster} −20 {coin}","c":"r"},"res":"{ic:gift} Подарка нет, монеты пропали"},{"i":"stop","t":"Не буду","fx":{"s":2},"exit":"sad","res":"{ic:shield} Монеты целы"}]},"invest":{"who":["beaver",["tie"]],"md":"sly","say":"Дай 40 {coin} — к вечеру будет ×3! {ic:rocket}","opts":[{"i":"cashfly","t":"Вложить","cost":40,"bad":1,"fx":{"m":-40,"s":-2,"scam":1,"later":"invest"},"exit":"run","tip":"«×3 за день» обещают только жулики.","res":"{who:beaver:sly} Бобёр убежал…"},{"i":"stop","t":"Не верю","fx":{"s":2},"exit":"sad","res":"{ic:shield} Хитрый бобёр ушёл"}]},"screenshot":{"who":["raccoon",["phone"]],"md":"sly","say":"Беру 6 {item}! Я уже перевёл, смотри","opts":[{"i":"give","t":"Отдать","ref":"detFail"},{"i":"magnifier","t":"Проверить","detect":1}]},"supplier":{"who":["beaver",["hardhat"]],"md":"happy","say":"10 {item} за 15 {coin}! Только сейчас! {ic:clock}","opts":[{"i":"box","t":"Беру!","cost":15,"fx":{"m":-15,"st":10},"exit":"happy","mom":{"t":"{ic:box} +10 {item}","c":""},"res":"{ic:box} +10 {item}"},{"i":"think","t":"Не сейчас","fx":{},"exit":"sad","res":"{who:beaver} Ушёл к соседям"}]},"restock":{"who":["bear",["hardhat"]],"md":"happy","say":"Товар кончился? Привёз ещё! {ic:box}","opts":[{"i":"box","t":"+10 {item}","cost":20,"fx":{"m":-20,"st":10},"exit":"happy","res":"{ic:box} +10 {item}"},{"i":"box","t":"+5 {item}","cost":10,"fx":{"m":-10,"st":5},"exit":"happy","res":"{ic:box} +5 {item}"},{"i":"handshake","t":"В долг +5 {item}","broke":1,"fx":{"st":5,"later":"debt"},"exit":"happy","res":"{ic:handshake} Вечером вернёшь 15 {coin}"}]},"loan":{"who":["kitten",["bow"]],"md":"sad","say":"Дай в долг 20 {coin}? Завтра верну!","opts":[{"i":"handshake","t":"Дать","cost":20,"fx":{"m":-20,"r":1,"later":"loan"},"exit":"happy","res":"{who:kitten:happy:bow} Котёнок сияет"},{"i":"stop","t":"Не дам","fx":{"r":-1},"exit":"sad","res":"{who:kitten:sad:bow} Котёнок грустит"},{"i":"gift","t":"Угощу","needStock":1,"fx":{"st":-1,"r":2},"exit":"happy","res":"{who:kitten:happy:bow} Мур! Вкусно!"}]},"sour":{"who":["hedgehog",[]],"md":"angry","say":"{sour} {ic:angry}","opts":[{"i":"angry","t":"Сам такой!","bad":1,"fx":{"r":-2},"exit":"angry","tip":"Спокойный ответ гасит ссору.","mom":{"t":"{who:hedgehog} −2 {ic:heart}","c":"r"},"res":"{who:hedgehog:angry} Расскажет всем!"},{"i":"coinsBack","t":"Вернуть деньги","cost":5,"fx":{"m":-5,"r":1},"exit":"happy","res":"{who:hedgehog} Ну ладно…"},{"i":"flower","t":"Извиниться","needStock":1,"fx":{"st":-1,"r":2},"exit":"happy","res":"{who:hedgehog:happy} Вот это сервис!"}]},"rival":{"who":["bear",["chef"]],"md":"sly","say":"Я торгую рядом. Кто дешевле — тот победил!","opts":[{"i":"chartDown","t":"Скинуть цену","fx":{"m":-15},"exit":"angry","mom":{"t":"{ic:chartDown} −15 {coin}","c":"r"},"res":"{ic:chartDown} Оба заработали меньше"},{"i":"handshake","t":"Дружить лавками","fx":{"m":15,"r":2},"exit":"happy","mom":{"t":"{who:bear} {ic:handshake} +15","c":"g"},"res":"{ic:handshake} Набор вдвоём — хит!"},{"i":"angry","t":"Уходи!","fx":{"r":-1},"exit":"angry","res":"{who:bear:angry} Обиделся"}]},"chick":{"who":["chick",["tear"]],"md":"sad","say":"Я уронил свой {item}…","opts":[{"i":"gift","t":"Дать новый","needStock":1,"fx":{"st":-1,"r":2},"exit":"happy","res":"{who:chick:happy} Цып-цып!"},{"i":"coin","t":"Купи ещё","fx":{"r":-1},"exit":"sad","res":"{who:chick:sad} Ушёл грустный"}]},"lost":{"who":["mouse",["tear"]],"md":"sad","say":"Я потерялся… Где мама? {ic:lost}","opts":[{"i":"guard","t":"Позвать охрану","fx":{"r":2,"s":2},"exit":"happy","mom":{"t":"{who:mouse} Мама нашлась","c":"g"},"res":"{who:mouse:happy} Мама нашлась!"},{"i":"steps","t":"Искать сам","bad":1,"fx":{"m":-10,"r":1},"exit":"happy","tip":"Потерялся малыш — зови взрослого рядом.","res":"Нашлась! Но лавка пустовала −{m} {coin}"},{"i":"meh","t":"Не моё дело","fx":{"r":-2},"exit":"sad","res":"{who:mouse:sad} Плачет дальше"}]},"owl":{"who":["owl",["rglasses"]],"md":"idle","say":"Я тут каждый день! Скидку дашь? {ic:tag}","opts":[{"i":"tag","t":"Скидка","needStock":2,"fx":{"st":-2,"m":8,"r":1},"exit":"happy","res":"{who:owl:happy} Приду ещё!"},{"i":"gift","t":"Полцены","needStock":2,"fx":{"st":-2,"m":5,"r":2},"exit":"happy","res":"{who:owl:happy} Ух, щедро!"},{"i":"coin","t":"Без скидок","needStock":2,"fx":{"st":-2,"m":10},"exit":"sad","res":"{who:owl} Ну ладно…"}]},"wallet":{"who":["bunny",["bag"]],"md":"idle","say":"{ic:wallet} Ой! Зайчик обронил кошелёк!","opts":[{"i":"run","t":"Догнать","fx":{"r":2,"m":5},"exit":"happy","mom":{"t":"{ic:wallet} Вернул","c":"g"},"res":"{who:bunny:happy} Спасибо! Держи 5 {coin}"},{"i":"wallet","t":"Оставить","fx":{"m":30,"r":-2},"exit":"sad","res":"{who:bunny:sad} Ищет кошелёк…"}]},"overpaid":{"who":["frog",[]],"md":"happy","say":"Держи 50 {coin} за один {item}!","opts":[{"i":"coinsBack","t":"Дать сдачу","needStock":1,"fx":{"st":-1,"m":5,"r":2},"exit":"happy","res":"{who:frog:happy} Ква! Честно!"},{"i":"zip","t":"Промолчать","needStock":1,"fx":{"st":-1,"m":50,"r":-2},"exit":"happy","res":"{who:frog:sad} Его мама ищет 45 {coin}…"}]},"detFail":{"bad":1,"fx":{"st":-6,"s":-2,"scam":1},"exit":"run","res":"{who:raccoon:sly} Унёс {st} {item}!","tip":"Деньги проверяют в кассе, а не на картинке.","mom":{"t":"{who:raccoon} −{st} {item}","c":"r"}},"detOk":{"fx":{"s":3},"exit":"run","res":"{who:raccoon:sad} Попался!","mom":{"t":"{who:raccoon} Пойман!","c":"g"}},"sign":{"art":"mascot","say":"Купим светящуюся вывеску? {ic:spark} Будет больше покупателей!","opts":[{"i":"spark","t":"Купить","cost":40,"fx":{"pay":40,"sign":1,"r":1},"exit":"happy","mom":{"t":"{ic:spark} Вывеска","c":"g"},"res":"{ic:spark} Вывеска горит!"},{"i":"coin","t":"Не надо","fx":{},"exit":"happy","res":"{ic:coin} Монеты целы"}]},"rain":{"art":"rain","say":"Дождь! {ic:rain} Покупатели убегают","opts":[{"i":"umbrella","t":"Купить навес","cost":20,"fx":{"pay":20},"exit":"sad","res":"{ic:umbrella} Сухо! Торгуем!"},{"i":"run","t":"Переждать","fx":{"skip":2},"exit":"sad","mom":{"t":"{ic:rain} −2 покупателя","c":"r"},"res":"{ic:rain} Двое ушли без покупки"}]},"broke":{"art":"broke","say":"{broke} {ic:bolt}","opts":[{"i":"wrench","t":"Починить","cost":30,"fx":{"pay":30},"exit":"sad","res":"{ic:wrench} Как новенький!"},{"i":"meh","t":"Так сойдёт","fx":{"st":"-50%"},"exit":"sad","mom":{"t":"{ic:bolt} −{st} {item}","c":"r"},"res":"{ic:bolt} Пропало {st} {item}"}]}},"safe":["bank","qr","guard","fakefriend","prize","invest"],"soft":["sour","rival","chick","lost","owl","wallet","overpaid"],"titles":[{"id":"king","ic":"crown","t":"Хозяин ярмарки","c":"#FFDD2E","all":{"rep":">=8","shield":">=7","profit":">=40"}},{"id":"prey","ic":"dash","t":"Лёгкая добыча для жуликов","c":"#FF9A4D","any":{"scammed":">=2","shield":"<=2"}},{"id":"friend","ic":"heart","t":"Друг всего района","c":"#FF9CEF","all":{"rep":">=9"}},{"id":"shark","ic":"shark","t":"Акула бизнеса","c":"#7FD4FF","all":{"profit":">=60","rep":"<=6"}},{"id":"bright","ic":"spark","t":"Самая яркая лавка","c":"#FFC2E2","all":{"sign":true,"profit":">=20"}},{"id":"honest","ic":"handshake","t":"Честный торговец","c":"#C6F432","all":{"shield":">=6","rep":">=6"}},{"id":"newbie","ic":"sprout","t":"Начинающий торговец","c":"#9BF0BE"}],"foxTricks":{"code":{"ic":"keypad","t":"Просит код"},"gift":{"ic":"gift","t":"Халява"},"personal":{"ic":"user","t":"Выпытывает"},"newnum":{"ic":"phone","t":"Чужой номер"},"link":{"ic":"link","t":"Странная ссылка"},"urgent":{"ic":"clock","t":"Торопит"},"secret":{"ic":"zip","t":"Секрет от мамы"},"fear":{"ic":"bolt","t":"Пугает"},"dropper":{"ic":"cashfly","t":"Чужие деньги"}},"foxMessages":[{"trick":"code","av":"robot","name":"Поддержка игры","before":"","key":"Скажи код из СМС","after":" — дадим 1000 алмазов"},{"trick":"code","av":"gamer","name":"Max_Pro","before":"","key":"Дай пароль","after":" — подарю скин"},{"trick":"gift","av":"prize","name":"Подарки","before":"","key":"Тебе подарок — телефон!","after":" Оплати доставку"},{"trick":"gift","av":"robot","name":"Магазин скинов","before":"","key":"5000 монет бесплатно","after":" — жми сюда"},{"trick":"personal","av":"cat","name":"Котик_Даша","before":"Давай дружить! ","key":"Где ты живёшь?","after":""},{"trick":"personal","av":"stranger","name":"Незнакомец","before":"","key":"Скинь фото и адрес школы","after":""},{"trick":"newnum","av":"mom","name":"Мама?","before":"","key":"Пишу с чужого номера.","after":" Скинь код"},{"trick":"newnum","av":"grandma","name":"Бабушка?","before":"","key":"У меня новый номер!","after":" Переведи денежку"},{"trick":"link","av":"petya","name":"Петя","before":"Смотри! ","key":"skin-free.zz","after":""},{"trick":"link","av":"anya","name":"Аня","before":"Голосуй за меня: ","key":"top-vote.zz","after":""},{"trick":"urgent","av":"stranger","name":"Неизвестный","before":"","key":"Ответь за 1 минуту,","after":" иначе удалим аккаунт"},{"trick":"secret","av":"stranger","name":"Новый друг","before":"Пришлю подарок, ","key":"только маме не говори","after":""},{"trick":"fear","av":"bank","name":"Банк?","before":"","key":"Карту родителей заблокировали!","after":" Назови цифры"},{"trick":"fear","av":"robot","name":"Антивирус","before":"","key":"В телефоне 5 вирусов!","after":" Скачай чистилку"},{"trick":"dropper","av":"work","name":"Подработка","before":"","key":"Прими деньги и переведи дальше","after":" — 500 твои"},{"trick":"dropper","av":"gamer","name":"Max_Pro","before":"","key":"Дай свою карту на денёк","after":""}],"friendMessages":[{"av":"mom","name":"Мама","text":"Купи хлеб после школы"},{"av":"dad","name":"Папа","text":"Заберу тебя в 17:00"},{"av":"grandma","name":"Бабушка","text":"Испекла блинчики, приходи!"},{"av":"petya","name":"Петя","text":"Го в футбол после уроков?"},{"av":"anya","name":"Аня","text":"С днём рождения!!!"},{"av":"sasha","name":"Саша","text":"Выходи гулять!"},{"av":"coach","name":"Тренер","text":"Тренировка в 16:00"},{"av":"klass","name":"Класс","text":"Завтра экскурсия в зоопарк"},{"av":"mom","name":"Мама","text":"Горжусь тобой!"},{"av":"dad","name":"Папа","text":"Вечером пицца"},{"av":"bank","name":"Банк","text":"Мы никогда не просим коды"},{"av":"sasha","name":"Саша","text":"У меня котята родились!"}],"stickers":{"joy":"Ура!","sad":"Обнимаю","angry":"Я с тобой"},"moodMessages":[{"who":"bunny","name":"Зайка","text":"Я победил в забеге!","mood":"joy"},{"who":"frog","name":"Квакс","text":"Мне подарили щенка!","mood":"joy"},{"who":"chick","name":"Цыпа","text":"Я научилась кататься!","mood":"joy"},{"who":"hamster","name":"Хома","text":"Сам испёк торт!","mood":"joy"},{"who":"owl","name":"Сова","text":"Пятёрка за диктант!","mood":"joy"},{"who":"mouse","name":"Мышка","text":"Потеряла любимую игрушку…","mood":"sad"},{"who":"bunny","name":"Зайка","text":"Меня не взяли в команду…","mood":"sad"},{"who":"bear","name":"Мишка","text":"Друг уехал в другой город…","mood":"sad"},{"who":"chick","name":"Цыпа","text":"Уронила мороженое…","mood":"sad"},{"who":"kitten","name":"Мурка","text":"Заболела, не приду на ярмарку…","mood":"sad"},{"who":"hamster","name":"Хома","text":"Брат сломал мою башню!","mood":"angry"},{"who":"frog","name":"Квакс","text":"Меня толкнули в очереди!","mood":"angry"},{"who":"bear","name":"Мишка","text":"Забрали мой мяч без спроса!","mood":"angry"},{"who":"mouse","name":"Мышка","text":"Мне сказали обидное слово!","mood":"angry"},{"who":"owl","name":"Сова","text":"Испортили мой рисунок!","mood":"angry"}]}</script>
 <div id="app"></div>
 <div id="fx" aria-hidden="true"></div>
 <script>
@@ -1046,108 +1047,119 @@ const coinG = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})">
 const C = () => ic('coin'), U = () => pi(D.prod);
 
 /* ================= Ситуации ================= */
-const PRICE = 5, START_MONEY = 50, START_STOCK = 20, SIGN_COST = 40;
-const ST = {
-  bank: { who: ['fox', ['glasses']], md: 'sly', say: () => `Я из банка! ${ic('bank')} Скажи код из СМС — дам 1000 ${C()}`,
-    opts: [
-      { i: 'keypad', t: 'Сказать код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `${mc('fox', 'sly')} Утащила ${-f.m} ${C()}`, tip: 'Код из СМС — секрет. Банк его не спрашивает.', mom: f => ({ t: `${mc('fox')} −${-f.m} ${C()}`, c: 'r' }) },
-      { i: 'stop', t: 'Не скажу', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Лиса ушла ни с чем` },
-      { i: 'phone', t: 'Позвоню в банк', fx: { s: 3 }, exit: 'run', res: `${ic('bank')} «Это не мы!»`, mom: () => ({ t: `${mc('fox')} Раскрыта!`, c: 'g' }) }] },
-  qr: { who: ['wolf', ['cap']], md: 'sly', say: () => `Сканируй ${ic('qr')} — получишь самокат!`,
-    opts: [
-      { i: 'qr', t: 'Сканировать', bad: 1, fx: D => ({ m: -Math.min(30, D.wallet), s: -2, scam: 1 }), exit: 'run', res: f => `${ic('qr')} Код украл ${-f.m} ${C()}`, tip: 'Чужие QR-коды могут вести к жуликам.', mom: f => ({ t: `${mc('wolf')} −${-f.m} ${C()}`, c: 'r' }) },
-      { i: 'stop', t: 'Не надо', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Волк ушёл` }] },
-  guard: { who: ['raccoon', ['cap']], md: 'sly', say: () => `Отдохни! Я покараулю кассу ${ic('zzz')}`,
-    opts: [
-      { i: 'zzz', t: 'Спасибо!', bad: 1, fx: D => ({ m: -Math.floor(D.wallet / 10) * 5, s: -2, scam: 1 }), exit: 'run', res: f => `${ic('dash')} Касса похудела на ${-f.m} ${C()}`, tip: 'Кассу и вещи не оставляют незнакомцам.', mom: f => ({ t: `${mc('raccoon')} −${-f.m} ${C()}`, c: 'r' }) },
-      { i: 'shield', t: 'Сам справлюсь', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Касса под присмотром` }] },
-  fakefriend: { who: ['bunny', []], md: 'idle', say: () => `Это я, твой друг! Новый номер. Скинь код ${ic('keypad')}`,
-    opts: [
-      { i: 'keypad', t: 'Скинуть код', bad: 1, fx: D => ({ m: -Math.min(40, D.wallet), s: -3, scam: 1 }), exit: 'run', res: f => `${mc('bunny', 'sly')} Это был не друг! −${-f.m} ${C()}`, tip: 'Друга проверяют звонком на старый номер.', mom: f => ({ t: `${mc('bunny')} −${-f.m} ${C()}`, c: 'r' }) },
-      { i: 'phone', t: 'Позвоню другу', fx: { s: 3 }, exit: 'run', res: `${ic('phone')} «Это не я!»`, mom: () => ({ t: `${mc('bunny')} Раскрыт!`, c: 'g' }) }] },
-  prize: { who: ['hamster', ['bow']], md: 'happy', say: () => `Тебе подарок ${ic('gift')} Только оплати доставку 20 ${C()}`,
-    opts: [
-      { i: 'cashfly', t: 'Оплатить', cost: 20, bad: 1, fx: { m: -20, s: -2, scam: 1 }, exit: 'run', res: `${ic('gift')} Подарка нет, монеты пропали`, tip: 'Настоящий подарок не просит заплатить.', mom: () => ({ t: `${mc('hamster')} −20 ${C()}`, c: 'r' }) },
-      { i: 'stop', t: 'Не буду', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Монеты целы` }] },
-  invest: { who: ['beaver', ['tie']], md: 'sly', say: () => `Дай 40 ${C()} — к вечеру будет ×3! ${ic('rocket')}`,
-    opts: [
-      { i: 'cashfly', t: 'Вложить', cost: 40, bad: 1, fx: { m: -40, s: -2, scam: 1, later: 'invest' }, exit: 'run', res: `${mc('beaver', 'sly')} Бобёр убежал…`, tip: '«×3 за день» обещают только жулики.' },
-      { i: 'stop', t: 'Не верю', fx: { s: 2 }, exit: 'sad', res: `${ic('shield')} Хитрый бобёр ушёл` }] },
-  screenshot: { who: ['raccoon', ['phone']], md: 'sly', say: () => `Беру 6 ${U()}! Я уже перевёл, смотри`,
-    opts: [
-      { i: 'give', t: 'Отдать', ref: 'detFail' },
-      { i: 'magnifier', t: 'Проверить', detect: 1 }] },
-  supplier: { who: ['beaver', ['hardhat']], md: 'happy', say: () => `10 ${U()} за 15 ${C()}! Только сейчас! ${ic('clock')}`,
-    opts: [
-      { i: 'box', t: 'Беру!', cost: 15, fx: { m: -15, st: 10 }, exit: 'happy', res: () => `${ic('box')} +10 ${U()}`, mom: () => ({ t: `${ic('box')} +10 ${U()}`, c: '' }) },
-      { i: 'think', t: 'Не сейчас', fx: {}, exit: 'sad', res: `${mc('beaver')} Ушёл к соседям` }] },
-  restock: { who: ['bear', ['hardhat']], md: 'happy', say: () => `Товар кончился? Привёз ещё! ${ic('box')}`,
-    opts: [
-      { i: 'box', get t() { return `+10 ${U()}`; }, cost: 20, fx: { m: -20, st: 10 }, exit: 'happy', res: () => `${ic('box')} +10 ${U()}` },
-      { i: 'box', get t() { return `+5 ${U()}`; }, cost: 10, fx: { m: -10, st: 5 }, exit: 'happy', res: () => `${ic('box')} +5 ${U()}` },
-      { i: 'handshake', get t() { return `В долг +5 ${U()}`; }, broke: 1, fx: { st: 5, later: 'debt' }, exit: 'happy', res: () => `${ic('handshake')} Вечером вернёшь 15 ${C()}` }] },
-  loan: { who: ['kitten', ['bow']], md: 'sad', say: () => `Дай в долг 20 ${C()}? Завтра верну!`,
-    opts: [
-      { i: 'handshake', t: 'Дать', cost: 20, fx: { m: -20, r: 1, later: 'loan' }, exit: 'happy', res: `${mc('kitten', 'happy', ['bow'])} Котёнок сияет` },
-      { i: 'stop', t: 'Не дам', fx: { r: -1 }, exit: 'sad', res: `${mc('kitten', 'sad', ['bow'])} Котёнок грустит` },
-      { i: 'gift', t: 'Угощу', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: `${mc('kitten', 'happy', ['bow'])} Мур! Вкусно!` }] },
-  sour: { who: ['hedgehog', []], md: 'angry', say: P => `${P.sour} ${ic('angry')}`,
-    opts: [
-      { i: 'angry', t: 'Сам такой!', bad: 1, fx: { r: -2 }, exit: 'angry', res: `${mc('hedgehog', 'angry')} Расскажет всем!`, tip: 'Спокойный ответ гасит ссору.', mom: () => ({ t: `${mc('hedgehog')} −2 ${ic('heart')}`, c: 'r' }) },
-      { i: 'coinsBack', t: 'Вернуть деньги', cost: 5, fx: { m: -5, r: 1 }, exit: 'happy', res: `${mc('hedgehog')} Ну ладно…` },
-      { i: 'flower', t: 'Извиниться', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: `${mc('hedgehog', 'happy')} Вот это сервис!` }] },
-  rival: { who: ['bear', ['chef']], md: 'sly', say: () => `Я торгую рядом. Кто дешевле — тот победил!`,
-    opts: [
-      { i: 'chartDown', t: 'Скинуть цену', fx: { m: -15 }, exit: 'angry', res: `${ic('chartDown')} Оба заработали меньше`, mom: () => ({ t: `${ic('chartDown')} −15 ${C()}`, c: 'r' }) },
-      { i: 'handshake', t: 'Дружить лавками', fx: { m: 15, r: 2 }, exit: 'happy', res: `${ic('handshake')} Набор вдвоём — хит!`, mom: () => ({ t: `${mc('bear')} ${ic('handshake')} +15`, c: 'g' }) },
-      { i: 'angry', t: 'Уходи!', fx: { r: -1 }, exit: 'angry', res: `${mc('bear', 'angry')} Обиделся` }] },
-  chick: { who: ['chick', ['tear']], md: 'sad', say: () => `Я уронил свой ${U()}…`,
-    opts: [
-      { i: 'gift', t: 'Дать новый', needStock: 1, fx: { st: -1, r: 2 }, exit: 'happy', res: `${mc('chick', 'happy')} Цып-цып!` },
-      { i: 'coin', t: 'Купи ещё', fx: { r: -1 }, exit: 'sad', res: `${mc('chick', 'sad')} Ушёл грустный` }] },
-  lost: { who: ['mouse', ['tear']], md: 'sad', say: () => `Я потерялся… Где мама? ${ic('lost')}`,
-    opts: [
-      { i: 'guard', t: 'Позвать охрану', fx: { r: 2, s: 2 }, exit: 'happy', res: `${mc('mouse', 'happy')} Мама нашлась!`, mom: () => ({ t: `${mc('mouse')} Мама нашлась`, c: 'g' }) },
-      { i: 'steps', t: 'Искать сам', bad: 1, fx: D => ({ m: -Math.min(10, D.wallet), r: 1 }), exit: 'happy', res: f => `Нашлась! Но лавка пустовала −${-f.m} ${C()}`, tip: 'Потерялся малыш — зови взрослого рядом.' },
-      { i: 'meh', t: 'Не моё дело', fx: { r: -2 }, exit: 'sad', res: `${mc('mouse', 'sad')} Плачет дальше` }] },
-  owl: { who: ['owl', ['rglasses']], md: 'idle', say: () => `Я тут каждый день! Скидку дашь? ${ic('tag')}`,
-    opts: [
-      { i: 'tag', t: 'Скидка', needStock: 2, fx: { st: -2, m: 8, r: 1 }, exit: 'happy', res: `${mc('owl', 'happy')} Приду ещё!` },
-      { i: 'gift', t: 'Полцены', needStock: 2, fx: { st: -2, m: 5, r: 2 }, exit: 'happy', res: `${mc('owl', 'happy')} Ух, щедро!` },
-      { i: 'coin', t: 'Без скидок', needStock: 2, fx: { st: -2, m: 10 }, exit: 'sad', res: `${mc('owl')} Ну ладно…` }] },
-  wallet: { who: ['bunny', ['bag']], md: 'idle', say: () => `${ic('wallet')} Ой! Зайчик обронил кошелёк!`,
-    opts: [
-      { i: 'run', t: 'Догнать', fx: { r: 2, m: 5 }, exit: 'happy', res: `${mc('bunny', 'happy')} Спасибо! Держи 5 ${C()}`, mom: () => ({ t: `${ic('wallet')} Вернул`, c: 'g' }) },
-      { i: 'wallet', t: 'Оставить', fx: { m: 30, r: -2 }, exit: 'sad', res: `${mc('bunny', 'sad')} Ищет кошелёк…` }] },
-  overpaid: { who: ['frog', []], md: 'happy', say: () => `Держи 50 ${C()} за один ${U()}!`,
-    opts: [
-      { i: 'coinsBack', t: 'Дать сдачу', needStock: 1, fx: { st: -1, m: 5, r: 2 }, exit: 'happy', res: `${mc('frog', 'happy')} Ква! Честно!` },
-      { i: 'zip', t: 'Промолчать', needStock: 1, fx: { st: -1, m: 50, r: -2 }, exit: 'happy', res: `${mc('frog', 'sad')} Его мама ищет 45 ${C()}…` }] },
-  detFail: { bad: 1, fx: D => ({ st: -Math.min(6, D.stock), s: -2, scam: 1 }), exit: 'run', res: f => `${mc('raccoon', 'sly')} Унёс ${-f.st} ${U()}!`, tip: 'Деньги проверяют в кассе, а не на картинке.', mom: f => ({ t: `${mc('raccoon')} −${-f.st} ${U()}`, c: 'r' }) },
-  detOk: { fx: { s: 3 }, exit: 'run', res: `${mc('raccoon', 'sad')} Попался!`, mom: () => ({ t: `${mc('raccoon')} Пойман!`, c: 'g' }) },
-  sign: { art: () => mascotCust(), say: () => `Купим светящуюся вывеску? ${ic('spark')} Будет больше покупателей!`,
-    opts: [
-      { i: 'spark', t: 'Купить', cost: SIGN_COST, pay: 1, fx: { pay: SIGN_COST, sign: 1, r: 1 }, exit: 'happy', res: `${ic('spark')} Вывеска горит!`, mom: () => ({ t: `${ic('spark')} Вывеска`, c: 'g' }) },
-      { i: 'coin', t: 'Не надо', fx: {}, exit: 'happy', res: `${ic('coin')} Монеты целы` }] },
-  rain: { ev: 1, art: () => eventArt('rain'), say: () => `Дождь! ${ic('rain')} Покупатели убегают`,
-    opts: [
-      { i: 'umbrella', t: 'Купить навес', cost: 20, pay: 1, fx: { pay: 20 }, exit: 'sad', res: `${ic('umbrella')} Сухо! Торгуем!` },
-      { i: 'run', t: 'Переждать', fx: { skip: 2 }, exit: 'sad', res: `${ic('rain')} Двое ушли без покупки`, mom: () => ({ t: `${ic('rain')} −2 покупателя`, c: 'r' }) }] },
-  broke: { ev: 1, art: () => eventArt('broke'), say: P => `${P.broke} ${ic('bolt')}`,
-    opts: [
-      { i: 'wrench', t: 'Починить', cost: 30, pay: 1, fx: { pay: 30 }, exit: 'sad', res: `${ic('wrench')} Как новенький!` },
-      { i: 'meh', t: 'Так сойдёт', fx: D => ({ st: -Math.ceil(D.stock / 2) }), exit: 'sad', res: f => `${ic('bolt')} Пропало ${-f.st} ${U()}`, mom: f => ({ t: `${ic('bolt')} −${-f.st} ${U()}`, c: 'r' }) }] }
-};
-const SAFE = ['bank', 'qr', 'guard', 'fakefriend', 'prize', 'invest'], SOFT = ['sour', 'rival', 'chick', 'lost', 'owl', 'wallet', 'overpaid'];
-const TITLES = [
-  { id: 'king', ic: 'crown', t: 'Хозяин ярмарки', c: '#FFDD2E', ok: S => S.rep >= 8 && S.shield >= 7 && S.profit >= 40 },
-  { id: 'prey', ic: 'dash', t: 'Лёгкая добыча для жуликов', c: '#FF9A4D', ok: S => S.scammed >= 2 || S.shield <= 2 },
-  { id: 'friend', ic: 'heart', t: 'Друг всего района', c: '#FF9CEF', ok: S => S.rep >= 9 },
-  { id: 'shark', ic: 'shark', t: 'Акула бизнеса', c: '#7FD4FF', ok: S => S.profit >= 60 && S.rep <= 6 },
-  { id: 'bright', ic: 'spark', t: 'Самая яркая лавка', c: '#FFC2E2', ok: S => S.sign && S.profit >= 20 },
-  { id: 'honest', ic: 'handshake', t: 'Честный торговец', c: '#C6F432', ok: S => S.shield >= 6 && S.rep >= 6 },
-  { id: 'newbie', ic: 'sprout', t: 'Начинающий торговец', c: '#9BF0BE', ok: () => true }
-];
+/* Контент (тексты, ситуации, чаты, титулы, цены) — в content.json рядом с игрой.
+   Встроенная копия #content-default — запасная: игра работает без файла и с битым файлом.
+   Каждая запись проверяется; негодная заменяется встроенной, причина пишется в консоль. */
+let PRICE, START_MONEY, START_STOCK, ST, SAFE, SOFT, TITLES, PTRICK, PFOX, PFRIEND, FMSG;
+const REQUIRED_ST = ['screenshot', 'supplier', 'restock', 'loan', 'sign', 'rain', 'broke', 'detOk', 'detFail'];
+const EXITS = ['run', 'sad', 'happy', 'angry'], MDS = ['idle', 'happy', 'sad', 'angry', 'sly'], MOODS = ['joy', 'sad', 'angry'];
+const FX_KEYS = ['m', 's', 'r', 'st', 'scam', 'later', 'pay', 'sign', 'skip'], LATER = ['loan', 'debt', 'invest'];
+const esc = v => String(v).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+/* шаблон текста: {coin} {item} {ic:имя} {who:зверёк:настроение:аксессуары} {m} {st} {sour} {broke} */
+const tpl = (str, f = {}) => esc(str == null ? '' : str).replace(/\{([^{}]+)\}/g, (_, k) => {
+  const [a, ...r] = k.split(':');
+  if (a === 'coin') return ic('coin');
+  if (a === 'item') return D ? pi(D.prod) : '';
+  if (a === 'm' || a === 'st') return Math.abs(f[a] || 0);
+  if (a === 'ic') return IC[r[0]] ? ic(r[0]) : '';
+  if (a === 'who') return CR[r[0]] ? mc(r[0], MDS.includes(r[1]) ? r[1] : 'idle', r[2] ? r[2].split(',') : []) : '';
+  if (a === 'sour' || a === 'broke') return D ? esc(PRODS[D.prod][a]) : '';
+  return '';
+});
+/* эффект выбора: числа или доля «-50%» от кассы (кратно 5) или от товара */
+function resolveFx(fx) {
+  const f = {};
+  for (const [k, v] of Object.entries(fx || {})) {
+    const pc = typeof v === 'string' && /^-?\d{1,3}%$/.exec(v);
+    if (pc) { const q = parseInt(v, 10) / 100; f[k] = k === 'st' ? Math.sign(q) * Math.ceil(Math.abs(q) * D.stock) : Math.sign(q) * Math.floor(Math.abs(q) * D.wallet / 5) * 5; }
+    else f[k] = v;
+  }
+  return f;
+}
+const isStr = v => typeof v === 'string' && v.length > 0 && v.length <= 160;
+const isNum = (v, lo, hi) => typeof v === 'number' && isFinite(v) && v >= lo && v <= hi;
+const isObj = v => !!v && typeof v === 'object' && !Array.isArray(v);
+function checkFx(fx) {
+  if (fx == null) return;
+  if (!isObj(fx)) throw 'fx: нужен объект';
+  for (const [k, v] of Object.entries(fx)) {
+    if (!FX_KEYS.includes(k)) throw `fx: неизвестное поле «${k}»`;
+    if (k === 'later') { if (!LATER.includes(v)) throw `fx.later: одно из ${LATER.join(', ')}`; continue; }
+    if ((k === 'm' || k === 'st') && typeof v === 'string' && /^-?\d{1,3}%$/.test(v)) continue;
+    if (!isNum(v, -500, 500)) throw `fx.${k}: нужно число`;
+  }
+}
+function checkOutcome(o) {
+  checkFx(o.fx);
+  if (o.exit != null && !EXITS.includes(o.exit)) throw `exit: одно из ${EXITS.join(', ')}`;
+  if (o.res != null && !isStr(o.res)) throw 'res: нужна строка';
+  if (o.tip != null && !isStr(o.tip)) throw 'tip: нужна строка';
+  if (o.mom != null && !(isObj(o.mom) && isStr(o.mom.t))) throw 'mom: нужен объект { "t": "…", "c": "g" | "r" | "" }';
+}
+function checkSituation(S, all) {
+  if (!isObj(S)) throw 'нужен объект';
+  if (!S.opts) { checkOutcome(S); return S; }               // итог без выбора (detOk / detFail)
+  if (S.art != null) { if (!['mascot', 'rain', 'broke'].includes(S.art)) throw 'art: mascot, rain или broke'; }
+  else if (!(Array.isArray(S.who) && CR[S.who[0]] && (S.who[1] == null || Array.isArray(S.who[1])))) throw `who: ["зверёк", [аксессуары]], зверята: ${Object.keys(CR).join(', ')}`;
+  if (S.md != null && !MDS.includes(S.md)) throw `md: одно из ${MDS.join(', ')}`;
+  if (!isStr(S.say)) throw 'say: нужна строка';
+  if (!Array.isArray(S.opts) || S.opts.length < 1 || S.opts.length > 3) throw 'opts: от 1 до 3 вариантов';
+  for (const o of S.opts) {
+    if (!isObj(o) || !isStr(o.t) || !isStr(o.i)) throw 'вариант: нужны "i" (иконка) и "t" (подпись)';
+    if (!IC[o.i]) throw `иконка «${o.i}» не найдена`;
+    for (const k of ['cost', 'needStock']) if (o[k] != null && !isNum(o[k], 0, 500)) throw `${k}: нужно число`;
+    if (o.ref != null && !(all[o.ref] && !all[o.ref].opts)) throw `ref: нет итога «${o.ref}»`;
+    checkOutcome(o);
+  }
+  return { ...S, who: S.who ? [S.who[0], S.who[1] || []] : undefined };
+}
+function checkTitle(t) {
+  if (!isObj(t) || !isStr(t.id) || !isStr(t.t) || !IC[t.ic] || !/^#[0-9a-f]{6}$/i.test(t.c || '')) throw 'нужны id, t, ic (иконка), c (#RRGGBB)';
+  const cond = c => { for (const [k, v] of Object.entries(c || {})) if (!['rep', 'shield', 'profit', 'scammed', 'sign'].includes(k) || !(typeof v === 'boolean' || /^(>=|<=|>|<|=)-?\d+$/.test(String(v).replace(/\s/g, '')))) throw `условие ${k}: ${v}`; };
+  if (t.all != null && !isObj(t.all)) throw 'all: нужен объект'; if (t.any != null && !isObj(t.any)) throw 'any: нужен объект';
+  cond(t.all); cond(t.any);
+  const test = (v, c) => { if (typeof c === 'boolean') return !!v === c; const [, op, n] = /^(>=|<=|>|<|=)(-?\d+)$/.exec(String(c).replace(/\s/g, '')); return op === '>=' ? v >= +n : op === '<=' ? v <= +n : op === '>' ? v > +n : op === '<' ? v < +n : v === +n; };
+  return { ...t, ok: S => (!t.all || Object.entries(t.all).every(([k, c]) => test(S[k], c))) && (!t.any || Object.entries(t.any).some(([k, c]) => test(S[k], c))) };
+}
+function applyContent(raw, base) {
+  const warn = (where, e) => console.warn(`[content] ${where}: ${e} — взято встроенное значение`);
+  const C = isObj(raw) ? raw : (warn('файл', 'не объект'), {});
+  const B = base || C;
+  const sec = (k, fn) => { if (C[k] == null) return fn(B[k]); try { return fn(C[k]); } catch (e) { warn(k, e); return fn(B[k]); } };
+  sec('economy', E => {
+    const e = { ...(B.economy || {}), ...(isObj(E) ? E : {}) };
+    if (!isNum(e.price, 1, 100) || !isNum(e.startMoney, 0, 1000) || !isNum(e.startStock, 1, 200)) throw 'price 1–100, startMoney 0–1000, startStock 1–200';
+    [PRICE, START_MONEY, START_STOCK] = [e.price, e.startMoney, e.startStock];
+  });
+  for (const k of Object.keys(PRODS)) {
+    const own = isObj(C.products) && C.products[k], def = B.products[k];
+    for (const f of ['t', 'd', 'sour', 'broke']) PRODS[k][f] = own && isStr(own[f]) ? own[f] : (own && own[f] != null && warn(`products.${k}.${f}`, 'нужна строка'), def[f]);
+  }
+  // ситуации: по одной; негодная заменяется встроенной с тем же id
+  const raw_st = isObj(C.situations) ? { ...B.situations, ...C.situations } : B.situations;
+  ST = {};
+  for (const [id, S] of Object.entries(raw_st)) {
+    try { ST[id] = checkSituation(S, raw_st); }
+    catch (e) { if (B.situations[id] && S !== B.situations[id]) { warn(`situations.${id}`, e); ST[id] = checkSituation(B.situations[id], B.situations); } else console.warn(`[content] situations.${id}: ${e} — ситуация пропущена`); }
+  }
+  for (const id of REQUIRED_ST) if (!ST[id]) ST[id] = checkSituation(B.situations[id], B.situations);
+  const pool = (k, n) => sec(k, L => { const ok = Array.isArray(L) ? [...new Set(L)].filter(id => ST[id] && ST[id].opts && !REQUIRED_ST.includes(id)) : []; if (ok.length < n) throw `нужно хотя бы ${n} ситуации из situations`; return ok; });
+  SAFE = pool('safe', 3); SOFT = pool('soft', 3);
+  TITLES = sec('titles', L => {
+    if (!Array.isArray(L)) throw 'нужен список';
+    const out = []; for (const t of L) { try { out.push(checkTitle(t)); } catch (e) { console.warn(`[content] titles.${t && t.id}: ${e} — титул пропущен`); } }
+    if (!out.length || out[out.length - 1].all || out[out.length - 1].any) throw 'последний титул должен быть без условий (выдаётся всем)';
+    return out;
+  });
+  PTRICK = sec('foxTricks', T => { if (!isObj(T)) throw 'нужен объект'; const o = {}; for (const [k, v] of Object.entries(T)) { if (!isObj(v) || !IC[v.ic] || !isStr(v.t)) throw `${k}: нужны ic и t`; o[k] = [v.ic, v.t]; } return o; });
+  const list = (k, n, fn, need) => sec(k, L => { if (!Array.isArray(L)) throw 'нужен список'; const out = []; L.forEach((x, i) => { try { out.push(fn(x)); } catch (e) { console.warn(`[content] ${k}[${i}]: ${e} — сообщение пропущено`); } }); if (out.length < n) throw `нужно хотя бы ${n} годных сообщений`; if (need) need(out); return out; });
+  PFOX = list('foxMessages', 5, x => { if (!isObj(x) || !PTRICK[x.trick] || !isStr(x.name) || !isStr(x.key)) throw 'нужны trick (из foxTricks), name, key'; return { fox: true, k: x.trick, av: String(x.av || 'stranger'), n: esc(x.name), p: [esc(x.before || ''), esc(x.key), esc(x.after || '')] }; });
+  PFRIEND = list('friendMessages', 3, x => { if (!isObj(x) || !isStr(x.name) || !isStr(x.text)) throw 'нужны name и text'; return { fox: false, av: String(x.av || 'stranger'), n: esc(x.name), p: [esc(x.text)] }; });
+  const st = sec('stickers', T => { if (!isObj(T) || !MOODS.every(m => isStr(T[m]))) throw `нужны подписи ${MOODS.join(', ')}`; return T; });
+  MOODS.forEach(m => { STICK[m].t = esc(st[m]); });
+  FMSG = list('moodMessages', 6, x => { if (!isObj(x) || !CR[x.who] || !isStr(x.name) || !isStr(x.text) || !MOODS.includes(x.mood)) throw 'нужны who (зверёк), name, text, mood (joy/sad/angry)'; return { k: x.who, n: esc(x.name), t: esc(x.text), mood: x.mood }; },
+    out => { if (!MOODS.every(m => out.some(x => x.mood === m))) throw 'нужны сообщения всех трёх настроений'; });
+}
 
 /* ================= Пауза / модалка ================= */
 function modal(html, onClose) {
@@ -1554,25 +1566,6 @@ async function chgEnc(e, c) {
 }
 
 /* ---------- Ивент: телефон вибрирует → «Кляксик против Лиса» ---------- */
-const PTRICK = { code: ['keypad', 'Просит код'], gift: ['gift', 'Халява'], personal: ['user', 'Выпытывает'], newnum: ['phone', 'Чужой номер'], link: ['link', 'Странная ссылка'], urgent: ['clock', 'Торопит'], secret: ['zip', 'Секрет от мамы'], fear: ['bolt', 'Пугает'], dropper: ['cashfly', 'Чужие деньги'] };
-const PF = (k, av, n, p) => ({ fox: true, k, av, n, p });
-const PH = (av, n, t) => ({ fox: false, av, n, p: [t] });
-const PFOX = [
-  PF('code', 'robot', 'Поддержка игры', ['', 'Скажи код из СМС', ' — дадим 1000 алмазов']), PF('code', 'gamer', 'Max_Pro', ['', 'Дай пароль', ' — подарю скин']),
-  PF('gift', 'prize', 'Подарки', ['', 'Тебе подарок — телефон!', ' Оплати доставку']), PF('gift', 'robot', 'Магазин скинов', ['', '5000 монет бесплатно', ' — жми сюда']),
-  PF('personal', 'cat', 'Котик_Даша', ['Давай дружить! ', 'Где ты живёшь?', '']), PF('personal', 'stranger', 'Незнакомец', ['', 'Скинь фото и адрес школы', '']),
-  PF('newnum', 'mom', 'Мама?', ['', 'Пишу с чужого номера.', ' Скинь код']), PF('newnum', 'grandma', 'Бабушка?', ['', 'У меня новый номер!', ' Переведи денежку']),
-  PF('link', 'petya', 'Петя', ['Смотри! ', 'skin-free.zz', '']), PF('link', 'anya', 'Аня', ['Голосуй за меня: ', 'top-vote.zz', '']),
-  PF('urgent', 'stranger', 'Неизвестный', ['', 'Ответь за 1 минуту,', ' иначе удалим аккаунт']), PF('secret', 'stranger', 'Новый друг', ['Пришлю подарок, ', 'только маме не говори', '']),
-  PF('fear', 'bank', 'Банк?', ['', 'Карту родителей заблокировали!', ' Назови цифры']), PF('fear', 'robot', 'Антивирус', ['', 'В телефоне 5 вирусов!', ' Скачай чистилку']),
-  PF('dropper', 'work', 'Подработка', ['', 'Прими деньги и переведи дальше', ' — 500 твои']), PF('dropper', 'gamer', 'Max_Pro', ['', 'Дай свою карту на денёк', ''])
-];
-const PFRIEND = [
-  PH('mom', 'Мама', 'Купи хлеб после школы'), PH('dad', 'Папа', 'Заберу тебя в 17:00'), PH('grandma', 'Бабушка', 'Испекла блинчики, приходи!'),
-  PH('petya', 'Петя', 'Го в футбол после уроков?'), PH('anya', 'Аня', 'С днём рождения!!!'), PH('sasha', 'Саша', 'Выходи гулять!'),
-  PH('coach', 'Тренер', 'Тренировка в 16:00'), PH('klass', 'Класс', 'Завтра экскурсия в зоопарк'), PH('mom', 'Мама', 'Горжусь тобой!'),
-  PH('dad', 'Папа', 'Вечером пицца'), PH('bank', 'Банк', 'Мы никогда не просим коды'), PH('sasha', 'Саша', 'У меня котята родились!')
-];
 const phoneSVG = () => `<svg viewBox="0 0 120 170"><rect x="14" y="6" width="92" height="158" rx="20" fill="#111216"/><rect x="21" y="20" width="78" height="128" rx="10" fill="#7FD4FF"/><rect x="46" y="11" width="28" height="5" rx="2.5" fill="#3A3D4A"/>
   <g transform="translate(31 34)"><rect width="58" height="22" rx="8" fill="#fff"/><circle cx="11" cy="11" r="6" fill="#FF7A1A"/><rect x="21" y="8" width="30" height="6" rx="3" fill="#D9DCE6"/></g>
   <g transform="translate(31 62)"><rect width="58" height="22" rx="8" fill="#fff"/><circle cx="11" cy="11" r="6" fill="#1FD16C"/><rect x="21" y="8" width="24" height="6" rx="3" fill="#D9DCE6"/></g>
@@ -1607,15 +1600,6 @@ const STICK = {
   sad: { st: 'hug', t: 'Обнимаю', md: 'sad' },
   angry: { st: 'handshake', t: 'Я с тобой', md: 'angry' }
 };
-const FM = (k, n, t, mood) => ({ k, n, t, mood });
-const FMSG = [
-  FM('bunny', 'Зайка', 'Я победил в забеге!', 'joy'), FM('frog', 'Квакс', 'Мне подарили щенка!', 'joy'), FM('chick', 'Цыпа', 'Я научилась кататься!', 'joy'),
-  FM('hamster', 'Хома', 'Сам испёк торт!', 'joy'), FM('owl', 'Сова', 'Пятёрка за диктант!', 'joy'),
-  FM('mouse', 'Мышка', 'Потеряла любимую игрушку…', 'sad'), FM('bunny', 'Зайка', 'Меня не взяли в команду…', 'sad'), FM('bear', 'Мишка', 'Друг уехал в другой город…', 'sad'),
-  FM('chick', 'Цыпа', 'Уронила мороженое…', 'sad'), FM('kitten', 'Мурка', 'Заболела, не приду на ярмарку…', 'sad'),
-  FM('hamster', 'Хома', 'Брат сломал мою башню!', 'angry'), FM('frog', 'Квакс', 'Меня толкнули в очереди!', 'angry'), FM('bear', 'Мишка', 'Забрали мой мяч без спроса!', 'angry'),
-  FM('mouse', 'Мышка', 'Мне сказали обидное слово!', 'angry'), FM('owl', 'Сова', 'Испортили мой рисунок!', 'angry')
-];
 const stickerSVG = k => `<svg viewBox="0 0 64 64"><path d="${blobPath(32, 32, 29, 10, .06, k.length * 5)}" fill="${k === 'joy' ? '#FFE45C' : k === 'sad' ? '#FFC2E2' : '#B5E9FF'}" stroke="#111216" stroke-width="2.5"/><g transform="translate(14 12) scale(1.5)">${IC[STICK[k].st]}</g></svg>`;
 /* наглядное обучение в телефоне: сообщение останавливается, рука показывает действие */
 function phoneTut(fp, field, me) {
@@ -1701,7 +1685,7 @@ async function friendChat(round) {
   if (tut) { // три примера: по лицу друга понять настроение и дать наклейку
     const P = phoneTut(fp, field, me), H = field.clientHeight;
     const say = { joy: 'Радуется', sad: 'Грустит', angry: 'Злится' };
-    for (const it of [FMSG[0], FMSG[5], FMSG[10]]) {
+    for (const it of MOODS.map(m => FMSG.find(x => x.mood === m))) {
       const b = spawn(it, true); await P.slide(b, H * .3, 700); if (D !== me) return;
       const h = P.hint(b, `${say[it.mood]} → ${stickerSVG(it.mood)} ${STICK[it.mood].t}`);
       await P.show(b, ov.querySelector(`.pst[data-k="${it.mood}"]`), b.el); h.remove();
@@ -1826,12 +1810,13 @@ async function foxChat(round) {
   if (tut) { // пример 1: мошенник — рука показывает «тапни»; пример 2: свои — не трогаем, долетает сам
     S.tut = true;
     const P = phoneTut(fp, field, me), H = field.clientHeight;
-    const f1 = spawn(PFOX[0], true); await P.slide(f1, H * .3, 700); if (D !== me) return;
-    const h1 = P.hint(f1, `${ic('keypad')} Просит код? Это Лис!`, 'r');
+    const ex = PFOX.find(x => x.k === 'code') || PFOX[0], [eIc, eT] = PTRICK[ex.k];
+    const f1 = spawn(ex, true); await P.slide(f1, H * .3, 700); if (D !== me) return;
+    const h1 = P.hint(f1, `${ic(eIc)} ${eT}? Это Лис!`, 'r');
     await P.show(f1, f1.el); h1.remove();
     await pwait(1300); if (D !== me) return;
     const f2 = spawn(PFRIEND[0], true); await P.slide(f2, H * .3, 700); if (D !== me) return;
-    const h2 = P.hint(f2, `${ic('heart')} Мама — своя. Не трогай!`, 'g');
+    const h2 = P.hint(f2, `${ic('heart')} ${PFRIEND[0].n} — свои. Не трогай!`, 'g');
     await pwait(1600); h2.remove(); if (D !== me) return;
     await P.slide(f2, H - f2.h - 6, 1500); if (D !== me) return;
     if (f2.st === 'fall') land(f2);
@@ -1879,7 +1864,7 @@ async function foxChat(round) {
 }
 
 /* ---------- Ситуации ---------- */
-const NOSTOCK = { i: 'meh', t: 'Нечего дать', fx: { r: -1 }, exit: 'sad', res: () => `${pi(D.prod)} Всё раскупили` };
+const NOSTOCK = { i: 'meh', t: 'Нечего дать', fx: { r: -1 }, exit: 'sad', res: '{item} Всё раскупили' };
 const money = () => D.wallet;
 function optAvail(o) {
   if (o.needStock && D.stock < o.needStock) return false;
@@ -1893,7 +1878,7 @@ function optBadge(o) {
 }
 function choose(opts) {
   const box = document.createElement('div'); box.className = 'opts';
-  box.innerHTML = opts.map((o, i) => `<button class="op ${optAvail(o) ? '' : 'off'}" data-i="${i}" style="--i:${i}">${optBadge(o)}${ic(o.i, 'oi')}<span>${o.t}</span></button>`).join('');
+  box.innerHTML = opts.map((o, i) => `<button class="op ${optAvail(o) ? '' : 'off'}" data-i="${i}" style="--i:${i}">${optBadge(o)}${ic(o.i, 'oi')}<span>${tpl(o.t)}</span></button>`).join('');
   $('#yard').appendChild(box);
   return new Promise(res => box.querySelectorAll('.op').forEach(b => b.onclick = () => {
     if (D.paused) return;
@@ -1904,10 +1889,10 @@ function choose(opts) {
 }
 async function storyEnc(id) {
   const me = D, S = ST[id], P = PRODS[D.prod];
-  const c = custIn(S.art ? S.art() : critter(S.who[0], S.md || 'idle', S.who[1]));
+  const c = custIn(S.art === 'mascot' ? mascotCust() : S.art ? eventArt(S.art) : critter(S.who[0], S.md || 'idle', S.who[1]));
   if (id === 'rain') { $('#rain').classList.add('on'); $('#sky').classList.add('rainy'); }
   await pwait(600); if (D !== me) return;
-  const b = sayB(S.say(P), S.ev ? 'event' : '');
+  const ev = S.art === 'rain' || S.art === 'broke', b = sayB(tpl(S.say), ev ? 'event' : '');
   // если товар кончился и выбрать нечего — запасной вариант, чтобы день не застрял
   const own = S.opts.filter(o => !o.broke || money() < 10);   // «в долг» — только когда денег совсем нет
   const opts = own.some(optAvail) ? own : [...own, NOSTOCK];
@@ -1917,23 +1902,23 @@ async function storyEnc(id) {
   let o = opts[idx];
   if (o.ref) o = ST[o.ref];
   if (o.detect) { const ok = await detective(); if (D !== me) return; o = ST[ok ? 'detOk' : 'detFail']; }
-  const f = typeof o.fx === 'function' ? o.fx(D) : { ...(o.fx || {}) };
+  const f = resolveFx(o.fx);
   await applyFx(f, c);
   if (D !== me) return;
   if (id === 'rain') { $('#rain').classList.remove('on'); $('#sky').classList.remove('rainy'); }
   const bad = o.bad;
   const empty = f.scam && !f.m && !f.st;   // жулик пришёл к пустой кассе
-  const res = empty ? `${ic('coin')} Касса пустая — красть нечего!` : typeof o.res === 'function' ? o.res(f) : o.res;
+  const res = empty ? `${ic('coin')} Касса пустая — красть нечего!` : tpl(o.res, f);
   if (res) toast(res, bad ? 'r' : (f.r > 0 || f.s > 0 ? 'g' : ''));
-  const mm = !empty && o.mom && o.mom(f); if (mm) D.moments.push(mm);
-  if (bad) { Sound.bad(); vibrate('error'); mood('oops', 2200); if (o.tip) setTimeout(() => D === me && tipLine(o.tip), 600); }
+  if (!empty && o.mom) D.moments.push({ t: tpl(o.mom.t, f), c: o.mom.c || '' });
+  if (bad) { Sound.bad(); vibrate('error'); mood('oops', 2200); if (o.tip) setTimeout(() => D === me && tipLine(esc(o.tip)), 600); }
   else if (f.r > 0 || f.s > 0) { Sound.good(); mood('happy'); }
-  if (!S.ev && !S.art) {
+  if (!S.art) {
     const md = bad ? (o.exit === 'run' ? 'happy' : 'sly') : (o.exit === 'happy' ? 'happy' : o.exit === 'angry' ? 'angry' : 'sad');
     c.querySelector('.cw').innerHTML = critter(S.who[0], md, o.exit === 'run' && bad ? [...S.who[1].filter(a => a !== 'phone'), 'bag'] : S.who[1]);
   }
   await pwait(500); if (D !== me) return;
-  custOut(c, S.ev ? 'sad' : (o.exit || 'happy'));
+  custOut(c, ev ? 'sad' : (o.exit || 'happy'));
   await pwait(bad ? 2600 : 1100);
 }
 async function applyFx(f, c) {
@@ -2087,7 +2072,20 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-home]')) { Sound.tap(); renderStart(); return; }
   if (e.target.closest('[data-pause]')) { Sound.tap(); pauseMenu(); }
 });
-renderStart();
+/* старт: встроенный контент сразу, затем content.json рядом с игрой (если есть и годен) */
+const DEFAULT_CONTENT = JSON.parse(document.getElementById('content-default').textContent);
+applyContent(DEFAULT_CONTENT);
+(async () => {
+  try {
+    if (location.protocol === 'file:') throw 'страница открыта как файл';
+    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 2500);
+    const r = await fetch('content.json', { cache: 'no-store', signal: ctl.signal }); clearTimeout(t);
+    if (!r.ok) throw `HTTP ${r.status}`;
+    let j; try { j = JSON.parse(await r.text()); } catch (e) { throw 'не JSON: ' + e.message; }
+    applyContent(j, DEFAULT_CONTENT);
+  } catch (e) { console.warn('[content] content.json не загружен (' + (e.message || e) + ') — играем на встроенном'); applyContent(DEFAULT_CONTENT); }
+  renderStart();
+})();
 })();
 </script>
 </body>
